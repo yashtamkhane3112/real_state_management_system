@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Agent CRM | PropVista{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  <aside class="dashboard-sidebar">
+    <div class="dash-nav-label">Agent CRM</div>
+    <a class="dash-link active" href="#"><i class="bi bi-kanban"></i> Pipeline</a>
+    <a class="dash-link" href="{% url 'leads:create' %}"><i class="bi bi-person-plus"></i> New lead</a>
+    <a class="dash-link" href="{% url 'properties:create' %}"><i class="bi bi-building-add"></i> Assigned properties</a>
+    <a class="dash-link" href="{% url 'reports:home' %}"><i class="bi bi-graph-up"></i> Performance</a>
+  </aside>
+  <div class="dashboard-main">
+    <div class="dashboard-hero reveal mb-4">
+      <span class="pv-eyebrow bg-white text-primary"><i class="bi bi-people"></i> Relationship intelligence</span>
+      <h1 class="pv-serif display-5 mt-3">Agent CRM</h1>
+      <p class="pv-muted fs-5">Track leads, schedule follow-ups, and turn buyer intent into closed visits.</p>
+      <a class="pv-btn pv-btn-ghost" href="{% url 'leads:create' %}">Create lead</a>
+    </div>
+    <div class="row g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="pv-card p-4 reveal">
+          <h2 class="h4 fw-bold mb-4">Lead pipeline</h2>
+          <div class="pipeline-board">
+            <div class="pipeline-col"><strong>New</strong>{% for lead in leads %}{% if lead.stage == "new" %}<div class="lead-pill">{{ lead.name }}<div class="pv-muted small">Score {{ lead.score }}</div></div>{% endif %}{% endfor %}</div>
+            <div class="pipeline-col"><strong>Contacted</strong>{% for lead in leads %}{% if lead.stage == "contacted" %}<div class="lead-pill">{{ lead.name }}</div>{% endif %}{% endfor %}</div>
+            <div class="pipeline-col"><strong>Visit</strong>{% for lead in leads %}{% if lead.stage == "visit" %}<div class="lead-pill">{{ lead.name }}</div>{% endif %}{% endfor %}</div>
+            <div class="pipeline-col"><strong>Won</strong>{% for lead in leads %}{% if lead.stage == "won" %}<div class="lead-pill">{{ lead.name }}</div>{% endif %}{% endfor %}</div>
+            <div class="pipeline-col"><strong>Lost</strong>{% for lead in leads %}{% if lead.stage == "lost" %}<div class="lead-pill">{{ lead.name }}</div>{% endif %}{% endfor %}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="pv-card p-4 reveal mb-4" style="height:300px"><h2 class="h4 fw-bold">Performance</h2><canvas class="dashboard-chart" data-labels='["Calls","Visits","Offers","Won"]' data-values='[18,9,4,2]'></canvas></div>
+        <div class="pv-card p-4 reveal"><h2 class="h4 fw-bold">Follow-ups</h2>{% for lead in leads %}<div class="activity"><span>{{ lead.name }}</span><strong>{{ lead.follow_up_at|date:"M d"|default:"Today" }}</strong></div>{% endfor %}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

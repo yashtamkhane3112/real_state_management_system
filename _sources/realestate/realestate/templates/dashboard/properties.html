@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}All Properties{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h3 class="fw-bold mb-4">All Properties</h3>
+  <div class="card p-3"><div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Title</th><th>Seller</th><th>City</th><th>Price</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for p in props %}
+      <tr>
+        <td><strong>{{ p.title }}</strong><div class="small text-muted">{{ p.get_property_type_display }}</div></td>
+        <td>{{ p.seller.username }}</td>
+        <td>{{ p.city }}</td>
+        <td>${{ p.price|floatformat:0 }}</td>
+        <td><span class="badge-status {{ p.status }}">{{ p.get_status_display }}</span></td>
+        <td><a href="{% url 'properties:detail' p.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div></div>
+</div>
+{% endblock %}

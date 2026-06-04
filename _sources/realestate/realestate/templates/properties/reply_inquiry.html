@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="row"><div class="col-lg-8 mx-auto">
+    <div class="card p-4">
+      <h4 class="fw-bold">Reply to Inquiry</h4>
+      <div class="bg-light p-3 rounded my-3">
+        <strong>{{ inquiry.name }}</strong> ({{ inquiry.email }})<br>
+        <small class="text-muted">About: {{ inquiry.property.title }}</small>
+        <p class="mb-0 mt-2">{{ inquiry.message }}</p>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <label class="form-label fw-semibold">Reply</label>
+        {{ form.reply }}
+        <label class="form-label fw-semibold mt-3">Status</label>
+        {{ form.status }}
+        <button class="btn btn-primary mt-3">Send Reply</button>
+        <a href="{% url 'properties:inquiries' %}" class="btn btn-light mt-3">Back</a>
+      </form>
+    </div>
+  </div></div>
+</div>
+{% endblock %}

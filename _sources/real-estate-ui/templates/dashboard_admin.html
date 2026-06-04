@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - Real Estate Marketplace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="dashboard-header">
+        <div class="row align-items-center">
+            <div class="col">
+                <h2 style="color: var(--primary-color);">
+                    <i class="fas fa-cog"></i> Admin Dashboard
+                </h2>
+                <p class="text-muted">System administration and management</p>
+            </div>
+            <div class="col-md-auto">
+                <a href="/admin/" class="btn btn-primary">
+                    <i class="fas fa-sliders-h"></i> Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon"><i class="fas fa-users"></i></div>
+                <div class="stats-number">{{ total_users }}</div>
+                <div class="stats-label">Total Users</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon"><i class="fas fa-home"></i></div>
+                <div class="stats-number">{{ total_properties }}</div>
+                <div class="stats-label">Total Properties</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon"><i class="fas fa-envelope"></i></div>
+                <div class="stats-number">{{ total_inquiries }}</div>
+                <div class="stats-label">Total Inquiries</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="stats-number">₹0</div>
+                <div class="stats-label">Total Revenue</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users"></i> Recent Users
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_users %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in recent_users %}
+                                <tr>
+                                    <td><strong>{{ user.get_full_name }}</strong></td>
+                                    <td><small>{{ user.email }}</small></td>
+                                    <td><span class="badge bg-primary">{{ user.get_role_display }}</span></td>
+                                    <td><small>{{ user.created_at|date:"M d, Y" }}</small></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-home"></i> Recent Properties
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_properties %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Owner</th>
+                                    <th>Price</th>
+                                    <th>City</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for property in recent_properties %}
+                                <tr>
+                                    <td><strong>{{ property.title|truncatewords:3 }}</strong></td>
+                                    <td><small>{{ property.owner.get_full_name }}</small></td>
+                                    <td>₹{{ property.price|floatformat:0 }}</td>
+                                    <td>{{ property.city }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-envelope"></i> Recent Inquiries
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_inquiries %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Buyer</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for inquiry in recent_inquiries %}
+                                <tr>
+                                    <td><small>{{ inquiry.property.title|truncatewords:3 }}</small></td>
+                                    <td><small>{{ inquiry.buyer.get_full_name }}</small></td>
+                                    <td><span class="badge bg-info">{{ inquiry.get_status_display }}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tools"></i> System Management
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/admin/" class="btn btn-primary">
+                            <i class="fas fa-users"></i> Manage Users
+                        </a>
+                        <a href="/admin/properties/property/" class="btn btn-outline-primary">
+                            <i class="fas fa-home"></i> Manage Properties
+                        </a>
+                        <a href="/admin/inquiries/inquiry/" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope"></i> Manage Inquiries
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

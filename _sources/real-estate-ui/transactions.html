@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Browse Properties</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Filter</h5>
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-500 small">Type</label>
+                            <select class="form-select form-select-sm" style="border: 1px solid #d0d5dd;">
+                                <option>All Transactions</option>
+                                <option>Purchases</option>
+                                <option>Sales</option>
+                                <option>Rentals</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-500 small">Status</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="completed" checked>
+                                <label class="form-check-label small" for="completed">Completed</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="pending">
+                                <label class="form-check-label small" for="pending">Pending</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="cancelled">
+                                <label class="form-check-label small" for="cancelled">Cancelled</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-500 small">Date Range</label>
+                            <input type="date" class="form-control form-control-sm" style="border: 1px solid #d0d5dd;">
+                            <input type="date" class="form-control form-control-sm mt-2" style="border: 1px solid #d0d5dd;">
+                        </div>
+
+                        <button class="btn btn-primary btn-sm w-100" style="background-color: #0066cc; border: none;">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-bold mb-0">Transaction History</h5>
+                            <button class="btn btn-outline-primary btn-sm" style="border: 1px solid #0066cc; color: #0066cc;">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+
+                        <!-- Transaction Stats -->
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <div style="background-color: #f0f4f8; padding: 1rem; border-radius: 8px;">
+                                    <p class="text-muted small mb-1">Total Transactions</p>
+                                    <h4 class="fw-bold mb-0">12</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div style="background-color: #f0f4f8; padding: 1rem; border-radius: 8px;">
+                                    <p class="text-muted small mb-1">Total Amount</p>
+                                    <h4 class="fw-bold mb-0">$5.2M</h4>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div style="background-color: #f0f4f8; padding: 1rem; border-radius: 8px;">
+                                    <p class="text-muted small mb-1">This Year</p>
+                                    <h4 class="fw-bold mb-0">$2.1M</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transactions Table -->
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <th>Property</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Modern Downtown Villa</strong><br>
+                                            <span class="text-muted small">123 Maple Street</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Purchase</span></td>
+                                        <td><strong>$850,000</strong></td>
+                                        <td>Jan 15, 2024</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Luxury Apartment</strong><br>
+                                            <span class="text-muted small">456 Park Avenue</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Sale</span></td>
+                                        <td><strong>$650,000</strong></td>
+                                        <td>Jan 10, 2024</td>
+                                        <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Suburban Family Home</strong><br>
+                                            <span class="text-muted small">789 Oak Lane</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #f8d7da; color: #721c24;">Rental</span></td>
+                                        <td><strong>$3,500/mo</strong></td>
+                                        <td>Jan 01, 2024</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Beachfront Penthouse</strong><br>
+                                            <span class="text-muted small">999 Ocean Drive</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Purchase</span></td>
+                                        <td><strong>$1,200,000</strong></td>
+                                        <td>Dec 20, 2023</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Urban Loft</strong><br>
+                                            <span class="text-muted small">321 Main Street</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Purchase</span></td>
+                                        <td><strong>$450,000</strong></td>
+                                        <td>Nov 15, 2023</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Completed</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <strong>Mountain Retreat</strong><br>
+                                            <span class="text-muted small">555 Peak Road</span>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Sale</span></td>
+                                        <td><strong>$380,000</strong></td>
+                                        <td>Oct 30, 2023</td>
+                                        <td><span class="badge" style="background-color: #f8d7da; color: #721c24;">Cancelled</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

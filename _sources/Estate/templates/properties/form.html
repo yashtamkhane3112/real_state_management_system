@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }} - EstateSphere{% endblock %}
+{% block content %}
+<section class="py-5"><div class="container"><div class="glass-card p-4 p-md-5"><span class="eyebrow">Seller Property Form</span><h1 class="fw-bold">{{ title }}</h1><p class="text-muted">Submitted properties are shown as Pending Approval until Super Admin approves them.</p><form method="post" class="row g-3">{% csrf_token %}{% for field in form %}<div class="{% if field.name == 'description' or field.name == 'address' %}col-12{% else %}col-md-6{% endif %}"><label class="form-label">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}<div class="col-12 d-flex gap-2 mt-4"><button class="btn btn-dark btn-lg rounded-pill px-4">Submit Property</button><a href="{% url 'seller_properties' %}" class="btn btn-outline-dark btn-lg rounded-pill px-4">Cancel</a></div></form></div></div></section>
+{% endblock %}

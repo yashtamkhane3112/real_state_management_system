@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Dashboard - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Browse</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> John Doe
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card" style="border: none; border-radius: 12px; position: sticky; top: 80px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Dashboard Menu</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #0066cc; background-color: #f0f4f8; border-radius: 8px;">
+                                    <i class="fas fa-home me-2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-heart me-2"></i> Saved Properties
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-file-alt me-2"></i> My Offers
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-calendar me-2"></i> Scheduled Tours
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-envelope me-2"></i> Messages
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-user me-2"></i> Profile
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Welcome Section -->
+                <div class="card mb-4 shadow-sm" style="border: none; border-radius: 12px; background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); color: white;">
+                    <div class="card-body p-5">
+                        <h2 class="fw-bold mb-2">Welcome back, John!</h2>
+                        <p class="mb-0">You have 3 saved properties and 2 scheduled tours</p>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body text-center">
+                                <i class="fas fa-heart" style="font-size: 2rem; color: #0066cc; margin-bottom: 1rem;"></i>
+                                <h4 class="fw-bold mb-1">8</h4>
+                                <p class="text-muted small mb-0">Saved Properties</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar" style="font-size: 2rem; color: #28a745; margin-bottom: 1rem;"></i>
+                                <h4 class="fw-bold mb-1">2</h4>
+                                <p class="text-muted small mb-0">Scheduled Tours</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body text-center">
+                                <i class="fas fa-gavel" style="font-size: 2rem; color: #ffc107; margin-bottom: 1rem;"></i>
+                                <h4 class="fw-bold mb-1">1</h4>
+                                <p class="text-muted small mb-0">Active Offers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body text-center">
+                                <i class="fas fa-comments" style="font-size: 2rem; color: #dc3545; margin-bottom: 1rem;"></i>
+                                <h4 class="fw-bold mb-1">5</h4>
+                                <p class="text-muted small mb-0">Unread Messages</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Properties -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">My Saved Properties</h5>
+                        
+                        <div class="row g-3">
+                            <!-- Saved Property 1 -->
+                            <div class="col-md-6">
+                                <div class="card" style="border: 1px solid #e8ecf1; border-radius: 12px; overflow: hidden;">
+                                    <div style="height: 150px; overflow: hidden; background-color: #e8ecf1;">
+                                        <img src="https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=400&h=300&fit=crop" alt="Property" class="w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-1">Modern Downtown Villa</h6>
+                                        <p class="text-muted small mb-2">123 Maple Street, Downtown</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-primary">$850,000</strong>
+                                            <button class="btn btn-sm btn-outline-danger" style="border: 1px solid #dc3545; color: #dc3545;">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Saved Property 2 -->
+                            <div class="col-md-6">
+                                <div class="card" style="border: 1px solid #e8ecf1; border-radius: 12px; overflow: hidden;">
+                                    <div style="height: 150px; overflow: hidden; background-color: #e8ecf1;">
+                                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop" alt="Property" class="w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-1">Luxury Apartment</h6>
+                                        <p class="text-muted small mb-2">456 Park Avenue, Uptown</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-primary">$650,000</strong>
+                                            <button class="btn btn-sm btn-outline-danger" style="border: 1px solid #dc3545; color: #dc3545;">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Saved Property 3 -->
+                            <div class="col-md-6">
+                                <div class="card" style="border: 1px solid #e8ecf1; border-radius: 12px; overflow: hidden;">
+                                    <div style="height: 150px; overflow: hidden; background-color: #e8ecf1;">
+                                        <img src="https://images.unsplash.com/photo-1512917774080-9b41b3b3ed78?w=400&h=300&fit=crop" alt="Property" class="w-100 h-100" style="object-fit: cover;">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="fw-bold mb-1">Suburban Family Home</h6>
+                                        <p class="text-muted small mb-2">789 Oak Lane, Suburbs</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <strong class="text-primary">$520,000</strong>
+                                            <button class="btn btn-sm btn-outline-danger" style="border: 1px solid #dc3545; color: #dc3545;">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <a href="properties.html" class="btn btn-outline-primary">View More Saved Properties</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scheduled Tours -->
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Upcoming Tours</h5>
+
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr style="border-bottom: 1px solid #e8ecf1;">
+                                    <th>Property</th>
+                                    <th>Date & Time</th>
+                                    <th>Agent</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #e8ecf1;">
+                                    <td><strong>Modern Downtown Villa</strong><br><span class="text-muted small">123 Maple Street</span></td>
+                                    <td>Jan 25, 2024 at 2:00 PM</td>
+                                    <td>John Smith</td>
+                                    <td><span class="badge" style="background-color: #d4edda; color: #155724;">Confirmed</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd; color: #666;">Reschedule</button>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #e8ecf1;">
+                                    <td><strong>Luxury Apartment</strong><br><span class="text-muted small">456 Park Avenue</span></td>
+                                    <td>Jan 27, 2024 at 10:00 AM</td>
+                                    <td>Sarah Johnson</td>
+                                    <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd; color: #666;">Reschedule</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

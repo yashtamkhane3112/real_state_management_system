@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Login - EstateSphere{% endblock %}
+{% block content %}
+<section class="auth-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 col-lg-5">
+        <div class="glass-card auth-card p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="brand-cube mx-auto mb-3"><i class="bi bi-buildings"></i></span>
+            <h1 class="h3 fw-bold">Login to EstateSphere</h1>
+            <p class="text-muted">Access as Buyer, Seller, or Super Admin.</p>
+          </div>
+          <form method="post" class="vstack gap-3">
+            {% csrf_token %}
+            <div><label class="form-label">Username</label><input type="text" name="username" class="form-control form-control-lg rounded-4" required></div>
+            <div><label class="form-label">Password</label><input type="password" name="password" class="form-control form-control-lg rounded-4" required></div>
+            <button class="btn btn-dark btn-lg rounded-pill" type="submit">Login</button>
+          </form>
+          <div class="d-flex justify-content-between mt-4 small">
+            <a href="{% url 'register' %}">Create Account</a>
+            <a href="{% url 'password_reset' %}">Forgot Password?</a>
+          </div>
+          <div class="demo-box mt-4">
+            <strong>Demo:</strong> admin/admin12345 · seller/seller12345 · buyer/buyer12345
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

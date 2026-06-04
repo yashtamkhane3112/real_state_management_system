@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Top Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro <span class="badge bg-danger ms-2">Admin</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card" style="border: none; border-radius: 12px; position: sticky; top: 80px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Admin Menu</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #0066cc; background-color: #f0f4f8; border-radius: 8px;">
+                                    <i class="fas fa-chart-line me-2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-users me-2"></i> Users
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-home me-2"></i> Properties
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-flag me-2"></i> Reports
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-dollar-sign me-2"></i> Transactions
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Page Title -->
+                <div class="mb-4">
+                    <h2 class="fw-bold mb-1">Admin Dashboard</h2>
+                    <p class="text-muted">System Overview & Management</p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="text-muted small mb-2">Total Users</p>
+                                        <h4 class="fw-bold">1,243</h4>
+                                        <small class="text-success"><i class="fas fa-arrow-up"></i> +12% this month</small>
+                                    </div>
+                                    <i class="fas fa-users" style="font-size: 2rem; color: #0066cc; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="text-muted small mb-2">Total Properties</p>
+                                        <h4 class="fw-bold">342</h4>
+                                        <small class="text-success"><i class="fas fa-arrow-up"></i> +8% this month</small>
+                                    </div>
+                                    <i class="fas fa-home" style="font-size: 2rem; color: #28a745; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="text-muted small mb-2">Total Transactions</p>
+                                        <h4 class="fw-bold">$45.2M</h4>
+                                        <small class="text-success"><i class="fas fa-arrow-up"></i> +24% this month</small>
+                                    </div>
+                                    <i class="fas fa-dollar-sign" style="font-size: 2rem; color: #ffc107; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card" style="border: none; border-radius: 12px;">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <p class="text-muted small mb-2">Platform Revenue</p>
+                                        <h4 class="fw-bold">$1.35M</h4>
+                                        <small class="text-success"><i class="fas fa-arrow-up"></i> +18% this month</small>
+                                    </div>
+                                    <i class="fas fa-chart-pie" style="font-size: 2rem; color: #dc3545; opacity: 0.3;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-bold mb-0">Recent Users</h5>
+                            <a href="#" class="btn btn-sm btn-primary" style="background-color: #0066cc; border: none;">View All</a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Email</th>
+                                        <th>Joined</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop" class="rounded-circle me-2" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <strong>John Smith</strong>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Buyer</span></td>
+                                        <td>john@example.com</td>
+                                        <td>Jan 15, 2024</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop" class="rounded-circle me-2" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <strong>Sarah Johnson</strong>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Seller</span></td>
+                                        <td>sarah@example.com</td>
+                                        <td>Jan 10, 2024</td>
+                                        <td><span class="badge" style="background-color: #d4edda; color: #155724;">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop" class="rounded-circle me-2" alt="User" style="width: 40px; height: 40px; object-fit: cover;">
+                                                <strong>Michael Chen</strong>
+                                            </div>
+                                        </td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Buyer</span></td>
+                                        <td>michael@example.com</td>
+                                        <td>Jan 08, 2024</td>
+                                        <td><span class="badge" style="background-color: #f8d7da; color: #721c24;">Suspended</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">View</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Listings Moderation -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-bold mb-0">Pending Property Listings</h5>
+                            <span class="badge bg-warning">3 Pending</span>
+                        </div>
+
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-start p-3">
+                                <div class="d-flex align-items-start flex-grow-1">
+                                    <img src="https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=60&h=60&fit=crop" class="rounded me-3" alt="Property" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Modern Downtown Villa</h6>
+                                        <p class="text-muted small mb-1">Listed by Sarah Johnson • 123 Maple Street</p>
+                                        <span class="badge" style="background-color: #fff3cd; color: #856404;">Review Required</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-success me-2" style="background-color: #28a745; border: none;">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-start p-3">
+                                <div class="d-flex align-items-start flex-grow-1">
+                                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=60&h=60&fit=crop" class="rounded me-3" alt="Property" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Luxury Apartment</h6>
+                                        <p class="text-muted small mb-1">Listed by David Lee • 456 Park Avenue</p>
+                                        <span class="badge" style="background-color: #fff3cd; color: #856404;">Review Required</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-success me-2" style="background-color: #28a745; border: none;">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </div>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-start p-3">
+                                <div class="d-flex align-items-start flex-grow-1">
+                                    <img src="https://images.unsplash.com/photo-1512917774080-9b41b3b3ed78?w=60&h=60&fit=crop" class="rounded me-3" alt="Property" style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Suburban Family Home</h6>
+                                        <p class="text-muted small mb-1">Listed by Emily Rodriguez • 789 Oak Lane</p>
+                                        <span class="badge" style="background-color: #fff3cd; color: #856404;">Review Required</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-success me-2" style="background-color: #28a745; border: none;">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reported Content -->
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title fw-bold mb-0">Reported Content</h5>
+                            <a href="#" class="btn btn-sm btn-primary" style="background-color: #0066cc; border: none;">View All</a>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <th>Content</th>
+                                        <th>Type</th>
+                                        <th>Reported By</th>
+                                        <th>Reason</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td><strong>Ocean View Penthouse</strong></td>
+                                        <td><span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Property</span></td>
+                                        <td>John Smith</td>
+                                        <td>Inappropriate Images</td>
+                                        <td>2 hours ago</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">Review</button>
+                                        </td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #e8ecf1;">
+                                        <td><strong>User Comment</strong></td>
+                                        <td><span class="badge" style="background-color: #fff3cd; color: #856404;">Comment</span></td>
+                                        <td>Sarah Johnson</td>
+                                        <td>Spam</td>
+                                        <td>1 day ago</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">Review</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

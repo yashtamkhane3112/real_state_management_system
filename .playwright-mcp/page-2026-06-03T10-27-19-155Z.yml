@@ -1,0 +1,372 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - text: 
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Properties" [ref=e13] [cursor=pointer]:
+          - /url: /properties/
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+        - link "AI Studio" [ref=e15] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e16]:
+        - link "Search properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+        - link "Notifications" [ref=e19] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+          - generic [ref=e20]: 
+        - link "BU" [ref=e21] [cursor=pointer]:
+          - /url: /accounts/profile/
+        - button "Logout" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - complementary [ref=e26]:
+        - generic [ref=e27]: Buyer workspace
+        - link " Overview" [ref=e28] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e29]: 
+          - text: Overview
+        - link " Saved properties" [ref=e30] [cursor=pointer]:
+          - /url: /favorites/
+          - generic [ref=e31]: 
+          - text: Saved properties
+        - link " Browse" [ref=e32] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e33]: 
+          - text: Browse
+        - link " Alerts" [ref=e34] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e35]: 
+          - text: Alerts
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]: 
+            - text: AI recommendations ready
+          - heading "Good morning, Buyer" [level=1] [ref=e40]
+          - paragraph [ref=e41]: You have curated matches, active inquiries, and visit activity waiting in your buyer workspace.
+          - link " Search properties" [ref=e42] [cursor=pointer]:
+            - /url: /properties/
+            - generic [ref=e43]: 
+            - text: Search properties
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: 
+            - text: Saved properties
+            - strong [ref=e47]: "2"
+          - generic [ref=e48]:
+            - generic [ref=e49]: 
+            - text: Active inquiries
+            - strong [ref=e50]: "2"
+          - generic [ref=e51]:
+            - generic [ref=e52]: 
+            - text: Scheduled visits
+            - strong [ref=e53]: "2"
+          - generic [ref=e54]:
+            - generic [ref=e55]: 
+            - text: Recommendations
+            - strong [ref=e56]: "1"
+        - generic [ref=e57]:
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - heading "AI recommended homes" [level=2] [ref=e61]
+              - link "View all " [ref=e62] [cursor=pointer]:
+                - /url: /properties/
+                - text: View all
+                - generic [ref=e63]: 
+            - generic [ref=e64]:
+              - article [ref=e66]:
+                - generic [ref=e67]:
+                  - generic [ref=e70]:
+                    - generic [ref=e71]: 
+                    - text: Featured
+                  - link "Save property" [ref=e72] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-5-mumbai-bandra/
+                    - generic [ref=e73]: 
+                  - link "Quick view " [ref=e74] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-5-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e75]: 
+                - generic [ref=e76]:
+                  - generic [ref=e77]: Rs 24200000
+                  - heading "Bandra Signature Residence 5" [level=3] [ref=e78]
+                  - generic [ref=e79]:
+                    - generic [ref=e80]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e81]:
+                    - generic [ref=e82]:
+                      - generic [ref=e83]: 
+                      - text: 3 BHK
+                    - generic [ref=e84]:
+                      - generic [ref=e85]: 
+                      - text: 1 Bath
+                    - generic [ref=e86]:
+                      - generic [ref=e87]: 
+                      - text: 1756 sqft
+              - article [ref=e89]:
+                - generic [ref=e90]:
+                  - generic [ref=e93]:
+                    - generic [ref=e94]: 
+                    - text: Featured
+                  - link "Save property" [ref=e95] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-4-mumbai-bandra/
+                    - generic [ref=e96]: 
+                  - link "Quick view " [ref=e97] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-4-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e98]: 
+                - generic [ref=e99]:
+                  - generic [ref=e100]: Rs 24200000
+                  - heading "Bandra Signature Residence 4" [level=3] [ref=e101]
+                  - generic [ref=e102]:
+                    - generic [ref=e103]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e104]:
+                    - generic [ref=e105]:
+                      - generic [ref=e106]: 
+                      - text: 3 BHK
+                    - generic [ref=e107]:
+                      - generic [ref=e108]: 
+                      - text: 1 Bath
+                    - generic [ref=e109]:
+                      - generic [ref=e110]: 
+                      - text: 3740 sqft
+              - article [ref=e112]:
+                - generic [ref=e113]:
+                  - generic [ref=e116]:
+                    - generic [ref=e117]: 
+                    - text: Featured
+                  - link "Save property" [ref=e118] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-2-mumbai-bandra/
+                    - generic [ref=e119]: 
+                  - link "Quick view " [ref=e120] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-2-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e121]: 
+                - generic [ref=e122]:
+                  - generic [ref=e123]: Rs 41300000
+                  - heading "Bandra Signature Residence 2" [level=3] [ref=e124]
+                  - generic [ref=e125]:
+                    - generic [ref=e126]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e127]:
+                    - generic [ref=e128]:
+                      - generic [ref=e129]: 
+                      - text: 5 BHK
+                    - generic [ref=e130]:
+                      - generic [ref=e131]: 
+                      - text: 4 Bath
+                    - generic [ref=e132]:
+                      - generic [ref=e133]: 
+                      - text: 4090 sqft
+              - article [ref=e135]:
+                - generic [ref=e136]:
+                  - generic [ref=e139]:
+                    - generic [ref=e140]: 
+                    - text: Featured
+                  - link "Save property" [ref=e141] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-6-mumbai-bandra/
+                    - generic [ref=e142]: 
+                  - link "Quick view " [ref=e143] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-6-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e144]: 
+                - generic [ref=e145]:
+                  - generic [ref=e146]: Rs 10100000
+                  - heading "Bandra Signature Residence 6" [level=3] [ref=e147]
+                  - generic [ref=e148]:
+                    - generic [ref=e149]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e150]:
+                    - generic [ref=e151]:
+                      - generic [ref=e152]: 
+                      - text: 5 BHK
+                    - generic [ref=e153]:
+                      - generic [ref=e154]: 
+                      - text: 4 Bath
+                    - generic [ref=e155]:
+                      - generic [ref=e156]: 
+                      - text: 774 sqft
+              - article [ref=e158]:
+                - generic [ref=e159]:
+                  - generic [ref=e162]:
+                    - generic [ref=e163]: 
+                    - text: Featured
+                  - link "Save property" [ref=e164] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-3-mumbai-bandra/
+                    - generic [ref=e165]: 
+                  - link "Quick view " [ref=e166] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-3-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e167]: 
+                - generic [ref=e168]:
+                  - generic [ref=e169]: Rs 37100000
+                  - heading "Bandra Signature Residence 3" [level=3] [ref=e170]
+                  - generic [ref=e171]:
+                    - generic [ref=e172]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e173]:
+                    - generic [ref=e174]:
+                      - generic [ref=e175]: 
+                      - text: 2 BHK
+                    - generic [ref=e176]:
+                      - generic [ref=e177]: 
+                      - text: 4 Bath
+                    - generic [ref=e178]:
+                      - generic [ref=e179]: 
+                      - text: 4033 sqft
+              - article [ref=e181]:
+                - generic [ref=e182]:
+                  - generic [ref=e185]:
+                    - generic [ref=e186]: 
+                    - text: Featured
+                  - link "Save property" [ref=e187] [cursor=pointer]:
+                    - /url: /favorites/toggle/bandra-signature-residence-1-mumbai-bandra/
+                    - generic [ref=e188]: 
+                  - link "Quick view " [ref=e189] [cursor=pointer]:
+                    - /url: /properties/bandra-signature-residence-1-mumbai-bandra/
+                    - text: Quick view
+                    - generic [ref=e190]: 
+                - generic [ref=e191]:
+                  - generic [ref=e192]: Rs 43300000
+                  - heading "Bandra Signature Residence 1" [level=3] [ref=e193]
+                  - generic [ref=e194]:
+                    - generic [ref=e195]: 
+                    - text: Bandra, Mumbai
+                  - generic [ref=e196]:
+                    - generic [ref=e197]:
+                      - generic [ref=e198]: 
+                      - text: 3 BHK
+                    - generic [ref=e199]:
+                      - generic [ref=e200]: 
+                      - text: 1 Bath
+                    - generic [ref=e201]:
+                      - generic [ref=e202]: 
+                      - text: 3530 sqft
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - heading "Activity timeline" [level=2] [ref=e205]
+              - generic [ref=e206]:
+                - generic [ref=e207]:
+                  - strong [ref=e208]: Hinjewadi Signature Residence 1
+                  - generic [ref=e209]: Inquiry new
+                - generic [ref=e210]: Jun 03
+              - generic [ref=e211]:
+                - generic [ref=e212]:
+                  - strong [ref=e213]: Bandra Signature Residence 4
+                  - generic [ref=e214]: Inquiry new
+                - generic [ref=e215]: Jun 03
+              - generic [ref=e216]:
+                - generic [ref=e217]:
+                  - strong [ref=e218]: Bandra Signature Residence 5
+                  - generic [ref=e219]: Inquiry new
+                - generic [ref=e220]: Jun 03
+              - generic [ref=e221]:
+                - generic [ref=e222]:
+                  - strong [ref=e223]: Hinjewadi Signature Residence 6
+                  - generic [ref=e224]: Inquiry new
+                - generic [ref=e225]: Jun 03
+              - generic [ref=e226]:
+                - generic [ref=e227]:
+                  - strong [ref=e228]: Bandra Signature Residence 2
+                  - generic [ref=e229]: Inquiry new
+                - generic [ref=e230]: Jun 03
+              - generic [ref=e231]:
+                - generic [ref=e232]:
+                  - strong [ref=e233]: Hinjewadi Signature Residence 3
+                  - generic [ref=e234]: Inquiry new
+                - generic [ref=e235]: Jun 03
+              - generic [ref=e236]:
+                - generic [ref=e237]:
+                  - strong [ref=e238]: Hinjewadi Signature Residence 4
+                  - generic [ref=e239]: Inquiry new
+                - generic [ref=e240]: Jun 03
+              - generic [ref=e241]:
+                - generic [ref=e242]:
+                  - strong [ref=e243]: Whitefield Signature Residence 6
+                  - generic [ref=e244]: Inquiry new
+                - generic [ref=e245]: Jun 03
+              - generic [ref=e246]:
+                - generic [ref=e247]:
+                  - strong [ref=e248]: Bandra Signature Residence 1
+                  - generic [ref=e249]: Inquiry new
+                - generic [ref=e250]: Jun 03
+              - generic [ref=e251]:
+                - generic [ref=e252]:
+                  - strong [ref=e253]: Whitefield Signature Residence 2
+                  - generic [ref=e254]: Inquiry new
+                - generic [ref=e255]: Jun 03
+              - generic [ref=e256]:
+                - generic [ref=e257]:
+                  - strong [ref=e258]: Bandra Signature Residence 3
+                  - generic [ref=e259]: Inquiry new
+                - generic [ref=e260]: Jun 03
+              - generic [ref=e261]:
+                - generic [ref=e262]:
+                  - strong [ref=e263]: Whitefield Signature Residence 4
+                  - generic [ref=e264]: Inquiry new
+                - generic [ref=e265]: Jun 03
+              - generic [ref=e266]:
+                - generic [ref=e267]:
+                  - strong [ref=e268]: Whitefield Signature Residence 5
+                  - generic [ref=e269]: Inquiry new
+                - generic [ref=e270]: Jun 03
+              - generic [ref=e271]:
+                - generic [ref=e272]:
+                  - strong [ref=e273]: Bandra Signature Residence 6
+                  - generic [ref=e274]: Inquiry new
+                - generic [ref=e275]: Jun 03
+            - generic [ref=e276]:
+              - heading "Property alerts" [level=2] [ref=e277]
+              - generic [ref=e278]:
+                - generic [ref=e279]: Luxury homes in your city
+                - strong [ref=e280]: "On"
+              - generic [ref=e281]:
+                - generic [ref=e282]: Price drops
+                - strong [ref=e283]: "On"
+              - generic [ref=e284]:
+                - generic [ref=e285]: New verified listings
+                - strong [ref=e286]: "On"
+  - contentinfo [ref=e287]:
+    - generic [ref=e288]:
+      - generic [ref=e289]:
+        - generic [ref=e290]:
+          - link " PropVista Architected for premium property decisions." [ref=e291] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e293]: 
+            - generic [ref=e294]:
+              - strong [ref=e295]: PropVista
+              - generic [ref=e296]: Architected for premium property decisions.
+          - paragraph [ref=e297]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e298]:
+          - heading "Marketplace" [level=6] [ref=e299]
+          - link "Properties" [ref=e300] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e301] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e302] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e303]:
+          - heading "Dashboards" [level=6] [ref=e304]
+          - link "Buyer" [ref=e305] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e306] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e307] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e308]:
+          - heading "Developer" [level=6] [ref=e309]
+          - link "Swagger API docs" [ref=e310] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e311] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e312]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Real Estate Marketplace{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1>Find Your Dream Property</h1>
+        <p>Discover thousands of properties available for sale and rent</p>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+            <form method="get" action="{% url 'properties' %}">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" name="query" class="form-control" placeholder="Location, Property, etc.">
+                    </div>
+                    <div class="col-md-3">
+                        <select name="property_type" class="form-select">
+                            <option value="">All Property Types</option>
+                            <option value="house">House</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="villa">Villa</option>
+                            <option value="commercial">Commercial</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" name="min_price" class="form-control" placeholder="Min Price">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="stats-number">{{ total_properties }}</div>
+                    <div class="stats-label">Active Properties</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stats-number">{{ total_users }}</div>
+                    <div class="stats-label">Active Users</div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="stats-card">
+                    <div class="stats-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stats-number">10K+</div>
+                    <div class="stats-label">Successful Transactions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Properties -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4" style="color: var(--primary-color);">
+            <i class="fas fa-star"></i> Featured Properties
+        </h2>
+        
+        {% if featured_properties %}
+        <div class="row g-4">
+            {% for property in featured_properties %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card property-card">
+                    <div style="position: relative; height: 200px; overflow: hidden;">
+                        {% if property.thumbnail %}
+                        <img src="{{ property.thumbnail.url }}" alt="{{ property.title }}" class="property-image w-100">
+                        {% else %}
+                        <div class="property-image bg-light d-flex align-items-center justify-content-center">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <span class="property-badge featured">Featured</span>
+                    </div>
+                    
+                    <div class="property-info">
+                        <div class="property-price">₹{{ property.price|floatformat:0 }}</div>
+                        <h5 class="property-title">{{ property.title }}</h5>
+                        <p class="property-location">
+                            <i class="fas fa-map-marker-alt"></i> {{ property.city }}, {{ property.state }}
+                        </p>
+                        
+                        <div class="property-features">
+                            <div class="property-feature">
+                                <i class="fas fa-bed"></i>
+                                <span>{{ property.bedrooms }} Bed</span>
+                            </div>
+                            <div class="property-feature">
+                                <i class="fas fa-bath"></i>
+                                <span>{{ property.bathrooms }} Bath</span>
+                            </div>
+                            <div class="property-feature">
+                                <i class="fas fa-expand"></i>
+                                <span>{{ property.area }} sqft</span>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'property_detail' property.slug %}" class="btn btn-outline-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> No featured properties available at the moment.
+        </div>
+        {% endif %}
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'properties' %}" class="btn btn-primary btn-lg">
+                View All Properties <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <h2 class="text-center mb-5" style="color: var(--primary-color);">Why Choose RealEstate?</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h5>Easy Search</h5>
+                    <p class="text-muted">Find properties with advanced filters and search options.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h5>Secure & Safe</h5>
+                    <p class="text-muted">All transactions and data are protected with encryption.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h5>Professional Support</h5>
+                    <p class="text-muted">Get assistance from our dedicated support team.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5>Best Deals</h5>
+                    <p class="text-muted">Get competitive prices with transparent negotiations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5" style="background-color: var(--primary-color); color: white;">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Get Started?</h2>
+        <p class="mb-4" style="font-size: 1.1rem;">Join thousands of buyers and sellers on our platform today.</p>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'properties' %}" class="btn btn-light btn-lg">
+            Browse Properties <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+        {% else %}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <p style="margin-bottom: 1.5rem;">I want to:</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg" style="margin-bottom: 0.5rem;">
+                        <i class="fas fa-user-plus"></i> Buy Property
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-home"></i> Sell Property
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

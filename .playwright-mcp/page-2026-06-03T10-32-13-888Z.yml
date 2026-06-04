@@ -1,0 +1,89 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - text: 
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Properties" [ref=e13] [cursor=pointer]:
+          - /url: /properties/
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+        - link "AI Studio" [ref=e15] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e16]:
+        - link "Search properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+        - link "Notifications" [ref=e19] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+          - generic [ref=e20]: 
+        - link "AD" [ref=e21] [cursor=pointer]:
+          - /url: /accounts/profile/
+        - button "Logout" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: 
+        - text: Secure access
+      - heading "Welcome back" [level=1] [ref=e29]
+      - paragraph [ref=e30]: Sign in with Django sessions for the web app. JWT remains available for API clients.
+      - generic [ref=e31]:
+        - paragraph [ref=e32]:
+          - generic [ref=e33]: "Username:"
+          - textbox "Username:" [active] [ref=e34]
+        - paragraph [ref=e35]:
+          - generic [ref=e36]: "Password:"
+          - textbox "Password:" [ref=e37]
+        - button "Sign in" [ref=e38] [cursor=pointer]
+      - generic [ref=e39]:
+        - text: "Demo users:"
+        - strong [ref=e40]: buyer
+        - text: ","
+        - strong [ref=e41]: seller
+        - text: ","
+        - strong [ref=e42]: agent
+        - text: ","
+        - strong [ref=e43]: admin
+        - text: "Password:"
+        - strong [ref=e44]: Pass@12345
+  - contentinfo [ref=e45]:
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - link " PropVista Architected for premium property decisions." [ref=e49] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e51]: 
+            - generic [ref=e52]:
+              - strong [ref=e53]: PropVista
+              - generic [ref=e54]: Architected for premium property decisions.
+          - paragraph [ref=e55]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e56]:
+          - heading "Marketplace" [level=6] [ref=e57]
+          - link "Properties" [ref=e58] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e59] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e60] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e61]:
+          - heading "Dashboards" [level=6] [ref=e62]
+          - link "Buyer" [ref=e63] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e64] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e65] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e66]:
+          - heading "Developer" [level=6] [ref=e67]
+          - link "Swagger API docs" [ref=e68] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e69] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e70]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

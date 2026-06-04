@@ -1,0 +1,135 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - text: 
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Properties" [ref=e13] [cursor=pointer]:
+          - /url: /properties/
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+        - link "AI Studio" [ref=e15] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e16]:
+        - link "Search properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+        - link "Notifications" [ref=e19] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+          - generic [ref=e20]: 
+        - link "AD" [ref=e21] [cursor=pointer]:
+          - /url: /accounts/profile/
+        - button "Logout" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - complementary [ref=e26]:
+        - generic [ref=e27]: Executive command
+        - link " Overview" [ref=e28] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e29]: 
+          - text: Overview
+        - link " Users" [ref=e30] [cursor=pointer]:
+          - /url: /admin/
+          - generic [ref=e31]: 
+          - text: Users
+        - link " Approvals" [ref=e32] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e33]: 
+          - text: Approvals
+        - link " Reports" [ref=e34] [cursor=pointer]:
+          - /url: /reports/
+          - generic [ref=e35]: 
+          - text: Reports
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]:
+              - generic [ref=e40]: 
+              - text: Supervision layer
+            - heading "Admin command center" [level=1] [ref=e41]
+            - paragraph [ref=e42]: Monitor users, property health, approval queues, and platform signals.
+          - link "Open Django admin" [ref=e43] [cursor=pointer]:
+            - /url: /admin/
+        - generic [ref=e44]:
+          - generic [ref=e45]:
+            - generic [ref=e46]: 
+            - text: Total users
+            - strong [ref=e47]: "2"
+          - generic [ref=e48]:
+            - generic [ref=e49]: 
+            - text: Properties
+            - strong [ref=e50]: "6"
+          - generic [ref=e51]:
+            - generic [ref=e52]: 
+            - text: Pending approvals
+            - strong [ref=e53]: "1"
+          - generic [ref=e54]:
+            - generic [ref=e55]: 
+            - text: Inventory value
+            - strong [ref=e56]: Rs 1074700000
+        - generic [ref=e57]:
+          - heading "User growth" [level=2] [ref=e60]
+          - heading "City distribution" [level=2] [ref=e64]
+        - generic [ref=e66]:
+          - generic [ref=e68]:
+            - heading "Property approval queue" [level=2] [ref=e69]
+            - generic [ref=e70]:
+              - generic [ref=e71]: Whitefield Signature Residence 20
+              - link "Approve" [ref=e72] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-20-bengaluru-whitefield/approve/
+            - generic [ref=e73]:
+              - generic [ref=e74]: Hinjewadi Signature Residence 20
+              - link "Approve" [ref=e75] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-20-pune-hinjewadi/approve/
+          - generic [ref=e77]:
+            - heading "Audit timeline" [level=2] [ref=e78]
+            - generic [ref=e79]:
+              - generic [ref=e80]: Admin reviewed pending listing
+              - strong [ref=e81]: 2m
+            - generic [ref=e82]:
+              - generic [ref=e83]: New seller joined platform
+              - strong [ref=e84]: 18m
+            - generic [ref=e85]:
+              - generic [ref=e86]: AI summary generated
+              - strong [ref=e87]: 1h
+  - contentinfo [ref=e88]:
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - link " PropVista Architected for premium property decisions." [ref=e92] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e94]: 
+            - generic [ref=e95]:
+              - strong [ref=e96]: PropVista
+              - generic [ref=e97]: Architected for premium property decisions.
+          - paragraph [ref=e98]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e99]:
+          - heading "Marketplace" [level=6] [ref=e100]
+          - link "Properties" [ref=e101] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e102] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e103] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e104]:
+          - heading "Dashboards" [level=6] [ref=e105]
+          - link "Buyer" [ref=e106] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e107] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e108] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e109]:
+          - heading "Developer" [level=6] [ref=e110]
+          - link "Swagger API docs" [ref=e111] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e112] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e113]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

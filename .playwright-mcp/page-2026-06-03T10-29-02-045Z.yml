@@ -1,0 +1,248 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - button "Open navigation" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 
+      - text:  
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - complementary [ref=e15]:
+        - generic [ref=e16]: Seller operating system
+        - link " Dashboard" [ref=e17] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e18]: 
+          - text: Dashboard
+        - link " Create listing" [ref=e19] [cursor=pointer]:
+          - /url: /properties/new/
+          - generic [ref=e20]: 
+          - text: Create listing
+        - link " Leads" [ref=e21] [cursor=pointer]:
+          - /url: /leads/
+          - generic [ref=e22]: 
+          - text: Leads
+        - link " Reports" [ref=e23] [cursor=pointer]:
+          - /url: /reports/
+          - generic [ref=e24]: 
+          - text: Reports
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic [ref=e28]:
+              - generic [ref=e29]: 
+              - text: Seller analytics
+            - heading "Seller dashboard" [level=1] [ref=e30]
+            - paragraph [ref=e31]: Manage listings, inquiries, performance, and lead conversion.
+          - link " Add property" [ref=e32] [cursor=pointer]:
+            - /url: /properties/new/
+            - generic [ref=e33]: 
+            - text: Add property
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]: 
+            - text: Active listings
+            - strong [ref=e37]: "0"
+          - generic [ref=e38]:
+            - generic [ref=e39]: 
+            - text: Pending approvals
+            - strong [ref=e40]: "0"
+          - generic [ref=e41]:
+            - generic [ref=e42]: 
+            - text: Views this week
+            - strong [ref=e43]: "0"
+          - generic [ref=e44]:
+            - generic [ref=e45]: 
+            - text: Inquiries
+            - strong [ref=e46]: "0"
+        - generic [ref=e47]:
+          - heading "Views over 30 days" [level=2] [ref=e50]
+          - heading "Inquiry mix" [level=2] [ref=e54]
+        - generic [ref=e56]:
+          - generic [ref=e58]:
+            - heading "Property status tracking" [level=2] [ref=e59]
+            - link "Bandra Signature Residence 5 Approved" [ref=e60] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-5-mumbai-bandra/
+              - generic [ref=e61]: Bandra Signature Residence 5
+              - strong [ref=e62]: Approved
+            - link "Bandra Signature Residence 4 Approved" [ref=e63] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-4-mumbai-bandra/
+              - generic [ref=e64]: Bandra Signature Residence 4
+              - strong [ref=e65]: Approved
+            - link "Hinjewadi Signature Residence 1 Approved" [ref=e66] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-1-pune-hinjewadi/
+              - generic [ref=e67]: Hinjewadi Signature Residence 1
+              - strong [ref=e68]: Approved
+            - link "Hinjewadi Signature Residence 4 Approved" [ref=e69] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-4-pune-hinjewadi/
+              - generic [ref=e70]: Hinjewadi Signature Residence 4
+              - strong [ref=e71]: Approved
+            - link "Bandra Signature Residence 2 Approved" [ref=e72] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-2-mumbai-bandra/
+              - generic [ref=e73]: Bandra Signature Residence 2
+              - strong [ref=e74]: Approved
+            - link "Whitefield Signature Residence 4 Approved" [ref=e75] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-4-bengaluru-whitefield/
+              - generic [ref=e76]: Whitefield Signature Residence 4
+              - strong [ref=e77]: Approved
+            - link "Whitefield Signature Residence 5 Approved" [ref=e78] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-5-bengaluru-whitefield/
+              - generic [ref=e79]: Whitefield Signature Residence 5
+              - strong [ref=e80]: Approved
+            - link "Whitefield Signature Residence 2 Approved" [ref=e81] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-2-bengaluru-whitefield/
+              - generic [ref=e82]: Whitefield Signature Residence 2
+              - strong [ref=e83]: Approved
+            - link "Bandra Signature Residence 1 Approved" [ref=e84] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-1-mumbai-bandra/
+              - generic [ref=e85]: Bandra Signature Residence 1
+              - strong [ref=e86]: Approved
+            - link "Hinjewadi Signature Residence 17 Approved" [ref=e87] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-17-pune-hinjewadi/
+              - generic [ref=e88]: Hinjewadi Signature Residence 17
+              - strong [ref=e89]: Approved
+            - link "Bandra Signature Residence 13 Approved" [ref=e90] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-13-mumbai-bandra/
+              - generic [ref=e91]: Bandra Signature Residence 13
+              - strong [ref=e92]: Approved
+            - link "Whitefield Signature Residence 11 Approved" [ref=e93] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-11-bengaluru-whitefield/
+              - generic [ref=e94]: Whitefield Signature Residence 11
+              - strong [ref=e95]: Approved
+            - link "Whitefield Signature Residence 8 Approved" [ref=e96] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-8-bengaluru-whitefield/
+              - generic [ref=e97]: Whitefield Signature Residence 8
+              - strong [ref=e98]: Approved
+            - link "Whitefield Signature Residence 20 Pending" [ref=e99] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-20-bengaluru-whitefield/
+              - generic [ref=e100]: Whitefield Signature Residence 20
+              - strong [ref=e101]: Pending
+            - link "Bandra Signature Residence 19 Approved" [ref=e102] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-19-mumbai-bandra/
+              - generic [ref=e103]: Bandra Signature Residence 19
+              - strong [ref=e104]: Approved
+            - link "Whitefield Signature Residence 17 Approved" [ref=e105] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-17-bengaluru-whitefield/
+              - generic [ref=e106]: Whitefield Signature Residence 17
+              - strong [ref=e107]: Approved
+            - link "Hinjewadi Signature Residence 13 Approved" [ref=e108] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-13-pune-hinjewadi/
+              - generic [ref=e109]: Hinjewadi Signature Residence 13
+              - strong [ref=e110]: Approved
+            - link "Hinjewadi Signature Residence 14 Approved" [ref=e111] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-14-pune-hinjewadi/
+              - generic [ref=e112]: Hinjewadi Signature Residence 14
+              - strong [ref=e113]: Approved
+            - link "Bandra Signature Residence 11 Approved" [ref=e114] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-11-mumbai-bandra/
+              - generic [ref=e115]: Bandra Signature Residence 11
+              - strong [ref=e116]: Approved
+            - link "Hinjewadi Signature Residence 20 Pending" [ref=e117] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-20-pune-hinjewadi/
+              - generic [ref=e118]: Hinjewadi Signature Residence 20
+              - strong [ref=e119]: Pending
+            - link "Hinjewadi Signature Residence 19 Approved" [ref=e120] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-19-pune-hinjewadi/
+              - generic [ref=e121]: Hinjewadi Signature Residence 19
+              - strong [ref=e122]: Approved
+            - link "Bandra Signature Residence 17 Approved" [ref=e123] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-17-mumbai-bandra/
+              - generic [ref=e124]: Bandra Signature Residence 17
+              - strong [ref=e125]: Approved
+            - link "Whitefield Signature Residence 16 Approved" [ref=e126] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-16-bengaluru-whitefield/
+              - generic [ref=e127]: Whitefield Signature Residence 16
+              - strong [ref=e128]: Approved
+            - link "Whitefield Signature Residence 13 Approved" [ref=e129] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-13-bengaluru-whitefield/
+              - generic [ref=e130]: Whitefield Signature Residence 13
+              - strong [ref=e131]: Approved
+            - link "Bandra Signature Residence 14 Approved" [ref=e132] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-14-mumbai-bandra/
+              - generic [ref=e133]: Bandra Signature Residence 14
+              - strong [ref=e134]: Approved
+            - link "Hinjewadi Signature Residence 11 Approved" [ref=e135] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-11-pune-hinjewadi/
+              - generic [ref=e136]: Hinjewadi Signature Residence 11
+              - strong [ref=e137]: Approved
+            - link "Hinjewadi Signature Residence 10 Approved" [ref=e138] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-10-pune-hinjewadi/
+              - generic [ref=e139]: Hinjewadi Signature Residence 10
+              - strong [ref=e140]: Approved
+            - link "Bandra Signature Residence 8 Approved" [ref=e141] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-8-mumbai-bandra/
+              - generic [ref=e142]: Bandra Signature Residence 8
+              - strong [ref=e143]: Approved
+            - link "Hinjewadi Signature Residence 7 Approved" [ref=e144] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-7-pune-hinjewadi/
+              - generic [ref=e145]: Hinjewadi Signature Residence 7
+              - strong [ref=e146]: Approved
+          - generic [ref=e148]:
+            - heading "Lead funnel" [level=2] [ref=e149]
+            - generic [ref=e151]:
+              - strong [ref=e152]: New inquiries
+              - generic [ref=e153]:
+                - text: Demo Buyer
+                - generic [ref=e154]: Hinjewadi Signature Residence 1
+              - generic [ref=e155]:
+                - text: Demo Buyer
+                - generic [ref=e156]: Bandra Signature Residence 4
+              - generic [ref=e157]:
+                - text: Demo Buyer
+                - generic [ref=e158]: Bandra Signature Residence 5
+              - generic [ref=e159]:
+                - text: Demo Buyer
+                - generic [ref=e160]: Bandra Signature Residence 2
+              - generic [ref=e161]:
+                - text: Demo Buyer
+                - generic [ref=e162]: Hinjewadi Signature Residence 4
+              - generic [ref=e163]:
+                - text: Demo Buyer
+                - generic [ref=e164]: Bandra Signature Residence 1
+              - generic [ref=e165]:
+                - text: Demo Buyer
+                - generic [ref=e166]: Whitefield Signature Residence 2
+              - generic [ref=e167]:
+                - text: Demo Buyer
+                - generic [ref=e168]: Whitefield Signature Residence 4
+              - generic [ref=e169]:
+                - text: Demo Buyer
+                - generic [ref=e170]: Whitefield Signature Residence 5
+  - contentinfo [ref=e171]:
+    - generic [ref=e172]:
+      - generic [ref=e173]:
+        - generic [ref=e174]:
+          - link " PropVista Architected for premium property decisions." [ref=e175] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e177]: 
+            - generic [ref=e178]:
+              - strong [ref=e179]: PropVista
+              - generic [ref=e180]: Architected for premium property decisions.
+          - paragraph [ref=e181]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e182]:
+          - heading "Marketplace" [level=6] [ref=e183]
+          - link "Properties" [ref=e184] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e185] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e186] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e187]:
+          - heading "Dashboards" [level=6] [ref=e188]
+          - link "Buyer" [ref=e189] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e190] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e191] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e192]:
+          - heading "Developer" [level=6] [ref=e193]
+          - link "Swagger API docs" [ref=e194] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e195] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e196]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

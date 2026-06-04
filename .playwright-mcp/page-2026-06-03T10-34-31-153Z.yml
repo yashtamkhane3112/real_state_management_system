@@ -1,0 +1,83 @@
+- generic [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - button "Open navigation" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 
+      - text:  
+  - main [ref=e13]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]: 
+        - text: Join PropVista
+      - heading "Create your real estate workspace" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Choose Buyer, Seller, Agent, or Admin role and access the relevant dashboard immediately.
+      - generic [ref=e20]:
+        - generic [ref=e21]:
+          - generic [ref=e22]: Username
+          - textbox [active] [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]: Email
+          - textbox [ref=e26]
+        - generic [ref=e27]:
+          - generic [ref=e28]: First name
+          - textbox [ref=e29]
+        - generic [ref=e30]:
+          - generic [ref=e31]: Last name
+          - textbox [ref=e32]
+        - generic [ref=e33]:
+          - generic [ref=e34]: Phone
+          - textbox [ref=e35]
+        - generic [ref=e36]:
+          - generic [ref=e37]: Role
+          - combobox [ref=e38]:
+            - option "Buyer" [selected]
+            - option "Seller"
+            - option "Agent"
+            - option "Admin"
+        - generic [ref=e39]:
+          - generic [ref=e40]: Password
+          - textbox [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]: Password confirmation
+          - textbox [ref=e44]
+        - button "Create account" [ref=e46] [cursor=pointer]
+  - contentinfo [ref=e47]:
+    - generic [ref=e48]:
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - link " PropVista Architected for premium property decisions." [ref=e51] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e53]: 
+            - generic [ref=e54]:
+              - strong [ref=e55]: PropVista
+              - generic [ref=e56]: Architected for premium property decisions.
+          - paragraph [ref=e57]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e58]:
+          - heading "Marketplace" [level=6] [ref=e59]
+          - link "Properties" [ref=e60] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e61] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e62] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e63]:
+          - heading "Dashboards" [level=6] [ref=e64]
+          - link "Buyer" [ref=e65] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e66] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e67] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e68]:
+          - heading "Developer" [level=6] [ref=e69]
+          - link "Swagger API docs" [ref=e70] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e71] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e72]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

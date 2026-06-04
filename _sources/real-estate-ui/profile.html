@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Browse Properties</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body text-center">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop" class="rounded-circle mb-3" alt="Profile" style="width: 120px; height: 120px; object-fit: cover;">
+                        <h5 class="fw-bold mb-1">John Smith</h5>
+                        <p class="text-muted small mb-3">Member since Jan 2024</p>
+                        <span class="badge" style="background-color: #e7f3ff; color: #0066cc;">Verified Buyer</span>
+                    </div>
+                </div>
+
+                <div class="card mt-3" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-3">Profile Menu</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #0066cc; background-color: #f0f4f8; border-radius: 8px;">
+                                    <i class="fas fa-user me-2"></i> Personal Info
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-lock me-2"></i> Security
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-bell me-2"></i> Notifications
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-cog me-2"></i> Preferences
+                                </a>
+                            </li>
+                            <li class="mb-2">
+                                <a href="#" class="text-decoration-none p-2 d-block" style="color: #333;">
+                                    <i class="fas fa-file-alt me-2"></i> Documents
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Personal Information -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Personal Information</h5>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">First Name</label>
+                                <input type="text" class="form-control" value="John" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Last Name</label>
+                                <input type="text" class="form-control" value="Smith" style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Email Address</label>
+                                <input type="email" class="form-control" value="john@example.com" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Phone Number</label>
+                                <input type="tel" class="form-control" value="(555) 123-4567" style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Date of Birth</label>
+                                <input type="date" class="form-control" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Account Type</label>
+                                <input type="text" class="form-control" value="Buyer" disabled style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-500">Bio</label>
+                            <textarea class="form-control" rows="3" placeholder="Tell us about yourself..." style="border: 1px solid #d0d5dd;"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" style="background-color: #0066cc; border: none;">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Address Information -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Address Information</h5>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label fw-500">Street Address</label>
+                                <input type="text" class="form-control" value="123 Main Street" style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">City</label>
+                                <input type="text" class="form-control" value="San Francisco" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-500">State</label>
+                                <input type="text" class="form-control" value="CA" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-500">Zip Code</label>
+                                <input type="text" class="form-control" value="94105" style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="background-color: #0066cc; border: none;">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Security Settings -->
+                <div class="card mb-4" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Security Settings</h5>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-500">Current Password</label>
+                            <input type="password" class="form-control" placeholder="Enter current password" style="border: 1px solid #d0d5dd;">
+                        </div>
+
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">New Password</label>
+                                <input type="password" class="form-control" placeholder="Create new password" style="border: 1px solid #d0d5dd;">
+                                <small class="text-muted">Minimum 8 characters</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-500">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm password" style="border: 1px solid #d0d5dd;">
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold mb-3 mt-4">Two-Factor Authentication</h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Enable two-factor authentication for extra security</span>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input" type="checkbox" id="2fa">
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" style="background-color: #0066cc; border: none;">Update Security</button>
+                    </div>
+                </div>
+
+                <!-- Verified Badges -->
+                <div class="card" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Verification Status</h5>
+
+                        <div class="row g-3">
+                            <div class="col-md-4 text-center">
+                                <i class="fas fa-check-circle" style="font-size: 2rem; color: #28a745;"></i>
+                                <p class="fw-bold mt-2 mb-1">Email Verified</p>
+                                <small class="text-muted">Verified on Jan 15, 2024</small>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="fas fa-check-circle" style="font-size: 2rem; color: #28a745;"></i>
+                                <p class="fw-bold mt-2 mb-1">Phone Verified</p>
+                                <small class="text-muted">Verified on Jan 16, 2024</small>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <i class="fas fa-circle" style="font-size: 2rem; color: #d0d5dd;"></i>
+                                <p class="fw-bold mt-2 mb-1">ID Verified</p>
+                                <button class="btn btn-sm btn-outline-primary mt-2" style="border: 1px solid #0066cc; color: #0066cc;">Verify Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

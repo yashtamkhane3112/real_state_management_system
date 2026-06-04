@@ -1,0 +1,263 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - button "Open navigation" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 
+      - text: 
+  - main [ref=e13]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - link " Back to properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+          - text: Back to properties
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - generic [ref=e21]:
+              - generic [ref=e22]: 
+              - text: Verified luxury listing
+            - heading "Hinjewadi Signature Residence 6" [level=1] [ref=e23]
+            - paragraph [ref=e24]:
+              - generic [ref=e25]: 
+              - text: Tower 6, Hinjewadi, Pune, Hinjewadi, Pune
+          - generic [ref=e26]:
+            - link " Save" [ref=e27] [cursor=pointer]:
+              - /url: /favorites/toggle/hinjewadi-signature-residence-6-pune-hinjewadi/
+              - generic [ref=e28]: 
+              - text: Save
+            - button " Share" [ref=e29] [cursor=pointer]:
+              - generic [ref=e30]: 
+              - text: Share
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]:
+              - generic [ref=e44]:
+                - strong [ref=e45]: "1"
+                - text: Bedrooms
+              - generic [ref=e47]:
+                - strong [ref=e48]: "2"
+                - text: Bathrooms
+              - generic [ref=e50]:
+                - strong [ref=e51]: "2237"
+                - text: Sqft
+              - generic [ref=e53]:
+                - strong [ref=e54]: "2"
+                - text: Parking
+            - heading "Property narrative" [level=2] [ref=e55]
+            - paragraph [ref=e56]: A premium, well-connected property with modern amenities, natural light, and strong investment potential.
+          - generic [ref=e57]:
+            - heading "Amenities" [level=2] [ref=e58]
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - generic [ref=e61]: 
+                - generic [ref=e62]: Gym
+              - generic [ref=e63]:
+                - generic [ref=e64]: 
+                - generic [ref=e65]: Pool
+              - generic [ref=e66]:
+                - generic [ref=e67]: 
+                - generic [ref=e68]: Security
+              - generic [ref=e69]:
+                - generic [ref=e70]: 
+                - generic [ref=e71]: Parking
+              - generic [ref=e72]:
+                - generic [ref=e73]: 
+                - generic [ref=e74]: Garden
+          - generic [ref=e75]:
+            - heading "AI property summary" [level=2] [ref=e76]
+            - paragraph [ref=e77]: A premium, well-positioned property in Hinjewadi with strong lifestyle appeal, verified listing data, and convenient access to neighborhood essentials.
+          - generic [ref=e78]:
+            - heading "Neighborhood intelligence" [level=2] [ref=e79]
+            - generic [ref=e80]:
+              - generic [ref=e82]:
+                - generic [ref=e83]: 
+                - text: Schools nearby
+              - generic [ref=e85]:
+                - generic [ref=e86]: 
+                - text: Hospitals within reach
+              - generic [ref=e88]:
+                - generic [ref=e89]: 
+                - text: Transit access
+          - generic [ref=e92]:
+            - heading "Similar properties" [level=2] [ref=e93]
+            - generic [ref=e94]:
+              - article [ref=e96]:
+                - generic [ref=e97]:
+                  - generic [ref=e100]:
+                    - generic [ref=e101]: 
+                    - text: Featured
+                  - link "Login to save" [ref=e102] [cursor=pointer]:
+                    - /url: /accounts/login/
+                    - generic [ref=e103]: 
+                  - link "Quick view " [ref=e104] [cursor=pointer]:
+                    - /url: /properties/hinjewadi-signature-residence-1-pune-hinjewadi/
+                    - text: Quick view
+                    - generic [ref=e105]: 
+                - generic [ref=e106]:
+                  - generic [ref=e107]: Rs 35300000
+                  - heading "Hinjewadi Signature Residence 1" [level=3] [ref=e108]
+                  - generic [ref=e109]:
+                    - generic [ref=e110]: 
+                    - text: Hinjewadi, Pune
+                  - generic [ref=e111]:
+                    - generic [ref=e112]:
+                      - generic [ref=e113]: 
+                      - text: 3 BHK
+                    - generic [ref=e114]:
+                      - generic [ref=e115]: 
+                      - text: 1 Bath
+                    - generic [ref=e116]:
+                      - generic [ref=e117]: 
+                      - text: 3103 sqft
+              - article [ref=e119]:
+                - generic [ref=e120]:
+                  - generic [ref=e123]:
+                    - generic [ref=e124]: 
+                    - text: Featured
+                  - link "Login to save" [ref=e125] [cursor=pointer]:
+                    - /url: /accounts/login/
+                    - generic [ref=e126]: 
+                  - link "Quick view " [ref=e127] [cursor=pointer]:
+                    - /url: /properties/hinjewadi-signature-residence-4-pune-hinjewadi/
+                    - text: Quick view
+                    - generic [ref=e128]: 
+                - generic [ref=e129]:
+                  - generic [ref=e130]: Rs 8900000
+                  - heading "Hinjewadi Signature Residence 4" [level=3] [ref=e131]
+                  - generic [ref=e132]:
+                    - generic [ref=e133]: 
+                    - text: Hinjewadi, Pune
+                  - generic [ref=e134]:
+                    - generic [ref=e135]:
+                      - generic [ref=e136]: 
+                      - text: 1 BHK
+                    - generic [ref=e137]:
+                      - generic [ref=e138]: 
+                      - text: 4 Bath
+                    - generic [ref=e139]:
+                      - generic [ref=e140]: 
+                      - text: 3184 sqft
+              - article [ref=e142]:
+                - generic [ref=e143]:
+                  - generic [ref=e146]:
+                    - generic [ref=e147]: 
+                    - text: Featured
+                  - link "Login to save" [ref=e148] [cursor=pointer]:
+                    - /url: /accounts/login/
+                    - generic [ref=e149]: 
+                  - link "Quick view " [ref=e150] [cursor=pointer]:
+                    - /url: /properties/hinjewadi-signature-residence-3-pune-hinjewadi/
+                    - text: Quick view
+                    - generic [ref=e151]: 
+                - generic [ref=e152]:
+                  - generic [ref=e153]: Rs 42500000
+                  - heading "Hinjewadi Signature Residence 3" [level=3] [ref=e154]
+                  - generic [ref=e155]:
+                    - generic [ref=e156]: 
+                    - text: Hinjewadi, Pune
+                  - generic [ref=e157]:
+                    - generic [ref=e158]:
+                      - generic [ref=e159]: 
+                      - text: 5 BHK
+                    - generic [ref=e160]:
+                      - generic [ref=e161]: 
+                      - text: 4 Bath
+                    - generic [ref=e162]:
+                      - generic [ref=e163]: 
+                      - text: 1049 sqft
+              - article [ref=e165]:
+                - generic [ref=e166]:
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: 
+                    - text: Verified
+                  - link "Login to save" [ref=e171] [cursor=pointer]:
+                    - /url: /accounts/login/
+                    - generic [ref=e172]: 
+                  - link "Quick view " [ref=e173] [cursor=pointer]:
+                    - /url: /properties/hinjewadi-signature-residence-17-pune-hinjewadi/
+                    - text: Quick view
+                    - generic [ref=e174]: 
+                - generic [ref=e175]:
+                  - generic [ref=e176]: Rs 30200000
+                  - heading "Hinjewadi Signature Residence 17" [level=3] [ref=e177]
+                  - generic [ref=e178]:
+                    - generic [ref=e179]: 
+                    - text: Hinjewadi, Pune
+                  - generic [ref=e180]:
+                    - generic [ref=e181]:
+                      - generic [ref=e182]: 
+                      - text: 2 BHK
+                    - generic [ref=e183]:
+                      - generic [ref=e184]: 
+                      - text: 3 Bath
+                    - generic [ref=e185]:
+                      - generic [ref=e186]: 
+                      - text: 2165 sqft
+        - complementary [ref=e188]:
+          - generic [ref=e189]: Rs 42400000
+          - generic [ref=e190]: Apartment · Unfurnished
+          - generic [ref=e191]:
+            - generic [ref=e192]:
+              - generic [ref=e193]: 
+              - text: Built 2012
+            - generic [ref=e194]:
+              - generic [ref=e195]: 
+              - text: Approved
+          - generic [ref=e196]:
+            - heading "Seller information" [level=3] [ref=e197]
+            - generic [ref=e198]:
+              - generic [ref=e199]: AG
+              - generic [ref=e200]:
+                - strong [ref=e201]: Agent
+                - generic [ref=e202]: Verified listing owner
+          - link "Login to inquire" [ref=e203] [cursor=pointer]:
+            - /url: /accounts/login/
+          - generic [ref=e204]:
+            - heading "Mortgage snapshot" [level=3] [ref=e205]
+            - generic [ref=e206]:
+              - generic [ref=e207]: Est. monthly
+              - strong [ref=e208]: Rs 42400000
+            - generic [ref=e209]:
+              - generic [ref=e210]: Down payment
+              - strong [ref=e211]: 20%
+  - contentinfo [ref=e212]:
+    - generic [ref=e213]:
+      - generic [ref=e214]:
+        - generic [ref=e215]:
+          - link " PropVista Architected for premium property decisions." [ref=e216] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e218]: 
+            - generic [ref=e219]:
+              - strong [ref=e220]: PropVista
+              - generic [ref=e221]: Architected for premium property decisions.
+          - paragraph [ref=e222]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e223]:
+          - heading "Marketplace" [level=6] [ref=e224]
+          - link "Properties" [ref=e225] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e226] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e227] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e228]:
+          - heading "Dashboards" [level=6] [ref=e229]
+          - link "Buyer" [ref=e230] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e231] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e232] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e233]:
+          - heading "Developer" [level=6] [ref=e234]
+          - link "Swagger API docs" [ref=e235] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e236] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e237]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

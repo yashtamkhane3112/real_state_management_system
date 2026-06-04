@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block content %}<section class="container py-5"><div class="glass p-4"><h1>Delete {{ property.title }}?</h1><form method="post">{% csrf_token %}<button class="btn btn-danger">Delete</button></form></div></section>{% endblock %}
+

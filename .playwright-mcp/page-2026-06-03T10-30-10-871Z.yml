@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - button "Open navigation" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 
+      - text:  
+  - main [ref=e13]:
+    - generic [ref=e14]:
+      - complementary [ref=e15]:
+        - generic [ref=e16]: Agent CRM
+        - link " Pipeline" [ref=e17] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e18]: 
+          - text: Pipeline
+        - link " New lead" [ref=e19] [cursor=pointer]:
+          - /url: /leads/new/
+          - generic [ref=e20]: 
+          - text: New lead
+        - link " Assigned properties" [ref=e21] [cursor=pointer]:
+          - /url: /properties/new/
+          - generic [ref=e22]: 
+          - text: Assigned properties
+        - link " Performance" [ref=e23] [cursor=pointer]:
+          - /url: /reports/
+          - generic [ref=e24]: 
+          - text: Performance
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]:
+            - generic [ref=e28]: 
+            - text: Relationship intelligence
+          - heading "Agent CRM" [level=1] [ref=e29]
+          - paragraph [ref=e30]: Track leads, schedule follow-ups, and turn buyer intent into closed visits.
+          - link "Create lead" [ref=e31] [cursor=pointer]:
+            - /url: /leads/new/
+        - generic [ref=e32]:
+          - generic [ref=e34]:
+            - heading "Lead pipeline" [level=2] [ref=e35]
+            - generic [ref=e36]:
+              - generic [ref=e37]:
+                - strong [ref=e38]: New
+                - generic [ref=e39]:
+                  - text: Investor Lead
+                  - generic [ref=e40]: Score 50
+                - generic [ref=e41]:
+                  - text: Investor Lead
+                  - generic [ref=e42]: Score 50
+                - generic [ref=e43]:
+                  - text: Investor Lead
+                  - generic [ref=e44]: Score 50
+                - generic [ref=e45]:
+                  - text: Investor Lead
+                  - generic [ref=e46]: Score 50
+                - generic [ref=e47]:
+                  - text: Investor Lead
+                  - generic [ref=e48]: Score 50
+                - generic [ref=e49]:
+                  - text: Investor Lead
+                  - generic [ref=e50]: Score 50
+                - generic [ref=e51]:
+                  - text: Investor Lead
+                  - generic [ref=e52]: Score 50
+                - generic [ref=e53]:
+                  - text: Investor Lead
+                  - generic [ref=e54]: Score 50
+                - generic [ref=e55]:
+                  - text: Investor Lead
+                  - generic [ref=e56]: Score 50
+                - generic [ref=e57]:
+                  - text: Investor Lead
+                  - generic [ref=e58]: Score 50
+                - generic [ref=e59]:
+                  - text: Investor Lead
+                  - generic [ref=e60]: Score 50
+                - generic [ref=e61]:
+                  - text: Investor Lead
+                  - generic [ref=e62]: Score 50
+                - generic [ref=e63]:
+                  - text: Investor Lead
+                  - generic [ref=e64]: Score 50
+                - generic [ref=e65]:
+                  - text: Investor Lead
+                  - generic [ref=e66]: Score 50
+              - strong [ref=e68]: Contacted
+              - strong [ref=e70]: Visit
+              - strong [ref=e72]: Won
+              - strong [ref=e74]: Lost
+          - generic [ref=e75]:
+            - heading "Performance" [level=2] [ref=e77]
+            - generic [ref=e79]:
+              - heading "Follow-ups" [level=2] [ref=e80]
+              - generic [ref=e81]:
+                - generic [ref=e82]: Investor Lead
+                - strong [ref=e83]: Today
+              - generic [ref=e84]:
+                - generic [ref=e85]: Investor Lead
+                - strong [ref=e86]: Today
+              - generic [ref=e87]:
+                - generic [ref=e88]: Investor Lead
+                - strong [ref=e89]: Today
+              - generic [ref=e90]:
+                - generic [ref=e91]: Investor Lead
+                - strong [ref=e92]: Today
+              - generic [ref=e93]:
+                - generic [ref=e94]: Investor Lead
+                - strong [ref=e95]: Today
+              - generic [ref=e96]:
+                - generic [ref=e97]: Investor Lead
+                - strong [ref=e98]: Today
+              - generic [ref=e99]:
+                - generic [ref=e100]: Investor Lead
+                - strong [ref=e101]: Today
+              - generic [ref=e102]:
+                - generic [ref=e103]: Investor Lead
+                - strong [ref=e104]: Today
+              - generic [ref=e105]:
+                - generic [ref=e106]: Investor Lead
+                - strong [ref=e107]: Today
+              - generic [ref=e108]:
+                - generic [ref=e109]: Investor Lead
+                - strong [ref=e110]: Today
+              - generic [ref=e111]:
+                - generic [ref=e112]: Investor Lead
+                - strong [ref=e113]: Today
+              - generic [ref=e114]:
+                - generic [ref=e115]: Investor Lead
+                - strong [ref=e116]: Today
+              - generic [ref=e117]:
+                - generic [ref=e118]: Investor Lead
+                - strong [ref=e119]: Today
+              - generic [ref=e120]:
+                - generic [ref=e121]: Investor Lead
+                - strong [ref=e122]: Today
+  - contentinfo [ref=e123]:
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - generic [ref=e126]:
+          - link " PropVista Architected for premium property decisions." [ref=e127] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e129]: 
+            - generic [ref=e130]:
+              - strong [ref=e131]: PropVista
+              - generic [ref=e132]: Architected for premium property decisions.
+          - paragraph [ref=e133]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e134]:
+          - heading "Marketplace" [level=6] [ref=e135]
+          - link "Properties" [ref=e136] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e137] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e138] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e139]:
+          - heading "Dashboards" [level=6] [ref=e140]
+          - link "Buyer" [ref=e141] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e142] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e143] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e144]:
+          - heading "Developer" [level=6] [ref=e145]
+          - link "Swagger API docs" [ref=e146] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e147] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e148]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

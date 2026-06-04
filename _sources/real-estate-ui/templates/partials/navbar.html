@@ -1,0 +1,106 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold" href="{% url 'index' %}">
+            <i class="fas fa-home text-primary"></i> RealEstate
+        </a>
+        
+        <!-- Toggle Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Public Links -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'properties' %}">Properties</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+                </li>
+                
+                {% if user.is_authenticated %}
+                    <!-- Authenticated User Links -->
+                    {% if user.is_seller %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'create_property' %}">
+                            <i class="fas fa-plus"></i> List Property
+                        </a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'messages' %}">
+                            <i class="fas fa-envelope"></i> Messages
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'favorites' %}">
+                            <i class="fas fa-heart"></i> Favorites
+                        </a>
+                    </li>
+                    
+                    <!-- User Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle"></i> {{ user.first_name }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">
+                                <i class="fas fa-user"></i> My Profile
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a></li>
+                            
+                            {% if user.is_seller %}
+                            <li><a class="dropdown-item" href="{% url 'my_properties' %}">
+                                <i class="fas fa-home"></i> My Properties
+                            </a></li>
+                            <li><a class="dropdown-item" href="{% url 'property_inquiries' %}">
+                                <i class="fas fa-inbox"></i> Inquiries
+                            </a></li>
+                            {% endif %}
+                            
+                            {% if user.is_buyer %}
+                            <li><a class="dropdown-item" href="{% url 'my_inquiries' %}">
+                                <i class="fas fa-question-circle"></i> My Inquiries
+                            </a></li>
+                            {% endif %}
+                            
+                            {% if user.is_super_admin %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/admin/">
+                                <i class="fas fa-cog"></i> Admin Panel
+                            </a></li>
+                            {% endif %}
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <!-- Guest Links -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white ms-2" href="{% url 'register' %}">
+                            Sign Up
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

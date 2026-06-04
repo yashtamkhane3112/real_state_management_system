@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Browse Properties</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid px-4 py-4">
+        <div class="row g-4">
+            <!-- Conversations List -->
+            <div class="col-lg-4">
+                <div class="card" style="border: none; border-radius: 12px; height: 600px; overflow: hidden; display: flex; flex-direction: column;">
+                    <div class="card-body p-0 d-flex flex-column h-100">
+                        <div class="p-3 border-bottom">
+                            <h5 class="fw-bold mb-3">Messages</h5>
+                            <input type="text" class="form-control form-control-sm" placeholder="Search conversations..." style="border: 1px solid #d0d5dd;">
+                        </div>
+
+                        <div class="flex-grow-1 overflow-y-auto">
+                            <!-- Conversation 1 -->
+                            <div class="p-3 border-bottom" style="background-color: #f0f4f8; cursor: pointer;">
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">Sarah Johnson <span class="badge bg-primary ms-2">1</span></h6>
+                                        <p class="text-muted small mb-0">About Modern Downtown Villa</p>
+                                        <small class="text-muted">2 minutes ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conversation 2 -->
+                            <div class="p-3 border-bottom" style="cursor: pointer; hover: background-color: #f5f7fa;">
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">Michael Chen</h6>
+                                        <p class="text-muted small mb-0">Interested in scheduling a tour</p>
+                                        <small class="text-muted">15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conversation 3 -->
+                            <div class="p-3 border-bottom" style="cursor: pointer;">
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">Emily Rodriguez</h6>
+                                        <p class="text-muted small mb-0">Asking about financing options</p>
+                                        <small class="text-muted">1 hour ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conversation 4 -->
+                            <div class="p-3 border-bottom" style="cursor: pointer;">
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">David Martinez</h6>
+                                        <p class="text-muted small mb-0">Made an offer on your property</p>
+                                        <small class="text-muted">2 hours ago</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Conversation 5 -->
+                            <div class="p-3" style="cursor: pointer;">
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">Jennifer Lee</h6>
+                                        <p class="text-muted small mb-0">Thank you for your response</p>
+                                        <small class="text-muted">Yesterday</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Window -->
+            <div class="col-lg-8">
+                <div class="card" style="border: none; border-radius: 12px; height: 600px; overflow: hidden; display: flex; flex-direction: column;">
+                    <!-- Chat Header -->
+                    <div class="card-body p-3 border-bottom d-flex justify-content-between align-items-center" style="background-color: #f5f7fa;">
+                        <div class="d-flex align-items-center">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" class="rounded-circle me-3" alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+                            <div>
+                                <h6 class="fw-bold mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">Active now</small>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-secondary me-2" style="border: 1px solid #d0d5dd;">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" style="border: 1px solid #d0d5dd;">
+                                <i class="fas fa-video"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Messages -->
+                    <div class="flex-grow-1 overflow-y-auto p-4" style="background-color: #ffffff;">
+                        <!-- Message 1 (Received) -->
+                        <div class="mb-3 d-flex">
+                            <div class="rounded p-3" style="background-color: #e8ecf1; max-width: 70%;">
+                                <p class="mb-1">Hi, I&apos;m interested in the Modern Downtown Villa. Can I schedule a tour?</p>
+                                <small class="text-muted">10:30 AM</small>
+                            </div>
+                        </div>
+
+                        <!-- Message 2 (Sent) -->
+                        <div class="mb-3 d-flex justify-content-end">
+                            <div class="rounded p-3" style="background-color: #0066cc; color: white; max-width: 70%;">
+                                <p class="mb-1">Hi Sarah! Of course, I&apos;d be happy to arrange a tour for you.</p>
+                                <small style="opacity: 0.8;">10:35 AM</small>
+                            </div>
+                        </div>
+
+                        <!-- Message 3 (Received) -->
+                        <div class="mb-3 d-flex">
+                            <div class="rounded p-3" style="background-color: #e8ecf1; max-width: 70%;">
+                                <p class="mb-1">Great! How about this weekend at 2 PM?</p>
+                                <small class="text-muted">10:40 AM</small>
+                            </div>
+                        </div>
+
+                        <!-- Message 4 (Sent) -->
+                        <div class="mb-3 d-flex justify-content-end">
+                            <div class="rounded p-3" style="background-color: #0066cc; color: white; max-width: 70%;">
+                                <p class="mb-1">Perfect! Saturday at 2 PM works great. See you then!</p>
+                                <small style="opacity: 0.8;">10:45 AM</small>
+                            </div>
+                        </div>
+
+                        <!-- Message 5 (Received) -->
+                        <div class="mb-3 d-flex">
+                            <div class="rounded p-3" style="background-color: #e8ecf1; max-width: 70%;">
+                                <p class="mb-1">Thanks! Looking forward to it.</p>
+                                <small class="text-muted">Now</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Message Input -->
+                    <div class="p-3 border-top" style="background-color: #f5f7fa;">
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control" placeholder="Type your message..." style="border: 1px solid #d0d5dd;">
+                            <button class="btn btn-primary" style="background-color: #0066cc; border: none;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

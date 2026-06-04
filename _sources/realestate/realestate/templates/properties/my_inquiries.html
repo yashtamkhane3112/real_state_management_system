@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}My Inquiries{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h3 class="fw-bold mb-4">My Inquiries</h3>
+  <div class="card p-3"><div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Property</th><th>Message</th><th>Status</th><th>Reply</th><th>Date</th></tr></thead>
+    <tbody>
+      {% for i in inquiries %}
+      <tr>
+        <td><a href="{% url 'properties:detail' i.property.pk %}">{{ i.property.title }}</a></td>
+        <td class="small">{{ i.message|truncatechars:80 }}</td>
+        <td><span class="badge-status {{ i.status }}">{{ i.get_status_display }}</span></td>
+        <td class="small text-muted">{{ i.reply|default:"—"|truncatechars:80 }}</td>
+        <td class="small">{{ i.created_at|date:"M d, Y" }}</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center text-muted py-4">No inquiries yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table></div></div>
+</div>
+{% endblock %}

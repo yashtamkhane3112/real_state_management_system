@@ -1,0 +1,1236 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - text: 
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Properties" [ref=e13] [cursor=pointer]:
+          - /url: /properties/
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+        - link "AI Studio" [ref=e15] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e16]:
+        - link "Search properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+        - link "Notifications" [ref=e19] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+          - generic [ref=e20]: 
+        - link "AD" [ref=e21] [cursor=pointer]:
+          - /url: /accounts/profile/
+        - button "Logout" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e28]: 
+        - text: Curated marketplace
+      - generic [ref=e29]:
+        - generic [ref=e30]:
+          - heading "Properties for sale" [level=1] [ref=e31]
+          - paragraph [ref=e32]: Browse premium homes with map intelligence, verified amenities, and owner-ready inquiry workflows.
+        - link " Add property" [ref=e34] [cursor=pointer]:
+          - /url: /properties/new/
+          - generic [ref=e35]: 
+          - text: Add property
+    - generic [ref=e38]:
+      - complementary [ref=e39]:
+        - generic [ref=e40]:
+          - heading "Filters" [level=2] [ref=e41]
+          - generic [ref=e42]: 
+        - generic [ref=e43]:
+          - textbox "Search keyword or landmark" [ref=e44]
+          - textbox "City" [ref=e45]
+          - textbox "Locality" [ref=e46]
+          - combobox [ref=e47]:
+            - option "Property type" [selected]
+            - option "Apartment"
+            - option "House"
+            - option "Villa"
+            - option "Plot"
+            - option "Commercial"
+            - option "Office"
+          - generic [ref=e48]:
+            - textbox "Min price" [ref=e50]
+            - textbox "Max price" [ref=e52]
+          - generic [ref=e53]:
+            - textbox "Beds" [ref=e55]
+            - textbox "Baths" [ref=e57]
+          - combobox [ref=e58]:
+            - 'option "Sort: Featured" [selected]'
+            - option "Price low to high"
+            - option "Price high to low"
+            - option "Popularity"
+            - option "Newest"
+          - button "Apply filters" [ref=e59] [cursor=pointer]
+      - generic [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - strong [ref=e63]: Showing premium matches
+            - generic [ref=e64]: Map view and grid view stay synchronized.
+          - link " Map view" [ref=e65] [cursor=pointer]:
+            - /url: "#listingMap"
+            - generic [ref=e66]: 
+            - text: Map view
+        - generic [ref=e67]:
+          - article [ref=e69]:
+            - generic [ref=e70]:
+              - generic [ref=e73]:
+                - generic [ref=e74]: 
+                - text: Featured
+              - link "Save property" [ref=e75] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-6-pune-hinjewadi/
+                - generic [ref=e76]: 
+              - link "Quick view " [ref=e77] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-6-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e78]: 
+            - generic [ref=e79]:
+              - generic [ref=e80]: Rs 42400000
+              - heading "Hinjewadi Signature Residence 6" [level=3] [ref=e81]
+              - generic [ref=e82]:
+                - generic [ref=e83]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e84]:
+                - generic [ref=e85]:
+                  - generic [ref=e86]: 
+                  - text: 1 BHK
+                - generic [ref=e87]:
+                  - generic [ref=e88]: 
+                  - text: 2 Bath
+                - generic [ref=e89]:
+                  - generic [ref=e90]: 
+                  - text: 2237 sqft
+          - article [ref=e92]:
+            - generic [ref=e93]:
+              - generic [ref=e96]:
+                - generic [ref=e97]: 
+                - text: Featured
+              - link "Save property" [ref=e98] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-5-mumbai-bandra/
+                - generic [ref=e99]: 
+              - link "Quick view " [ref=e100] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-5-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e101]: 
+            - generic [ref=e102]:
+              - generic [ref=e103]: Rs 24200000
+              - heading "Bandra Signature Residence 5" [level=3] [ref=e104]
+              - generic [ref=e105]:
+                - generic [ref=e106]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e107]:
+                - generic [ref=e108]:
+                  - generic [ref=e109]: 
+                  - text: 3 BHK
+                - generic [ref=e110]:
+                  - generic [ref=e111]: 
+                  - text: 1 Bath
+                - generic [ref=e112]:
+                  - generic [ref=e113]: 
+                  - text: 1756 sqft
+          - article [ref=e115]:
+            - generic [ref=e116]:
+              - generic [ref=e119]:
+                - generic [ref=e120]: 
+                - text: Featured
+              - link "Save property" [ref=e121] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-4-mumbai-bandra/
+                - generic [ref=e122]: 
+              - link "Quick view " [ref=e123] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-4-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e124]: 
+            - generic [ref=e125]:
+              - generic [ref=e126]: Rs 24200000
+              - heading "Bandra Signature Residence 4" [level=3] [ref=e127]
+              - generic [ref=e128]:
+                - generic [ref=e129]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - generic [ref=e132]: 
+                  - text: 3 BHK
+                - generic [ref=e133]:
+                  - generic [ref=e134]: 
+                  - text: 1 Bath
+                - generic [ref=e135]:
+                  - generic [ref=e136]: 
+                  - text: 3740 sqft
+          - article [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e142]:
+                - generic [ref=e143]: 
+                - text: Featured
+              - link "Save property" [ref=e144] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-1-pune-hinjewadi/
+                - generic [ref=e145]: 
+              - link "Quick view " [ref=e146] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-1-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e147]: 
+            - generic [ref=e148]:
+              - generic [ref=e149]: Rs 35300000
+              - heading "Hinjewadi Signature Residence 1" [level=3] [ref=e150]
+              - generic [ref=e151]:
+                - generic [ref=e152]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e153]:
+                - generic [ref=e154]:
+                  - generic [ref=e155]: 
+                  - text: 3 BHK
+                - generic [ref=e156]:
+                  - generic [ref=e157]: 
+                  - text: 1 Bath
+                - generic [ref=e158]:
+                  - generic [ref=e159]: 
+                  - text: 3103 sqft
+          - article [ref=e161]:
+            - generic [ref=e162]:
+              - generic [ref=e165]:
+                - generic [ref=e166]: 
+                - text: Featured
+              - link "Save property" [ref=e167] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-6-bengaluru-whitefield/
+                - generic [ref=e168]: 
+              - link "Quick view " [ref=e169] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-6-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e170]: 
+            - generic [ref=e171]:
+              - generic [ref=e172]: Rs 15100000
+              - heading "Whitefield Signature Residence 6" [level=3] [ref=e173]
+              - generic [ref=e174]:
+                - generic [ref=e175]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e176]:
+                - generic [ref=e177]:
+                  - generic [ref=e178]: 
+                  - text: 2 BHK
+                - generic [ref=e179]:
+                  - generic [ref=e180]: 
+                  - text: 2 Bath
+                - generic [ref=e181]:
+                  - generic [ref=e182]: 
+                  - text: 1625 sqft
+          - article [ref=e184]:
+            - generic [ref=e185]:
+              - generic [ref=e188]:
+                - generic [ref=e189]: 
+                - text: Featured
+              - link "Save property" [ref=e190] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-4-pune-hinjewadi/
+                - generic [ref=e191]: 
+              - link "Quick view " [ref=e192] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-4-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e193]: 
+            - generic [ref=e194]:
+              - generic [ref=e195]: Rs 8900000
+              - heading "Hinjewadi Signature Residence 4" [level=3] [ref=e196]
+              - generic [ref=e197]:
+                - generic [ref=e198]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - generic [ref=e201]: 
+                  - text: 1 BHK
+                - generic [ref=e202]:
+                  - generic [ref=e203]: 
+                  - text: 4 Bath
+                - generic [ref=e204]:
+                  - generic [ref=e205]: 
+                  - text: 3184 sqft
+          - article [ref=e207]:
+            - generic [ref=e208]:
+              - generic [ref=e211]:
+                - generic [ref=e212]: 
+                - text: Featured
+              - link "Save property" [ref=e213] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-3-pune-hinjewadi/
+                - generic [ref=e214]: 
+              - link "Quick view " [ref=e215] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-3-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e216]: 
+            - generic [ref=e217]:
+              - generic [ref=e218]: Rs 42500000
+              - heading "Hinjewadi Signature Residence 3" [level=3] [ref=e219]
+              - generic [ref=e220]:
+                - generic [ref=e221]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e222]:
+                - generic [ref=e223]:
+                  - generic [ref=e224]: 
+                  - text: 5 BHK
+                - generic [ref=e225]:
+                  - generic [ref=e226]: 
+                  - text: 4 Bath
+                - generic [ref=e227]:
+                  - generic [ref=e228]: 
+                  - text: 1049 sqft
+          - article [ref=e230]:
+            - generic [ref=e231]:
+              - generic [ref=e234]:
+                - generic [ref=e235]: 
+                - text: Featured
+              - link "Save property" [ref=e236] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-2-mumbai-bandra/
+                - generic [ref=e237]: 
+              - link "Quick view " [ref=e238] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-2-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e239]: 
+            - generic [ref=e240]:
+              - generic [ref=e241]: Rs 41300000
+              - heading "Bandra Signature Residence 2" [level=3] [ref=e242]
+              - generic [ref=e243]:
+                - generic [ref=e244]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e245]:
+                - generic [ref=e246]:
+                  - generic [ref=e247]: 
+                  - text: 5 BHK
+                - generic [ref=e248]:
+                  - generic [ref=e249]: 
+                  - text: 4 Bath
+                - generic [ref=e250]:
+                  - generic [ref=e251]: 
+                  - text: 4090 sqft
+          - article [ref=e253]:
+            - generic [ref=e254]:
+              - generic [ref=e257]:
+                - generic [ref=e258]: 
+                - text: Featured
+              - link "Save property" [ref=e259] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-6-mumbai-bandra/
+                - generic [ref=e260]: 
+              - link "Quick view " [ref=e261] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-6-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e262]: 
+            - generic [ref=e263]:
+              - generic [ref=e264]: Rs 10100000
+              - heading "Bandra Signature Residence 6" [level=3] [ref=e265]
+              - generic [ref=e266]:
+                - generic [ref=e267]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e268]:
+                - generic [ref=e269]:
+                  - generic [ref=e270]: 
+                  - text: 5 BHK
+                - generic [ref=e271]:
+                  - generic [ref=e272]: 
+                  - text: 4 Bath
+                - generic [ref=e273]:
+                  - generic [ref=e274]: 
+                  - text: 774 sqft
+          - article [ref=e276]:
+            - generic [ref=e277]:
+              - generic [ref=e280]:
+                - generic [ref=e281]: 
+                - text: Featured
+              - link "Save property" [ref=e282] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-4-bengaluru-whitefield/
+                - generic [ref=e283]: 
+              - link "Quick view " [ref=e284] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-4-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e285]: 
+            - generic [ref=e286]:
+              - generic [ref=e287]: Rs 21900000
+              - heading "Whitefield Signature Residence 4" [level=3] [ref=e288]
+              - generic [ref=e289]:
+                - generic [ref=e290]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e291]:
+                - generic [ref=e292]:
+                  - generic [ref=e293]: 
+                  - text: 4 BHK
+                - generic [ref=e294]:
+                  - generic [ref=e295]: 
+                  - text: 4 Bath
+                - generic [ref=e296]:
+                  - generic [ref=e297]: 
+                  - text: 2804 sqft
+          - article [ref=e299]:
+            - generic [ref=e300]:
+              - generic [ref=e303]:
+                - generic [ref=e304]: 
+                - text: Featured
+              - link "Save property" [ref=e305] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-5-bengaluru-whitefield/
+                - generic [ref=e306]: 
+              - link "Quick view " [ref=e307] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-5-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e308]: 
+            - generic [ref=e309]:
+              - generic [ref=e310]: Rs 38300000
+              - heading "Whitefield Signature Residence 5" [level=3] [ref=e311]
+              - generic [ref=e312]:
+                - generic [ref=e313]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e314]:
+                - generic [ref=e315]:
+                  - generic [ref=e316]: 
+                  - text: 3 BHK
+                - generic [ref=e317]:
+                  - generic [ref=e318]: 
+                  - text: 1 Bath
+                - generic [ref=e319]:
+                  - generic [ref=e320]: 
+                  - text: 2526 sqft
+          - article [ref=e322]:
+            - generic [ref=e323]:
+              - generic [ref=e326]:
+                - generic [ref=e327]: 
+                - text: Featured
+              - link "Save property" [ref=e328] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-3-mumbai-bandra/
+                - generic [ref=e329]: 
+              - link "Quick view " [ref=e330] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-3-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e331]: 
+            - generic [ref=e332]:
+              - generic [ref=e333]: Rs 37100000
+              - heading "Bandra Signature Residence 3" [level=3] [ref=e334]
+              - generic [ref=e335]:
+                - generic [ref=e336]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e337]:
+                - generic [ref=e338]:
+                  - generic [ref=e339]: 
+                  - text: 2 BHK
+                - generic [ref=e340]:
+                  - generic [ref=e341]: 
+                  - text: 4 Bath
+                - generic [ref=e342]:
+                  - generic [ref=e343]: 
+                  - text: 4033 sqft
+          - article [ref=e345]:
+            - generic [ref=e346]:
+              - generic [ref=e349]:
+                - generic [ref=e350]: 
+                - text: Featured
+              - link "Save property" [ref=e351] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-2-bengaluru-whitefield/
+                - generic [ref=e352]: 
+              - link "Quick view " [ref=e353] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-2-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e354]: 
+            - generic [ref=e355]:
+              - generic [ref=e356]: Rs 22800000
+              - heading "Whitefield Signature Residence 2" [level=3] [ref=e357]
+              - generic [ref=e358]:
+                - generic [ref=e359]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e360]:
+                - generic [ref=e361]:
+                  - generic [ref=e362]: 
+                  - text: 4 BHK
+                - generic [ref=e363]:
+                  - generic [ref=e364]: 
+                  - text: 3 Bath
+                - generic [ref=e365]:
+                  - generic [ref=e366]: 
+                  - text: 3053 sqft
+          - article [ref=e368]:
+            - generic [ref=e369]:
+              - generic [ref=e372]:
+                - generic [ref=e373]: 
+                - text: Featured
+              - link "Save property" [ref=e374] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-1-mumbai-bandra/
+                - generic [ref=e375]: 
+              - link "Quick view " [ref=e376] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-1-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e377]: 
+            - generic [ref=e378]:
+              - generic [ref=e379]: Rs 43300000
+              - heading "Bandra Signature Residence 1" [level=3] [ref=e380]
+              - generic [ref=e381]:
+                - generic [ref=e382]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e383]:
+                - generic [ref=e384]:
+                  - generic [ref=e385]: 
+                  - text: 3 BHK
+                - generic [ref=e386]:
+                  - generic [ref=e387]: 
+                  - text: 1 Bath
+                - generic [ref=e388]:
+                  - generic [ref=e389]: 
+                  - text: 3530 sqft
+          - article [ref=e391]:
+            - generic [ref=e392]:
+              - generic [ref=e395]:
+                - generic [ref=e396]: 
+                - text: Verified
+              - link "Save property" [ref=e397] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-18-mumbai-bandra/
+                - generic [ref=e398]: 
+              - link "Quick view " [ref=e399] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-18-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e400]: 
+            - generic [ref=e401]:
+              - generic [ref=e402]: Rs 19200000
+              - heading "Bandra Signature Residence 18" [level=3] [ref=e403]
+              - generic [ref=e404]:
+                - generic [ref=e405]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e406]:
+                - generic [ref=e407]:
+                  - generic [ref=e408]: 
+                  - text: 5 BHK
+                - generic [ref=e409]:
+                  - generic [ref=e410]: 
+                  - text: 4 Bath
+                - generic [ref=e411]:
+                  - generic [ref=e412]: 
+                  - text: 795 sqft
+          - article [ref=e414]:
+            - generic [ref=e415]:
+              - generic [ref=e418]:
+                - generic [ref=e419]: 
+                - text: Verified
+              - link "Save property" [ref=e420] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-17-pune-hinjewadi/
+                - generic [ref=e421]: 
+              - link "Quick view " [ref=e422] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-17-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e423]: 
+            - generic [ref=e424]:
+              - generic [ref=e425]: Rs 30200000
+              - heading "Hinjewadi Signature Residence 17" [level=3] [ref=e426]
+              - generic [ref=e427]:
+                - generic [ref=e428]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e429]:
+                - generic [ref=e430]:
+                  - generic [ref=e431]: 
+                  - text: 2 BHK
+                - generic [ref=e432]:
+                  - generic [ref=e433]: 
+                  - text: 3 Bath
+                - generic [ref=e434]:
+                  - generic [ref=e435]: 
+                  - text: 2165 sqft
+          - article [ref=e437]:
+            - generic [ref=e438]:
+              - generic [ref=e441]:
+                - generic [ref=e442]: 
+                - text: Verified
+              - link "Save property" [ref=e443] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-15-mumbai-bandra/
+                - generic [ref=e444]: 
+              - link "Quick view " [ref=e445] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-15-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e446]: 
+            - generic [ref=e447]:
+              - generic [ref=e448]: Rs 22000000
+              - heading "Bandra Signature Residence 15" [level=3] [ref=e449]
+              - generic [ref=e450]:
+                - generic [ref=e451]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e452]:
+                - generic [ref=e453]:
+                  - generic [ref=e454]: 
+                  - text: 2 BHK
+                - generic [ref=e455]:
+                  - generic [ref=e456]: 
+                  - text: 2 Bath
+                - generic [ref=e457]:
+                  - generic [ref=e458]: 
+                  - text: 1414 sqft
+          - article [ref=e460]:
+            - generic [ref=e461]:
+              - generic [ref=e464]:
+                - generic [ref=e465]: 
+                - text: Verified
+              - link "Save property" [ref=e466] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-13-mumbai-bandra/
+                - generic [ref=e467]: 
+              - link "Quick view " [ref=e468] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-13-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e469]: 
+            - generic [ref=e470]:
+              - generic [ref=e471]: Rs 14800000
+              - heading "Bandra Signature Residence 13" [level=3] [ref=e472]
+              - generic [ref=e473]:
+                - generic [ref=e474]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e475]:
+                - generic [ref=e476]:
+                  - generic [ref=e477]: 
+                  - text: 5 BHK
+                - generic [ref=e478]:
+                  - generic [ref=e479]: 
+                  - text: 3 Bath
+                - generic [ref=e480]:
+                  - generic [ref=e481]: 
+                  - text: 1532 sqft
+          - article [ref=e483]:
+            - generic [ref=e484]:
+              - generic [ref=e487]:
+                - generic [ref=e488]: 
+                - text: Verified
+              - link "Save property" [ref=e489] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-11-bengaluru-whitefield/
+                - generic [ref=e490]: 
+              - link "Quick view " [ref=e491] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-11-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e492]: 
+            - generic [ref=e493]:
+              - generic [ref=e494]: Rs 29000000
+              - heading "Whitefield Signature Residence 11" [level=3] [ref=e495]
+              - generic [ref=e496]:
+                - generic [ref=e497]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e498]:
+                - generic [ref=e499]:
+                  - generic [ref=e500]: 
+                  - text: 1 BHK
+                - generic [ref=e501]:
+                  - generic [ref=e502]: 
+                  - text: 1 Bath
+                - generic [ref=e503]:
+                  - generic [ref=e504]: 
+                  - text: 3912 sqft
+          - article [ref=e506]:
+            - generic [ref=e507]:
+              - generic [ref=e510]:
+                - generic [ref=e511]: 
+                - text: Verified
+              - link "Save property" [ref=e512] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-8-bengaluru-whitefield/
+                - generic [ref=e513]: 
+              - link "Quick view " [ref=e514] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-8-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e515]: 
+            - generic [ref=e516]:
+              - generic [ref=e517]: Rs 24100000
+              - heading "Whitefield Signature Residence 8" [level=3] [ref=e518]
+              - generic [ref=e519]:
+                - generic [ref=e520]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e521]:
+                - generic [ref=e522]:
+                  - generic [ref=e523]: 
+                  - text: 1 BHK
+                - generic [ref=e524]:
+                  - generic [ref=e525]: 
+                  - text: 4 Bath
+                - generic [ref=e526]:
+                  - generic [ref=e527]: 
+                  - text: 3082 sqft
+          - article [ref=e529]:
+            - generic [ref=e530]:
+              - generic [ref=e533]:
+                - generic [ref=e534]: 
+                - text: Verified
+              - link "Save property" [ref=e535] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-19-mumbai-bandra/
+                - generic [ref=e536]: 
+              - link "Quick view " [ref=e537] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-19-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e538]: 
+            - generic [ref=e539]:
+              - generic [ref=e540]: Rs 25700000
+              - heading "Bandra Signature Residence 19" [level=3] [ref=e541]
+              - generic [ref=e542]:
+                - generic [ref=e543]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e544]:
+                - generic [ref=e545]:
+                  - generic [ref=e546]: 
+                  - text: 5 BHK
+                - generic [ref=e547]:
+                  - generic [ref=e548]: 
+                  - text: 4 Bath
+                - generic [ref=e549]:
+                  - generic [ref=e550]: 
+                  - text: 1255 sqft
+          - article [ref=e552]:
+            - generic [ref=e553]:
+              - generic [ref=e556]:
+                - generic [ref=e557]: 
+                - text: Verified
+              - link "Save property" [ref=e558] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-17-bengaluru-whitefield/
+                - generic [ref=e559]: 
+              - link "Quick view " [ref=e560] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-17-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e561]: 
+            - generic [ref=e562]:
+              - generic [ref=e563]: Rs 20700000
+              - heading "Whitefield Signature Residence 17" [level=3] [ref=e564]
+              - generic [ref=e565]:
+                - generic [ref=e566]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e567]:
+                - generic [ref=e568]:
+                  - generic [ref=e569]: 
+                  - text: 3 BHK
+                - generic [ref=e570]:
+                  - generic [ref=e571]: 
+                  - text: 3 Bath
+                - generic [ref=e572]:
+                  - generic [ref=e573]: 
+                  - text: 3036 sqft
+          - article [ref=e575]:
+            - generic [ref=e576]:
+              - generic [ref=e579]:
+                - generic [ref=e580]: 
+                - text: Verified
+              - link "Save property" [ref=e581] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-13-pune-hinjewadi/
+                - generic [ref=e582]: 
+              - link "Quick view " [ref=e583] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-13-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e584]: 
+            - generic [ref=e585]:
+              - generic [ref=e586]: Rs 37000000
+              - heading "Hinjewadi Signature Residence 13" [level=3] [ref=e587]
+              - generic [ref=e588]:
+                - generic [ref=e589]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e590]:
+                - generic [ref=e591]:
+                  - generic [ref=e592]: 
+                  - text: 5 BHK
+                - generic [ref=e593]:
+                  - generic [ref=e594]: 
+                  - text: 4 Bath
+                - generic [ref=e595]:
+                  - generic [ref=e596]: 
+                  - text: 3602 sqft
+          - article [ref=e598]:
+            - generic [ref=e599]:
+              - generic [ref=e602]:
+                - generic [ref=e603]: 
+                - text: Verified
+              - link "Save property" [ref=e604] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-14-pune-hinjewadi/
+                - generic [ref=e605]: 
+              - link "Quick view " [ref=e606] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-14-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e607]: 
+            - generic [ref=e608]:
+              - generic [ref=e609]: Rs 20100000
+              - heading "Hinjewadi Signature Residence 14" [level=3] [ref=e610]
+              - generic [ref=e611]:
+                - generic [ref=e612]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e613]:
+                - generic [ref=e614]:
+                  - generic [ref=e615]: 
+                  - text: 4 BHK
+                - generic [ref=e616]:
+                  - generic [ref=e617]: 
+                  - text: 2 Bath
+                - generic [ref=e618]:
+                  - generic [ref=e619]: 
+                  - text: 3381 sqft
+          - article [ref=e621]:
+            - generic [ref=e622]:
+              - generic [ref=e625]:
+                - generic [ref=e626]: 
+                - text: Verified
+              - link "Save property" [ref=e627] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-12-bengaluru-whitefield/
+                - generic [ref=e628]: 
+              - link "Quick view " [ref=e629] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-12-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e630]: 
+            - generic [ref=e631]:
+              - generic [ref=e632]: Rs 9400000
+              - heading "Whitefield Signature Residence 12" [level=3] [ref=e633]
+              - generic [ref=e634]:
+                - generic [ref=e635]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e636]:
+                - generic [ref=e637]:
+                  - generic [ref=e638]: 
+                  - text: 5 BHK
+                - generic [ref=e639]:
+                  - generic [ref=e640]: 
+                  - text: 1 Bath
+                - generic [ref=e641]:
+                  - generic [ref=e642]: 
+                  - text: 3499 sqft
+          - article [ref=e644]:
+            - generic [ref=e645]:
+              - generic [ref=e648]:
+                - generic [ref=e649]: 
+                - text: Verified
+              - link "Save property" [ref=e650] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-11-mumbai-bandra/
+                - generic [ref=e651]: 
+              - link "Quick view " [ref=e652] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-11-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e653]: 
+            - generic [ref=e654]:
+              - generic [ref=e655]: Rs 18200000
+              - heading "Bandra Signature Residence 11" [level=3] [ref=e656]
+              - generic [ref=e657]:
+                - generic [ref=e658]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e659]:
+                - generic [ref=e660]:
+                  - generic [ref=e661]: 
+                  - text: 1 BHK
+                - generic [ref=e662]:
+                  - generic [ref=e663]: 
+                  - text: 2 Bath
+                - generic [ref=e664]:
+                  - generic [ref=e665]: 
+                  - text: 997 sqft
+          - article [ref=e667]:
+            - generic [ref=e668]:
+              - generic [ref=e671]:
+                - generic [ref=e672]: 
+                - text: Verified
+              - link "Save property" [ref=e673] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-9-bengaluru-whitefield/
+                - generic [ref=e674]: 
+              - link "Quick view " [ref=e675] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-9-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e676]: 
+            - generic [ref=e677]:
+              - generic [ref=e678]: Rs 17400000
+              - heading "Whitefield Signature Residence 9" [level=3] [ref=e679]
+              - generic [ref=e680]:
+                - generic [ref=e681]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e682]:
+                - generic [ref=e683]:
+                  - generic [ref=e684]: 
+                  - text: 5 BHK
+                - generic [ref=e685]:
+                  - generic [ref=e686]: 
+                  - text: 1 Bath
+                - generic [ref=e687]:
+                  - generic [ref=e688]: 
+                  - text: 3529 sqft
+          - article [ref=e690]:
+            - generic [ref=e691]:
+              - generic [ref=e694]:
+                - generic [ref=e695]: 
+                - text: Verified
+              - link "Save property" [ref=e696] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-19-pune-hinjewadi/
+                - generic [ref=e697]: 
+              - link "Quick view " [ref=e698] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-19-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e699]: 
+            - generic [ref=e700]:
+              - generic [ref=e701]: Rs 15900000
+              - heading "Hinjewadi Signature Residence 19" [level=3] [ref=e702]
+              - generic [ref=e703]:
+                - generic [ref=e704]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e705]:
+                - generic [ref=e706]:
+                  - generic [ref=e707]: 
+                  - text: 3 BHK
+                - generic [ref=e708]:
+                  - generic [ref=e709]: 
+                  - text: 3 Bath
+                - generic [ref=e710]:
+                  - generic [ref=e711]: 
+                  - text: 1338 sqft
+          - article [ref=e713]:
+            - generic [ref=e714]:
+              - generic [ref=e717]:
+                - generic [ref=e718]: 
+                - text: Verified
+              - link "Save property" [ref=e719] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-17-mumbai-bandra/
+                - generic [ref=e720]: 
+              - link "Quick view " [ref=e721] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-17-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e722]: 
+            - generic [ref=e723]:
+              - generic [ref=e724]: Rs 27900000
+              - heading "Bandra Signature Residence 17" [level=3] [ref=e725]
+              - generic [ref=e726]:
+                - generic [ref=e727]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e728]:
+                - generic [ref=e729]:
+                  - generic [ref=e730]: 
+                  - text: 3 BHK
+                - generic [ref=e731]:
+                  - generic [ref=e732]: 
+                  - text: 2 Bath
+                - generic [ref=e733]:
+                  - generic [ref=e734]: 
+                  - text: 1253 sqft
+          - article [ref=e736]:
+            - generic [ref=e737]:
+              - generic [ref=e740]:
+                - generic [ref=e741]: 
+                - text: Verified
+              - link "Save property" [ref=e742] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-18-bengaluru-whitefield/
+                - generic [ref=e743]: 
+              - link "Quick view " [ref=e744] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-18-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e745]: 
+            - generic [ref=e746]:
+              - generic [ref=e747]: Rs 44600000
+              - heading "Whitefield Signature Residence 18" [level=3] [ref=e748]
+              - generic [ref=e749]:
+                - generic [ref=e750]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e751]:
+                - generic [ref=e752]:
+                  - generic [ref=e753]: 
+                  - text: 1 BHK
+                - generic [ref=e754]:
+                  - generic [ref=e755]: 
+                  - text: 1 Bath
+                - generic [ref=e756]:
+                  - generic [ref=e757]: 
+                  - text: 3603 sqft
+          - article [ref=e759]:
+            - generic [ref=e760]:
+              - generic [ref=e763]:
+                - generic [ref=e764]: 
+                - text: Verified
+              - link "Save property" [ref=e765] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-15-bengaluru-whitefield/
+                - generic [ref=e766]: 
+              - link "Quick view " [ref=e767] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-15-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e768]: 
+            - generic [ref=e769]:
+              - generic [ref=e770]: Rs 41600000
+              - heading "Whitefield Signature Residence 15" [level=3] [ref=e771]
+              - generic [ref=e772]:
+                - generic [ref=e773]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e774]:
+                - generic [ref=e775]:
+                  - generic [ref=e776]: 
+                  - text: 4 BHK
+                - generic [ref=e777]:
+                  - generic [ref=e778]: 
+                  - text: 3 Bath
+                - generic [ref=e779]:
+                  - generic [ref=e780]: 
+                  - text: 2256 sqft
+          - article [ref=e782]:
+            - generic [ref=e783]:
+              - generic [ref=e786]:
+                - generic [ref=e787]: 
+                - text: Verified
+              - link "Save property" [ref=e788] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-16-bengaluru-whitefield/
+                - generic [ref=e789]: 
+              - link "Quick view " [ref=e790] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-16-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e791]: 
+            - generic [ref=e792]:
+              - generic [ref=e793]: Rs 26400000
+              - heading "Whitefield Signature Residence 16" [level=3] [ref=e794]
+              - generic [ref=e795]:
+                - generic [ref=e796]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e797]:
+                - generic [ref=e798]:
+                  - generic [ref=e799]: 
+                  - text: 4 BHK
+                - generic [ref=e800]:
+                  - generic [ref=e801]: 
+                  - text: 2 Bath
+                - generic [ref=e802]:
+                  - generic [ref=e803]: 
+                  - text: 3700 sqft
+          - article [ref=e805]:
+            - generic [ref=e806]:
+              - generic [ref=e809]:
+                - generic [ref=e810]: 
+                - text: Verified
+              - link "Save property" [ref=e811] [cursor=pointer]:
+                - /url: /favorites/toggle/whitefield-signature-residence-13-bengaluru-whitefield/
+                - generic [ref=e812]: 
+              - link "Quick view " [ref=e813] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-13-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e814]: 
+            - generic [ref=e815]:
+              - generic [ref=e816]: Rs 10400000
+              - heading "Whitefield Signature Residence 13" [level=3] [ref=e817]
+              - generic [ref=e818]:
+                - generic [ref=e819]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e820]:
+                - generic [ref=e821]:
+                  - generic [ref=e822]: 
+                  - text: 2 BHK
+                - generic [ref=e823]:
+                  - generic [ref=e824]: 
+                  - text: 4 Bath
+                - generic [ref=e825]:
+                  - generic [ref=e826]: 
+                  - text: 3723 sqft
+          - article [ref=e828]:
+            - generic [ref=e829]:
+              - generic [ref=e832]:
+                - generic [ref=e833]: 
+                - text: Verified
+              - link "Save property" [ref=e834] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-14-mumbai-bandra/
+                - generic [ref=e835]: 
+              - link "Quick view " [ref=e836] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-14-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e837]: 
+            - generic [ref=e838]:
+              - generic [ref=e839]: Rs 21200000
+              - heading "Bandra Signature Residence 14" [level=3] [ref=e840]
+              - generic [ref=e841]:
+                - generic [ref=e842]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e843]:
+                - generic [ref=e844]:
+                  - generic [ref=e845]: 
+                  - text: 5 BHK
+                - generic [ref=e846]:
+                  - generic [ref=e847]: 
+                  - text: 2 Bath
+                - generic [ref=e848]:
+                  - generic [ref=e849]: 
+                  - text: 3517 sqft
+          - article [ref=e851]:
+            - generic [ref=e852]:
+              - generic [ref=e855]:
+                - generic [ref=e856]: 
+                - text: Verified
+              - link "Save property" [ref=e857] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-12-mumbai-bandra/
+                - generic [ref=e858]: 
+              - link "Quick view " [ref=e859] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-12-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e860]: 
+            - generic [ref=e861]:
+              - generic [ref=e862]: Rs 28400000
+              - heading "Bandra Signature Residence 12" [level=3] [ref=e863]
+              - generic [ref=e864]:
+                - generic [ref=e865]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e866]:
+                - generic [ref=e867]:
+                  - generic [ref=e868]: 
+                  - text: 1 BHK
+                - generic [ref=e869]:
+                  - generic [ref=e870]: 
+                  - text: 4 Bath
+                - generic [ref=e871]:
+                  - generic [ref=e872]: 
+                  - text: 725 sqft
+          - article [ref=e874]:
+            - generic [ref=e875]:
+              - generic [ref=e878]:
+                - generic [ref=e879]: 
+                - text: Verified
+              - link "Save property" [ref=e880] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-11-pune-hinjewadi/
+                - generic [ref=e881]: 
+              - link "Quick view " [ref=e882] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-11-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e883]: 
+            - generic [ref=e884]:
+              - generic [ref=e885]: Rs 26900000
+              - heading "Hinjewadi Signature Residence 11" [level=3] [ref=e886]
+              - generic [ref=e887]:
+                - generic [ref=e888]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e889]:
+                - generic [ref=e890]:
+                  - generic [ref=e891]: 
+                  - text: 5 BHK
+                - generic [ref=e892]:
+                  - generic [ref=e893]: 
+                  - text: 4 Bath
+                - generic [ref=e894]:
+                  - generic [ref=e895]: 
+                  - text: 3875 sqft
+          - article [ref=e897]:
+            - generic [ref=e898]:
+              - generic [ref=e901]:
+                - generic [ref=e902]: 
+                - text: Verified
+              - link "Save property" [ref=e903] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-9-pune-hinjewadi/
+                - generic [ref=e904]: 
+              - link "Quick view " [ref=e905] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-9-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e906]: 
+            - generic [ref=e907]:
+              - generic [ref=e908]: Rs 32400000
+              - heading "Hinjewadi Signature Residence 9" [level=3] [ref=e909]
+              - generic [ref=e910]:
+                - generic [ref=e911]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e912]:
+                - generic [ref=e913]:
+                  - generic [ref=e914]: 
+                  - text: 3 BHK
+                - generic [ref=e915]:
+                  - generic [ref=e916]: 
+                  - text: 1 Bath
+                - generic [ref=e917]:
+                  - generic [ref=e918]: 
+                  - text: 1506 sqft
+          - article [ref=e920]:
+            - generic [ref=e921]:
+              - generic [ref=e924]:
+                - generic [ref=e925]: 
+                - text: Verified
+              - link "Save property" [ref=e926] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-10-pune-hinjewadi/
+                - generic [ref=e927]: 
+              - link "Quick view " [ref=e928] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-10-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e929]: 
+            - generic [ref=e930]:
+              - generic [ref=e931]: Rs 20400000
+              - heading "Hinjewadi Signature Residence 10" [level=3] [ref=e932]
+              - generic [ref=e933]:
+                - generic [ref=e934]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e935]:
+                - generic [ref=e936]:
+                  - generic [ref=e937]: 
+                  - text: 3 BHK
+                - generic [ref=e938]:
+                  - generic [ref=e939]: 
+                  - text: 3 Bath
+                - generic [ref=e940]:
+                  - generic [ref=e941]: 
+                  - text: 1175 sqft
+          - article [ref=e943]:
+            - generic [ref=e944]:
+              - generic [ref=e947]:
+                - generic [ref=e948]: 
+                - text: Verified
+              - link "Save property" [ref=e949] [cursor=pointer]:
+                - /url: /favorites/toggle/bandra-signature-residence-8-mumbai-bandra/
+                - generic [ref=e950]: 
+              - link "Quick view " [ref=e951] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-8-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e952]: 
+            - generic [ref=e953]:
+              - generic [ref=e954]: Rs 19600000
+              - heading "Bandra Signature Residence 8" [level=3] [ref=e955]
+              - generic [ref=e956]:
+                - generic [ref=e957]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e958]:
+                - generic [ref=e959]:
+                  - generic [ref=e960]: 
+                  - text: 3 BHK
+                - generic [ref=e961]:
+                  - generic [ref=e962]: 
+                  - text: 1 Bath
+                - generic [ref=e963]:
+                  - generic [ref=e964]: 
+                  - text: 2471 sqft
+          - article [ref=e966]:
+            - generic [ref=e967]:
+              - generic [ref=e970]:
+                - generic [ref=e971]: 
+                - text: Verified
+              - link "Save property" [ref=e972] [cursor=pointer]:
+                - /url: /favorites/toggle/hinjewadi-signature-residence-7-pune-hinjewadi/
+                - generic [ref=e973]: 
+              - link "Quick view " [ref=e974] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-7-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e975]: 
+            - generic [ref=e976]:
+              - generic [ref=e977]: Rs 40100000
+              - heading "Hinjewadi Signature Residence 7" [level=3] [ref=e978]
+              - generic [ref=e979]:
+                - generic [ref=e980]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e981]:
+                - generic [ref=e982]:
+                  - generic [ref=e983]: 
+                  - text: 5 BHK
+                - generic [ref=e984]:
+                  - generic [ref=e985]: 
+                  - text: 2 Bath
+                - generic [ref=e986]:
+                  - generic [ref=e987]: 
+                  - text: 4129 sqft
+  - contentinfo [ref=e990]:
+    - generic [ref=e991]:
+      - generic [ref=e992]:
+        - generic [ref=e993]:
+          - link " PropVista Architected for premium property decisions." [ref=e994] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e996]: 
+            - generic [ref=e997]:
+              - strong [ref=e998]: PropVista
+              - generic [ref=e999]: Architected for premium property decisions.
+          - paragraph [ref=e1000]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e1001]:
+          - heading "Marketplace" [level=6] [ref=e1002]
+          - link "Properties" [ref=e1003] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e1004] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e1005] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e1006]:
+          - heading "Dashboards" [level=6] [ref=e1007]
+          - link "Buyer" [ref=e1008] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e1009] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e1010] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e1011]:
+          - heading "Developer" [level=6] [ref=e1012]
+          - link "Swagger API docs" [ref=e1013] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e1014] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e1015]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.
