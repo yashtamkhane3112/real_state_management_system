@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}AI Studio | PropVista{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <div class="container">
+    <span class="pv-eyebrow reveal"><i class="bi bi-robot"></i> Intelligence layer</span>
+    <h1 class="pv-serif display-4 fw-bold mt-3 mb-2">AI Studio</h1>
+    <p class="pv-muted fs-5">Generative listing assistance, market sentiment analysis, and smart recommendations.</p>
+  </div>
+</section>
+
+<section class="pv-section-sm">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="pv-card p-4 reveal">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <div class="pv-brand-mark" style="width: 32px; height: 32px; border-radius: 8px;"><i class="bi bi-stars" style="font-size: 0.9rem;"></i></div>
+            <h2 class="h5 fw-bold mb-0">Capabilities</h2>
+          </div>
+          <p class="pv-muted small mb-4">Powered by Gemini when configured. Our specialized models are trained on premium real estate data.</p>
+          <ul class="list-unstyled">
+            <li class="mb-3 d-flex gap-2 align-items-center small"><i class="bi bi-check2-circle text-primary"></i> <strong>Content Forge:</strong> High-impact descriptions.</li>
+            <li class="mb-3 d-flex gap-2 align-items-center small"><i class="bi bi-check2-circle text-primary"></i> <strong>Insight Engine:</strong> Market sentiment alerts.</li>
+            <li class="mb-3 d-flex gap-2 align-items-center small"><i class="bi bi-check2-circle text-primary"></i> <strong>Audit Bot:</strong> Document compliance check.</li>
+            <li class="d-flex gap-2 align-items-center small"><i class="bi bi-check2-circle text-primary"></i> <strong>Match Maker:</strong> Buyer intent mapping.</li>
+          </ul>
+          <div class="pv-card p-3 small mt-4 {% if GEMINI_API_KEY %}border-success-subtle bg-success-subtle text-success{% else %}border-warning-subtle bg-warning-subtle text-warning{% endif %}">
+            {% if GEMINI_API_KEY %}<i class="bi bi-patch-check-fill"></i> Gemini Pro Live{% else %}<i class="bi bi-info-circle"></i> Using fallback engine{% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="pv-card p-4 p-lg-5 reveal">
+          <div class="mb-4">
+            <ul class="nav nav-pills gap-2" id="aiTabs">
+              <li class="nav-item"><button class="nav-link active px-4 rounded-pill" data-target="#tab-description">Description</button></li>
+              <li class="nav-item"><button class="nav-link px-4 rounded-pill" data-target="#tab-summary">Summary</button></li>
+              <li class="nav-item"><button class="nav-link px-4 rounded-pill" data-target="#tab-improvements">Improvements</button></li>
+              <li class="nav-item"><button class="nav-link px-4 rounded-pill" data-target="#tab-recommendations">Recommendations</button></li>
+            </ul>
+          </div>
+          {% for feature, target, fields in ai_features %}
+            <div id="{{ target }}" class="ai-tab">
+              <form class="ai-form vstack gap-4" data-feature="{{ feature }}">
+                {% csrf_token %}
+                <div class="form-floating"><textarea class="form-control" name="prompt" id="id_{{ target }}_prompt" style="height: 140px" placeholder="Describe..." required></textarea><label for="id_{{ target }}_prompt">Describe the property details or context</label></div>
+                <div class="row g-3">
+                  <div class="col-md-6"><div class="form-floating"><input class="form-control" name="city" id="id_{{ target }}_city" placeholder="City"><label for="id_{{ target }}_city">City</label></div></div>
+                  <div class="col-md-6"><div class="form-floating"><input class="form-control" name="audience" id="id_{{ target }}_audience" placeholder="Audience"><label for="id_{{ target }}_audience">Target Audience</label></div></div>
+                </div>
+                <button class="pv-btn pv-btn-primary w-100 py-3" type="submit"><i class="bi bi-stars"></i> Generate intelligent output</button>
+              </form>
+              <div class="ai-output pv-card p-4 mt-4 bg-light border-0 shadow-inner" data-output hidden></div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return '';
+  }
+
+  document.querySelectorAll("[data-target]").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const id = tab.dataset.target;
+      document.querySelectorAll("#aiTabs .nav-link").forEach((b) => b.classList.toggle("active", b === tab));
+      document.querySelectorAll(".ai-tab").forEach((el) => el.hidden = ("#" + el.id) !== id);
+    });
+  });
+  document.querySelectorAll(".ai-tab").forEach((el, i) => el.hidden = i !== 0);
+
+  document.querySelectorAll(".ai-form").forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const feature = form.dataset.feature;
+      const output = form.parentElement.querySelector("[data-output]");
+      output.hidden = false;
+      output.innerHTML = '<span class="pv-muted"><i class="bi bi-hourglass-split"></i> Generating...</span>';
+      const data = new FormData(form);
+      const csrfToken = getCookie('csrftoken') || (form.querySelector('[name=csrfmiddlewaretoken]') || {}).value || '';
+      try {
+        const res = await fetch(`/ai/generate/${feature}/`, {
+          method: "POST",
+          headers: { "X-CSRFToken": csrfToken },
+          body: data,
+          credentials: "same-origin"
+        });
+        const payload = await res.json();
+        output.textContent = payload.result || "No response.";
+      } catch (err) {
+        output.textContent = "Error generating response. Please try again.";
+      }
+    });
+  });
+</script>
+{% endblock %}
+

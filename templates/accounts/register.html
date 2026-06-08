@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Create account | PropVista{% endblock %}
+{% block content %}
+<section class="auth-screen">
+  <div class="auth-card wide pv-glass reveal">
+    <span class="pv-eyebrow"><i class="bi bi-person-plus"></i> Join PropVista</span>
+    <h1 class="pv-serif display-5 mt-3">Create your real estate workspace</h1>
+    <p class="pv-muted">Choose Buyer, Seller, Agent, or Admin role and access the relevant dashboard immediately.</p>
+    <form method="post" class="row g-3 mt-3">{% csrf_token %}
+      {% for field in form %}
+        <div class="col-md-6">
+          <label class="form-label fw-bold">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
+        </div>
+      {% endfor %}
+      <div class="col-12"><button class="pv-btn pv-btn-primary w-100" type="submit">Create account</button></div>
+    </form>
+  </div>
+</section>
+{% endblock %}

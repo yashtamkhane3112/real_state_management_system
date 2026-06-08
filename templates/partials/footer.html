@@ -1,0 +1,31 @@
+<footer class="pv-footer">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5">
+        <a class="pv-brand footer-brand" href="{% url 'home' %}">
+          <span class="pv-brand-mark"><i class="bi bi-buildings"></i></span>
+          <span><strong>PropVista</strong><small>Architected for premium property decisions.</small></span>
+        </a>
+        <p class="pv-muted mt-4 mb-0">A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Marketplace</h6>
+        <a href="{% url 'properties:list' %}">Properties</a>
+        <a href="{% url 'reports:home' %}">Reports</a>
+        <a href="{% url 'ai_features:tools' %}">AI Studio</a>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6>Dashboards</h6>
+        <a href="{% url 'accounts:buyer_dashboard' %}">Buyer</a>
+        <a href="{% url 'accounts:seller_dashboard' %}">Seller</a>
+        <a href="{% url 'accounts:agent_dashboard' %}">Agent</a>
+      </div>
+      <div class="col-lg-3">
+        <h6>Developer</h6>
+        <a href="/api/docs/">Swagger API docs</a>
+        <a href="/admin/">Django admin</a>
+      </div>
+    </div>
+    <div class="pv-footer-bottom">© 2026 PropVista. Built as a luxury PropTech portfolio experience.</div>
+  </div>
+</footer>

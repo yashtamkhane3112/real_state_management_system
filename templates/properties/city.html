@@ -1,0 +1,2 @@
+{% extends "base.html" %}
+{% block content %}<section class="page-hero"><div class="container"><span class="pv-eyebrow">City collection</span><h1 class="pv-serif display-4 mt-3">{{ city }} properties</h1></div></section><section class="pv-section-sm"><div class="container"><div class="row g-4">{% for property in properties %}<div class="col-md-6 col-xl-4">{% include "partials/property_card.html" %}</div>{% endfor %}</div></div></section>{% endblock %}

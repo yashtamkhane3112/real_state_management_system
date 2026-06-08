@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Sign in | PropVista{% endblock %}
+{% block content %}
+<section class="auth-screen">
+  <div class="auth-card pv-glass reveal">
+    <span class="pv-eyebrow"><i class="bi bi-key"></i> Secure access</span>
+    <h1 class="pv-serif display-5 mt-3">Welcome back</h1>
+    <p class="pv-muted">Sign in with Django sessions for the web app. JWT remains available for API clients.</p>
+    <form method="post" class="mt-4">{% csrf_token %}
+      {{ form.as_p }}
+      <button class="pv-btn pv-btn-primary w-100" type="submit">Sign in</button>
+    </form>
+    <div class="pv-card p-3 mt-4 small">
+      Demo users: <strong>buyer</strong>, <strong>seller</strong>, <strong>agent</strong>, <strong>admin</strong><br>
+      Password: <strong>Pass@12345</strong>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

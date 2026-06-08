@@ -1,0 +1,2 @@
+{% extends "base.html" %}
+{% block content %}<section class="page-hero"><div class="container"><span class="pv-eyebrow">Buyer shortlist</span><h1 class="pv-serif display-4 mt-3">Wishlist</h1></div></section><section class="pv-section-sm"><div class="container"><div class="row g-4">{% for favorite in favorites %}{% with property=favorite.property %}<div class="col-md-6 col-xl-4">{% include "partials/property_card.html" %}</div>{% endwith %}{% endfor %}</div></div></section>{% endblock %}
