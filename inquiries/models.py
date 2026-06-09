@@ -13,7 +13,7 @@ class Inquiry(models.Model):
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="inquiries")
     name = models.CharField(max_length=140)
     email = models.EmailField()
-    phone = models.CharField(max_length=24)
+    phone = models.CharField(max_length=24, blank=True)
     message = models.TextField()
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)

@@ -1,13 +1,227 @@
 {% extends "base.html" %}
+{% block title %}{{ title }} | PropVista{% endblock %}
 {% block content %}
-<section class="container py-5">
-  <div class="glass p-4">
-    <h1>{{ title }}</h1>
-    <form method="post" enctype="multipart/form-data" class="row g-3">{% csrf_token %}
-      {% for field in form %}<div class="col-md-6"><label class="form-label">{{ field.label }}</label>{{ field }}<div class="text-danger small">{{ field.errors }}</div></div>{% endfor %}
-      <div class="col-12"><button class="btn btn-accent">Save listing</button></div>
-    </form>
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
+
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 no-reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-building-up"></i> Inventory management</span>
+        <h1 class="pv-serif display-5 mt-3">{{ title }}</h1>
+        <p class="pv-muted fs-5">Add or modify property details, select categories, define amenities, and upload premium assets.</p>
+      </div>
+      <div>
+        <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:dashboard' %}"><i class="bi bi-x-lg"></i> Cancel</a>
+      </div>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger p-3 mb-4 rounded-4" role="alert">
+        {% for error in form.non_field_errors %}
+          <div class="small fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="pv-card p-4 p-lg-5 no-reveal mb-4">
+      <form method="post" enctype="multipart/form-data" class="vstack gap-4">
+        {% csrf_token %}
+        
+        <h2 class="pv-serif h3 mb-1"><i class="bi bi-info-circle text-primary"></i> Basic details</h2>
+        <div class="row g-3">
+          <div class="col-md-8">
+            <label class="form-label fw-bold">Property title</label>
+            {{ form.title }}
+            <div class="text-danger small">{{ form.title.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Price (Rs)</label>
+            {{ form.price }}
+            <div class="text-danger small">{{ form.price.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Property type</label>
+            {{ form.property_type }}
+            <div class="text-danger small">{{ form.property_type.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Category</label>
+            {{ form.category }}
+            <div class="text-danger small">{{ form.category.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Furnishing status</label>
+            {{ form.furnishing }}
+            <div class="text-danger small">{{ form.furnishing.errors }}</div>
+          </div>
+        </div>
+
+        <h2 class="pv-serif h3 border-top pt-4 mt-2 mb-1"><i class="bi bi-layout-three-columns text-primary"></i> Specifications</h2>
+        <div class="row g-3">
+          <div class="col-md-3 col-6">
+            <label class="form-label fw-bold">Bedrooms</label>
+            {{ form.bedrooms }}
+            <div class="text-danger small">{{ form.bedrooms.errors }}</div>
+          </div>
+          <div class="col-md-3 col-6">
+            <label class="form-label fw-bold">Bathrooms</label>
+            {{ form.bathrooms }}
+            <div class="text-danger small">{{ form.bathrooms.errors }}</div>
+          </div>
+          <div class="col-md-3 col-6">
+            <label class="form-label fw-bold">Area (Sqft)</label>
+            {{ form.area_sqft }}
+            <div class="text-danger small">{{ form.area_sqft.errors }}</div>
+          </div>
+          <div class="col-md-3 col-6">
+            <label class="form-label fw-bold">Parking spaces</label>
+            {{ form.parking }}
+            <div class="text-danger small">{{ form.parking.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Year built</label>
+            {{ form.year_built }}
+            <div class="text-danger small">{{ form.year_built.errors }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Status</label>
+            {{ form.status }}
+            <div class="text-danger small">{{ form.status.errors }}</div>
+          </div>
+          {% if user.is_admin_role %}
+            <div class="col-md-4 d-flex align-items-end pb-2">
+              <div class="form-check">
+                {{ form.is_featured }}
+                <label class="form-check-label fw-bold ms-2" for="id_is_featured">Featured listing</label>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <h2 class="pv-serif h3 border-top pt-4 mt-2 mb-1"><i class="bi bi-geo-alt text-primary"></i> Location mapping</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Address</label>
+            {{ form.address }}
+            <div class="text-danger small">{{ form.address.errors }}</div>
+          </div>
+          <div class="col-md-6">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">City</label>
+                {{ form.city }}
+                <div class="text-danger small">{{ form.city.errors }}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Locality</label>
+                {{ form.locality }}
+                <div class="text-danger small">{{ form.locality.errors }}</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Pincode</label>
+                {{ form.pincode }}
+                <div class="text-danger small">{{ form.pincode.errors }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Map Location Picker -->
+          <div class="col-12">
+            <label class="form-label fw-bold"><i class="bi bi-map-fill text-info me-1"></i>Click map to pin your property location</label>
+            <div class="location-picker-wrap">
+              <div id="locationPickerMap"></div>
+              <div class="picker-overlay-label"><i class="bi bi-cursor"></i> Click anywhere on the map to place a marker</div>
+            </div>
+            <div id="locationPickerHint" class="pv-muted small mt-2">
+              {% if property and property.latitude %}📍 Current location: {{ property.latitude }}, {{ property.longitude }} — click map or drag pin to update{% else %}Click on the map to select the property coordinates. You can also drag the pin.{% endif %}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Latitude <span class="text-info small">(auto-filled by map)</span></label>
+            {{ form.latitude }}
+            <div class="text-danger small">{{ form.latitude.errors }}</div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Longitude <span class="text-info small">(auto-filled by map)</span></label>
+            {{ form.longitude }}
+            <div class="text-danger small">{{ form.longitude.errors }}</div>
+          </div>
+        </div>
+
+        <h2 class="pv-serif h3 border-top pt-4 mt-2 mb-1"><i class="bi bi-text-left text-primary"></i> Description & narrative</h2>
+        <div class="row g-3">
+          <div class="col-12">
+            {{ form.description }}
+            <div class="text-danger small">{{ form.description.errors }}</div>
+          </div>
+        </div>
+
+        <h2 class="pv-serif h3 border-top pt-4 mt-2 mb-1"><i class="bi bi-check2-square text-primary"></i> Amenities</h2>
+        <div class="row g-3">
+          <div class="col-12">
+            <div class="amenities-selection-grid">
+              {{ form.amenities }}
+            </div>
+            <div class="text-danger small">{{ form.amenities.errors }}</div>
+          </div>
+        </div>
+
+        <h2 class="pv-serif h3 border-top pt-4 mt-2 mb-1"><i class="bi bi-images text-primary"></i> Media & images</h2>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Cover image</label>
+            {{ form.cover_image }}
+            <div class="text-danger small">{{ form.cover_image.errors }}</div>
+            {% if property.cover_image %}
+              <div class="mt-2"><img src="{{ property.cover_image.url }}" class="img-thumbnail" style="height: 120px;" alt=""></div>
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Upload gallery images (Multiple)</label>
+            <input type="file" name="gallery_images" multiple class="form-control" accept="image/*">
+            <div class="form-text">Upload additional high-resolution photos for the listing showcase.</div>
+          </div>
+        </div>
+
+        {% if property and property.images.all %}
+          <div class="border-top pt-4 mt-2">
+            <h3 class="h5 fw-bold mb-3">Manage existing gallery images</h3>
+            <div class="row g-3">
+              {% for image in property.images.all %}
+                <div class="col-6 col-md-3 col-xl-2">
+                  <div class="pv-card p-2 text-center h-100 position-relative">
+                    <img src="{{ image.image.url }}" class="img-thumbnail rounded mb-2" style="height: 100px; object-fit: cover; width: 100%;" alt="">
+                    <div class="form-check justify-content-center d-flex align-items-center gap-2">
+                      <input class="form-check-input" type="checkbox" name="delete_images" value="{{ image.id }}" id="del_img_{{ image.id }}">
+                      <label class="form-check-label small text-danger" for="del_img_{{ image.id }}">Delete</label>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="col-12 border-top pt-4 mt-3">
+          <button class="pv-btn pv-btn-primary w-100 py-3" type="submit">
+            <i class="bi bi-check-circle"></i> Save Listing
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 {% endblock %}
-
+{% block scripts %}<script>
+  window.addEventListener("load", function() {
+    // Style lat/lng fields as map-driven
+    var latEl = document.getElementById("id_latitude");
+    var lngEl = document.getElementById("id_longitude");
+    if (latEl) latEl.classList.add("lat-lng-readonly");
+    if (lngEl) lngEl.classList.add("lat-lng-readonly");
+    // Init picker
+    if (window.initLocationPicker) window.initLocationPicker();
+  });
+</script>{% endblock %}

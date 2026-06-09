@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     "visits",
     "leads",
     "analytics",
-    "ai_features",
     "notifications",
     "reports",
     "search",

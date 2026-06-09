@@ -16,7 +16,9 @@ from notifications.services import unread_count_for
 from properties.models import Property
 from visits.models import Visit
 
-from .forms import ProfileForm, RegisterForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .forms import ProfileForm, RegisterForm, UserForm
 from .models import Profile, User
 from .serializers import RegisterSerializer, UserSerializer
 
@@ -44,22 +46,64 @@ class UserLogoutView(LogoutView):
 def dashboard(request):
     if request.user.role == User.Role.SELLER:
         return redirect("accounts:seller_dashboard")
-    if request.user.role == User.Role.AGENT:
-        return redirect("accounts:agent_dashboard")
     if request.user.is_admin_role:
         return redirect("accounts:admin_dashboard")
     return redirect("accounts:buyer_dashboard")
 
 
+def sanitize_uploaded_filenames(files_dict, max_length=60):
+    import os
+    import uuid
+    for key in files_dict:
+        for f in files_dict.getlist(key):
+            name, ext = os.path.splitext(f.name)
+            name = "".join(c for c in name if c.isalnum() or c in ("-", "_")).replace(" ", "_")
+            if not name:
+                name = uuid.uuid4().hex[:8]
+            allowed_len = max_length - len(ext)
+            if allowed_len <= 0:
+                name = name[:10]
+            else:
+                name = name[:allowed_len]
+            f.name = f"{name}{ext}"
+
+
 @login_required
 def profile(request):
+    if request.FILES:
+        sanitize_uploaded_filenames(request.FILES)
     profile_obj, _ = Profile.objects.get_or_create(user=request.user)
-    form = ProfileForm(request.POST or None, instance=profile_obj)
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Profile updated.")
-        return redirect("accounts:profile")
-    return render(request, "accounts/profile.html", {"form": form})
+    user_form = UserForm(request.POST or None, request.FILES or None, instance=request.user)
+    profile_form = ProfileForm(request.POST or None, instance=profile_obj)
+    password_form = PasswordChangeForm(request.user, request.POST or None)
+    
+    if request.method == "POST":
+        if "change_password" in request.POST:
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, "Password updated successfully.")
+                return redirect("accounts:profile")
+            else:
+                messages.error(request, "Please correct the errors below for password change.")
+        else:
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                messages.success(request, "Profile updated successfully.")
+                return redirect("accounts:profile")
+            else:
+                messages.error(request, "Please correct the errors below for profile details.")
+                
+    return render(
+        request,
+        "accounts/profile.html",
+        {
+            "user_form": user_form,
+            "profile_form": profile_form,
+            "password_form": password_form,
+        }
+    )
 
 
 @login_required
@@ -75,6 +119,9 @@ def buyer_dashboard(request):
         else Property.objects.public()[:6]
     )
     unread = unread_count_for(request.user)
+    from django.utils import timezone
+    hour = timezone.localtime().hour
+    greeting = "morning" if hour < 12 else ("afternoon" if hour < 17 else "evening")
     return render(
         request,
         "dashboards/buyer.html",
@@ -84,6 +131,7 @@ def buyer_dashboard(request):
             "visits": visits,
             "recommendations": recommendations,
             "unread_notifications": unread,
+            "greeting": greeting,
         },
     )
 
@@ -92,26 +140,45 @@ def buyer_dashboard(request):
 def seller_dashboard(request):
     listings = Property.objects.filter(created_by=request.user)
     inquiries = Inquiry.objects.select_related("property", "buyer").filter(property__created_by=request.user)
+    from django.utils import timezone
+    from django.db.models.functions import TruncDate
+    from datetime import timedelta
+    today = timezone.now().date()
+    last7 = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    view_qs = (
+        PropertyViewEvent.objects
+        .filter(property__created_by=request.user, created_at__date__gte=last7[0])
+        .annotate(day=TruncDate("created_at"))
+        .values("day").annotate(cnt=Count("id"))
+    )
+    views_by_day = {row["day"]: row["cnt"] for row in view_qs}
+    chart_labels = [d.strftime("%d %b").lstrip("0") for d in last7]
+    chart_values = [views_by_day.get(d, 0) for d in last7]
     return render(
         request,
         "dashboards/seller.html",
         {
             "listings": listings,
             "inquiries": inquiries,
+            "chart_labels": chart_labels,
+            "chart_values": chart_values,
             "stats": {
                 "active": listings.filter(status=Property.Status.ACTIVE).count(),
                 "pending": listings.filter(approval_status=Property.ApprovalStatus.PENDING).count(),
                 "views": PropertyViewEvent.objects.filter(property__created_by=request.user).count(),
                 "inquiries": inquiries.count(),
+                "inq_new": inquiries.filter(status="new").count(),
+                "inq_contacted": inquiries.filter(status="contacted").count(),
+                "inq_qualified": inquiries.filter(status="qualified").count(),
+                "inq_closed": inquiries.filter(status="closed").count(),
+                "prop_total": listings.count(),
+                "prop_pending": listings.filter(approval_status=Property.ApprovalStatus.PENDING).count(),
+                "prop_approved": listings.filter(approval_status=Property.ApprovalStatus.APPROVED).count(),
+                "prop_rejected": listings.filter(approval_status=Property.ApprovalStatus.REJECTED).count(),
             },
         },
     )
 
-
-@login_required
-def agent_dashboard(request):
-    leads = Lead.objects.filter(owner=request.user)
-    return render(request, "dashboards/agent.html", {"leads": leads, "properties": Property.objects.filter(created_by=request.user)[:6]})
 
 
 @login_required
@@ -119,15 +186,35 @@ def admin_dashboard(request):
     if not request.user.is_admin_role:
         messages.error(request, "Admin access required.")
         return redirect("accounts:dashboard")
+    from analytics.models import AuditLog
+    from django.utils import timezone
+    from django.db.models.functions import TruncMonth
+    from datetime import timedelta
+    # Real monthly user registration for last 6 months
+    six_months_ago = timezone.now() - timedelta(days=180)
+    monthly_users = (
+        User.objects.filter(date_joined__gte=six_months_ago)
+        .annotate(month=TruncMonth("date_joined"))
+        .values("month").annotate(cnt=Count("id"))
+        .order_by("month")
+    )
+    user_growth_labels = [row["month"].strftime("%b") for row in monthly_users]
+    user_growth_values = [row["cnt"] for row in monthly_users]
+    recent_audit = AuditLog.objects.select_related("actor").order_by("-created_at")[:10]
     return render(
         request,
         "dashboards/admin.html",
         {
             "users": User.objects.all()[:20],
+            "total_users_count": User.objects.count(),
+            "total_properties_count": Property.objects.count(),
             "pending_properties": Property.objects.filter(approval_status=Property.ApprovalStatus.PENDING),
             "top_cities": Property.objects.values("city").annotate(total=Count("id")).order_by("-total")[:6],
             "property_types": Property.objects.values("property_type").annotate(total=Count("id")),
             "total_value": Property.objects.aggregate(total=Sum("price"))["total"] or 0,
+            "recent_audit": recent_audit,
+            "user_growth_labels": user_growth_labels,
+            "user_growth_values": user_growth_values,
         },
     )
 
@@ -143,7 +230,7 @@ class UserViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.Retriev
 def demo_login(request, role):
     if not settings.DEBUG:
         raise Http404()
-    username = {"buyer": "buyer", "seller": "seller", "agent": "agent", "admin": "admin"}.get(role)
+    username = {"buyer": "buyer", "seller": "seller", "admin": "admin"}.get(role)
     if not username:
         raise Http404()
     user = get_object_or_404(User, username=username)

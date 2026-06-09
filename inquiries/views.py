@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import permissions, viewsets
 from rest_framework.exceptions import ValidationError
 
@@ -28,6 +28,46 @@ def create_inquiry(request, slug):
     return redirect("properties:detail", slug=slug)
 
 
+@login_required
+def inquiry_list(request):
+    user = request.user
+    if user.is_admin_role:
+        inquiries = Inquiry.objects.all().select_related("property", "buyer").order_by("-created_at")
+    elif user.role == "seller":
+        inquiries = Inquiry.objects.filter(property__created_by=user).select_related("property", "buyer").order_by("-created_at")
+    else:
+        inquiries = Inquiry.objects.filter(buyer=user).select_related("property", "buyer").order_by("-created_at")
+        
+    return render(
+        request,
+        "inquiries/list.html",
+        {
+            "inquiries": inquiries,
+            "status_choices": Inquiry.Status.choices,
+        }
+    )
+
+
+@login_required
+def update_inquiry_status(request, pk):
+    inquiry = get_object_or_404(Inquiry, pk=pk)
+    if not request.user.is_admin_role and inquiry.property.created_by != request.user:
+        messages.error(request, "You do not have permission to manage this inquiry.")
+        return redirect("inquiries:list")
+        
+    if request.method == "POST":
+        status = request.POST.get("status")
+        if status in dict(Inquiry.Status.choices):
+            inquiry.status = status
+            inquiry.save()
+            messages.success(request, f"Inquiry status updated to {inquiry.get_status_display()}.")
+        else:
+            messages.error(request, "Invalid status choice.")
+            
+    return redirect("inquiries:list")
+
+
+
 class InquiryViewSet(viewsets.ModelViewSet):
     serializer_class = InquirySerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -39,7 +79,7 @@ class InquiryViewSet(viewsets.ModelViewSet):
         qs = Inquiry.objects.select_related("property", "buyer")
         if user.is_admin_role:
             return qs
-        if user.role in {"seller", "agent"}:
+        if user.role == "seller":
             return qs.filter(property__created_by=user)
         return qs.filter(buyer=user)
 

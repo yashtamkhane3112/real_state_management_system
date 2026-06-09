@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Inquiry Command | PropVista{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
+
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-chat-left-dots"></i> Communications</span>
+        <h1 class="pv-serif display-5 mt-2 mb-1">Inquiry Command</h1>
+        <p class="pv-muted fs-6 mb-0">
+          {% if user.role == 'buyer' %}
+            Track status and responses of your property inquiries.
+          {% elif user.role == 'seller' %}
+            Manage and update customer response stages for your listed properties.
+          {% else %}
+            Monitor and review all active client communication channels.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="mb-4">
+        {% for msg in messages %}
+          <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} p-3 rounded-4" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="pv-card p-4 reveal">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="border-radius: 12px 0 0 12px;">Property</th>
+              {% if user.role != 'buyer' %}
+                <th scope="col">Inquirer</th>
+                <th scope="col">Contact Info</th>
+              {% endif %}
+              <th scope="col">Message</th>
+              <th scope="col">Sent Date</th>
+              <th scope="col" style="border-radius: 0 12px 12px 0;">Status / Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inquiry in inquiries %}
+              <tr>
+                <td>
+                  <a class="fw-bold text-decoration-none text-dark" href="{% url 'properties:detail' inquiry.property.slug %}">
+                    {{ inquiry.property.title }}
+                  </a>
+                  <div class="pv-muted small"><i class="bi bi-geo-alt"></i> {{ inquiry.property.city }}</div>
+                </td>
+                {% if user.role != 'buyer' %}
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      {% if inquiry.buyer.avatar %}
+                        <img src="{{ inquiry.buyer.avatar.url }}" alt="avatar" class="rounded-circle border" style="width: 32px; height: 32px; object-fit: cover;">
+                      {% else %}
+                        <div class="pv-avatar bg-primary text-white fw-bold d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem; border-radius: 50%;">{{ inquiry.name|slice:":2"|upper }}</div>
+                      {% endif %}
+                      <div>
+                        <div class="fw-semibold">{{ inquiry.name }}</div>
+                        {% if inquiry.buyer == user %}
+                          <span class="badge bg-secondary-subtle text-secondary small">Self Inquiry</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="small"><i class="bi bi-envelope"></i> {{ inquiry.email }}</div>
+                    {% if inquiry.phone %}
+                      <div class="small"><i class="bi bi-telephone"></i> {{ inquiry.phone }}</div>
+                    {% endif %}
+                  </td>
+                {% endif %}
+                <td>
+                  <p class="mb-0 text-secondary small" style="max-width: 320px; white-space: pre-line;">{{ inquiry.message }}</p>
+                </td>
+                <td class="small text-muted">
+                  {{ inquiry.created_at|date:"M d, Y" }}
+                  <div class="small text-muted">{{ inquiry.created_at|time:"P" }}</div>
+                </td>
+                <td>
+                  {% if user.is_admin_role or inquiry.property.created_by == user %}
+                    <form action="{% url 'inquiries:update_status' inquiry.pk %}" method="post" class="d-flex align-items-center gap-2">
+                      {% csrf_token %}
+                      <select name="status" class="form-select form-select-sm border bg-light" style="width: auto; min-height: 36px; border-radius: 12px;" onchange="this.form.submit()">
+                        {% for value, label in status_choices %}
+                          <option value="{{ value }}" {% if inquiry.status == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                      </select>
+                    </form>
+                  {% else %}
+                    <span class="badge 
+                      {% if inquiry.status == 'new' %}bg-primary-subtle text-primary
+                      {% elif inquiry.status == 'contacted' %}bg-warning-subtle text-warning
+                      {% elif inquiry.status == 'qualified' %}bg-info-subtle text-info
+                      {% else %}bg-success-subtle text-success{% endif %} p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.75rem;">
+                      {{ inquiry.get_status_display }}
+                    </span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="text-center py-5">
+                  <div class="pv-muted mb-3"><i class="bi bi-chat-square-text" style="font-size: 3rem;"></i></div>
+                  <h3 class="h5 text-secondary">No inquiries found</h3>
+                  <p class="pv-muted small">Active inquiries will be listed here for management.</p>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

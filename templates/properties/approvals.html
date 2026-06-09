@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block title %}Property Approval Center | PropVista{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
+
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-shield-lock"></i> Compliance & Moderation</span>
+        <h1 class="pv-serif display-5 mt-2 mb-1">Approval Center</h1>
+        <p class="pv-muted fs-6 mb-0">Review pending listings, manage approved property states, and log rejection explanations.</p>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="mb-4">
+        {% for msg in messages %}
+          <div class="alert alert-{% if msg.tags == 'error' %}danger{% elif msg.tags == 'warning' %}warning{% else %}{{ msg.tags }}{% endif %} p-3 rounded-4" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- PENDING LISTINGS -->
+    <div class="pv-card p-4 mb-4 reveal">
+      <h2 class="h4 fw-bold mb-3 text-warning"><i class="bi bi-hourglass-split"></i> Pending Approvals ({{ pending|length }})</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="border-radius: 12px 0 0 12px;">Property Details</th>
+              <th scope="col">Creator</th>
+              <th scope="col">Asking Price</th>
+              <th scope="col" style="border-radius: 0 12px 12px 0; min-width: 360px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for prop in pending %}
+              <tr>
+                <td>
+                  <a class="fw-bold text-decoration-none text-dark" href="{% url 'properties:detail' prop.slug %}">
+                    {{ prop.title }}
+                  </a>
+                  <div class="pv-muted small">{{ prop.property_type|title }} in {{ prop.locality }}, {{ prop.city }}</div>
+                </td>
+                <td>
+                  <div class="fw-semibold">{{ prop.created_by.get_full_name|default:prop.created_by.username }}</div>
+                  <div class="small text-muted">{{ prop.created_by.role|title }}</div>
+                </td>
+                <td class="fw-bold text-accent">
+                  Rs {{ prop.price|floatformat:0 }}
+                </td>
+                <td>
+                  <div class="d-flex align-items-center flex-wrap gap-2">
+                    <form action="{% url 'properties:approve' prop.slug %}" method="post" class="d-inline">
+                      {% csrf_token %}
+                      <button type="submit" class="pv-btn pv-btn-ghost py-1 px-3 border-success text-success" style="min-height: 36px;">
+                        <i class="bi bi-check-circle"></i> Approve
+                      </button>
+                    </form>
+                    <form action="{% url 'properties:reject' prop.slug %}" method="post" class="d-flex align-items-center gap-2">
+                      {% csrf_token %}
+                      <input type="text" name="reason" placeholder="Rejection reason" class="form-control form-control-sm border" style="width: 180px; min-height: 36px; border-radius: 12px;" required>
+                      <button type="submit" class="pv-btn pv-btn-ghost py-1 px-3 border-danger text-danger" style="min-height: 36px;">
+                        <i class="bi bi-x-circle"></i> Reject
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">No pending listings awaiting approval.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- APPROVED LISTINGS -->
+    <div class="pv-card p-4 mb-4 reveal">
+      <h2 class="h4 fw-bold mb-3 text-success"><i class="bi bi-check-all"></i> Approved Listings ({{ approved|length }})</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="border-radius: 12px 0 0 12px;">Property Details</th>
+              <th scope="col">Creator</th>
+              <th scope="col">Asking Price</th>
+              <th scope="col" style="border-radius: 0 12px 12px 0; min-width: 360px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for prop in approved %}
+              <tr>
+                <td>
+                  <a class="fw-bold text-decoration-none text-dark" href="{% url 'properties:detail' prop.slug %}">
+                    {{ prop.title }}
+                  </a>
+                  <div class="pv-muted small">{{ prop.property_type|title }} in {{ prop.locality }}, {{ prop.city }}</div>
+                </td>
+                <td>
+                  <div class="fw-semibold">{{ prop.created_by.get_full_name|default:prop.created_by.username }}</div>
+                  <div class="small text-muted">{{ prop.created_by.role|title }}</div>
+                </td>
+                <td class="fw-bold text-accent">
+                  Rs {{ prop.price|floatformat:0 }}
+                </td>
+                <td>
+                  <form action="{% url 'properties:reject' prop.slug %}" method="post" class="d-flex align-items-center gap-2">
+                    {% csrf_token %}
+                    <input type="text" name="reason" placeholder="Reason to revoke" class="form-control form-control-sm border" style="width: 180px; min-height: 36px; border-radius: 12px;" required>
+                    <button type="submit" class="pv-btn pv-btn-ghost py-1 px-3 border-danger text-danger" style="min-height: 36px;">
+                      <i class="bi bi-x-circle"></i> Revoke & Reject
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">No approved properties.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REJECTED LISTINGS -->
+    <div class="pv-card p-4 reveal">
+      <h2 class="h4 fw-bold mb-3 text-danger"><i class="bi bi-exclamation-triangle"></i> Rejected Listings ({{ rejected|length }})</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="border-radius: 12px 0 0 12px;">Property Details</th>
+              <th scope="col">Rejection Reason</th>
+              <th scope="col">Creator</th>
+              <th scope="col" style="border-radius: 0 12px 12px 0; min-width: 200px;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for prop in rejected %}
+              <tr>
+                <td>
+                  <a class="fw-bold text-decoration-none text-dark" href="{% url 'properties:detail' prop.slug %}">
+                    {{ prop.title }}
+                  </a>
+                  <div class="pv-muted small">{{ prop.property_type|title }} in {{ prop.locality }}, {{ prop.city }}</div>
+                </td>
+                <td>
+                  <div class="small text-danger fw-semibold">{{ prop.rejection_reason|default:"No explanation given" }}</div>
+                </td>
+                <td>
+                  <div class="fw-semibold">{{ prop.created_by.get_full_name|default:prop.created_by.username }}</div>
+                  <div class="small text-muted">{{ prop.created_by.role|title }}</div>
+                </td>
+                <td>
+                  <form action="{% url 'properties:approve' prop.slug %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="pv-btn pv-btn-ghost py-1 px-3 border-success text-success" style="min-height: 36px;">
+                      <i class="bi bi-check-circle"></i> Approve Listing
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">No rejected properties.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

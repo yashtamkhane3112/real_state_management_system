@@ -2,12 +2,22 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .services import create_notification
+from analytics.models import AuditLog
 
 
 @receiver(post_save, sender="inquiries.Inquiry")
 def notify_on_inquiry(sender, instance, created, **kwargs):
     if not created:
         return
+    
+    # Create Audit Log
+    AuditLog.objects.create(
+        actor=instance.buyer if instance.buyer else None,
+        action=f"Inquiry received for {instance.property.title if instance.property else 'property'}",
+        object_type="inquiry",
+        object_id=str(instance.id)
+    )
+
     owner = instance.property.created_by
     if owner and owner != instance.buyer:
         create_notification(
@@ -33,6 +43,15 @@ def notify_on_inquiry(sender, instance, created, **kwargs):
 def notify_on_visit(sender, instance, created, **kwargs):
     if not created:
         return
+
+    # Create Audit Log
+    AuditLog.objects.create(
+        actor=instance.buyer if instance.buyer else None,
+        action=f"Visit scheduled for {instance.property.title if instance.property else 'property'}",
+        object_type="visit",
+        object_id=str(instance.id)
+    )
+
     owner = instance.property.created_by
     if owner and owner != instance.buyer:
         create_notification(
@@ -58,6 +77,15 @@ def notify_on_visit(sender, instance, created, **kwargs):
 def notify_on_favorite(sender, instance, created, **kwargs):
     if not created:
         return
+
+    # Create Audit Log
+    AuditLog.objects.create(
+        actor=instance.user,
+        action=f"Favorite added: {instance.property.title if instance.property else 'property'}",
+        object_type="favorite",
+        object_id=str(instance.id)
+    )
+
     owner = instance.property.created_by
     if owner and owner != instance.user:
         create_notification(
@@ -74,6 +102,15 @@ def notify_on_favorite(sender, instance, created, **kwargs):
 def notify_on_lead(sender, instance, created, **kwargs):
     if not created:
         return
+
+    # Create Audit Log
+    AuditLog.objects.create(
+        actor=instance.owner if instance.owner else None,
+        action=f"Lead created: {instance.name}",
+        object_type="lead",
+        object_id=str(instance.id)
+    )
+
     if instance.owner:
         create_notification(
             user=instance.owner,
@@ -88,6 +125,14 @@ def notify_on_lead(sender, instance, created, **kwargs):
 @receiver(post_save, sender="properties.Property")
 def notify_on_approval(sender, instance, created, **kwargs):
     if created:
+        # Create Audit Log
+        AuditLog.objects.create(
+            actor=instance.created_by,
+            action=f"Property created: {instance.title}",
+            object_type="property",
+            object_id=str(instance.id)
+        )
+
         if instance.approval_status == "approved":
             create_notification(
                 user=instance.created_by,
@@ -98,7 +143,15 @@ def notify_on_approval(sender, instance, created, **kwargs):
                 level="success",
             )
         return
+
+    # Not created (modified or approved/rejected)
     if instance.approval_status == "approved":
+        AuditLog.objects.create(
+            actor=None,
+            action=f"Property approved by Admin: {instance.title}",
+            object_type="property",
+            object_id=str(instance.id)
+        )
         create_notification(
             user=instance.created_by,
             title=f"Listing approved: {instance.title}",
@@ -108,6 +161,12 @@ def notify_on_approval(sender, instance, created, **kwargs):
             level="success",
         )
     elif instance.approval_status == "rejected":
+        AuditLog.objects.create(
+            actor=None,
+            action=f"Property rejected by Admin: {instance.title}",
+            object_type="property",
+            object_id=str(instance.id)
+        )
         create_notification(
             user=instance.created_by,
             title=f"Listing needs changes: {instance.title}",

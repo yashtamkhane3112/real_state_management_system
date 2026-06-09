@@ -19,7 +19,6 @@ class Command(BaseCommand):
         users = {
             "buyer": self.user("buyer", User.Role.BUYER, "buyer@propvista.local"),
             "seller": self.user("seller", User.Role.SELLER, "seller@propvista.local"),
-            "agent": self.user("agent", User.Role.AGENT, "agent@propvista.local"),
             "admin": self.user("admin", User.Role.ADMIN, "admin@propvista.local", is_staff=True),
             "superadmin": self.user("superadmin", User.Role.ADMIN, "superadmin@propvista.local", is_staff=True, is_superuser=True),
         }
@@ -28,7 +27,7 @@ class Command(BaseCommand):
         cities = [("Mumbai", "Bandra", Decimal("19.0544"), Decimal("72.8406")), ("Bengaluru", "Whitefield", Decimal("12.9698"), Decimal("77.7500")), ("Pune", "Hinjewadi", Decimal("18.5913"), Decimal("73.7389"))]
         for i in range(1, 21):
             city, locality, lat, lng = choice(cities)
-            owner = users["seller"] if i % 3 else users["agent"]
+            owner = users["seller"]
             prop, _ = Property.objects.get_or_create(
                 title=f"{locality} Signature Residence {i}",
                 city=city,
@@ -68,7 +67,7 @@ class Command(BaseCommand):
                 message="I would like to schedule a visit.",
             )
             Visit.objects.get_or_create(property=prop, buyer=users["buyer"], scheduled_at=timezone.now() + timezone.timedelta(days=3))
-            Lead.objects.get_or_create(owner=users["agent"], property=prop, name="Investor Lead", phone="9888888888", email="lead@propvista.local")
+            Lead.objects.get_or_create(owner=users["seller"], property=prop, name="Investor Lead", phone="9888888888", email="lead@propvista.local")
         self.stdout.write(self.style.SUCCESS("Seed complete. Demo password for all users: Pass@12345"))
 
     def user(self, username, role, email, **flags):

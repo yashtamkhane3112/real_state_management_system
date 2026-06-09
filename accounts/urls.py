@@ -12,7 +12,6 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("dashboard/buyer/", views.buyer_dashboard, name="buyer_dashboard"),
     path("dashboard/seller/", views.seller_dashboard, name="seller_dashboard"),
-    path("dashboard/agent/", views.agent_dashboard, name="agent_dashboard"),
     path("dashboard/admin/", views.admin_dashboard, name="admin_dashboard"),
     path("demo/<str:role>/", views.demo_login, name="demo_login"),
     path("demo-logout/", views.demo_logout, name="demo_logout"),

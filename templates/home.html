@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}PropVista | 3D Real Estate Management Command Center{% endblock %}
+{% block title %}PropVista | Property Management Made Simple{% endblock %}
 {% block content %}
 <section class="pv-hero pm-hero">
   <canvas id="cityHero" class="pv-hero-canvas" aria-hidden="true"></canvas>
   <div class="container pv-hero-content pm-hero-content">
     <div class="pm-hero-copy">
       <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> Property management command system</span>
-      <h1 class="reveal">Manage listings, leads, approvals, and visits in one 3D workspace</h1>
-      <p class="pv-hero-copy reveal">PropVista gives buyers, sellers, agents, and admins a single operating layer for property discovery, listing approvals, inquiry tracking, analytics, and AI-assisted real estate workflows.</p>
+      <h1 class="reveal">Manage Properties From One Dashboard</h1>
+      <p class="pv-hero-copy reveal">PropVista gives buyers, sellers, and admins a single operating layer for property discovery, listing approvals, inquiry tracking, analytics, and streamlined real estate workflows.</p>
       <form class="pm-command-search pv-glass reveal" action="{% url 'properties:list' %}">
         <div>
           <label>Location</label>
@@ -34,10 +34,7 @@
         </div>
         <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-search"></i> Open inventory</button>
       </form>
-      <div class="pm-hero-actions reveal">
-        <a class="pv-btn pv-btn-primary" href="{% url 'accounts:demo_login' 'seller' %}"><i class="bi bi-speedometer2"></i> Seller demo</a>
-        <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:demo_login' 'admin' %}"><i class="bi bi-shield-check"></i> Admin console</a>
-      </div>
+
       <div class="pm-filter-chips reveal" aria-label="Popular filters">
         <a class="chip" href="{% url 'properties:list' %}?property_type=apartment"><i class="bi bi-building"></i> Apartment</a>
         <a class="chip" href="{% url 'properties:list' %}?max_price=10000000"><i class="bi bi-currency-rupee"></i> Under 1 Cr</a>
@@ -46,34 +43,123 @@
       </div>
     </div>
 
-    <div class="pm-command-stack reveal" aria-label="Platform operations preview">
-      <div class="pm-holo-panel pv-card">
-        <div class="pm-panel-head">
-          <div><span>Portfolio health</span><strong>Live operations</strong></div>
-          <i class="bi bi-activity"></i>
-        </div>
-        <div class="pm-ring">
-          <div class="pm-ring-core">
-            <strong data-counter="{{ stats.properties }}">0</strong>
-            <span>Managed assets</span>
+    <div class="pm-command-center-container reveal" aria-label="Platform operations preview">
+      <div class="pm-command-center pv-glass p-4 rounded-4 shadow-lg w-100" style="border: 1px solid rgba(255, 255, 255, 0.4); max-width: 600px;">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-cpu text-primary fs-4"></i>
+            <h3 class="h5 mb-0 fw-bold pv-serif">Operations Overview</h3>
           </div>
-          <span class="pm-node pm-node-a">Leads</span>
-          <span class="pm-node pm-node-b">Visits</span>
-          <span class="pm-node pm-node-c">Approvals</span>
+          <span class="badge bg-success-subtle text-success p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.7rem;">Live System</span>
         </div>
-        <div class="pm-mini-grid">
-          <div><strong data-counter="{{ stats.cities }}">0</strong><span>Cities</span></div>
-          <div><strong data-counter="{{ stats.agents }}">0</strong><span>Agents</span></div>
-          <div><strong data-counter="{{ stats.sellers }}">0</strong><span>Sellers</span></div>
+
+        <!-- Metric cards grid -->
+        <div class="row g-3 mb-4">
+          <!-- Properties -->
+          <div class="col-6">
+            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                <i class="bi bi-houses text-primary"></i>
+                <span class="small fw-semibold">Properties</span>
+              </div>
+              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.properties }}">0</strong>
+              <span class="small text-success fw-bold"><i class="bi bi-arrow-up-short"></i> Active inventory</span>
+            </div>
+          </div>
+
+          <!-- Buyer Pipeline -->
+          <div class="col-6">
+            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                <i class="bi bi-people text-info"></i>
+                <span class="small fw-semibold">Buyer Pipeline</span>
+              </div>
+              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
+              <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
+            </div>
+          </div>
+
+          <!-- Visits -->
+          <div class="col-6">
+            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                <i class="bi bi-calendar2-check text-warning"></i>
+                <span class="small fw-semibold">Visits</span>
+              </div>
+              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.visits }}">0</strong>
+              <span class="small text-warning fw-bold"><i class="bi bi-clock-history"></i> Scheduled</span>
+            </div>
+          </div>
+
+          <!-- Pending Approvals -->
+          <div class="col-6">
+            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                <i class="bi bi-shield-exclamation text-danger"></i>
+                <span class="small fw-semibold">Pending Approvals</span>
+              </div>
+              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.pending }}">0</strong>
+              <span class="small text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Requires attention</span>
+            </div>
+          </div>
+
+          <!-- Revenue Pipeline -->
+          <div class="col-12">
+            <div class="pv-card p-3 d-flex justify-content-between align-items-center bg-white bg-opacity-75" style="border-radius: 16px;">
+              <div class="d-flex align-items-center gap-2 text-secondary">
+                <i class="bi bi-currency-rupee text-success fs-5"></i>
+                <div>
+                  <span class="small fw-semibold d-block">Revenue Pipeline</span>
+                  <span class="small text-success fw-bold"><i class="bi bi-arrow-up-right"></i> Active pipeline</span>
+                </div>
+              </div>
+              <strong class="fs-4 text-success">{{ metrics.revenue }}</strong>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="pm-floating-panel pm-panel-a pv-card">
-        <i class="bi bi-patch-check-fill"></i>
-        <div><strong>Approval queue</strong><span>Moderate premium listings before they go live.</span></div>
-      </div>
-      <div class="pm-floating-panel pm-panel-b pv-card">
-        <i class="bi bi-stars"></i>
-        <div><strong>AI listing assist</strong><span>Generate summaries, lead intent, and market copy.</span></div>
+
+        <!-- Recent Activity Timeline & Quick Actions layout -->
+        <div class="row g-3">
+          <!-- Activity Timeline -->
+          <div class="col-md-7">
+            <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-clock-history"></i> Recent Activity</h4>
+            <div class="vstack gap-2" style="max-height: 200px; overflow-y: auto; padding-right: 4px;">
+              {% for activity in recent_activities %}
+                <div class="d-flex align-items-start gap-2 p-2 rounded bg-white bg-opacity-50 border-bottom border-light">
+                  <i class="bi {{ activity.icon }} fs-6 mt-0.5"></i>
+                  <div class="flex-grow-1">
+                    <span class="small text-dark fw-semibold d-block" style="line-height: 1.25;">{{ activity.text }}</span>
+                    <span class="small text-secondary" style="font-size: 0.7rem;">{{ activity.time|timesince }} ago</span>
+                  </div>
+                </div>
+              {% empty %}
+                <span class="small text-secondary">No activity logged.</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Quick Actions Right Panel -->
+          <div class="col-md-5 border-start-md ps-md-3">
+            <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h4>
+            <div class="vstack gap-2">
+              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:create' %}">
+                <i class="bi bi-plus-circle text-primary me-2"></i> <span class="small fw-bold text-dark">New Property</span>
+              </a>
+              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:approvals_list' %}">
+                <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
+              </a>
+              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
+                <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Buyer Pipeline</span>
+              </a>
+              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
+                <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
+              </a>
+              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'reports:home' %}">
+                <i class="bi bi-file-earmark-bar-graph text-secondary me-2"></i> <span class="small fw-bold text-dark">Export Report</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -95,7 +181,7 @@
       <div class="pm-op-card pv-card">
         <i class="bi bi-chat-dots"></i>
         <strong>Convert</strong>
-        <span>Track inquiries, visits, favorites, and leads.</span>
+        <span>Track inquiries, visits, favorites, and buyer pipeline.</span>
       </div>
       <div class="pm-op-card pv-card">
         <i class="bi bi-graph-up-arrow"></i>
@@ -142,20 +228,27 @@
         <div class="pm-analytics-grid">
           <div class="pm-analytics-kpis">
             <div class="stat-mini"><strong data-counter="{{ stats.properties }}">0</strong><span>Active listings</span></div>
-            <div class="stat-mini"><strong data-counter="184">0</strong><span>Total leads</span></div>
-            <div class="stat-mini"><strong data-counter="68" data-suffix="%">0</strong><span>Conversion rate</span></div>
-            <div class="stat-mini"><strong data-counter="4.8" data-prefix="" data-suffix="/5">0</strong><span>Agent rating</span></div>
-            <div class="stat-mini"><strong data-counter="92" data-suffix="%">0</strong><span>Retention</span></div>
-            <div class="stat-mini"><strong data-counter="24" data-suffix="h">0</strong><span>Avg approval</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.leads }}">0</strong><span>Buyer Pipeline</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.conversion_rate }}" data-suffix="%">0</strong><span>Inquiry Performance</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.visits }}">0</strong><span>Site visits</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.inquiries }}">0</strong><span>Total inquiries</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.pending }}">0</strong><span>Pending approvals</span></div>
           </div>
-          <div class="pm-chart-card"><canvas class="dashboard-chart" data-title="Traffic trend" data-labels='["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]' data-values='[420,580,730,860,1180,1320,1680]'></canvas></div>
-          <div class="pm-chart-card"><canvas class="dashboard-chart" data-type="doughnut" data-title="Asset distribution" data-labels='["Apartment","Villa","Commercial","Office"]' data-values='[46,24,18,12]'></canvas></div>
+          <div class="pm-chart-card"><canvas class="dashboard-chart" data-title="Traffic trend" data-labels='[{% for l in traffic_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in traffic_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
+          <div class="pm-chart-card"><canvas class="dashboard-chart" data-type="doughnut" data-title="Asset distribution" data-labels='[{% for l in asset_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in asset_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
           <div class="pm-activity-timeline">
             <div class="pv-eyebrow mb-3 mt-2" style="font-size: 0.65rem;"><i class="bi bi-clock-history"></i> Real-time activity</div>
-            <div class="activity"><div><strong>Premium villa approved</strong><div class="pv-muted small">Verification team</div></div><strong>12m ago</strong></div>
-            <div class="activity"><div><strong>New inquiry received</strong><div class="pv-muted small">Bandra Signature Residence</div></div><strong>34m ago</strong></div>
-            <div class="activity"><div><strong>Visit scheduled</strong><div class="pv-muted small">Whitefield Luxury Suite</div></div><strong>1h ago</strong></div>
-            <div class="activity"><div><strong>AI Listing generated</strong><div class="pv-muted small">System process</div></div><strong>2h ago</strong></div>
+            {% for act in recent_activities %}
+              <div class="activity">
+                <div>
+                  <strong>{{ act.text }}</strong>
+                  <div class="pv-muted small"><i class="bi {{ act.icon }}"></i> Event logged</div>
+                </div>
+                <strong>{{ act.time|timesince }} ago</strong>
+              </div>
+            {% empty %}
+              <div class="pv-muted small p-2">No recent activity.</div>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -163,16 +256,14 @@
         <span class="pv-eyebrow"><i class="bi bi-diagram-3"></i> Role-based workspaces</span>
         <h2 class="display-heading h1 mt-3">Every stakeholder gets the right control surface</h2>
         <div class="pm-demo-access">
-          <a class="pm-demo-card buyer" href="{% url 'accounts:demo_login' 'buyer' %}"><i class="bi bi-person-heart"></i><span><strong>Try Buyer Workspace</strong><small>Saved homes, visits, inquiries.</small></span><em>Open</em></a>
-          <a class="pm-demo-card seller" href="{% url 'accounts:demo_login' 'seller' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, leads, approvals.</small></span><em>Open</em></a>
-          <a class="pm-demo-card agent" href="{% url 'accounts:demo_login' 'agent' %}"><i class="bi bi-person-workspace"></i><span><strong>Try Agent Workspace</strong><small>Pipeline and follow-ups.</small></span><em>Open</em></a>
-          <a class="pm-demo-card admin" href="{% url 'accounts:demo_login' 'admin' %}"><i class="bi bi-shield-check"></i><span><strong>Try Admin Workspace</strong><small>Audit and platform health.</small></span><em>Open</em></a>
+          <a class="pm-demo-card buyer" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><span><strong>Try Buyer Workspace</strong><small>Saved homes, visits, inquiries.</small></span><em>Open</em></a>
+          <a class="pm-demo-card seller" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, buyer pipeline, approvals.</small></span><em>Open</em></a>
+          <a class="pm-demo-card admin" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><span><strong>Try Admin Workspace</strong><small>Audit and platform health.</small></span><em>Open</em></a>
         </div>
         <div class="pm-role-list">
-          <a class="pm-role-card pv-card" href="{% url 'accounts:demo_login' 'buyer' %}"><i class="bi bi-person-heart"></i><strong>Buyer</strong><span>Wishlist, inquiry, and visit tracking.</span></a>
-          <a class="pm-role-card pv-card" href="{% url 'accounts:demo_login' 'seller' %}"><i class="bi bi-house-gear"></i><strong>Seller</strong><span>Listing operations and inquiry metrics.</span></a>
-          <a class="pm-role-card pv-card" href="{% url 'accounts:demo_login' 'agent' %}"><i class="bi bi-person-workspace"></i><strong>Agent</strong><span>Lead pipeline and property follow-up.</span></a>
-          <a class="pm-role-card pv-card" href="{% url 'accounts:demo_login' 'admin' %}"><i class="bi bi-shield-check"></i><strong>Admin</strong><span>Approvals, audit trail, and platform health.</span></a>
+          <a class="pm-role-card pv-card" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><strong>Buyer</strong><span>Wishlist, inquiry, and visit tracking.</span></a>
+          <a class="pm-role-card pv-card" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><strong>Seller</strong><span>Listing operations and inquiry metrics.</span></a>
+          <a class="pm-role-card pv-card" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><strong>Admin</strong><span>Approvals, audit trail, and platform health.</span></a>
         </div>
       </div>
     </div>
@@ -204,7 +295,7 @@
       <div>
         <span class="pv-eyebrow bg-white text-primary"><i class="bi bi-building-add"></i> Deploy the workspace</span>
         <h2 class="display-heading display-4 mt-3">Run your real estate platform like an operations desk</h2>
-        <p class="pv-muted">Publish premium listings, route inquiries, monitor approvals, and keep buyers, sellers, agents, and admins aligned.</p>
+        <p class="pv-muted">Publish premium listings, route inquiries, monitor approvals, and keep buyers, sellers, and admins aligned.</p>
       </div>
       <div class="pm-cta-actions">
         <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:register' %}">Create account</a>

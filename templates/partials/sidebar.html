@@ -1,0 +1,42 @@
+{% with url_name=request.resolver_match.url_name ns=request.resolver_match.namespace %}
+<aside class="dashboard-sidebar">
+  <div class="sidebar-profile d-flex align-items-center gap-3 p-3 border-bottom mb-3">
+    {% if user.avatar %}
+      <img src="{{ user.avatar.url }}" alt="avatar" class="rounded-circle border border-2 border-primary" style="width: 44px; height: 44px; object-fit: cover;">
+    {% else %}
+      <div class="pv-avatar bg-primary text-white fw-bold d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; font-size: 1.1rem; border-radius: 50%;">{{ user.username|slice:":2"|upper }}</div>
+    {% endif %}
+    <div class="overflow-hidden">
+      <h6 class="mb-0 text-dark fw-bold text-truncate">{{ user.first_name|default:user.username }}</h6>
+      <small class="text-muted text-uppercase text-truncate d-block font-monospace" style="font-size: 0.7rem;">{{ user.role|default:"Admin" }}</small>
+    </div>
+  </div>
+  {% if user.is_admin_role %}
+    <div class="dash-nav-label">Executive command</div>
+    <a class="dash-link {% if url_name == 'admin_dashboard' or url_name == 'dashboard' %}active{% endif %}" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <a class="dash-link {% if url_name == 'approvals_list' %}active{% endif %}" href="{% url 'properties:approvals_list' %}"><i class="bi bi-shield-check"></i> Approvals</a>
+    <a class="dash-link {% if ns == 'reports' %}active{% endif %}" href="{% url 'reports:home' %}"><i class="bi bi-activity"></i> Reports</a>
+    <a class="dash-link" href="/admin/"><i class="bi bi-people"></i> Users</a>
+    <a class="dash-link {% if ns == 'notifications' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell"></i> Notifications</a>
+    <a class="dash-link {% if url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person-gear"></i> Profile</a>
+
+  {% elif user.role == 'seller' %}
+    <div class="dash-nav-label">Seller operating system</div>
+    <a class="dash-link {% if url_name == 'seller_dashboard' or url_name == 'dashboard' %}active{% endif %}" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <a class="dash-link {% if ns == 'properties' and url_name == 'create' %}active{% endif %}" href="{% url 'properties:create' %}"><i class="bi bi-plus-circle"></i> Listings</a>
+    <a class="dash-link {% if ns == 'leads' %}active{% endif %}" href="{% url 'leads:list' %}"><i class="bi bi-kanban"></i> Buyer Pipeline</a>
+    <a class="dash-link {% if ns == 'inquiries' %}active{% endif %}" href="{% url 'inquiries:list' %}"><i class="bi bi-chat-right-text"></i> Inquiries</a>
+    <a class="dash-link {% if ns == 'reports' %}active{% endif %}" href="{% url 'reports:home' %}"><i class="bi bi-bar-chart"></i> Reports</a>
+    <a class="dash-link {% if ns == 'notifications' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell"></i> Notifications</a>
+    <a class="dash-link {% if url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person-gear"></i> Profile</a>
+
+  {% else %}
+    <div class="dash-nav-label">Buyer workspace</div>
+    <a class="dash-link {% if url_name == 'buyer_dashboard' or url_name == 'dashboard' %}active{% endif %}" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <a class="dash-link {% if url_name == 'wishlist' %}active{% endif %}" href="{% url 'favorites:wishlist' %}"><i class="bi bi-heart"></i> Favorites</a>
+    <a class="dash-link {% if ns == 'inquiries' %}active{% endif %}" href="{% url 'inquiries:list' %}"><i class="bi bi-chat-right-text"></i> Inquiries</a>
+    <a class="dash-link {% if ns == 'notifications' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell"></i> Notifications</a>
+    <a class="dash-link {% if url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person-gear"></i> Profile</a>
+  {% endif %}
+</aside>
+{% endwith %}

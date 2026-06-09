@@ -2,20 +2,184 @@
 {% block title %}Create account | PropVista{% endblock %}
 {% block content %}
 <section class="auth-screen">
-  <div class="auth-card wide pv-glass reveal">
+  <div class="auth-card wide pv-glass reveal" style="max-width: 800px; padding: 3rem 2.5rem; margin-inline: auto;">
     <span class="pv-eyebrow"><i class="bi bi-person-plus"></i> Join PropVista</span>
-    <h1 class="pv-serif display-5 mt-3">Create your real estate workspace</h1>
-    <p class="pv-muted">Choose Buyer, Seller, Agent, or Admin role and access the relevant dashboard immediately.</p>
-    <form method="post" class="row g-3 mt-3">{% csrf_token %}
-      {% for field in form %}
-        <div class="col-md-6">
-          <label class="form-label fw-bold">{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}<div class="text-danger small mt-1">{{ field.errors }}</div>{% endif %}
+    <h1 class="pv-serif display-5 mt-3 mb-2">Create your real estate workspace</h1>
+    <p class="pv-muted mb-4">Choose a Buyer or Seller role to access your dedicated dashboard immediately.</p>
+    
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger p-3 mb-4 rounded-4" role="alert">
+        {% for error in form.non_field_errors %}
+          <div class="small fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" class="row g-3">
+      {% csrf_token %}
+      
+      <div class="col-md-6">
+        <label for="id_username" class="form-label fw-bold mb-2">Username</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-person"></i></span>
+          <input type="text" name="username" required id="id_username" 
+                 class="form-control ps-5" placeholder="Choose a username"
+                 value="{{ form.username.value|default:'' }}">
         </div>
-      {% endfor %}
-      <div class="col-12"><button class="pv-btn pv-btn-primary w-100" type="submit">Create account</button></div>
+        {% if form.username.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.username.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_email" class="form-label fw-bold mb-2">Email Address</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-envelope"></i></span>
+          <input type="email" name="email" required id="id_email" 
+                 class="form-control ps-5" placeholder="Enter your email"
+                 value="{{ form.email.value|default:'' }}">
+        </div>
+        {% if form.email.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.email.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_first_name" class="form-label fw-bold mb-2">First Name</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-person-badge"></i></span>
+          <input type="text" name="first_name" required id="id_first_name" 
+                 class="form-control ps-5" placeholder="First name"
+                 value="{{ form.first_name.value|default:'' }}">
+        </div>
+        {% if form.first_name.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.first_name.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_last_name" class="form-label fw-bold mb-2">Last Name</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-person-badge"></i></span>
+          <input type="text" name="last_name" required id="id_last_name" 
+                 class="form-control ps-5" placeholder="Last name"
+                 value="{{ form.last_name.value|default:'' }}">
+        </div>
+        {% if form.last_name.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.last_name.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_phone" class="form-label fw-bold mb-2">Phone Number</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-telephone"></i></span>
+          <input type="text" name="phone" id="id_phone" 
+                 class="form-control ps-5" placeholder="e.g. +91 9876543210"
+                 value="{{ form.phone.value|default:'' }}">
+        </div>
+        {% if form.phone.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.phone.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_role" class="form-label fw-bold mb-2">Workspace Role</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-briefcase"></i></span>
+          <select name="role" id="id_role" class="form-select ps-5">
+            {% for value, text in form.fields.role.choices %}
+              <option value="{{ value }}" {% if form.role.value == value %}selected{% endif %}>{{ text }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        {% if form.role.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.role.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_password1" class="form-label fw-bold mb-2">Password</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-lock"></i></span>
+          <input type="password" name="password1" required id="id_password1" 
+                 class="form-control px-5" placeholder="Create password">
+          <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 text-muted border-0 bg-transparent toggle-pw-btn"
+                  data-target="#id_password1" aria-label="Toggle password visibility">
+            <i class="bi bi-eye pw-icon"></i>
+          </button>
+        </div>
+        {% if form.password1.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.password1.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="id_password2" class="form-label fw-bold mb-2">Confirm Password</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-lock"></i></span>
+          <input type="password" name="password2" required id="id_password2" 
+                 class="form-control px-5" placeholder="Confirm password">
+          <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 text-muted border-0 bg-transparent toggle-pw-btn"
+                  data-target="#id_password2" aria-label="Toggle password visibility">
+            <i class="bi bi-eye pw-icon"></i>
+          </button>
+        </div>
+        {% if form.password2.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.password2.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col-12 mt-4">
+        <button class="pv-btn pv-btn-primary w-100 py-3" type="submit">Create account</button>
+      </div>
     </form>
+    
+    <p class="text-center mt-4 mb-0 small text-muted">
+      Already have an account? <a href="{% url 'accounts:login' %}" class="text-accent fw-bold">Sign in</a>
+    </p>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleButtons = document.querySelectorAll('.toggle-pw-btn');
+    toggleButtons.forEach(button => {
+      button.addEventListener('click', function () {
+        const targetSelector = this.getAttribute('data-target');
+        const passwordInput = document.querySelector(targetSelector);
+        const passwordIcon = this.querySelector('.pw-icon');
+        
+        if (passwordInput && passwordIcon) {
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          
+          if (type === 'text') {
+            passwordIcon.classList.remove('bi-eye');
+            passwordIcon.classList.add('bi-eye-slash');
+          } else {
+            passwordIcon.classList.remove('bi-eye-slash');
+            passwordIcon.classList.add('bi-eye');
+          }
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

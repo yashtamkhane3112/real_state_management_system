@@ -49,7 +49,7 @@ class LeadViewSet(viewsets.ModelViewSet):
         qs = Lead.objects.select_related("owner", "property").prefetch_related("activities")
         if user.is_admin_role:
             return qs
-        if user.role in {"seller", "agent"}:
+        if user.role == "seller":
             return qs.filter(owner=user)
         return qs.none()
 

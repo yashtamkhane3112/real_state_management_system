@@ -1,3 +1,105 @@
 {% extends "base.html" %}
-{% block content %}<section class="container py-5"><div class="d-flex justify-content-between"><h1>Leads</h1><a class="btn btn-accent" href="{% url 'leads:create' %}">New</a></div><div class="glass p-4">{% for lead in leads %}<div class="activity">{{ lead.name }}<span>{{ lead.stage }}</span></div>{% endfor %}</div></section>{% endblock %}
+{% block title %}Buyer Pipeline | PropVista{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
 
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-person-lines-fill"></i> Buyer CRM</span>
+        <h1 class="pv-serif display-5 mt-2 mb-1">Buyer Pipeline</h1>
+        <p class="pv-muted fs-6 mb-0">Track inquiry conversion stages, manage follow-up times, and close opportunities.</p>
+      </div>
+      <div>
+        <a class="pv-btn pv-btn-primary" href="{% url 'leads:create' %}"><i class="bi bi-person-plus"></i> New Pipeline Entry</a>
+      </div>
+    </div>
+
+    {% if messages %}
+      <div class="mb-4">
+        {% for msg in messages %}
+          <div class="alert alert-{% if msg.tags == 'error' %}danger{% else %}{{ msg.tags }}{% endif %} p-3 rounded-4" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="pv-card p-4 reveal">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" style="border-radius: 12px 0 0 12px;">Name</th>
+              <th scope="col">Property Target</th>
+              <th scope="col">Contact Details</th>
+              <th scope="col">Score</th>
+              <th scope="col">Follow-up Date</th>
+              <th scope="col" style="border-radius: 0 12px 12px 0;">Stage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for lead in leads %}
+              <tr>
+                <td>
+                  <div class="fw-bold text-dark">{{ lead.name }}</div>
+                </td>
+                <td>
+                  {% if lead.property %}
+                    <a class="text-decoration-none fw-semibold text-accent small" href="{% url 'properties:detail' lead.property.slug %}">
+                      {{ lead.property.title }}
+                    </a>
+                    <div class="text-muted small"><i class="bi bi-geo-alt"></i> {{ lead.property.city }}</div>
+                  {% else %}
+                    <span class="text-muted small">General Interest</span>
+                  {% endif %}
+                </td>
+                <td>
+                  {% if lead.email %}
+                    <div class="small"><i class="bi bi-envelope"></i> {{ lead.email }}</div>
+                  {% endif %}
+                  {% if lead.phone %}
+                    <div class="small"><i class="bi bi-telephone"></i> {{ lead.phone }}</div>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="badge {% if lead.score >= 80 %}bg-success-subtle text-success{% elif lead.score >= 50 %}bg-warning-subtle text-warning{% else %}bg-danger-subtle text-danger{% endif %} py-1 px-2.5 rounded-pill small">
+                    Score: {{ lead.score }}
+                  </span>
+                </td>
+                <td class="small text-muted">
+                  {{ lead.follow_up_at|date:"M d, Y"|default:"Not scheduled" }}
+                  {% if lead.follow_up_at %}
+                    <div class="small text-muted">{{ lead.follow_up_at|time:"P" }}</div>
+                  {% endif %}
+                </td>
+                <td>
+                  <span class="badge 
+                    {% if lead.stage == 'new' %}bg-primary-subtle text-primary
+                    {% elif lead.stage == 'contacted' %}bg-warning-subtle text-warning
+                    {% elif lead.stage == 'visit' %}bg-info-subtle text-info
+                    {% elif lead.stage == 'won' %}bg-success-subtle text-success
+                    {% else %}bg-danger-subtle text-danger{% endif %} p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.75rem;">
+                    {{ lead.get_stage_display }}
+                  </span>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="text-center py-5">
+                  <div class="pv-muted mb-3"><i class="bi bi-people" style="font-size: 3rem;"></i></div>
+                  <h3 class="h5 text-secondary">No pipeline entries found</h3>
+                  <p class="pv-muted small">Active pipeline entries will be listed here for management.</p>
+                  <a class="pv-btn pv-btn-ghost mt-3 py-1.5 px-4" href="{% url 'leads:create' %}">Add first entry</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

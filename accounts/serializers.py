@@ -10,6 +10,11 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ("id", "username", "email", "password", "first_name", "last_name", "phone", "role")
 
+    def validate_role(self, value):
+        if value not in [User.Role.BUYER, User.Role.SELLER]:
+            raise serializers.ValidationError("Public registration only allows Buyer or Seller roles.")
+        return value
+
     def create(self, validated_data):
         password = validated_data.pop("password")
         user = User.objects.create_user(password=password, **validated_data)

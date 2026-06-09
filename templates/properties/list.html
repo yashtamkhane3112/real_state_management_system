@@ -6,8 +6,8 @@
     <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> Curated marketplace</span>
     <div class="row align-items-end g-4 mt-2">
       <div class="col-lg-8">
-        <h1 class="pv-serif display-3 fw-bold mb-3 reveal">Properties for sale</h1>
-        <p class="pv-muted fs-5 reveal">Browse premium homes with map intelligence, verified amenities, and owner-ready inquiry workflows.</p>
+        <h1 class="pv-serif display-3 fw-bold mb-3 reveal">{% if request.GET.owner == 'me' %}My Properties{% else %}Properties for sale{% endif %}</h1>
+        <p class="pv-muted fs-5 reveal">{% if request.GET.owner == 'me' %}View and manage your listings, including pending, approved, and rejected properties.{% else %}Browse premium homes with map intelligence, verified amenities, and owner-ready inquiry workflows.{% endif %}</p>
       </div>
       <div class="col-lg-4 text-lg-end reveal">
         <a class="pv-btn pv-btn-primary" href="{% url 'properties:create' %}"><i class="bi bi-plus-lg"></i> Add property</a>
@@ -19,7 +19,7 @@
 <section class="pv-section-sm">
   <div class="container">
     <div class="listing-grid-shell">
-      <aside class="filter-panel pv-card reveal">
+      <aside class="filter-panel pv-card no-reveal">
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h2 class="h5 fw-black mb-0">Filters</h2>
           <i class="bi bi-sliders"></i>
@@ -30,7 +30,9 @@
           <input class="form-control" name="locality" value="{{ filters.locality }}" placeholder="Locality">
           <select class="form-select" name="property_type">
             <option value="">Property type</option>
-            {% for value,label in property_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+            {% for value,label in property_types %}
+              <option value="{{ value }}" {% if filters.property_type == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
           </select>
           <div class="row g-2">
             <div class="col-6"><input class="form-control" name="min_price" value="{{ filters.min_price }}" placeholder="Min price"></div>
@@ -42,10 +44,10 @@
           </div>
           <select class="form-select" name="sort">
             <option value="">Sort: Featured</option>
-            <option value="price">Price low to high</option>
-            <option value="-price">Price high to low</option>
-            <option value="popular">Popularity</option>
-            <option value="date">Newest</option>
+            <option value="price" {% if filters.sort == 'price' %}selected{% endif %}>Price low to high</option>
+            <option value="-price" {% if filters.sort == '-price' %}selected{% endif %}>Price high to low</option>
+            <option value="popular" {% if filters.sort == 'popular' %}selected{% endif %}>Popularity</option>
+            <option value="date" {% if filters.sort == 'date' %}selected{% endif %}>Newest</option>
           </select>
           <button class="pv-btn pv-btn-primary w-100">Apply filters</button>
         </form>
@@ -58,7 +60,7 @@
           </div>
           <div class="d-flex gap-2 flex-wrap justify-content-end align-items-center">
             {% if user.is_authenticated %}
-              <form method="post" action="{% url 'search:saved_create' %}" class="d-flex gap-2 p-2 bg-light rounded-pill border" data-save-search-form>
+              <form method="post" action="{% url 'search:saved_create' %}?{{ request.GET.urlencode }}" class="d-flex gap-2 p-2 bg-light rounded-pill border" data-save-search-form>
                 {% csrf_token %}
                 <input class="form-control form-control-sm border-0 bg-transparent" name="name" placeholder="Name this search" required style="box-shadow: none;">
                 <button class="pv-btn pv-btn-primary py-1 px-3" type="submit" style="min-height: 32px; font-size: 0.8rem;"><i class="bi bi-bookmark-plus"></i> Save</button>
@@ -81,7 +83,9 @@
         </div>
         {% if properties %}
         <div class="pv-card map-panel mt-5 reveal shadow-lg" style="border: 4px solid #fff;">
-          <div id="listingMap" data-pins='[{% for p in properties %}{% if p.latitude and p.longitude %}{"title":"{{ p.title|escapejs }}","city":"{{ p.city|escapejs }}","locality":"{{ p.locality|escapejs }}","price":"{{ p.price|floatformat:0 }}","lat":{{ p.latitude }},"lng":{{ p.longitude }},"url":"{% url 'properties:detail' p.slug %}"}{% if not forloop.last %},{% endif %}{% endif %}{% endfor %}]'></div>
+          {% with geo_props=properties %}
+          <div id="listingMap" data-pins='[{% for p in geo_props %}{% if p.latitude and p.longitude %}{% if not forloop.first and p.latitude and p.longitude %},{% endif %}{"title":"{{ p.title|escapejs }}","city":"{{ p.city|escapejs }}","locality":"{{ p.locality|escapejs }}","price":"{{ p.price|floatformat:0 }}","type":"{{ p.property_type|title|escapejs }}"{% if p.cover_image %},"image":"{{ p.cover_image.url }}"{% endif %},"lat":{{ p.latitude }},"lng":{{ p.longitude }},"url":"{% url 'properties:detail' p.slug %}"}{% endif %}{% endfor %}]'></div>
+          {% endwith %}
         </div>
         {% endif %}
       </div>

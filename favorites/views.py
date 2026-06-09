@@ -9,7 +9,6 @@ from .models import Favorite
 
 
 @login_required
-@require_POST
 def toggle(request, slug):
     prop = get_object_or_404(Property.objects.public(), slug=slug)
     favorite, created = Favorite.objects.get_or_create(user=request.user, property=prop)
@@ -18,6 +17,9 @@ def toggle(request, slug):
         messages.info(request, "Removed from wishlist.")
     else:
         messages.success(request, "Saved to wishlist.")
+    referer = request.META.get("HTTP_REFERER")
+    if referer:
+        return redirect(referer)
     return redirect("properties:detail", slug=slug)
 
 

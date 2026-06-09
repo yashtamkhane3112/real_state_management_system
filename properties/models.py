@@ -1,6 +1,25 @@
+import os
+import uuid
 from django.conf import settings
 from django.db import models
-from django.utils.text import slugify
+from django.utils.text import get_valid_filename, slugify
+
+def get_short_sanitized_filename(filename, max_length=50):
+    name, ext = os.path.splitext(filename)
+    name = get_valid_filename(name).replace(' ', '_')
+    allowed_length = max_length - len(ext)
+    if allowed_length <= 0:
+        return f"{uuid.uuid4().hex[:8]}{ext}"
+    if len(name) > allowed_length:
+        name = name[:allowed_length]
+    return f"{name}{ext}"
+
+def upload_property_cover(instance, filename):
+    return os.path.join("properties/covers/", get_short_sanitized_filename(filename))
+
+def upload_property_gallery(instance, filename):
+    return os.path.join("properties/gallery/", get_short_sanitized_filename(filename))
+
 
 
 class PropertyQuerySet(models.QuerySet):
@@ -95,7 +114,7 @@ class Property(models.Model):
     year_built = models.PositiveSmallIntegerField(null=True, blank=True)
     parking = models.PositiveSmallIntegerField(default=0)
     amenities = models.ManyToManyField(Amenity, blank=True, related_name="properties")
-    cover_image = models.ImageField(upload_to="properties/covers/", blank=True, null=True)
+    cover_image = models.ImageField(upload_to=upload_property_cover, blank=True, null=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, db_index=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True, db_index=True)
     address = models.TextField()
@@ -139,6 +158,6 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="properties/gallery/")
+    image = models.ImageField(upload_to=upload_property_gallery)
     caption = models.CharField(max_length=160, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

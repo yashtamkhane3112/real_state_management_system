@@ -1,23 +1,49 @@
+import os
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.text import get_valid_filename
+
+
+def upload_avatar(instance, filename):
+    name, ext = os.path.splitext(filename)
+    name = get_valid_filename(name).replace(' ', '_')
+    max_length = 50
+    allowed_length = max_length - len(ext)
+    if allowed_length <= 0:
+        short_name = f"{uuid.uuid4().hex[:8]}{ext}"
+    else:
+        if len(name) > allowed_length:
+            name = name[:allowed_length]
+        short_name = f"{name}{ext}"
+    return os.path.join("avatars/", short_name)
 
 
 class User(AbstractUser):
     class Role(models.TextChoices):
         BUYER = "buyer", "Buyer"
         SELLER = "seller", "Seller"
-        AGENT = "agent", "Agent"
         ADMIN = "admin", "Admin"
 
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.BUYER, db_index=True)
     phone = models.CharField(max_length=24, blank=True, db_index=True)
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    avatar = models.ImageField(upload_to=upload_avatar, blank=True, null=True)
     is_verified = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     @property
     def is_admin_role(self):
         return self.role == self.Role.ADMIN or self.is_staff or self.is_superuser
+
+    def has_perm(self, perm, obj=None):
+        if self.is_active and (self.role == self.Role.ADMIN or self.is_superuser):
+            return True
+        return super().has_perm(perm, obj)
+
+    def has_module_perms(self, app_label):
+        if self.is_active and (self.role == self.Role.ADMIN or self.is_superuser):
+            return True
+        return super().has_module_perms(app_label)
 
 
 class Profile(models.Model):

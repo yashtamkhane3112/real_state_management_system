@@ -23,7 +23,7 @@
     gsap.registerPlugin(window.ScrollTrigger);
     gsap.from("body", { opacity: 0, duration: .55, ease: "power2.out" });
     gsap.from(".pv-navbar", { y: -10, opacity: 0, duration: .8, ease: "power2.out" });
-    qsa(".reveal, .pv-card, .property-card-premium").forEach((el) => {
+    qsa(".reveal:not(.no-reveal), .pv-card:not(.no-reveal), .property-card-premium:not(.no-reveal)").forEach((el) => {
       gsap.from(el, {
         y: 14,
         duration: .95,
@@ -461,9 +461,61 @@
   }
 
   function parsePins(el) {
-    return JSON.parse(el.dataset.pins || "[]")
-      .filter((p) => p.lat && p.lng)
-      .map((p) => ({ ...p, lat: Number(p.lat), lng: Number(p.lng) }));
+    try {
+      // Normalize potentially malformed JSON from template (extra/trailing commas)
+      var raw = (el.dataset.pins || "[]").replace(/,\s*,/g, ",").replace(/\[\s*,/g, "[").replace(/,\s*\]/g, "]");
+      return JSON.parse(raw)
+        .filter((p) => p.lat && p.lng)
+        .map((p) => ({ ...p, lat: Number(p.lat), lng: Number(p.lng) }));
+    } catch (e) { return []; }
+  }
+
+  function pvTileLayer() {
+    return L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://openstreetmap.org" target="_blank">OSM</a>'
+    });
+  }
+
+  function pvCustomIcon(color) {
+    const c = color || "#7c3aed";
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 48" width="36" height="48">
+      <defs>
+        <filter id="shadow" x="-20%" y="-10%" width="140%" height="130%">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.28)"/>
+        </filter>
+      </defs>
+      <path filter="url(#shadow)" d="M18 2C10.268 2 4 8.268 4 16c0 10.5 14 30 14 30S32 26.5 32 16C32 8.268 25.732 2 18 2z" fill="${c}"/>
+      <circle cx="18" cy="16" r="7" fill="white" fill-opacity="0.92"/>
+      <path d="M15 16l2 2 4-4" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>`;
+    return L.divIcon({
+      html: svg,
+      className: "",
+      iconSize: [36, 48],
+      iconAnchor: [18, 48],
+      popupAnchor: [0, -50]
+    });
+  }
+
+  function pvPickerIcon() {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 48" width="36" height="48">
+      <defs>
+        <filter id="ps" x="-20%" y="-10%" width="140%" height="130%">
+          <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="rgba(0,0,0,0.35)"/>
+        </filter>
+      </defs>
+      <path filter="url(#ps)" d="M18 2C10.268 2 4 8.268 4 16c0 10.5 14 30 14 30S32 26.5 32 16C32 8.268 25.732 2 18 2z" fill="#0ea5e9"/>
+      <circle cx="18" cy="16" r="7" fill="white" fill-opacity="0.9"/>
+      <circle cx="18" cy="16" r="3.5" fill="#0ea5e9"/>
+    </svg>`;
+    return L.divIcon({
+      html: svg,
+      className: "",
+      iconSize: [36, 48],
+      iconAnchor: [18, 48],
+      popupAnchor: [0, -50]
+    });
   }
 
   function renderMapFallback(el, pins, title) {
@@ -477,18 +529,36 @@
       </div>`;
   }
 
-  function addLeafletMarker(map, pin) {
-    const marker = L.marker([pin.lat, pin.lng]).addTo(map);
-    marker.bindPopup(`
+  function pvPinPopup(pin, opts) {
+    opts = opts || {};
+    const imgHtml = pin.image
+      ? `<img src="${pin.image}" class="pv-popup-img" alt="${pin.title || ""}">` : "";
+    const typeHtml = pin.type
+      ? `<span class="pv-popup-badge">${pin.type}</span>` : "";
+    const priceHtml = pin.price
+      ? `<div class="pv-popup-price">&#8377; ${Number(pin.price).toLocaleString("en-IN")}</div>`
+      : `<div class="pv-popup-price">Premium asset</div>`;
+    const locHtml = (pin.locality || pin.city)
+      ? `<div class="pv-popup-loc"><i class="bi bi-geo-alt-fill"></i> ${pin.locality || ""}${pin.locality && pin.city ? ", " : ""}${pin.city || ""}</div>` : "";
+    const linkHtml = pin.url
+      ? `<a class="pv-popup-cta" href="${pin.url}">View details <i class="bi bi-arrow-right"></i></a>` : "";
+    return L.popup({ maxWidth: 270, className: "pv-leaflet-popup" }).setContent(`
       <div class="pv-map-popup">
-        <strong class="mb-1">${pin.title || "PropVista property"}</strong>
-        <div class="text-accent fw-bold small mb-1">${pin.price ? "Rs " + Number(pin.price).toLocaleString() : "Premium asset"}</div>
-        <span class="pv-muted small"><i class="bi bi-geo-alt"></i> ${pin.locality || ""}${pin.city ? ", " + pin.city : ""}</span>
-        ${pin.url ? `<a class="pv-btn pv-btn-ghost w-100 mt-2 py-1" style="font-size:0.7rem; min-height: 28px;" href="${pin.url}">View details</a>` : ""}
-      </div>`, {
-        maxWidth: 240,
-        className: 'pv-leaflet-popup'
-      });
+        ${imgHtml}
+        <div class="pv-popup-body">
+          ${typeHtml}
+          <strong>${pin.title || "PropVista property"}</strong>
+          ${priceHtml}
+          ${locHtml}
+          ${linkHtml}
+        </div>
+      </div>`);
+  }
+
+  function pvMarker(map, pin, opts) {
+    const marker = L.marker([pin.lat, pin.lng], { icon: pvCustomIcon(opts && opts.color) });
+    marker.bindPopup(pvPinPopup(pin));
+    if (map) marker.addTo(map);
     return marker;
   }
 
@@ -501,13 +571,26 @@
       return;
     }
     const center = [pins[0].lat, pins[0].lng];
-    const map = L.map(el, { scrollWheelZoom: false, attributionControl: false }).setView(center, 12);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 18
-    }).addTo(map);
-    const markers = pins.map((pin) => addLeafletMarker(map, pin));
+    const map = L.map(el, { scrollWheelZoom: false, zoomControl: true }).setView(center, 12);
+    pvTileLayer().addTo(map);
+
+    // Use MarkerCluster if available
+    const clusterGroup = window.L.markerClusterGroup
+      ? L.markerClusterGroup({ maxClusterRadius: 60, showCoverageOnHover: false,
+          iconCreateFunction(cluster) {
+            const count = cluster.getChildCount();
+            return L.divIcon({ html: `<div class="pv-cluster">${count}</div>`, className: "", iconSize: [42, 42] });
+          }
+        })
+      : null;
+
+    const markers = pins.map((pin) => pvMarker(clusterGroup ? null : map, pin));
+    if (clusterGroup) {
+      markers.forEach((m) => clusterGroup.addLayer(m));
+      map.addLayer(clusterGroup);
+    }
     if (markers.length > 1) {
-      map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));
+      map.fitBounds(L.featureGroup(markers).getBounds().pad(0.12));
     }
   };
 
@@ -519,12 +602,61 @@
       renderMapFallback(el, [{ title: el.dataset.title, lat: pos.lat, lng: pos.lng }], el.dataset.title);
       return;
     }
-    const map = L.map(el, { scrollWheelZoom: false }).setView([pos.lat, pos.lng], 14);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "&copy; OpenStreetMap"
-    }).addTo(map);
-    addLeafletMarker(map, { title: el.dataset.title, lat: pos.lat, lng: pos.lng });
+    const map = L.map(el, { scrollWheelZoom: false, zoomControl: true }).setView([pos.lat, pos.lng], 15);
+    pvTileLayer().addTo(map);
+    pvMarker(map, {
+      lat: pos.lat, lng: pos.lng,
+      title: el.dataset.title,
+      price: el.dataset.price,
+      type: el.dataset.proptype,
+      image: el.dataset.image,
+      locality: el.dataset.locality,
+      city: el.dataset.city
+    }).openPopup();
+  };
+
+  window.initLocationPicker = function () {
+    const el = qs("#locationPickerMap");
+    if (!el || !window.L) return;
+    const latInput = qs("#id_latitude");
+    const lngInput = qs("#id_longitude");
+    const hint = qs("#locationPickerHint");
+    const initLat = parseFloat(latInput && latInput.value) || 20.5937;
+    const initLng = parseFloat(lngInput && lngInput.value) || 78.9629;
+    const initZoom = (latInput && latInput.value) ? 14 : 5;
+
+    const map = L.map(el, { scrollWheelZoom: true }).setView([initLat, initLng], initZoom);
+    pvTileLayer().addTo(map);
+
+    let marker = null;
+
+    function placeMarker(latlng) {
+      if (marker) marker.setLatLng(latlng);
+      else {
+        marker = L.marker(latlng, { icon: pvPickerIcon(), draggable: true }).addTo(map);
+        marker.on("dragend", function (e) {
+          const pos = e.target.getLatLng();
+          updateInputs(pos.lat, pos.lng);
+        });
+      }
+      updateInputs(latlng.lat, latlng.lng);
+    }
+
+    function updateInputs(lat, lng) {
+      if (latInput) latInput.value = lat.toFixed(6);
+      if (lngInput) lngInput.value = lng.toFixed(6);
+      if (hint) hint.textContent = `📍 Selected: ${lat.toFixed(5)}, ${lng.toFixed(5)} — drag pin or click map to change`;
+    }
+
+    // If coordinates already exist (edit mode), place a marker
+    if (latInput && latInput.value && lngInput && lngInput.value) {
+      placeMarker({ lat: initLat, lng: initLng });
+    }
+
+    map.on("click", function (e) {
+      placeMarker(e.latlng);
+      map.setView(e.latlng, Math.max(map.getZoom(), 14));
+    });
   };
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -534,7 +666,9 @@
     charts();
     swiper();
     tiltCards();
-    ambientScene();
-    cityHero();
+    if (window.location.pathname === "/") {
+      ambientScene();
+      cityHero();
+    }
   });
 })();

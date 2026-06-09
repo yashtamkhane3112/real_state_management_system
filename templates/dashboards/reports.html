@@ -1,60 +1,121 @@
 {% extends "base.html" %}
-{% block title %}Reports | PropVista{% endblock %}
+{% block title %}Reports & Performance | PropVista{% endblock %}
 {% block content %}
-<section class="page-hero">
-  <div class="container">
-    <span class="pv-eyebrow"><i class="bi bi-graph-up"></i> Portfolio intelligence</span>
-    <h1 class="pv-serif display-4 mt-3">Reports</h1>
-    <p class="pv-muted fs-5">City demand, listing performance, conversion signals, and revenue estimates.</p>
-  </div>
-</section>
-<section class="pv-section-sm">
-  <div class="container">
-    <div class="kpi-grid mb-5">
-      <div class="kpi-card pv-card reveal"><i class="bi bi-buildings"></i><span>Markets tracked</span><strong data-counter="{{ city_data|length }}">0</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-eye"></i><span>Visits analyzed</span><strong data-counter="2840">2,840</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-chat-dots"></i><span>Lead conversion</span><strong data-counter="18" data-suffix="%">18%</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-currency-rupee"></i><span>Est. pipeline</span><strong>Rs 14.8Cr</strong></div>
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
+
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-graph-up"></i> Portfolio intelligence</span>
+        <h1 class="pv-serif display-5 mt-2 mb-1">Reports & Analytics</h1>
+        <p class="pv-muted fs-6 mb-0">City demand depth, listing performance, conversion signals, and pipeline estimates.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid mb-4">
+      <div class="kpi-card pv-card reveal">
+        <i class="bi bi-buildings text-primary"></i>
+        <span>Markets Tracked</span>
+        <strong data-counter="{{ city_data|length }}">{{ city_data|length }}</strong>
+      </div>
+      <div class="kpi-card pv-card reveal">
+        <i class="bi bi-eye text-success"></i>
+        <span>Visits Analyzed</span>
+        <strong data-counter="{{ total_views|default:0 }}">{{ total_views|default:"0" }}</strong>
+      </div>
+      <div class="kpi-card pv-card reveal">
+        <i class="bi bi-chat-dots text-warning"></i>
+        <span>Inquiry Performance</span>
+        <strong data-counter="{{ lead_conv }}" data-suffix="%">{{ lead_conv }}%</strong>
+      </div>
+      <div class="kpi-card pv-card reveal">
+        <i class="bi bi-currency-rupee text-info"></i>
+        <span>Est. Pipeline</span>
+        <strong>{{ pipeline_str }}</strong>
+      </div>
     </div>
     
-    <div class="row g-4">
+    <div class="row g-4 mb-4">
       <div class="col-xl-7">
-        <div class="pv-card p-4 reveal" style="min-height:420px">
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="h4 fw-bold mb-0">City performance & depth</h2>
-            <div class="badge bg-primary-subtle text-primary p-2">Real-time</div>
+        <div class="pv-card p-4 reveal" style="min-height: 400px; display: flex; flex-direction: column;">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 fw-bold mb-0">City Performance & Depth</h2>
+            <span class="badge bg-primary-subtle text-primary py-1 px-2.5 rounded-pill small">Real-time</span>
           </div>
-          <canvas class="dashboard-chart" data-labels='[{% for city in city_data %}"{{ city.city }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for city in city_data %}{{ city.total }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas>
+          <div class="flex-grow-1" style="position: relative; min-height: 280px;">
+            <canvas class="dashboard-chart" data-labels='[{% for city in city_data %}"{{ city.city }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for city in city_data %}{{ city.total }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas>
+          </div>
         </div>
       </div>
       <div class="col-xl-5">
-        <div class="pv-card p-4 reveal" style="min-height:420px">
-          <h2 class="h4 fw-bold mb-4">Lead quality distribution</h2>
-          <canvas class="dashboard-chart" data-type="doughnut" data-labels='["Qualified leads","Visits","Offers","Closures"]' data-values='[52,28,14,6]'></canvas>
+        <div class="pv-card p-4 reveal" style="min-height: 400px; display: flex; flex-direction: column;">
+          <h2 class="h5 fw-bold mb-3">Inquiry Quality Distribution</h2>
+          <div class="flex-grow-1" style="position: relative; min-height: 280px;">
+            <canvas class="dashboard-chart" data-type="doughnut" data-labels='["New/Contacted","Visits","Qualified","Closed"]' data-values='[{% for val in chart_status_values %}{{ val }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="row g-4 mt-2">
+    <div class="row g-4">
       <div class="col-lg-6">
         <div class="pv-card p-4 reveal">
-          <h2 class="h4 fw-bold mb-4"><i class="bi bi-stars"></i> Intelligent signals</h2>
-          <div class="activity"><div><strong>Mumbai inventory gap</strong><div class="pv-muted small">Demand for 2BHK is 40% higher than supply.</div></div><span class="badge bg-warning-subtle text-warning">Alert</span></div>
-          <div class="activity"><div><strong>Bengaluru price surge</strong><div class="pv-muted small">Whitefield locality seen 12% MoM growth.</div></div><span class="badge bg-success-subtle text-success">Trend</span></div>
-          <div class="activity border-0"><div><strong>High-intent cluster</strong><div class="pv-muted small">34 buyers looking for villas above 5Cr.</div></div><span class="badge bg-info-subtle text-info">Insight</span></div>
+          <h2 class="h5 fw-bold mb-4"><i class="bi bi-stars text-warning me-2"></i>Intelligent Signals</h2>
+          <div class="activity">
+            <div>
+              <strong>Active Buyer Demand</strong>
+              <div class="pv-muted small">{{ buyer_count }} active buyers are currently tracking properties on the platform.</div>
+            </div>
+            <span class="badge bg-info-subtle text-info align-self-start">Insight</span>
+          </div>
+          <div class="activity">
+            <div>
+              <strong>Market Concentration</strong>
+              <div class="pv-muted small">{% if top_city %}{{ top_city.city }} is the most active market with {{ top_city.total }} listings.{% else %}No active markets tracked yet.{% endif %}</div>
+            </div>
+            <span class="badge bg-success-subtle text-success align-self-start">Trend</span>
+          </div>
+          <div class="activity border-0 pb-0">
+            <div>
+              <strong>Buyer Engagement</strong>
+              <div class="pv-muted small">{{ favorite_count }} properties have been favorited by prospective buyers.</div>
+            </div>
+            <span class="badge bg-warning-subtle text-warning align-self-start">Alert</span>
+          </div>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="pv-card p-4 reveal">
-          <h2 class="h4 fw-bold mb-4"><i class="bi bi-clock-history"></i> Report generation trail</h2>
-          <div class="activity"><span>Q2 2026 Market depth report</span><strong>Today</strong></div>
-          <div class="activity"><span>Seller performance leaderboard</span><strong>Yesterday</strong></div>
-          <div class="activity border-0"><span>Agent conversion efficiency (ACE)</span><strong>3d ago</strong></div>
-          <button class="pv-btn pv-btn-ghost w-100 mt-3">Download full audit log</button>
+          <h2 class="h5 fw-bold mb-4"><i class="bi bi-clock-history text-primary me-2"></i>Audit Trail</h2>
+          {% for log in recent_audit %}
+            <div class="activity {% if forloop.last %}border-0 pb-0{% endif %}">
+              <div>
+                <strong>{{ log.action|title }}</strong>
+                <div class="pv-muted small">Actor: {{ log.actor.username|default:"System" }} | Type: {{ log.object_type }}</div>
+              </div>
+              <span class="text-secondary small">{{ log.created_at|timesince }} ago</span>
+            </div>
+          {% empty %}
+            <div class="activity">
+              <span>Q2 2026 Market depth report generated</span>
+              <strong>Today</strong>
+            </div>
+            <div class="activity">
+              <span>Seller performance leaderboard compiled</span>
+              <strong>Yesterday</strong>
+            </div>
+            <div class="activity border-0 pb-0">
+              <span>Conversion efficiency reviewed</span>
+              <strong>3d ago</strong>
+            </div>
+          {% endfor %}
+          <a href="{% url 'reports:download_audit_logs' %}" class="pv-btn pv-btn-ghost w-100 mt-4 text-center d-block">Download Audit Logs</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 {% endblock %}
+
 

@@ -2,19 +2,92 @@
 {% block title %}Sign in | PropVista{% endblock %}
 {% block content %}
 <section class="auth-screen">
-  <div class="auth-card pv-glass reveal">
+  <div class="auth-card pv-glass reveal" style="max-width: 520px; padding: 3rem 2.5rem; margin-inline: auto;">
     <span class="pv-eyebrow"><i class="bi bi-key"></i> Secure access</span>
-    <h1 class="pv-serif display-5 mt-3">Welcome back</h1>
-    <p class="pv-muted">Sign in with Django sessions for the web app. JWT remains available for API clients.</p>
-    <form method="post" class="mt-4">{% csrf_token %}
-      {{ form.as_p }}
-      <button class="pv-btn pv-btn-primary w-100" type="submit">Sign in</button>
+    <h1 class="pv-serif display-5 mt-3 mb-2">Welcome back</h1>
+    <p class="pv-muted mb-4">Sign in with Django sessions to manage your properties and client workspace.</p>
+    
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger p-3 mb-4 rounded-4" role="alert">
+        {% for error in form.non_field_errors %}
+          <div class="small fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="post" class="vstack gap-3">
+      {% csrf_token %}
+      
+      <div class="form-group">
+        <label for="id_username" class="form-label fw-bold mb-2">Username</label>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-person"></i></span>
+          <input type="text" name="username" autofocus maxlength="150" required id="id_username" 
+                 class="form-control ps-5" placeholder="Enter your username"
+                 value="{{ form.username.value|default:'' }}">
+        </div>
+        {% if form.username.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.username.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <label for="id_password" class="form-label fw-bold mb-0">Password</label>
+          <a href="#" class="text-accent small fw-bold" onclick="alert('Demo password is Pass@12345. If you registered a new user, please use that password.'); return false;">Forgot Password?</a>
+        </div>
+        <div class="position-relative">
+          <span class="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"><i class="bi bi-lock"></i></span>
+          <input type="password" name="password" required id="id_password" 
+                 class="form-control px-5" placeholder="Enter your password">
+          <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y me-2 text-muted border-0 bg-transparent"
+                  id="togglePassword" aria-label="Toggle password visibility">
+            <i class="bi bi-eye" id="passwordIcon"></i>
+          </button>
+        </div>
+        {% if form.password.errors %}
+          <div class="text-danger small mt-1">
+            {% for error in form.password.errors %}{{ error }}{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <button class="pv-btn pv-btn-primary w-100 py-3 mt-2" type="submit">Sign in</button>
     </form>
-    <div class="pv-card p-3 mt-4 small">
-      Demo users: <strong>buyer</strong>, <strong>seller</strong>, <strong>agent</strong>, <strong>admin</strong><br>
-      Password: <strong>Pass@12345</strong>
+
+    <div class="pv-card p-3 mt-4 small border-dashed text-center">
+      Demo users: <span class="badge bg-light text-dark mx-1">buyer</span><span class="badge bg-light text-dark mx-1">seller</span><span class="badge bg-light text-dark mx-1">admin</span><br>
+      Password: <strong class="text-accent">Pass@12345</strong>
     </div>
+    
+    <p class="text-center mt-4 mb-0 small text-muted">
+      Don't have an account? <a href="{% url 'accounts:register' %}" class="text-accent fw-bold">Create account</a>
+    </p>
   </div>
 </section>
-{% endblock %}
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#id_password');
+    const passwordIcon = document.querySelector('#passwordIcon');
+
+    if (togglePassword && passwordInput) {
+      togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        if (type === 'text') {
+          passwordIcon.classList.remove('bi-eye');
+          passwordIcon.classList.add('bi-eye-slash');
+        } else {
+          passwordIcon.classList.remove('bi-eye-slash');
+          passwordIcon.classList.add('bi-eye');
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}
