@@ -18,7 +18,17 @@
   <link href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" rel="stylesheet">
   <link href="{% static 'css/app.css' %}" rel="stylesheet">
 </head>
-<body>
+<body class="{% if user.is_authenticated %}is-authenticated{% endif %}">
+  <!-- Phase 8: Loading Overlay -->
+  <div id="pv-loader" class="loading-overlay">
+    <div class="text-center">
+      <div class="pv-brand-mark mb-3 mx-auto" style="width: 56px; height: 56px; font-size: 1.5rem;">
+        <i class="bi bi-buildings animate-pulse"></i>
+      </div>
+      <div class="pv-serif h4 mb-0">PropVista</div>
+      <div class="pv-muted small tracking-widest text-uppercase mt-1" style="font-size: 0.6rem; letter-spacing: 0.2em;">Intelligence Layer</div>
+    </div>
+  </div>
   {% if request.path == '/' %}
   <canvas id="ambientScene" class="ambient-scene" aria-hidden="true"></canvas>
   {% endif %}

@@ -497,7 +497,38 @@ a.kpi-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0
 
 
 
-/*   Premium light repair layer
+/*   Premium light repair layer */
+
+/* Phase 8: Skeleton Loaders */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.skeleton-card { height: 320px; border-radius: 28px; margin-bottom: 1.5rem; }
+.skeleton-text { height: 1.2rem; margin-bottom: 0.5rem; width: 100%; }
+.skeleton-title { height: 2rem; margin-bottom: 1rem; width: 60%; }
+.skeleton-circle { width: 48px; height: 48px; border-radius: 50%; }
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.loading-overlay.is-hidden { opacity: 0; pointer-events: none; }
+
      ============================================================ */
   body {
     color: var(--text-primary);

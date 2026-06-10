@@ -140,6 +140,19 @@ def buyer_dashboard(request):
 def seller_dashboard(request):
     listings = Property.objects.filter(created_by=request.user)
     inquiries = Inquiry.objects.select_related("property", "buyer").filter(property__created_by=request.user)
+    
+    # Phase 2: Property Performance
+    performance = listings.annotate(
+        total_views=Count("view_events", distinct=True),
+        fav_count=Count("favorites", distinct=True),
+        inq_count=Count("inquiries", distinct=True)
+    ).order_by("-total_views")[:5]
+
+    # Phase 3: Property View History
+    recent_views = PropertyViewEvent.objects.select_related("property", "user").filter(
+        property__created_by=request.user
+    ).order_by("-created_at")[:10]
+
     from django.utils import timezone
     from django.db.models.functions import TruncDate
     from datetime import timedelta
@@ -160,6 +173,8 @@ def seller_dashboard(request):
         {
             "listings": listings,
             "inquiries": inquiries,
+            "performance": performance,
+            "recent_views": recent_views,
             "chart_labels": chart_labels,
             "chart_values": chart_values,
             "stats": {

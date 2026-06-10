@@ -27,34 +27,68 @@
       </div>
     </div>
 
-    <!-- Redesigned Premium Gallery Grid -->
+    <!-- Redesigned Premium Gallery Grid with Carousel -->
     <div class="detail-gallery-premium reveal mb-4">
       <div class="row g-2">
         <div class="col-md-8">
           <div class="gallery-main-container pv-card overflow-hidden h-100" style="border-radius: 24px; min-height: 400px; max-height: 500px; position: relative;">
-            {% if property.cover_image %}
-              <img src="{{ property.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ property.title }}">
+            {% if has_images %}
+              <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+                <div class="carousel-inner h-100">
+                  {% if property.cover_image %}
+                    <div class="carousel-item active h-100">
+                      <img src="{{ property.cover_image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}">
+                      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                        <span class="small fw-bold">Cover Photo</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                  {% for image in property.images.all %}
+                    <div class="carousel-item {% if not property.cover_image and forloop.first %}active{% endif %} h-100">
+                      <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
+                      {% if image.caption %}
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                          <span class="small fw-bold">{{ image.caption }}</span>
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+                {% if show_gallery_controls %}
+                  <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                {% endif %}
+              </div>
             {% else %}
               <div class="fallback-img big w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                <span class="text-secondary">No cover image available</span>
+                <span class="text-secondary">No images available</span>
               </div>
             {% endif %}
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 d-none d-md-block">
           <div class="row g-2 h-100">
             {% for image in property.images.all|slice:":2" %}
-              <div class="col-6 col-md-12">
-                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; height: calc(250px - 4px); max-height: 245px;">
+              <div class="col-12">
+                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; height: calc(250px - 4px); max-height: 245px; cursor: pointer;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
                   <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
                 </div>
               </div>
             {% empty %}
-              <div class="col-12">
-                <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex align-items-center justify-content-center" style="border-radius: 16px; height: 100%;">
-                  <span class="text-secondary small">Gallery Photos</span>
+              {% if property.cover_image %}
+                <div class="col-12">
+                  <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center h-100" style="border-radius: 16px;">
+                    <i class="bi bi-images fs-2 text-muted mb-2"></i>
+                    <span class="text-secondary small">No additional photos</span>
+                  </div>
                 </div>
-              </div>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -79,7 +113,36 @@
 
         <!-- Visual Property Highlights Panel -->
         <div class="pv-card p-4 p-lg-5 mt-4 reveal">
-          <h2 class="pv-serif h2 mb-4"><i class="bi bi-award text-primary"></i> Premium Highlights</h2>
+          <h2 class="pv-serif h2 mb-4"><i class="bi bi-clock-history text-primary"></i> Listing Lifecycle</h2>
+          <div class="timeline-steps d-flex justify-content-between position-relative mb-5 mt-4">
+            <div class="timeline-line position-absolute top-50 start-0 end-0 bg-light" style="height: 2px; z-index: 0; transform: translateY(-50%);"></div>
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-plus-lg"></i></div>
+              <div class="small fw-bold">Created</div>
+              <div class="text-muted" style="font-size: 0.65rem;">{{ property.created_at|date:"M d, Y" }}</div>
+            </div>
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
+              <div class="rounded-circle {% if property.approval_status != 'pending' or property.status == 'active' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-file-earmark-arrow-up"></i></div>
+              <div class="small fw-bold">Submitted</div>
+              <div class="text-muted" style="font-size: 0.65rem;">{{ property.created_at|date:"M d, Y" }}</div>
+            </div>
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
+              <div class="rounded-circle {% if property.approval_status == 'approved' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-shield-check"></i></div>
+              <div class="small fw-bold">Approved</div>
+              {% if property.approval_status == 'approved' %}
+                <div class="text-muted" style="font-size: 0.65rem;">{{ property.updated_at|date:"M d, Y" }}</div>
+              {% endif %}
+            </div>
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
+              <div class="rounded-circle {% if property.status == 'active' and property.approval_status == 'approved' %}bg-success text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-globe"></i></div>
+              <div class="small fw-bold">Published</div>
+              {% if property.status == 'active' and property.approval_status == 'approved' %}
+                <div class="text-muted" style="font-size: 0.65rem;">{{ property.updated_at|date:"M d, Y" }}</div>
+              {% endif %}
+            </div>
+          </div>
+          
+          <h2 class="pv-serif h2 mb-4 mt-5"><i class="bi bi-award text-primary"></i> Premium Highlights</h2>
           <div class="row g-3">
             <div class="col-md-6">
               <div class="d-flex align-items-center gap-3 p-3 bg-light bg-opacity-75 rounded-4 border">

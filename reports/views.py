@@ -15,9 +15,13 @@ def reports_home(request):
     total_visits = Visit.objects.count()
     total_inquiries = Inquiry.objects.count()
     
+    # Advanced Analytics (Phase 6)
+    most_viewed = Property.objects.annotate(vcount=Count("view_events")).order_by("-vcount").first()
+    most_favorited = Property.objects.annotate(fcount=Count("favorites")).order_by("-fcount").first()
+    
     # Calculate conversion: inquiries / views or visits / views
     if total_views > 0:
-        lead_conv = int((total_inquiries / total_views) * 100)
+        lead_conv = round((total_inquiries / total_views) * 100, 1)
     else:
         lead_conv = 0
         
@@ -59,6 +63,8 @@ def reports_home(request):
         "buyer_count": buyer_count,
         "favorite_count": favorite_count,
         "top_city": top_city,
+        "most_viewed": most_viewed,
+        "most_favorited": most_favorited,
     }
     return render(request, "dashboards/reports.html", context)
 

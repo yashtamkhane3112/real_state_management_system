@@ -67,12 +67,12 @@
             </div>
           </div>
 
-          <!-- Buyer Pipeline -->
+          <!-- Inquiry Pipeline -->
           <div class="col-6">
             <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
               <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
                 <i class="bi bi-people text-info"></i>
-                <span class="small fw-semibold">Buyer Pipeline</span>
+                <span class="small fw-semibold">Inquiry Pipeline</span>
               </div>
               <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
               <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
@@ -149,7 +149,7 @@
                 <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
               </a>
               <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
-                <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Buyer Pipeline</span>
+                <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Inquiry Pipeline</span>
               </a>
               <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
                 <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
@@ -181,7 +181,7 @@
       <div class="pm-op-card pv-card">
         <i class="bi bi-chat-dots"></i>
         <strong>Convert</strong>
-        <span>Track inquiries, visits, favorites, and buyer pipeline.</span>
+        <span>Track inquiries, visits, favorites, and inquiry pipeline.</span>
       </div>
       <div class="pm-op-card pv-card">
         <i class="bi bi-graph-up-arrow"></i>
@@ -228,7 +228,7 @@
         <div class="pm-analytics-grid">
           <div class="pm-analytics-kpis">
             <div class="stat-mini"><strong data-counter="{{ stats.properties }}">0</strong><span>Active listings</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.leads }}">0</strong><span>Buyer Pipeline</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.leads }}">0</strong><span>Inquiry Pipeline</span></div>
             <div class="stat-mini"><strong data-counter="{{ stats.conversion_rate }}" data-suffix="%">0</strong><span>Inquiry Performance</span></div>
             <div class="stat-mini"><strong data-counter="{{ stats.visits }}">0</strong><span>Site visits</span></div>
             <div class="stat-mini"><strong data-counter="{{ stats.inquiries }}">0</strong><span>Total inquiries</span></div>
@@ -257,7 +257,7 @@
         <h2 class="display-heading h1 mt-3">Every stakeholder gets the right control surface</h2>
         <div class="pm-demo-access">
           <a class="pm-demo-card buyer" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><span><strong>Try Buyer Workspace</strong><small>Saved homes, visits, inquiries.</small></span><em>Open</em></a>
-          <a class="pm-demo-card seller" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, buyer pipeline, approvals.</small></span><em>Open</em></a>
+          <a class="pm-demo-card seller" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, inquiry pipeline, approvals.</small></span><em>Open</em></a>
           <a class="pm-demo-card admin" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><span><strong>Try Admin Workspace</strong><small>Audit and platform health.</small></span><em>Open</em></a>
         </div>
         <div class="pm-role-list">

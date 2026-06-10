@@ -22,7 +22,23 @@
         {% endif %}
       </div>
       <div class="pv-nav-actions">
-        <a class="pv-icon-action" href="{% url 'properties:list' %}" aria-label="Search properties"><i class="bi bi-search"></i></a>
+        <!-- Global Search Trigger -->
+        <div class="dropdown d-inline-block">
+          <button class="pv-icon-action border-0 bg-transparent" type="button" id="searchDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Search properties">
+            <i class="bi bi-search"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end p-3 pv-glass shadow-lg border-light" aria-labelledby="searchDropdown" style="width: 300px; border-radius: 20px;">
+            <form action="{% url 'properties:list' %}" method="get">
+              <div class="input-group">
+                <input type="text" name="q" class="form-control border-end-0" placeholder="Search properties..." aria-label="Search" style="border-radius: 12px 0 0 12px;">
+                <button class="btn btn-primary border-start-0" type="submit" style="border-radius: 0 12px 12px 0;">
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </div>
+              <div class="mt-2 small text-muted">Search by city, title, or locality</div>
+            </form>
+          </div>
+        </div>
         {% if user.is_authenticated %}
           <div class="dropdown d-inline-block">
             <button class="pv-icon-action border-0 bg-transparent dropdown-toggle position-relative {% if unread_notifications %}notify-dot{% endif %}" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">

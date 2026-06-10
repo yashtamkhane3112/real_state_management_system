@@ -194,7 +194,17 @@ def property_detail(request, slug):
             source=request.headers.get("referer", "")[:80] or "direct",
         )
     similar = Property.objects.public().filter(city=prop.city).exclude(pk=prop.pk)[:4]
-    return render(request, "properties/detail.html", {"property": prop, "similar": similar})
+    
+    gallery_count = prop.images.count()
+    has_images = bool(prop.cover_image) or gallery_count > 0
+    show_gallery_controls = (bool(prop.cover_image) and gallery_count > 0) or gallery_count > 1
+    
+    return render(request, "properties/detail.html", {
+        "property": prop, 
+        "similar": similar,
+        "has_images": has_images,
+        "show_gallery_controls": show_gallery_controls
+    })
 
 
 def sanitize_uploaded_filenames(files_dict, max_length=60):

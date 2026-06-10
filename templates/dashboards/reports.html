@@ -64,24 +64,31 @@
           <h2 class="h5 fw-bold mb-4"><i class="bi bi-stars text-warning me-2"></i>Intelligent Signals</h2>
           <div class="activity">
             <div>
+              <strong>Most Viewed Property</strong>
+              <div class="pv-muted small">{% if most_viewed %}{{ most_viewed.title }} has received the highest engagement.{% else %}Insufficient data for views.{% endif %}</div>
+            </div>
+            <span class="badge bg-primary-subtle text-primary align-self-start">Top Asset</span>
+          </div>
+          <div class="activity">
+            <div>
+              <strong>Most Favorited Property</strong>
+              <div class="pv-muted small">{% if most_favorited %}{{ most_favorited.title }} is currently the top saved choice.{% else %}Insufficient data for favorites.{% endif %}</div>
+            </div>
+            <span class="badge bg-danger-subtle text-danger align-self-start">Most Saved</span>
+          </div>
+          <div class="activity">
+            <div>
               <strong>Active Buyer Demand</strong>
               <div class="pv-muted small">{{ buyer_count }} active buyers are currently tracking properties on the platform.</div>
             </div>
             <span class="badge bg-info-subtle text-info align-self-start">Insight</span>
           </div>
-          <div class="activity">
+          <div class="activity border-0 pb-0">
             <div>
               <strong>Market Concentration</strong>
               <div class="pv-muted small">{% if top_city %}{{ top_city.city }} is the most active market with {{ top_city.total }} listings.{% else %}No active markets tracked yet.{% endif %}</div>
             </div>
             <span class="badge bg-success-subtle text-success align-self-start">Trend</span>
-          </div>
-          <div class="activity border-0 pb-0">
-            <div>
-              <strong>Buyer Engagement</strong>
-              <div class="pv-muted small">{{ favorite_count }} properties have been favorited by prospective buyers.</div>
-            </div>
-            <span class="badge bg-warning-subtle text-warning align-self-start">Alert</span>
           </div>
         </div>
       </div>

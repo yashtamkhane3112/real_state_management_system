@@ -79,9 +79,63 @@
         </div>
       </div>
     </div>
+    <div class="row g-4 mb-4">
+      <div class="col-xl-7">
+        <div class="pv-card p-4 reveal">
+          <h2 class="h4 fw-bold mb-4">Property Performance</h2>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" style="border-radius: 12px 0 0 12px;">Property</th>
+                  <th scope="col" class="text-center">Views</th>
+                  <th scope="col" class="text-center">Favorites</th>
+                  <th scope="col" class="text-center" style="border-radius: 0 12px 12px 0;">Inquiries</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for prop in performance %}
+                  <tr>
+                    <td>
+                      <div class="fw-bold text-dark small">{{ prop.title }}</div>
+                      <div class="text-muted small">{{ prop.city }}</div>
+                    </td>
+                    <td class="text-center"><span class="badge bg-primary-subtle text-primary rounded-pill">{{ prop.total_views }}</span></td>
+                    <td class="text-center"><span class="badge bg-danger-subtle text-danger rounded-pill">{{ prop.fav_count }}</span></td>
+                    <td class="text-center"><span class="badge bg-warning-subtle text-warning rounded-pill">{{ prop.inq_count }}</span></td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="4" class="text-center py-4 pv-muted">No performance data yet.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5">
+        <div class="pv-card p-4 reveal">
+          <h2 class="h4 fw-bold mb-4">Recent Viewers</h2>
+          <div class="vstack gap-2" style="max-height: 320px; overflow-y: auto;">
+            {% for view in recent_views %}
+              <div class="activity {% if forloop.last %}border-0 pb-0{% endif %}">
+                <div>
+                  <strong>{{ view.user.get_full_name|default:view.user.username|default:"Guest User" }}</strong>
+                  <div class="pv-muted small">{{ view.property.title|truncatechars:25 }}</div>
+                  <div class="text-muted" style="font-size: 0.7rem;">Source: {{ view.source|default:"Direct" }}</div>
+                </div>
+                <span class="text-secondary small text-end">{{ view.created_at|timesince }} ago</span>
+              </div>
+            {% empty %}
+              <p class="pv-muted text-center py-4">No view history recorded.</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="row g-4">
       <div class="col-xl-7"><div class="pv-card p-4 reveal"><h2 class="h4 fw-bold">Property status tracking</h2>{% for property in listings %}<a class="activity" href="{% url 'properties:detail' property.slug %}"><span>{{ property.title }}</span><strong>{{ property.approval_status|title }}</strong></a>{% empty %}<p class="pv-muted">No listings yet.</p>{% endfor %}</div></div>
-      <div class="col-xl-5"><div class="pv-card p-4 reveal"><h2 class="h4 fw-bold">Buyer Pipeline</h2><div class="pipeline-board" style="grid-template-columns:1fr"><div class="pipeline-col"><strong>New inquiries</strong>{% for inquiry in inquiries %}<div class="lead-pill">{{ inquiry.name }}<div class="pv-muted small">{{ inquiry.property.title }}</div></div>{% empty %}<p class="pv-muted mt-3">No inquiries.</p>{% endfor %}</div></div></div></div>
+      <div class="col-xl-5"><div class="pv-card p-4 reveal"><h2 class="h4 fw-bold">Inquiry Pipeline</h2><div class="pipeline-board" style="grid-template-columns:1fr"><div class="pipeline-col"><strong>New inquiries</strong>{% for inquiry in inquiries %}<div class="lead-pill">{{ inquiry.name }}<div class="pv-muted small">{{ inquiry.property.title }}</div></div>{% empty %}<p class="pv-muted mt-3">No inquiries.</p>{% endfor %}</div></div></div></div>
     </div>
   </div>
 </section>

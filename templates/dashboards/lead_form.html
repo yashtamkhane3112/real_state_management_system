@@ -1,18 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Manage Buyer Pipeline | PropVista{% endblock %}
+{% block title %}Manage Inquiry Pipeline | PropVista{% endblock %}
 {% block content %}
 <section class="dashboard-shell">
   {% include "partials/sidebar.html" %}
 
   <div class="dashboard-main">
-    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 no-reveal">
       <div>
-        <span class="pv-eyebrow"><i class="bi bi-person-add"></i> Pipeline Operations</span>
-        <h1 class="pv-serif display-5 mt-3">Manage Buyer Pipeline Entry</h1>
-        <p class="pv-muted fs-5">Add details for prospect buyers, set follow-up schedules, and map pipeline stages.</p>
+        <span class="pv-eyebrow"><i class="bi bi-person-lines-fill"></i> CRM Dashboard</span>
+        <h1 class="pv-serif display-5 mt-3">Manage Inquiry Pipeline Entry</h1>
+        <p class="pv-muted fs-5">Update lead score, stage, and follow-up details to optimize conversion.</p>
       </div>
       <div>
-        <a class="pv-btn pv-btn-ghost" href="{% url 'leads:list' %}"><i class="bi bi-arrow-left"></i> Back to Buyer Pipeline</a>
+        <a class="pv-btn pv-btn-ghost" href="{% url 'leads:list' %}"><i class="bi bi-arrow-left"></i> Back to Inquiry Pipeline</a>
       </div>
     </div>
 
