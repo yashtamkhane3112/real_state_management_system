@@ -94,7 +94,11 @@ class CoreFlowTests(TestCase):
         self.assertNotContains(response, "Pending Penthouse")
         
         # 2. Approve the property
-        pending_prop.approval_status = Property.ApprovalStatus.APPROVED
+        pending_prop.status = Property.Status.APPROVED
+        pending_prop.save()
+        
+        # 3. Activate the property
+        pending_prop.status = Property.Status.ACTIVE
         pending_prop.save()
         
         # Verify it now appears in public listings

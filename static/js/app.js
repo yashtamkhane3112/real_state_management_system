@@ -659,6 +659,52 @@
     });
   };
 
+  function phoneValidation() {
+    qsa('input[name="phone"], input[id="id_phone"], input[id="phone"]').forEach((input) => {
+      input.setAttribute("maxlength", "10");
+      input.setAttribute("pattern", "\\d{10}");
+      
+      const validate = () => {
+        const val = input.value;
+        const cleaned = val.replace(/\D/g, '');
+        if (val !== cleaned) {
+          input.value = cleaned;
+        }
+        
+        let errorDiv = input.parentNode.querySelector(".phone-error-msg");
+        if (errorDiv) {
+          errorDiv.remove();
+        }
+        
+        if (input.value.length === 0) {
+          input.setCustomValidity("");
+        } else if (input.value.length !== 10) {
+          input.setCustomValidity("Enter a valid 10-digit phone number.");
+          errorDiv = document.createElement("div");
+          errorDiv.className = "text-danger small mt-1 phone-error-msg";
+          errorDiv.textContent = "Enter a valid 10-digit phone number.";
+          input.parentNode.appendChild(errorDiv);
+        } else {
+          input.setCustomValidity("");
+        }
+      };
+
+      input.addEventListener("input", validate);
+      input.addEventListener("blur", validate);
+      
+      const form = input.closest("form");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          validate();
+          if (!input.checkValidity()) {
+            e.preventDefault();
+            input.reportValidity();
+          }
+        });
+      }
+    });
+  }
+
   function loadingState() {
     const loader = qs("#pv-loader");
     if (loader) {
@@ -670,6 +716,163 @@
     }
   }
 
+  function initLightbox() {
+    // 1. Create lightbox markup dynamically if it doesn't exist
+    if (document.getElementById("pvLightbox")) return;
+    
+    const lightbox = document.createElement("div");
+    lightbox.className = "pv-lightbox";
+    lightbox.id = "pvLightbox";
+    lightbox.innerHTML = `
+      <button class="pv-lightbox-close" aria-label="Close viewer" id="pvLightboxClose">&times;</button>
+      <button class="pv-lightbox-nav pv-lightbox-prev" aria-label="Previous image" id="pvLightboxPrev">&lsaquo;</button>
+      <div class="pv-lightbox-content">
+        <img class="pv-lightbox-img" id="pvLightboxImg" src="" alt="Viewer image">
+      </div>
+      <button class="pv-lightbox-nav pv-lightbox-next" aria-label="Next image" id="pvLightboxNext">&rsaquo;</button>
+      <div class="pv-lightbox-counter" id="pvLightboxCounter"></div>
+    `;
+    document.body.appendChild(lightbox);
+
+    const closeBtn = lightbox.querySelector("#pvLightboxClose");
+    const prevBtn = lightbox.querySelector("#pvLightboxPrev");
+    const nextBtn = lightbox.querySelector("#pvLightboxNext");
+    const mainImg = lightbox.querySelector("#pvLightboxImg");
+    const counterEl = lightbox.querySelector("#pvLightboxCounter");
+
+    let currentGallery = [];
+    let currentIndex = -1;
+    let isAvatarMode = false;
+
+    function openLightbox(src, gallery = [], index = -1) {
+      mainImg.src = src;
+      lightbox.classList.add("is-open");
+      document.body.style.overflow = "hidden"; // Prevent body scroll
+      
+      if (gallery.length > 0 && index !== -1) {
+        isAvatarMode = false;
+        currentGallery = gallery;
+        currentIndex = index;
+        prevBtn.style.display = "flex";
+        nextBtn.style.display = "flex";
+        counterEl.style.display = "block";
+        updateCounter();
+      } else {
+        isAvatarMode = true;
+        currentGallery = [];
+        currentIndex = -1;
+        prevBtn.style.display = "none";
+        nextBtn.style.display = "none";
+        counterEl.style.display = "none";
+      }
+      closeBtn.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("is-open");
+      document.body.style.overflow = "";
+      mainImg.src = "";
+    }
+
+    function navigate(direction) {
+      if (isAvatarMode || currentGallery.length <= 1) return;
+      currentIndex = (currentIndex + direction + currentGallery.length) % currentGallery.length;
+      mainImg.src = currentGallery[currentIndex];
+      updateCounter();
+    }
+
+    function updateCounter() {
+      counterEl.textContent = `Image ${currentIndex + 1} of ${currentGallery.length}`;
+    }
+
+    // Click hooks
+    closeBtn.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox || e.target.classList.contains("pv-lightbox-content")) {
+        closeLightbox();
+      }
+    });
+    prevBtn.addEventListener("click", () => navigate(-1));
+    nextBtn.addEventListener("click", () => navigate(1));
+
+    // Keyboard hooks
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") {
+        closeLightbox();
+      } else if (e.key === "ArrowLeft") {
+        navigate(-1);
+      } else if (e.key === "ArrowRight") {
+        navigate(1);
+      }
+    });
+
+    // Mobile Swipe Support
+    let touchStartX = 0;
+    let touchEndX = 0;
+    lightbox.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    lightbox.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          navigate(-1);
+        } else {
+          navigate(1);
+        }
+      }
+    }, { passive: true });
+
+    // Click delegates for interactive elements
+    const avatarSelectors = [
+      "img.pv-avatar",
+      ".sidebar-profile img",
+      ".pv-card img[alt='avatar']",
+      ".profile-avatar img",
+      "img[src*='avatars/']"
+    ];
+
+    document.addEventListener("click", (e) => {
+      const clickedImg = e.target.closest("img");
+      if (!clickedImg) return;
+
+      // Avoid clicking lightbox's own image triggering it again
+      if (clickedImg.id === "pvLightboxImg") return;
+
+      // 1. Is it an avatar image?
+      let isAvatar = false;
+      for (let sel of avatarSelectors) {
+        if (clickedImg.matches(sel)) {
+          isAvatar = true;
+          break;
+        }
+      }
+      
+      if (isAvatar) {
+        e.preventDefault();
+        openLightbox(clickedImg.src);
+        return;
+      }
+
+      // 2. Is it a property detail gallery image?
+      const isDetailGallery = clickedImg.closest("#propertyGalleryCarousel, .gallery-tile-container, .detail-gallery-premium");
+      if (isDetailGallery) {
+        e.preventDefault();
+        const srcs = [];
+        document.querySelectorAll("#propertyGalleryCarousel .carousel-inner img, .gallery-tile-container img, .detail-gallery-premium img").forEach(img => {
+          if (img.src && !srcs.includes(img.src) && img.id !== "pvLightboxImg") {
+            srcs.push(img.src);
+          }
+        });
+        const clickedSrc = clickedImg.src;
+        const index = srcs.indexOf(clickedSrc);
+        openLightbox(clickedSrc, srcs, index !== -1 ? index : 0);
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     loadingState();
     navbar();
@@ -678,6 +881,8 @@
     charts();
     swiper();
     tiltCards();
+    phoneValidation();
+    initLightbox();
     if (window.location.pathname === "/") {
       ambientScene();
       cityHero();

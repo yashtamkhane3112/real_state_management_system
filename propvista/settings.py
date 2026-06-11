@@ -149,3 +149,17 @@ SPECTACULAR_SETTINGS = {
 
 GEMINI_API_KEY = env("GEMINI_API_KEY", default="")
 GOOGLE_MAPS_API_KEY = env("GOOGLE_MAPS_API_KEY", default="")
+
+# Email SMTP Settings
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_BACKEND = env("EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend")
+
+# Force SMTP if credentials are configured, overriding console fallback from .env
+if EMAIL_HOST_USER and EMAIL_HOST_PASSWORD and EMAIL_BACKEND == "django.core.mail.backends.console.EmailBackend":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = env("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="PropVista <noreply@propvista.com>")

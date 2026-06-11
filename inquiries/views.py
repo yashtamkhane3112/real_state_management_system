@@ -14,6 +14,10 @@ from .serializers import InquirySerializer
 @login_required
 def create_inquiry(request, slug):
     prop = get_object_or_404(Property.objects.public(), slug=slug)
+    if prop.status in [Property.Status.SOLD, Property.Status.CLOSED]:
+        messages.error(request, "Inquiries are not allowed on sold or closed properties.")
+        return redirect("properties:detail", slug=slug)
+        
     if request.method != "POST":
         return redirect("properties:detail", slug=slug)
     form = InquiryForm(request.POST)
@@ -88,6 +92,8 @@ class InquiryViewSet(viewsets.ModelViewSet):
         if not prop_id:
             raise ValidationError({"property": "This field is required."})
         prop = get_object_or_404(Property, pk=prop_id)
+        if prop.status in [Property.Status.SOLD, Property.Status.CLOSED]:
+            raise ValidationError({"property": "Inquiries are not allowed on sold or closed properties."})
         serializer.save(buyer=self.request.user, property=prop)
 
 

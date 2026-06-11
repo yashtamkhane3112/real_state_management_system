@@ -59,7 +59,7 @@
               <div class="notification-items-list" style="max-height: 280px; overflow-y: auto;">
                 {% for n in latest_notifications %}
                   <li class="border-bottom">
-                    <a class="dropdown-item p-3 d-flex gap-3 align-items-start text-wrap {% if not n.is_read %}bg-light bg-opacity-75{% endif %}" href="{% if n.link %}{{ n.link }}{% else %}#{% endif %}">
+                    <a class="dropdown-item p-3 d-flex gap-3 align-items-start text-wrap {% if not n.is_read %}bg-light bg-opacity-75{% endif %}" href="{% if not n.is_read %}{% url 'notifications:mark_read' n.pk %}?next={{ n.link|default:'/notifications/' }}{% else %}{{ n.link|default:'#' }}{% endif %}">
                       <div class="rounded-circle p-2 bg-primary-subtle text-primary d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; flex-shrink: 0;">
                         {% if n.category == 'inquiry' %}<i class="bi bi-chat-right-text"></i>
                         {% elif n.category == 'visit' %}<i class="bi bi-calendar2-check"></i>
@@ -88,9 +88,9 @@
           </div>
           <a href="{% url 'accounts:profile' %}" class="text-decoration-none">
             {% if user.avatar %}
-              <img class="pv-avatar" src="{{ user.avatar.url }}" alt="avatar" style="object-fit: cover;">
+              <img class="pv-avatar" src="{{ user.avatar_url }}" alt="avatar" style="object-fit: cover;">
             {% else %}
-              <span class="pv-avatar">{{ user.username|slice:":2"|upper }}</span>
+              <span class="pv-avatar">{{ user.initials }}</span>
             {% endif %}
           </a>
           <form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}

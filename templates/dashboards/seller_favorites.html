@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Property Favorites | PropVista{% endblock %}
+{% block content %}
+<section class="dashboard-shell">
+  {% include "partials/sidebar.html" %}
+
+  <div class="dashboard-main">
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-heart-fill text-danger"></i> Interest tracker</span>
+        <h1 class="pv-serif display-5 mt-3">Property Favorites</h1>
+        <p class="pv-muted fs-5">Track interest metrics and see which buyers have shortlisted your active property listings.</p>
+      </div>
+      <div>
+        <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-arrow-left"></i> Dashboard</a>
+      </div>
+    </div>
+
+    <div class="pv-card p-4 p-lg-5 reveal mb-4">
+      {% if favorites %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" class="py-3">Property Name</th>
+                <th scope="col" class="py-3">Buyer Name</th>
+                <th scope="col" class="py-3">Favorited Date</th>
+                <th scope="col" class="py-3 text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for favorite in favorites %}
+                <tr>
+                  <td class="py-3 fw-bold text-dark">
+                    {% if favorite.property.cover_image %}
+                      <img src="{{ favorite.property.cover_image.url }}" class="rounded me-2" style="width: 50px; height: 35px; object-fit: cover;" alt="">
+                    {% endif %}
+                    {{ favorite.property.title }}
+                  </td>
+                  <td class="py-3">
+                    <div class="d-flex align-items-center gap-2">
+                      {% if favorite.user.avatar %}
+                        <img src="{{ favorite.user.avatar.url }}" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;" alt="">
+                      {% else %}
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 28px; height: 28px; font-size: 0.75rem;">
+                          {{ favorite.user.username|slice:":2"|upper }}
+                        </div>
+                      {% endif %}
+                      <span>{{ favorite.user.first_name|default:favorite.user.username }}</span>
+                    </div>
+                  </td>
+                  <td class="py-3 text-muted">
+                    {{ favorite.created_at|date:"d M Y, h:i A" }}
+                  </td>
+                  <td class="py-3 text-end">
+                    <a class="pv-btn pv-btn-ghost py-1 px-3 small" href="{% url 'properties:detail' favorite.property.slug %}">
+                      <i class="bi bi-eye"></i> View Property
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="text-center py-5">
+          <div class="pv-muted mb-3"><i class="bi bi-heart-break" style="font-size: 3.5rem;"></i></div>
+          <h2 class="h4 pv-serif">No favorites tracked yet</h2>
+          <p class="pv-muted fs-5">Buyers haven't favorited any of your properties yet. Complete your listings to get more reach!</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -43,121 +43,155 @@
       </div>
     </div>
 
-    <div class="pm-command-center-container reveal" aria-label="Platform operations preview">
-      <div class="pm-command-center pv-glass p-4 rounded-4 shadow-lg w-100" style="border: 1px solid rgba(255, 255, 255, 0.4); max-width: 600px;">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-          <div class="d-flex align-items-center gap-2">
-            <i class="bi bi-cpu text-primary fs-4"></i>
-            <h3 class="h5 mb-0 fw-bold pv-serif">Operations Overview</h3>
-          </div>
-          <span class="badge bg-success-subtle text-success p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.7rem;">Live System</span>
-        </div>
+  </div>
+</section>
 
-        <!-- Metric cards grid -->
-        <div class="row g-3 mb-4">
-          <!-- Properties -->
-          <div class="col-6">
-            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                <i class="bi bi-houses text-primary"></i>
-                <span class="small fw-semibold">Properties</span>
+<style>
+@media (min-width: 992px) {
+  .pm-hero .pm-hero-content {
+    grid-template-columns: 1fr !important;
+    max-width: 960px !important;
+    text-align: center;
+  }
+  .pm-hero-copy {
+    margin: 0 auto;
+  }
+  .pm-command-search {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .pm-filter-chips {
+    justify-content: center;
+  }
+}
+</style>
+
+<!-- Operations Overview Section -->
+<section class="pv-section bg-light border-bottom py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-11 col-xxl-10">
+        <div class="pm-command-center-container reveal" aria-label="Platform operations preview">
+          <div class="pm-command-center pv-glass p-4 p-lg-5 rounded-4 shadow-lg w-100" style="border: 1px solid rgba(255, 255, 255, 0.4); max-width: 100% !important;">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-cpu text-primary fs-4"></i>
+                <h3 class="h5 mb-0 fw-bold pv-serif">Operations Overview</h3>
               </div>
-              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.properties }}">0</strong>
-              <span class="small text-success fw-bold"><i class="bi bi-arrow-up-short"></i> Active inventory</span>
+              <span class="badge bg-success-subtle text-success p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.7rem;">Live System</span>
             </div>
-          </div>
 
-          <!-- Inquiry Pipeline -->
-          <div class="col-6">
-            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                <i class="bi bi-people text-info"></i>
-                <span class="small fw-semibold">Inquiry Pipeline</span>
-              </div>
-              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
-              <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
-            </div>
-          </div>
-
-          <!-- Visits -->
-          <div class="col-6">
-            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                <i class="bi bi-calendar2-check text-warning"></i>
-                <span class="small fw-semibold">Visits</span>
-              </div>
-              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.visits }}">0</strong>
-              <span class="small text-warning fw-bold"><i class="bi bi-clock-history"></i> Scheduled</span>
-            </div>
-          </div>
-
-          <!-- Pending Approvals -->
-          <div class="col-6">
-            <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-              <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                <i class="bi bi-shield-exclamation text-danger"></i>
-                <span class="small fw-semibold">Pending Approvals</span>
-              </div>
-              <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.pending }}">0</strong>
-              <span class="small text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Requires attention</span>
-            </div>
-          </div>
-
-          <!-- Revenue Pipeline -->
-          <div class="col-12">
-            <div class="pv-card p-3 d-flex justify-content-between align-items-center bg-white bg-opacity-75" style="border-radius: 16px;">
-              <div class="d-flex align-items-center gap-2 text-secondary">
-                <i class="bi bi-currency-rupee text-success fs-5"></i>
-                <div>
-                  <span class="small fw-semibold d-block">Revenue Pipeline</span>
-                  <span class="small text-success fw-bold"><i class="bi bi-arrow-up-right"></i> Active pipeline</span>
-                </div>
-              </div>
-              <strong class="fs-4 text-success">{{ metrics.revenue }}</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recent Activity Timeline & Quick Actions layout -->
-        <div class="row g-3">
-          <!-- Activity Timeline -->
-          <div class="col-md-7">
-            <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-clock-history"></i> Recent Activity</h4>
-            <div class="vstack gap-2" style="max-height: 200px; overflow-y: auto; padding-right: 4px;">
-              {% for activity in recent_activities %}
-                <div class="d-flex align-items-start gap-2 p-2 rounded bg-white bg-opacity-50 border-bottom border-light">
-                  <i class="bi {{ activity.icon }} fs-6 mt-0.5"></i>
-                  <div class="flex-grow-1">
-                    <span class="small text-dark fw-semibold d-block" style="line-height: 1.25;">{{ activity.text }}</span>
-                    <span class="small text-secondary" style="font-size: 0.7rem;">{{ activity.time|timesince }} ago</span>
+            <!-- Metric cards grid -->
+            <div class="row g-3 mb-4">
+              <!-- Properties -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-houses text-primary"></i>
+                    <span class="small fw-semibold">Properties</span>
                   </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.properties }}">0</strong>
+                  <span class="small text-success fw-bold"><i class="bi bi-arrow-up-short"></i> Active inventory</span>
                 </div>
-              {% empty %}
-                <span class="small text-secondary">No activity logged.</span>
-              {% endfor %}
-            </div>
-          </div>
+              </div>
 
-          <!-- Quick Actions Right Panel -->
-          <div class="col-md-5 border-start-md ps-md-3">
-            <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h4>
-            <div class="vstack gap-2">
-              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:create' %}">
-                <i class="bi bi-plus-circle text-primary me-2"></i> <span class="small fw-bold text-dark">New Property</span>
-              </a>
-              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:approvals_list' %}">
-                <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
-              </a>
-              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
-                <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Inquiry Pipeline</span>
-              </a>
-              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
-                <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
-              </a>
-              <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'reports:home' %}">
-                <i class="bi bi-file-earmark-bar-graph text-secondary me-2"></i> <span class="small fw-bold text-dark">Export Report</span>
-              </a>
+              <!-- Inquiry Pipeline -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-people text-info"></i>
+                    <span class="small fw-semibold">Inquiry Pipeline</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
+                  <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
+                </div>
+              </div>
+
+              <!-- Visits -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-calendar2-check text-warning"></i>
+                    <span class="small fw-semibold">Visits</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.visits }}">0</strong>
+                  <span class="small text-warning fw-bold"><i class="bi bi-clock-history"></i> Scheduled</span>
+                </div>
+              </div>
+
+              <!-- Pending Approvals -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-shield-exclamation text-danger"></i>
+                    <span class="small fw-semibold">Pending Approvals</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.pending }}">0</strong>
+                  <span class="small text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Requires attention</span>
+                </div>
+              </div>
+
+              <!-- Revenue Pipeline -->
+              <div class="col-12 mt-3">
+                <div class="pv-card p-3 d-flex justify-content-between align-items-center bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 text-secondary">
+                    <i class="bi bi-currency-rupee text-success fs-5"></i>
+                    <div>
+                      <span class="small fw-semibold d-block">Revenue Pipeline</span>
+                      <span class="small text-success fw-bold"><i class="bi bi-arrow-up-right"></i> Active pipeline</span>
+                    </div>
+                  </div>
+                  <strong class="fs-4 text-success">{{ metrics.revenue }}</strong>
+                </div>
+              </div>
             </div>
+
+            <!-- Recent Activity Timeline & Quick Actions layout -->
+            <div class="row g-4">
+              <!-- Activity Timeline -->
+              <div class="col-md-7">
+                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-clock-history"></i> Recent Activity</h4>
+                <div class="vstack gap-2" style="max-height: 200px; overflow-y: auto; padding-right: 4px;">
+                  {% for activity in recent_activities %}
+                    <div class="d-flex align-items-start gap-2 p-2 rounded bg-white bg-opacity-50 border-bottom border-light">
+                      <i class="bi {{ activity.icon }} fs-6 mt-0.5"></i>
+                      <div class="flex-grow-1">
+                        <span class="small text-dark fw-semibold d-block" style="line-height: 1.25;">{{ activity.text }}</span>
+                        <span class="small text-secondary" style="font-size: 0.7rem;">{{ activity.time|timesince }} ago</span>
+                      </div>
+                    </div>
+                  {% empty %}
+                    <span class="small text-secondary">No activity logged.</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Quick Actions Right Panel -->
+              <div class="col-md-5 border-start-md ps-md-3">
+                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h4>
+                <div class="vstack gap-2">
+                  {% if not user.is_authenticated or user.role != 'buyer' %}
+                    <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:create' %}">
+                      <i class="bi bi-plus-circle text-primary me-2"></i> <span class="small fw-bold text-dark">New Property</span>
+                    </a>
+                  {% endif %}
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:approvals_list' %}">
+                    <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
+                    <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Inquiry Pipeline</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
+                    <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'reports:home' %}">
+                    <i class="bi bi-file-earmark-bar-graph text-secondary me-2"></i> <span class="small fw-bold text-dark">Export Report</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>

@@ -1,8 +1,17 @@
 import os
 import uuid
+import datetime
 from django.conf import settings
 from django.db import models
 from django.utils.text import get_valid_filename, slugify
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+
+def validate_year_built(value):
+    if value is not None:
+        current_year = datetime.datetime.now().year
+        if value < 1900 or value > current_year:
+            raise ValidationError(f"Year Built must be between 1900 and {current_year}.")
 
 def get_short_sanitized_filename(filename, max_length=50):
     name, ext = os.path.splitext(filename)
@@ -24,7 +33,7 @@ def upload_property_gallery(instance, filename):
 
 class PropertyQuerySet(models.QuerySet):
     def public(self):
-        return self.filter(status=Property.Status.ACTIVE, approval_status=Property.ApprovalStatus.APPROVED)
+        return self.filter(status__in=[Property.Status.ACTIVE, Property.Status.SOLD], approval_status=Property.ApprovalStatus.APPROVED)
 
     def search(self, params):
         qs = self
@@ -90,10 +99,12 @@ class Property(models.Model):
         OFFICE = "office", "Office"
 
     class Status(models.TextChoices):
+        DRAFT = "draft", "Draft"
+        PENDING = "pending", "Pending"
+        APPROVED = "approved", "Approved"
         ACTIVE = "active", "Active"
-        INACTIVE = "inactive", "Inactive"
         SOLD = "sold", "Sold"
-        RENTED = "rented", "Rented"
+        CLOSED = "closed", "Closed"
 
     class ApprovalStatus(models.TextChoices):
         DRAFT = "draft", "Draft"
@@ -107,11 +118,11 @@ class Property(models.Model):
     price = models.DecimalField(max_digits=14, decimal_places=2, db_index=True)
     property_type = models.CharField(max_length=30, choices=PropertyType.choices, db_index=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="properties")
-    bedrooms = models.PositiveSmallIntegerField(default=0, db_index=True)
-    bathrooms = models.PositiveSmallIntegerField(default=0, db_index=True)
-    area_sqft = models.PositiveIntegerField(db_index=True)
+    bedrooms = models.PositiveSmallIntegerField(default=1, db_index=True, validators=[MinValueValidator(1), MaxValueValidator(20)])
+    bathrooms = models.PositiveSmallIntegerField(default=1, db_index=True, validators=[MinValueValidator(1), MaxValueValidator(20)])
+    area_sqft = models.PositiveIntegerField(db_index=True, validators=[MinValueValidator(100)])
     furnishing = models.CharField(max_length=80, blank=True, db_index=True)
-    year_built = models.PositiveSmallIntegerField(null=True, blank=True)
+    year_built = models.PositiveSmallIntegerField(null=True, blank=True, validators=[validate_year_built])
     parking = models.PositiveSmallIntegerField(default=0)
     amenities = models.ManyToManyField(Amenity, blank=True, related_name="properties")
     cover_image = models.ImageField(upload_to=upload_property_cover, blank=True, null=True)
@@ -124,6 +135,7 @@ class Property(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE, db_index=True)
     approval_status = models.CharField(max_length=20, choices=ApprovalStatus.choices, default=ApprovalStatus.PENDING, db_index=True)
     rejection_reason = models.TextField(blank=True)
+    sold_date = models.DateTimeField(null=True, blank=True, db_index=True)
     is_featured = models.BooleanField(default=False, db_index=True)
     view_count = models.PositiveIntegerField(default=0)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="properties")
@@ -141,7 +153,49 @@ class Property(models.Model):
             models.Index(fields=["latitude", "longitude"]),
         ]
 
+    def clean(self):
+        super().clean()
+        validate_year_built(self.year_built)
+        if self.bedrooms is not None and (self.bedrooms < 1 or self.bedrooms > 20):
+            raise ValidationError({"bedrooms": "Bedrooms must be between 1 and 20."})
+        if self.bathrooms is not None and (self.bathrooms < 1 or self.bathrooms > 20):
+            raise ValidationError({"bathrooms": "Bathrooms must be between 1 and 20."})
+        if self.area_sqft is not None and self.area_sqft < 100:
+            raise ValidationError({"area_sqft": "Area must be at least 100 sqft."})
+
     def save(self, *args, **kwargs):
+        self.clean()
+        # Resolve mismatches for programmatic creation (on insert only)
+        if not self.pk:
+            if self.approval_status in [Property.ApprovalStatus.PENDING, Property.ApprovalStatus.DRAFT, Property.ApprovalStatus.REJECTED]:
+                if self.status in [Property.Status.APPROVED, Property.Status.ACTIVE, Property.Status.SOLD, Property.Status.CLOSED]:
+                    if self.approval_status == Property.ApprovalStatus.PENDING:
+                        self.status = Property.Status.PENDING
+                    elif self.approval_status == Property.ApprovalStatus.DRAFT:
+                        self.status = Property.Status.DRAFT
+                    elif self.approval_status == Property.ApprovalStatus.REJECTED:
+                        self.status = Property.Status.DRAFT
+
+        # Auto-align status and approval_status
+        if self.approval_status == Property.ApprovalStatus.REJECTED:
+            # If rejected, set status to Draft
+            self.status = Property.Status.DRAFT
+        else:
+            if self.status == Property.Status.DRAFT:
+                self.approval_status = Property.ApprovalStatus.DRAFT
+            elif self.status == Property.Status.PENDING:
+                self.approval_status = Property.ApprovalStatus.PENDING
+            elif self.status in [Property.Status.APPROVED, Property.Status.ACTIVE, Property.Status.SOLD, Property.Status.CLOSED]:
+                self.approval_status = Property.ApprovalStatus.APPROVED
+
+        # Handle sold_date auto-setting
+        if self.status == Property.Status.SOLD:
+            if not self.sold_date:
+                from django.utils import timezone
+                self.sold_date = timezone.now()
+        else:
+            self.sold_date = None
+
         if not self.slug:
             base = slugify(f"{self.title}-{self.city}-{self.locality}")[:230]
             slug = base
@@ -150,7 +204,34 @@ class Property(models.Model):
                 slug = f"{base}-{counter}"
                 counter += 1
             self.slug = slug
+
+        # Ensure status and approval_status are saved when update_fields is passed
+        if "update_fields" in kwargs and kwargs["update_fields"] is not None:
+            uf = list(kwargs["update_fields"])
+            if "status" not in uf:
+                uf.append("status")
+            if "approval_status" not in uf:
+                uf.append("approval_status")
+            kwargs["update_fields"] = uf
+
         super().save(*args, **kwargs)
+
+    @property
+    def formatted_price(self):
+        val = float(self.price)
+        if val >= 10000000:
+            num = val / 10000000
+            if num.is_integer():
+                return f"₹{int(num)} Cr"
+            else:
+                return f"₹{num:.2f} Cr"
+        elif val >= 100000:
+            num = val / 100000
+            if num.is_integer():
+                return f"₹{int(num)} Lakh"
+            else:
+                return f"₹{num:.1f} Lakh"
+        return f"₹{int(val):,}"
 
     def __str__(self):
         return self.title

@@ -17,6 +17,7 @@ class Notification(models.Model):
         LEAD = "lead", "Lead"
         APPROVAL = "approval", "Approval"
         SEARCH = "search", "Search"
+        PROFILE = "profile", "Profile"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     title = models.CharField(max_length=180)

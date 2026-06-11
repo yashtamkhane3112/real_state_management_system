@@ -21,6 +21,7 @@ from django.contrib.auth import update_session_auth_hash
 from .forms import ProfileForm, RegisterForm, UserForm
 from .models import Profile, User
 from .serializers import RegisterSerializer, UserSerializer
+from accounts.decorators import role_required
 
 
 def register(request):
@@ -29,6 +30,12 @@ def register(request):
         user = form.save()
         Profile.objects.get_or_create(user=user)
         login(request, user)
+        
+        # Trigger Emails
+        from propvista.mail import send_welcome_email, send_verification_email
+        send_welcome_email(user)
+        send_verification_email(request, user)
+        
         messages.success(request, "Welcome to PropVista.")
         return redirect("accounts:dashboard")
     return render(request, "accounts/register.html", {"form": form})
@@ -72,6 +79,7 @@ def sanitize_uploaded_filenames(files_dict, max_length=60):
 def profile(request):
     if request.FILES:
         sanitize_uploaded_filenames(request.FILES)
+    old_email = request.user.email
     profile_obj, _ = Profile.objects.get_or_create(user=request.user)
     user_form = UserForm(request.POST or None, request.FILES or None, instance=request.user)
     profile_form = ProfileForm(request.POST or None, instance=profile_obj)
@@ -82,15 +90,42 @@ def profile(request):
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)
+                
+                # Send Password Changed email
+                from propvista.mail import send_password_changed_email
+                send_password_changed_email(user)
+                
                 messages.success(request, "Password updated successfully.")
                 return redirect("accounts:profile")
             else:
                 messages.error(request, "Please correct the errors below for password change.")
         else:
             if user_form.is_valid() and profile_form.is_valid():
-                user_form.save()
+                user = user_form.save(commit=False)
+                email_changed = user.email != old_email
+                if email_changed:
+                    user.is_verified = False
+                user.save()
                 profile_form.save()
-                messages.success(request, "Profile updated successfully.")
+                
+                # Trigger Notification
+                from notifications.services import create_notification
+                create_notification(
+                    user=request.user,
+                    title="Profile Updated",
+                    body="Your profile information has been successfully updated.",
+                    link="/accounts/profile/",
+                    category="profile",
+                    level="success",
+                )
+                
+                if email_changed:
+                    from propvista.mail import send_verification_email
+                    send_verification_email(request, user)
+                    messages.success(request, "Profile updated. A verification email has been sent to your new address.")
+                else:
+                    messages.success(request, "Profile updated successfully.")
+                
                 return redirect("accounts:profile")
             else:
                 messages.error(request, "Please correct the errors below for profile details.")
@@ -106,7 +141,7 @@ def profile(request):
     )
 
 
-@login_required
+@role_required(User.Role.BUYER, User.Role.ADMIN)
 def buyer_dashboard(request):
     favorites = Favorite.objects.select_related("property").filter(user=request.user)
     inquiries = Inquiry.objects.select_related("property").filter(buyer=request.user)
@@ -136,7 +171,7 @@ def buyer_dashboard(request):
     )
 
 
-@login_required
+@role_required(User.Role.SELLER, User.Role.ADMIN)
 def seller_dashboard(request):
     listings = Property.objects.filter(created_by=request.user)
     inquiries = Inquiry.objects.select_related("property", "buyer").filter(property__created_by=request.user)
@@ -147,6 +182,11 @@ def seller_dashboard(request):
         fav_count=Count("favorites", distinct=True),
         inq_count=Count("inquiries", distinct=True)
     ).order_by("-total_views")[:5]
+    for p in performance:
+        if p.total_views > 0:
+            p.conversion_pct = round((p.inq_count / p.total_views) * 100, 1)
+        else:
+            p.conversion_pct = 0.0
 
     # Phase 3: Property View History
     recent_views = PropertyViewEvent.objects.select_related("property", "user").filter(
@@ -167,6 +207,7 @@ def seller_dashboard(request):
     views_by_day = {row["day"]: row["cnt"] for row in view_qs}
     chart_labels = [d.strftime("%d %b").lstrip("0") for d in last7]
     chart_values = [views_by_day.get(d, 0) for d in last7]
+    recent_favorites = Favorite.objects.filter(property__created_by=request.user).select_related("property", "user").order_by("-created_at")[:5]
     return render(
         request,
         "dashboards/seller.html",
@@ -177,9 +218,12 @@ def seller_dashboard(request):
             "recent_views": recent_views,
             "chart_labels": chart_labels,
             "chart_values": chart_values,
+            "recent_favorites": recent_favorites,
             "stats": {
                 "active": listings.filter(status=Property.Status.ACTIVE).count(),
-                "pending": listings.filter(approval_status=Property.ApprovalStatus.PENDING).count(),
+                "pending": listings.filter(status=Property.Status.PENDING).count(),
+                "sold": listings.filter(status=Property.Status.SOLD).count(),
+                "closed": listings.filter(status=Property.Status.CLOSED).count(),
                 "views": PropertyViewEvent.objects.filter(property__created_by=request.user).count(),
                 "inquiries": inquiries.count(),
                 "inq_new": inquiries.filter(status="new").count(),
@@ -187,8 +231,11 @@ def seller_dashboard(request):
                 "inq_qualified": inquiries.filter(status="qualified").count(),
                 "inq_closed": inquiries.filter(status="closed").count(),
                 "prop_total": listings.count(),
-                "prop_pending": listings.filter(approval_status=Property.ApprovalStatus.PENDING).count(),
-                "prop_approved": listings.filter(approval_status=Property.ApprovalStatus.APPROVED).count(),
+                "prop_active": listings.filter(status=Property.Status.ACTIVE).count(),
+                "prop_pending": listings.filter(status=Property.Status.PENDING).count(),
+                "prop_sold": listings.filter(status=Property.Status.SOLD).count(),
+                "prop_closed": listings.filter(status=Property.Status.CLOSED).count(),
+                "prop_approved": listings.filter(status=Property.Status.APPROVED).count(),
                 "prop_rejected": listings.filter(approval_status=Property.ApprovalStatus.REJECTED).count(),
             },
         },
@@ -196,11 +243,8 @@ def seller_dashboard(request):
 
 
 
-@login_required
+@role_required(User.Role.ADMIN)
 def admin_dashboard(request):
-    if not request.user.is_admin_role:
-        messages.error(request, "Admin access required.")
-        return redirect("accounts:dashboard")
     from analytics.models import AuditLog
     from django.utils import timezone
     from django.db.models.functions import TruncMonth
@@ -258,3 +302,22 @@ def demo_logout(request):
         raise Http404()
     logout(request)
     return redirect("home")
+
+
+def verify_email(request, token):
+    from django.core import signing
+    try:
+        data = signing.loads(token, max_age=86400) # 24 hours
+        user_id = data.get("user_id")
+        email = data.get("email")
+        
+        user = get_object_or_404(User, pk=user_id, email=email)
+        user.is_verified = True
+        user.save()
+        messages.success(request, "Your email address has been verified successfully!")
+    except signing.SignatureExpired:
+        messages.error(request, "The verification link has expired.")
+    except signing.BadSignature:
+        messages.error(request, "The verification link is invalid.")
+    
+    return redirect("accounts:profile")

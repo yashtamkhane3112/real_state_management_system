@@ -6,9 +6,11 @@ from properties.models import Property
 from analytics.models import PropertyViewEvent, AuditLog
 from inquiries.models import Inquiry
 from visits.models import Visit
+from accounts.decorators import role_required
+from accounts.models import User
 
 
-@login_required
+@role_required(User.Role.SELLER, User.Role.ADMIN)
 def reports_home(request):
     city_data = Property.objects.values("city").annotate(total=Count("id")).order_by("-total")
     total_views = PropertyViewEvent.objects.count()
@@ -51,6 +53,12 @@ def reports_home(request):
     favorite_count = Favorite.objects.count()
     top_city = city_data[0] if city_data.exists() else None
 
+    total_active = Property.objects.filter(status=Property.Status.ACTIVE).count()
+    total_sold = Property.objects.filter(status=Property.Status.SOLD).count()
+    total_closed = Property.objects.filter(status=Property.Status.CLOSED).count()
+    total_lifecycle = total_active + total_sold + total_closed
+    sales_conversion_rate = round((total_sold / total_lifecycle) * 100, 1) if total_lifecycle > 0 else 0.0
+
     context = {
         "city_data": city_data,
         "total_views": total_views,
@@ -65,11 +73,15 @@ def reports_home(request):
         "top_city": top_city,
         "most_viewed": most_viewed,
         "most_favorited": most_favorited,
+        "total_active": total_active,
+        "total_sold": total_sold,
+        "total_closed": total_closed,
+        "sales_conversion_rate": sales_conversion_rate,
     }
     return render(request, "dashboards/reports.html", context)
 
 
-@login_required
+@role_required(User.Role.ADMIN)
 def download_audit_logs(request):
     import csv
     from django.http import HttpResponse

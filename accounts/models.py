@@ -35,6 +35,24 @@ class User(AbstractUser):
     def is_admin_role(self):
         return self.role == self.Role.ADMIN or self.is_staff or self.is_superuser
 
+    @property
+    def initials(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name[0]}{self.last_name[0]}".upper()
+        elif self.first_name:
+            return self.first_name[:2].upper()
+        return self.username[:2].upper()
+
+    @property
+    def avatar_url(self):
+        if self.avatar:
+            try:
+                mtime = int(self.avatar.storage.get_modified_time(self.avatar.name).timestamp())
+                return f"{self.avatar.url}?t={mtime}"
+            except Exception:
+                return self.avatar.url
+        return ""
+
     def has_perm(self, perm, obj=None):
         if self.is_active and (self.role == self.Role.ADMIN or self.is_superuser):
             return True

@@ -15,6 +15,13 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Public registration only allows Buyer or Seller roles.")
         return value
 
+    def validate_phone(self, value):
+        if value:
+            import re
+            if not re.match(r'^[6-9]\d{9}$', value):
+                raise serializers.ValidationError("Phone number must be exactly 10 digits and start with 6, 7, 8, or 9.")
+        return value
+
     def create(self, validated_data):
         password = validated_data.pop("password")
         user = User.objects.create_user(password=password, **validated_data)
@@ -28,4 +35,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email", "first_name", "last_name", "phone", "role", "is_verified")
+
+    def validate_phone(self, value):
+        if value:
+            import re
+            if not re.match(r'^[6-9]\d{9}$', value):
+                raise serializers.ValidationError("Phone number must be exactly 10 digits and start with 6, 7, 8, or 9.")
+        return value
 

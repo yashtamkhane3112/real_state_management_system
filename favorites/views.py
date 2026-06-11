@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from properties.models import Property
+from accounts.decorators import role_required
+from accounts.models import User
 
 from .models import Favorite
 
@@ -26,5 +28,11 @@ def toggle(request, slug):
 @login_required
 def wishlist(request):
     return render(request, "dashboards/wishlist.html", {"favorites": Favorite.objects.select_related("property").filter(user=request.user)})
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+def seller_favorites(request):
+    favorites = Favorite.objects.filter(property__created_by=request.user).select_related("property", "user")
+    return render(request, "dashboards/seller_favorites.html", {"favorites": favorites})
 
 

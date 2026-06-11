@@ -57,9 +57,9 @@
                 <label class="form-label fw-bold">Avatar</label>
                 <div class="d-flex align-items-center gap-3">
                   {% if user.avatar %}
-                    <img src="{{ user.avatar.url }}" alt="avatar" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover;">
+                    <img id="profileAvatarClickable" src="{{ user.avatar_url }}" alt="avatar" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover;">
                   {% else %}
-                    <div class="pv-avatar" style="width: 56px; height: 56px; font-size: 1.25rem;">{{ user.username|slice:":2"|upper }}</div>
+                    <div class="pv-avatar" style="width: 56px; height: 56px; font-size: 1.25rem;">{{ user.initials }}</div>
                   {% endif %}
                   <div class="flex-grow-1">
                     {{ user_form.avatar }}
@@ -155,4 +155,139 @@
     </div>
   </div>
 </section>
+
+{% if user.avatar %}
+  <!-- Fullscreen Viewer Modal -->
+  <div id="avatarModal" class="avatar-modal">
+    <span class="close-btn" id="closeAvatarModal">&times;</span>
+    <img class="avatar-modal-content" id="avatarModalImg" src="{{ user.avatar_url }}" alt="Fullscreen avatar">
+  </div>
+
+  <style>
+  /* Fullscreen Avatar Modal styling */
+  .avatar-modal {
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.85); 
+    backdrop-filter: blur(10px);
+    transition: opacity 0.3s ease;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-modal-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 85vh;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    transform: scale(0.85);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    object-fit: contain;
+    opacity: 0;
+  }
+
+  .avatar-modal.show {
+    display: flex !important;
+  }
+
+  .avatar-modal.show .avatar-modal-content {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 44px;
+    font-weight: 300;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    z-index: 10000;
+    line-height: 1;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .close-btn:hover {
+    color: #ff4d4d;
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+  }
+
+  @media only screen and (max-width: 768px){
+    .avatar-modal-content {
+      max-width: 95%;
+      max-height: 75vh;
+    }
+    .close-btn {
+      top: 15px;
+      right: 15px;
+    }
+  }
+  </style>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const avatarImg = document.getElementById("profileAvatarClickable");
+    const modal = document.getElementById("avatarModal");
+    const closeBtn = document.getElementById("closeAvatarModal");
+    
+    if (avatarImg && modal) {
+      avatarImg.style.cursor = "pointer";
+      avatarImg.setAttribute("title", "Click to view full screen");
+      
+      avatarImg.addEventListener("click", function() {
+        modal.style.display = "flex";
+        // Force reflow
+        modal.offsetHeight;
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden"; // Prevent background scroll
+      });
+      
+      function closeModal() {
+        modal.classList.remove("show");
+        setTimeout(function() {
+          modal.style.display = "none";
+          document.body.style.overflow = "";
+        }, 300);
+      }
+      
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          closeModal();
+        });
+      }
+      
+      // Close on click outside the image
+      modal.addEventListener("click", function(event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+      
+      // Close on ESC key
+      document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" && modal.style.display === "flex") {
+          closeModal();
+        }
+      });
+    }
+  });
+  </script>
+{% endif %}
 {% endblock %}

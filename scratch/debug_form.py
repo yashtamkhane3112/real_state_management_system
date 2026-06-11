@@ -4,6 +4,8 @@ from io import BytesIO
 from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "propvista.settings")
 django.setup()
 
@@ -25,9 +27,10 @@ form_data = {
     "price": 10000000,
     "property_type": Property.PropertyType.APARTMENT,
     "category": category.id,
-    "bedrooms": 2,
-    "bathrooms": 2,
-    "area_sqft": 1100,
+    "bedrooms": -1,
+    "bathrooms": -2,
+    "area_sqft": 0,
+    "price": 0,
     "parking": 1,
     "status": "active",
     "address": "Bandra",
@@ -40,3 +43,5 @@ valid_cover = SimpleUploadedFile("cover.jpg", img_data, content_type="image/jpeg
 form = PropertyForm(data=form_data, files={"cover_image": valid_cover})
 print("Is valid?", form.is_valid())
 print("Errors:", form.errors)
+
+

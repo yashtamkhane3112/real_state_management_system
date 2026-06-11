@@ -155,12 +155,25 @@ def home(request):
 def property_list(request):
     if request.GET.get("owner") == "me" and request.user.is_authenticated:
         qs = Property.objects.filter(created_by=request.user)
-        status_filter = request.GET.get("approval_status")
+        # Check both status and approval_status filters for seller list
+        status_filter = request.GET.get("status")
         if status_filter:
-            qs = qs.filter(approval_status=status_filter)
+            qs = qs.filter(status=status_filter)
+        else:
+            approval_status_filter = request.GET.get("approval_status")
+            if approval_status_filter:
+                qs = qs.filter(approval_status=approval_status_filter)
         properties = qs.select_related("category", "created_by").prefetch_related("amenities").search(request.GET)
     else:
-        properties = Property.objects.public().select_related("category", "created_by").prefetch_related("amenities").search(request.GET)
+        # Default public search: filter by ACTIVE status unless 'status' is explicitly queried
+        status_query = request.GET.get("status")
+        if status_query in [Property.Status.ACTIVE, Property.Status.SOLD]:
+            qs = Property.objects.public().filter(status=status_query)
+        else:
+            # Default to only ACTIVE properties
+            qs = Property.objects.public().filter(status=Property.Status.ACTIVE)
+        properties = qs.select_related("category", "created_by").prefetch_related("amenities").search(request.GET)
+        
     return render(
         request,
         "properties/list.html",
@@ -175,16 +188,21 @@ def property_list(request):
 
 
 def city_page(request, city):
-    properties = Property.objects.public().filter(city__iexact=city)
+    # Public city page should show only active properties
+    properties = Property.objects.public().filter(city__iexact=city, status=Property.Status.ACTIVE)
     return render(request, "properties/city.html", {"city": city, "properties": properties})
 
 
 def property_detail(request, slug):
     prop = get_object_or_404(Property.objects.select_related("category", "created_by").prefetch_related("amenities", "images"), slug=slug)
-    if prop.approval_status != Property.ApprovalStatus.APPROVED:
+    
+    # Check public visibility: only Active and Sold properties approved by admin are public.
+    is_public = (prop.status in [Property.Status.ACTIVE, Property.Status.SOLD]) and (prop.approval_status == Property.ApprovalStatus.APPROVED)
+    if not is_public:
         if not request.user.is_authenticated or (prop.created_by != request.user and not request.user.is_admin_role):
             from django.http import Http404
-            raise Http404("Property not found or pending approval.")
+            raise Http404("Property not found or restricted.")
+            
     if prop.approval_status == Property.ApprovalStatus.APPROVED:
         Property.objects.filter(pk=prop.pk).update(view_count=F("view_count") + 1)
         prop.refresh_from_db(fields=["view_count"])
@@ -193,17 +211,32 @@ def property_detail(request, slug):
             user=request.user if request.user.is_authenticated else None,
             source=request.headers.get("referer", "")[:80] or "direct",
         )
-    similar = Property.objects.public().filter(city=prop.city).exclude(pk=prop.pk)[:4]
+    similar = Property.objects.public().filter(city=prop.city, status=Property.Status.ACTIVE).exclude(pk=prop.pk)[:4]
     
     gallery_count = prop.images.count()
     has_images = bool(prop.cover_image) or gallery_count > 0
     show_gallery_controls = (bool(prop.cover_image) and gallery_count > 0) or gallery_count > 1
     
+    # Calculate performance analytics
+    favs_count = prop.favorites.count()
+    inqs_count = prop.inquiries.count()
+    views_count = prop.view_count
+    if views_count > 0:
+        conversion_pct = round((inqs_count / views_count) * 100, 1)
+    else:
+        conversion_pct = 0.0
+
     return render(request, "properties/detail.html", {
         "property": prop, 
         "similar": similar,
         "has_images": has_images,
-        "show_gallery_controls": show_gallery_controls
+        "show_gallery_controls": show_gallery_controls,
+        "analytics": {
+            "views": views_count,
+            "favorites": favs_count,
+            "inquiries": inqs_count,
+            "conversion": conversion_pct
+        }
     })
 
 
@@ -246,7 +279,7 @@ def property_create(request):
     return render(request, "properties/form.html", {"form": form, "title": "Add Property"})
 
 
-@login_required
+@role_required(User.Role.SELLER, User.Role.ADMIN)
 def property_update(request, slug):
     prop = get_object_or_404(Property, slug=slug)
     if prop.created_by != request.user and not request.user.is_admin_role:
@@ -277,7 +310,7 @@ def property_update(request, slug):
     return render(request, "properties/form.html", {"form": form, "property": prop, "title": "Edit Property"})
 
 
-@login_required
+@role_required(User.Role.SELLER, User.Role.ADMIN)
 def property_delete(request, slug):
     prop = get_object_or_404(Property, slug=slug)
     if prop.created_by != request.user and not request.user.is_admin_role:
@@ -295,8 +328,9 @@ def property_delete(request, slug):
 def approve_property(request, slug):
     prop = get_object_or_404(Property, slug=slug)
     prop.approval_status = Property.ApprovalStatus.APPROVED
+    prop.status = Property.Status.APPROVED
     prop.rejection_reason = ""
-    prop.save(update_fields=["approval_status", "rejection_reason", "updated_at"])
+    prop.save(update_fields=["approval_status", "status", "rejection_reason", "updated_at"])
     messages.success(request, "Property approved.")
     return redirect("properties:approvals_list")
 
@@ -306,8 +340,9 @@ def approve_property(request, slug):
 def reject_property(request, slug):
     prop = get_object_or_404(Property, slug=slug)
     prop.approval_status = Property.ApprovalStatus.REJECTED
+    prop.status = Property.Status.DRAFT
     prop.rejection_reason = request.POST.get("reason", "Needs more information.")
-    prop.save(update_fields=["approval_status", "rejection_reason", "updated_at"])
+    prop.save(update_fields=["approval_status", "status", "rejection_reason", "updated_at"])
     messages.warning(request, "Property rejected.")
     return redirect("properties:approvals_list")
 
@@ -357,4 +392,89 @@ class AmenityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Amenity.objects.all()
     serializer_class = AmenitySerializer
     permission_classes = [permissions.AllowAny]
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+@require_POST
+def mark_property_sold(request, slug):
+    prop = get_object_or_404(Property, slug=slug)
+    if prop.created_by != request.user and not request.user.is_admin_role:
+        messages.error(request, "You do not have permission to modify this property.")
+        return redirect("properties:detail", slug=prop.slug)
+    if prop.status != Property.Status.ACTIVE:
+        messages.error(request, "Only active properties can be marked as sold.")
+        return redirect("properties:detail", slug=prop.slug)
+    
+    prop.status = Property.Status.SOLD
+    prop.save()
+    messages.success(request, f"Property '{prop.title}' has been marked as SOLD.")
+    return redirect("properties:detail", slug=prop.slug)
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+@require_POST
+def mark_property_closed(request, slug):
+    prop = get_object_or_404(Property, slug=slug)
+    if prop.created_by != request.user and not request.user.is_admin_role:
+        messages.error(request, "You do not have permission to modify this property.")
+        return redirect("properties:detail", slug=prop.slug)
+    if prop.status != Property.Status.ACTIVE:
+        messages.error(request, "Only active properties can be marked as closed.")
+        return redirect("properties:detail", slug=prop.slug)
+    
+    prop.status = Property.Status.CLOSED
+    prop.save()
+    messages.success(request, f"Property '{prop.title}' has been closed.")
+    return redirect("properties:detail", slug=prop.slug)
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+@require_POST
+def reopen_property(request, slug):
+    prop = get_object_or_404(Property, slug=slug)
+    if prop.created_by != request.user and not request.user.is_admin_role:
+        messages.error(request, "You do not have permission to modify this property.")
+        return redirect("properties:detail", slug=prop.slug)
+    if prop.status != Property.Status.CLOSED:
+        messages.error(request, "Only closed properties can be reopened.")
+        return redirect("properties:detail", slug=prop.slug)
+    
+    prop.status = Property.Status.ACTIVE
+    prop.save()
+    messages.success(request, f"Property '{prop.title}' has been reopened and is now Active.")
+    return redirect("properties:detail", slug=prop.slug)
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+@require_POST
+def activate_property(request, slug):
+    prop = get_object_or_404(Property, slug=slug)
+    if prop.created_by != request.user and not request.user.is_admin_role:
+        messages.error(request, "You do not have permission to modify this property.")
+        return redirect("properties:detail", slug=prop.slug)
+    if prop.status != Property.Status.APPROVED:
+        messages.error(request, "Only approved properties can be activated.")
+        return redirect("properties:detail", slug=prop.slug)
+    
+    prop.status = Property.Status.ACTIVE
+    prop.save()
+    messages.success(request, f"Property '{prop.title}' is now Active and listed publicly.")
+    return redirect("properties:detail", slug=prop.slug)
+
+
+@role_required(User.Role.SELLER, User.Role.ADMIN)
+@require_POST
+def submit_for_approval(request, slug):
+    prop = get_object_or_404(Property, slug=slug)
+    if prop.created_by != request.user and not request.user.is_admin_role:
+        messages.error(request, "You do not have permission to modify this property.")
+        return redirect("properties:detail", slug=prop.slug)
+    if prop.status != Property.Status.DRAFT:
+        messages.error(request, "Only draft properties can be submitted for approval.")
+        return redirect("properties:detail", slug=prop.slug)
+    
+    prop.status = Property.Status.PENDING
+    prop.save()
+    messages.success(request, f"Property '{prop.title}' has been submitted for approval.")
+    return redirect("properties:detail", slug=prop.slug)
 

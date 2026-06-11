@@ -51,7 +51,7 @@
                   <div class="small text-muted">{{ prop.created_by.role|title }}</div>
                 </td>
                 <td class="fw-bold text-accent">
-                  Rs {{ prop.price|floatformat:0 }}
+                  {{ prop.formatted_price }}
                 </td>
                 <td>
                   <div class="d-flex align-items-center flex-wrap gap-2">
@@ -108,7 +108,7 @@
                   <div class="small text-muted">{{ prop.created_by.role|title }}</div>
                 </td>
                 <td class="fw-bold text-accent">
-                  Rs {{ prop.price|floatformat:0 }}
+                  {{ prop.formatted_price }}
                 </td>
                 <td>
                   <form action="{% url 'properties:reject' prop.slug %}" method="post" class="d-flex align-items-center gap-2">

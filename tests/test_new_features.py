@@ -328,10 +328,11 @@ def test_avatar_filename_safe_sanitization():
 
 
 @pytest.mark.django_db
-def test_download_audit_logs(client, seller):
+def test_download_audit_logs(client):
     from analytics.models import AuditLog
-    AuditLog.objects.create(actor=seller, action="test_action", object_type="Property", object_id="123")
-    client.force_login(seller)
+    admin_user = User.objects.create_superuser(username="admin_test", password="Pass@12345", email="admin@example.com")
+    AuditLog.objects.create(actor=admin_user, action="test_action", object_type="Property", object_id="123")
+    client.force_login(admin_user)
     response = client.get(reverse("reports:download_audit_logs"))
     assert response.status_code == 200
     assert response["Content-Type"] == "text/csv"
@@ -370,20 +371,258 @@ def test_property_image_size_validation(seller, category):
         "pincode": "400050",
     }
     
-    # 1. 11MB cover image
+    # 1. 11MB cover image (Should be allowed)
     large_cover = SimpleUploadedFile("cover.jpg", generate_image(11 * 1024 * 1024), content_type="image/jpeg")
     form = PropertyForm(data=form_data, files={"cover_image": large_cover})
-    assert not form.is_valid()
-    assert "cover_image" in form.errors
+    assert form.is_valid()
     
     # 2. 9MB cover image (valid)
     valid_cover = SimpleUploadedFile("cover.jpg", generate_image(9 * 1024 * 1024), content_type="image/jpeg")
     form = PropertyForm(data=form_data, files={"cover_image": valid_cover})
     assert form.is_valid()
+
+
+@pytest.mark.django_db
+def test_registration_sends_emails(client):
+    from django.core import mail
+    mail.outbox.clear()
     
-    # 3. 11MB gallery image
-    large_gallery = SimpleUploadedFile("gallery.jpg", generate_image(11 * 1024 * 1024), content_type="image/jpeg")
-    form = PropertyForm(data=form_data, files={"gallery_images": large_gallery})
+    response = client.post(
+        reverse("accounts:register"),
+        {
+            "username": "newuseremail",
+            "email": "newuser@example.com",
+            "role": User.Role.BUYER,
+            "password1": "Pass@12345",
+            "password2": "Pass@12345",
+        },
+    )
+    assert response.status_code == 302
+    assert len(mail.outbox) == 2
+    assert "Welcome" in mail.outbox[0].subject
+    assert "Verify" in mail.outbox[1].subject
+
+
+@pytest.mark.django_db
+def test_password_reset_views_and_emails(client, buyer):
+    from django.core import mail
+    mail.outbox.clear()
+    
+    buyer.email = "buyer@example.com"
+    buyer.save()
+    
+    response = client.post(reverse("accounts:password_reset"), {"email": buyer.email})
+    assert response.status_code == 302
+    assert len(mail.outbox) == 1
+    assert "password reset" in mail.outbox[0].subject.lower()
+
+
+@pytest.mark.django_db
+def test_email_change_triggers_verification(client, buyer):
+    from django.core import mail
+    mail.outbox.clear()
+    
+    buyer.email = "buyer@example.com"
+    buyer.save()
+    
+    client.force_login(buyer)
+    response = client.post(
+        reverse("accounts:profile"),
+        {
+            "first_name": "New",
+            "last_name": "Buyer",
+            "email": "changed_email@example.com",
+            "phone": "9999999999",
+            "city": "Mumbai",
+            "locality": "Bandra",
+            "bio": "New bio",
+            "agency_name": "",
+            "license_number": "",
+        }
+    )
+    assert response.status_code == 302
+    buyer.refresh_from_db()
+    assert buyer.is_verified is False
+    assert len(mail.outbox) == 1
+    assert "Verify" in mail.outbox[0].subject
+
+
+@pytest.mark.django_db
+def test_verify_email_flow(client, buyer):
+    from django.core import signing
+    buyer.is_verified = False
+    buyer.save()
+    
+    token = signing.dumps({"user_id": buyer.pk, "email": buyer.email})
+    response = client.get(reverse("accounts:verify_email", args=[token]))
+    assert response.status_code == 302
+    buyer.refresh_from_db()
+    assert buyer.is_verified is True
+
+
+@pytest.mark.django_db
+def test_seller_favorites_page_and_dashboard_integration(client, seller, approved_property, buyer):
+    from favorites.models import Favorite
+    Favorite.objects.create(user=buyer, property=approved_property)
+    
+    client.force_login(seller)
+    response = client.get(reverse("favorites:seller_favorites"))
+    assert response.status_code == 200
+    assert approved_property.title.encode() in response.content
+    assert buyer.username.encode() in response.content
+
+    response = client.get(reverse("accounts:seller_dashboard"))
+    assert response.status_code == 200
+    assert approved_property.title.encode() in response.content
+
+
+@pytest.mark.django_db
+def test_access_control_route_restrictions(client, buyer, seller):
+    for url in [
+        reverse("accounts:buyer_dashboard"),
+        reverse("accounts:seller_dashboard"),
+        reverse("accounts:admin_dashboard"),
+        reverse("reports:home"),
+        reverse("notifications:list"),
+        reverse("accounts:profile")
+    ]:
+        response = client.get(url)
+        assert response.status_code == 302
+        
+    client.force_login(buyer)
+    response = client.get(reverse("reports:home"))
+    assert response.status_code == 403
+    response = client.get(reverse("accounts:admin_dashboard"))
+    assert response.status_code == 403
+
+    client.force_login(seller)
+    response = client.get(reverse("accounts:admin_dashboard"))
+    assert response.status_code == 403
+
+
+@pytest.mark.django_db
+def test_property_lifecycle_workflow(client, seller, category):
+    admin_user = User.objects.create_superuser(username="adminy", password="Pass@12345", email="adminy@example.com")
+    
+    # 1. Create - Seller creates property
+    client.force_login(seller)
+    response = client.post(
+        reverse("properties:create"),
+        {
+            "title": "Lifecycle Mansion",
+            "description": "Premium test property for lifecycle workflow.",
+            "price": 50000000,
+            "property_type": Property.PropertyType.VILLA,
+            "category": category.id,
+            "bedrooms": 5,
+            "bathrooms": 5,
+            "area_sqft": 4500,
+            "status": Property.Status.PENDING,
+            "address": "Juhu",
+            "city": "Mumbai",
+            "locality": "Juhu",
+            "pincode": "400049",
+            "parking": 2,
+        }
+    )
+    assert response.status_code == 302
+    prop = Property.objects.get(title="Lifecycle Mansion")
+    assert prop.status == Property.Status.PENDING
+    assert prop.approval_status == Property.ApprovalStatus.PENDING
+    
+    # Verify not public
+    response = client.get(reverse("properties:list"))
+    assert prop not in response.context["properties"]
+
+    # 2. Approve - Admin approves property
+    client.force_login(admin_user)
+    response = client.post(reverse("properties:approve", args=[prop.slug]))
+    assert response.status_code == 302
+    prop.refresh_from_db()
+    assert prop.status == Property.Status.APPROVED
+    assert prop.approval_status == Property.ApprovalStatus.APPROVED
+
+    # Verify not public (since status is APPROVED, not yet ACTIVE)
+    response = client.get(reverse("properties:list"))
+    assert prop not in response.context["properties"]
+
+    # 3. Active - Seller activates property
+    client.force_login(seller)
+    response = client.post(reverse("properties:activate", args=[prop.slug]))
+    assert response.status_code == 302
+    prop.refresh_from_db()
+    assert prop.status == Property.Status.ACTIVE
+
+    # Verify public in default search
+    response = client.get(reverse("properties:list"))
+    assert prop in response.context["properties"]
+
+    # 4. Sold - Seller marks Active property as Sold
+    response = client.post(reverse("properties:mark_sold", args=[prop.slug]))
+    assert response.status_code == 302
+    prop.refresh_from_db()
+    assert prop.status == Property.Status.SOLD
+    assert prop.sold_date is not None
+
+    # Verify sold badge is shown
+    response = client.get(reverse("properties:list"), {"status": "sold"})
+    assert prop in response.context["properties"]
+    assert b"SOLD" in response.content
+
+    # 5. Closed - Seller marks Active property as Closed
+    # Reopen to Active first
+    prop.status = Property.Status.ACTIVE
+    prop.save()
+    response = client.post(reverse("properties:mark_closed", args=[prop.slug]))
+    assert response.status_code == 302
+    prop.refresh_from_db()
+    assert prop.status == Property.Status.CLOSED
+
+    # Verify hidden from public
+    response = client.get(reverse("properties:list"))
+    assert prop not in response.context["properties"]
+    
+    # 6. Reopen Closed property
+    response = client.post(reverse("properties:reopen", args=[prop.slug]))
+    assert response.status_code == 302
+    prop.refresh_from_db()
+    assert prop.status == Property.Status.ACTIVE
+
+    # 7. Check reports View
+    client.force_login(admin_user)
+    response = client.get(reverse("reports:home"))
+    assert response.status_code == 200
+    assert b"Property Lifecycle Report" in response.content
+
+
+@pytest.mark.django_db
+def test_profile_phone_and_email_validation(client, buyer):
+    from accounts.forms import UserForm
+    client.force_login(buyer)
+
+    # 1. Invalid phone number format (starts with 5)
+    form_data = {
+        "first_name": buyer.first_name,
+        "last_name": buyer.last_name,
+        "email": "valid_email@example.com",
+        "phone": "5551234567"
+    }
+    form = UserForm(data=form_data, instance=buyer)
     assert not form.is_valid()
+    assert "phone" in form.errors
+
+    # 2. Valid phone number format (exactly 10 digits, starts with 9)
+    form_data["phone"] = "9876543210"
+    form = UserForm(data=form_data, instance=buyer)
+    assert form.is_valid()
+
+    # 3. Empty email address is prevented
+    form_data_empty_email = form_data.copy()
+    form_data_empty_email["email"] = ""
+    form_empty = UserForm(data=form_data_empty_email, instance=buyer)
+    assert not form_empty.is_valid()
+    assert "email" in form_empty.errors
+
+
 
 

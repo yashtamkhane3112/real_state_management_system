@@ -2,7 +2,7 @@
 {% block title %}Property Details | {{ property.title }} | PropVista{% endblock %}
 {% block content %}
 <section class="detail-showcase py-4">
-  <div class="container">
+  <div class="container-fluid px-3 px-md-4" style="max-width: 1400px; margin: 0 auto;">
     <!-- Breadcrumb & Title Section -->
     <div class="mb-4 reveal">
       <a class="pv-muted text-decoration-none small" href="{% url 'properties:list' %}">
@@ -10,8 +10,14 @@
       </a>
       <div class="d-flex flex-column flex-lg-row justify-content-between gap-3 mt-3">
         <div>
-          <span class="pv-eyebrow"><i class="bi bi-patch-check-fill"></i> Verified premium listing</span>
-          <h1 class="pv-serif display-4 fw-bold mt-2 mb-2">{{ property.title }}</h1>
+          <h1 class="pv-serif display-5 fw-bold mt-2 mb-2">
+            {{ property.title }}
+            {% if property.status == 'sold' %}
+              <span class="badge bg-danger text-white fs-5 align-middle ms-2"><i class="bi bi-tag-fill"></i> SOLD</span>
+            {% elif property.status == 'closed' %}
+              <span class="badge bg-secondary text-white fs-5 align-middle ms-2"><i class="bi bi-x-circle-fill"></i> CLOSED</span>
+            {% endif %}
+          </h1>
           <p class="pv-muted fs-5"><i class="bi bi-geo-alt"></i> {{ property.address }}, {{ property.locality }}, {{ property.city }}</p>
         </div>
         <div class="d-flex gap-2 align-items-start">
@@ -27,79 +33,181 @@
       </div>
     </div>
 
-    <!-- Redesigned Premium Gallery Grid with Carousel -->
-    <div class="detail-gallery-premium reveal mb-4">
-      <div class="row g-2">
-        <div class="col-md-8">
-          <div class="gallery-main-container pv-card overflow-hidden h-100" style="border-radius: 24px; min-height: 400px; max-height: 500px; position: relative;">
-            {% if has_images %}
-              <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
-                <div class="carousel-inner h-100">
-                  {% if property.cover_image %}
-                    <div class="carousel-item active h-100">
-                      <img src="{{ property.cover_image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}">
-                      <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
-                        <span class="small fw-bold">Cover Photo</span>
-                      </div>
-                    </div>
-                  {% endif %}
-                  {% for image in property.images.all %}
-                    <div class="carousel-item {% if not property.cover_image and forloop.first %}active{% endif %} h-100">
-                      <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
-                      {% if image.caption %}
-                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
-                          <span class="small fw-bold">{{ image.caption }}</span>
-                        </div>
-                      {% endif %}
-                    </div>
-                  {% endfor %}
-                </div>
-                {% if show_gallery_controls %}
-                  <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </button>
-                  <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </button>
-                {% endif %}
-              </div>
-            {% else %}
-              <div class="fallback-img big w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                <span class="text-secondary">No images available</span>
-              </div>
+    {% if request.user.is_authenticated and request.user == property.created_by or request.user.is_admin_role %}
+      <!-- Listing Performance Analytics for Owner/Admin -->
+      <div class="pv-card p-4 mb-4 reveal" style="border-left: 5px solid var(--pv-primary); border-radius: 16px;">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="bi bi-graph-up-arrow text-primary fs-5"></i>
+          <h3 class="h5 fw-bold mb-0">Listing Performance Analytics <span class="badge bg-secondary-subtle text-secondary ms-2 small">Visible only to you</span></h3>
+        </div>
+        <div class="row g-3">
+          <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 text-center">
+              <span class="small text-muted d-block mb-1">Total Views</span>
+              <strong class="fs-4 text-primary"><i class="bi bi-eye me-1"></i>{{ analytics.views }}</strong>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 text-center">
+              <span class="small text-muted d-block mb-1">Favorites</span>
+              <strong class="fs-4 text-danger"><i class="bi bi-heart me-1"></i>{{ analytics.favorites }}</strong>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 text-center">
+              <span class="small text-muted d-block mb-1">Inquiries</span>
+              <strong class="fs-4 text-warning"><i class="bi bi-chat-dots me-1"></i>{{ analytics.inquiries }}</strong>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3 text-center">
+              <span class="small text-muted d-block mb-1">Conversion %</span>
+              <strong class="fs-4 text-info"><i class="bi bi-percent me-1"></i>{{ analytics.conversion }}%</strong>
+            </div>
+          </div>
+        </div>
+        
+        <hr class="my-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+          <div>
+            <strong class="d-block mb-1">Property Status: <span class="badge bg-primary text-uppercase">{{ property.status }}</span></strong>
+            <span class="small text-secondary">Manage listing transitions and state.</span>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            <!-- Edit / Delete -->
+            <a href="{% url 'properties:update' property.slug %}" class="pv-btn pv-btn-ghost py-2"><i class="bi bi-pencil"></i> Edit Listing</a>
+            
+            <!-- Draft -> Pending -->
+            {% if property.status == 'draft' %}
+              <form action="{% url 'properties:submit' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-primary py-2"><i class="bi bi-send"></i> Submit for Approval</button>
+              </form>
+            {% endif %}
+            
+            <!-- Admin approval / rejection -->
+            {% if request.user.is_admin_role and property.status == 'pending' %}
+              <form action="{% url 'properties:approve' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-primary py-2"><i class="bi bi-check2-circle"></i> Approve Property</button>
+              </form>
+              <button type="button" class="pv-btn pv-btn-ghost text-danger py-2" data-bs-toggle="collapse" data-bs-target="#rejectReasonCollapse"><i class="bi bi-x-circle"></i> Reject Property</button>
+            {% endif %}
+            
+            <!-- Approved -> Active -->
+            {% if property.status == 'approved' %}
+              <form action="{% url 'properties:activate' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-primary py-2 bg-success border-success text-white"><i class="bi bi-play-fill"></i> Activate Property</button>
+              </form>
+            {% endif %}
+            
+            <!-- Active -> Sold / Closed -->
+            {% if property.status == 'active' %}
+              <form action="{% url 'properties:mark_sold' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-primary py-2 bg-danger border-danger text-white"><i class="bi bi-tag-fill"></i> Mark as SOLD</button>
+              </form>
+              <form action="{% url 'properties:mark_closed' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-ghost text-secondary py-2"><i class="bi bi-x-circle"></i> Mark as Closed</button>
+              </form>
+            {% endif %}
+            
+            <!-- Closed -> Reopen -->
+            {% if property.status == 'closed' %}
+              <form action="{% url 'properties:reopen' property.slug %}" method="post" class="d-inline">{% csrf_token %}
+                <button type="submit" class="pv-btn pv-btn-primary py-2 bg-success border-success text-white"><i class="bi bi-arrow-counterclockwise"></i> Reopen Property</button>
+              </form>
             {% endif %}
           </div>
         </div>
-        <div class="col-md-4 d-none d-md-block">
-          <div class="row g-2 h-100">
-            {% for image in property.images.all|slice:":2" %}
-              <div class="col-12">
-                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; height: calc(250px - 4px); max-height: 245px; cursor: pointer;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
-                  <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
-                </div>
+
+        {% if request.user.is_admin_role and property.status == 'pending' %}
+          <div class="collapse mt-3" id="rejectReasonCollapse">
+            <form action="{% url 'properties:reject' property.slug %}" method="post" class="card card-body">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="rejectReason" class="form-label fw-bold">Rejection Reason</label>
+                <textarea class="form-control" id="rejectReason" name="reason" rows="3" required placeholder="Please enter a reason for rejecting this property."></textarea>
               </div>
-            {% empty %}
-              {% if property.cover_image %}
-                <div class="col-12">
-                  <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center h-100" style="border-radius: 16px;">
-                    <i class="bi bi-images fs-2 text-muted mb-2"></i>
-                    <span class="text-secondary small">No additional photos</span>
+              <button type="submit" class="pv-btn pv-btn-primary py-2 bg-danger border-danger text-white w-100">Submit Rejection</button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Top Row: Gallery & Details (Left) + Sidebar (Right) -->
+    <div class="detail-grid-row">
+      <!-- Left Column (Gallery, Narrative, Lifecycle) -->
+      <div class="detail-left-col">
+        
+        <!-- Gallery Section -->
+        <div class="detail-gallery-premium grid-left-gallery reveal mb-4">
+          <div class="row g-2">
+            <div class="col-12 col-md-8">
+              <div class="gallery-main-container pv-card overflow-hidden h-100" style="border-radius: 24px; min-height: 400px; max-height: 500px; position: relative;">
+                {% if has_images %}
+                  <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+                    <div class="carousel-inner h-100">
+                      {% if property.cover_image %}
+                        <div class="carousel-item active h-100">
+                          <img src="{{ property.cover_image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}">
+                          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                            <span class="small fw-bold">Cover Photo</span>
+                          </div>
+                        </div>
+                      {% endif %}
+                      {% for image in property.images.all %}
+                        <div class="carousel-item {% if not property.cover_image and forloop.first %}active{% endif %} h-100">
+                          <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
+                          {% if image.caption %}
+                            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                              <span class="small fw-bold">{{ image.caption }}</span>
+                            </div>
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                    {% if show_gallery_controls %}
+                      <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    {% endif %}
                   </div>
-                </div>
-              {% endif %}
-            {% endfor %}
+                {% else %}
+                  <div class="fallback-img big w-100 h-100 bg-light d-flex align-items-center justify-content-center">
+                    <span class="text-secondary">No images available</span>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-4 d-none d-md-block">
+              <div class="row g-2 h-100">
+                {% for image in property.images.all|slice:":2" %}
+                  <div class="col-12">
+                    <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; height: calc(250px - 4px); max-height: 245px; cursor: pointer;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
+                      <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
+                    </div>
+                  </div>
+                {% empty %}
+                  {% if property.cover_image %}
+                    <div class="col-12">
+                      <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center h-100" style="border-radius: 16px;">
+                        <i class="bi bi-images fs-2 text-muted mb-2"></i>
+                        <span class="text-secondary small">No additional photos</span>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Details Column Grid -->
-    <div class="row g-4 mt-2">
-      <div class="col-lg-8">
-        <!-- Core Specs & Highlights -->
-        <div class="pv-card p-4 p-lg-5 reveal">
+        <!-- Narrative Section -->
+        <div class="pv-card grid-left-narrative p-4 p-lg-5 reveal">
           <div class="row g-3 mb-4">
             <div class="col-6 col-md-3"><div class="stat-mini text-center"><strong>{{ property.bedrooms }}</strong><span>Bedrooms</span></div></div>
             <div class="col-6 col-md-3"><div class="stat-mini text-center"><strong>{{ property.bathrooms }}</strong><span>Bathrooms</span></div></div>
@@ -108,36 +216,55 @@
           </div>
           
           <h2 class="pv-serif h1"><i class="bi bi-text-left text-primary"></i> Property narrative</h2>
-          <p class="fs-5 pv-muted lh-lg mb-0">{{ property.description }}</p>
+          <p class="fs-5 pv-muted lh-lg mb-0" style="white-space: pre-line;">{{ property.description }}</p>
         </div>
 
-        <!-- Visual Property Highlights Panel -->
-        <div class="pv-card p-4 p-lg-5 mt-4 reveal">
+        <!-- Lifecycle & Highlights Section -->
+        <div class="pv-card grid-left-lifecycle p-4 p-lg-5 mt-4 reveal">
           <h2 class="pv-serif h2 mb-4"><i class="bi bi-clock-history text-primary"></i> Listing Lifecycle</h2>
           <div class="timeline-steps d-flex justify-content-between position-relative mb-5 mt-4">
             <div class="timeline-line position-absolute top-50 start-0 end-0 bg-light" style="height: 2px; z-index: 0; transform: translateY(-50%);"></div>
-            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
-              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-plus-lg"></i></div>
-              <div class="small fw-bold">Created</div>
+            
+            <!-- Draft -->
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 20%;">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-file-earmark-plus"></i></div>
+              <div class="small fw-bold">Draft</div>
               <div class="text-muted" style="font-size: 0.65rem;">{{ property.created_at|date:"M d, Y" }}</div>
             </div>
-            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
-              <div class="rounded-circle {% if property.approval_status != 'pending' or property.status == 'active' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-file-earmark-arrow-up"></i></div>
-              <div class="small fw-bold">Submitted</div>
-              <div class="text-muted" style="font-size: 0.65rem;">{{ property.created_at|date:"M d, Y" }}</div>
-            </div>
-            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
-              <div class="rounded-circle {% if property.approval_status == 'approved' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-shield-check"></i></div>
-              <div class="small fw-bold">Approved</div>
-              {% if property.approval_status == 'approved' %}
-                <div class="text-muted" style="font-size: 0.65rem;">{{ property.updated_at|date:"M d, Y" }}</div>
+            
+            <!-- Pending -->
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 20%;">
+              <div class="rounded-circle {% if property.status != 'draft' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-hourglass-split"></i></div>
+              <div class="small fw-bold">Pending</div>
+              {% if property.status != 'draft' %}
+                <div class="text-muted" style="font-size: 0.65rem;">Submitted</div>
               {% endif %}
             </div>
-            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 25%;">
-              <div class="rounded-circle {% if property.status == 'active' and property.approval_status == 'approved' %}bg-success text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-globe"></i></div>
-              <div class="small fw-bold">Published</div>
-              {% if property.status == 'active' and property.approval_status == 'approved' %}
-                <div class="text-muted" style="font-size: 0.65rem;">{{ property.updated_at|date:"M d, Y" }}</div>
+            
+            <!-- Approved -->
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 20%;">
+              <div class="rounded-circle {% if property.status in 'approved,active,sold,closed' %}bg-primary text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-shield-check"></i></div>
+              <div class="small fw-bold">Approved</div>
+              {% if property.status in 'approved,active,sold,closed' %}
+                <div class="text-muted" style="font-size: 0.65rem;">Approved</div>
+              {% endif %}
+            </div>
+            
+            <!-- Active -->
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 20%;">
+              <div class="rounded-circle {% if property.status in 'active,sold,closed' %}bg-success text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-globe"></i></div>
+              <div class="small fw-bold">Active</div>
+              {% if property.status in 'active,sold,closed' %}
+                <div class="text-muted" style="font-size: 0.65rem;">Live</div>
+              {% endif %}
+            </div>
+            
+            <!-- Sold -->
+            <div class="timeline-step text-center position-relative" style="z-index: 1; width: 20%;">
+              <div class="rounded-circle {% if property.status == 'sold' %}bg-danger text-white{% else %}bg-light text-muted{% endif %} d-flex align-items-center justify-content-center mx-auto mb-2" style="width: 32px; height: 32px;"><i class="bi bi-tag-fill"></i></div>
+              <div class="small fw-bold">Sold</div>
+              {% if property.status == 'sold' and property.sold_date %}
+                <div class="text-danger fw-bold" style="font-size: 0.65rem;">{{ property.sold_date|date:"M d, Y" }}</div>
               {% endif %}
             </div>
           </div>
@@ -183,8 +310,8 @@
           </div>
         </div>
 
-        <!-- Amenities & Lifestyle Section -->
-        <div class="pv-card p-4 p-lg-5 mt-4 reveal">
+        <!-- Amenities Section -->
+        <div class="pv-card grid-left-amenities p-4 p-lg-5 reveal mt-4">
           <h2 class="pv-serif h1 mb-4"><i class="bi bi-check2-square text-primary"></i> Amenities & Lifestyle</h2>
           <div class="row g-3">
             {% for amenity in property.amenities.all %}
@@ -198,7 +325,7 @@
                     {% elif amenity.name == 'Garden' %}<i class="bi bi-tree"></i>
                     {% elif amenity.name == 'Clubhouse' %}<i class="bi bi-building"></i>
                     {% elif amenity.name == 'Metro Nearby' %}<i class="bi bi-train-front"></i>
-                    {% elif amenity.name == 'Power Backup' %}<i class="bi bi-lightning-charge"></i>
+                    {% elif amenity.name == 'Power Backend' %}<i class="bi bi-lightning-charge"></i>
                     {% else %}<i class="bi bi-check-circle"></i>{% endif %}
                   </div>
                   <strong class="text-dark small">{{ amenity.name }}</strong>
@@ -212,8 +339,8 @@
           </div>
         </div>
 
-        <!-- Location Intelligence & Nearby Facilities Section -->
-        <div class="pv-card p-4 p-lg-5 mt-4 reveal">
+        <!-- Location Intelligence Section -->
+        <div class="pv-card grid-left-location p-4 p-lg-5 mt-4 reveal">
           <h2 class="pv-serif h1 mb-4"><i class="bi bi-geo-alt text-primary"></i> Location Intelligence</h2>
           <p class="pv-muted fs-5 mb-4">Situated in the prime micro-market of <strong>{{ property.locality }}, {{ property.city }}</strong>, this property offers outstanding connectivity to commercial districts, premium transit channels, and essential healthcare facilities.</p>
           
@@ -249,34 +376,43 @@
             </div>
           </div>
           
-          <div class="map-panel pv-card mt-4"><div id="detailMap"
-            data-title="{{ property.title|escapejs }}"
-            data-lat="{{ property.latitude|default:'19.0760' }}"
-            data-lng="{{ property.longitude|default:'72.8777' }}"
-            data-price="{{ property.price|floatformat:0 }}"
-            data-proptype="{{ property.property_type|title|escapejs }}"
-            data-locality="{{ property.locality|escapejs }}"
-            data-city="{{ property.city|escapejs }}"
-            {% if property.cover_image %}data-image="{{ property.cover_image.url }}"{% endif %}
-          ></div></div>
+          <div class="map-panel pv-card mt-4">
+            <div id="detailMap"
+              data-title="{{ property.title|escapejs }}"
+              data-lat="{{ property.latitude|default:'19.0760' }}"
+              data-lng="{{ property.longitude|default:'72.8777' }}"
+              data-price="{{ property.price|floatformat:0 }}"
+              data-proptype="{{ property.property_type|title|escapejs }}"
+              data-locality="{{ property.locality|escapejs }}"
+              data-city="{{ property.city|escapejs }}"
+              {% if property.cover_image %}data-image="{{ property.cover_image.url }}"{% endif %}
+            ></div>
+          </div>
         </div>
 
         <!-- Similar Opportunities Section -->
-        <div class="pv-card p-4 p-lg-5 mt-4 reveal">
+        <div class="pv-card grid-left-similar p-4 p-lg-5 mt-4 reveal">
           <h2 class="pv-serif h1 mb-4"><i class="bi bi-houses text-primary"></i> Similar Opportunities</h2>
-          <div class="row g-4">
+          <div class="row g-3">
             {% for prop in similar %}
-              <div class="col-md-6">
-                <article class="property-card-premium h-100">
-                  <div class="property-media" style="height: 180px; position: relative;">
-                    {% if prop.cover_image %}<img src="{{ prop.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ prop.title }}">{% else %}<div class="fallback-img"></div>{% endif %}
-                    <div class="media-gradient"></div>
-                    <a class="pv-btn pv-btn-primary quick-view" style="font-size: 0.7rem; padding: 0.5rem 1rem; position: absolute; bottom: 12px; right: 12px;" href="{% url 'properties:detail' prop.slug %}">View Details</a>
+              <div class="col-12 col-md-6">
+                <article class="property-card-premium h-100 d-flex flex-column" style="border-radius: 20px; overflow: hidden; border: 1px solid var(--pv-line); background: white; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(15,23,42,0.03);">
+                  <div class="property-media" style="height: 180px; position: relative; overflow: hidden;">
+                    {% if prop.cover_image %}
+                      <img src="{{ prop.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ prop.title }}" style="transition: transform 0.5s ease;">
+                    {% else %}
+                      <div class="fallback-img bg-light w-100 h-100"></div>
+                    {% endif %}
+                    <div class="media-gradient" style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.6) 100%);"></div>
+                    <span class="property-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(15,23,42,0.85); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem;"><i class="bi bi-patch-check-fill text-primary"></i> Verified</span>
                   </div>
-                  <div class="property-card-body p-3">
-                    <div class="property-price fs-5 fw-bold text-primary">Rs {{ prop.price|floatformat:0 }}</div>
-                    <h3 class="h6 fw-bold mt-1 mb-1">{{ prop.title }}</h3>
-                    <div class="pv-muted small"><i class="bi bi-geo-alt"></i> {{ prop.locality }}, {{ prop.city }}</div>
+                  <div class="property-card-body p-3 flex-grow-1 d-flex flex-column justify-content-between">
+                    <div>
+                      <div class="property-price fs-5 fw-bold text-primary mb-1">{{ prop.formatted_price }}</div>
+                      <h3 class="h6 fw-bold mb-1 text-dark" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">{{ prop.title }}</h3>
+                      <div class="pv-muted small mb-2"><i class="bi bi-geo-alt me-1"></i>{{ prop.locality }}, {{ prop.city }}</div>
+                    </div>
+                    <a class="pv-btn pv-btn-primary w-100 text-center py-2 mt-2" href="{% url 'properties:detail' prop.slug %}" style="font-size: 0.8rem;">View Details</a>
                   </div>
                 </article>
               </div>
@@ -289,86 +425,125 @@
             {% endfor %}
           </div>
         </div>
+
       </div>
 
-      <!-- Sticky Sidebar Panel -->
-      <div class="col-lg-4">
-        <aside class="detail-summary pv-glass reveal" style="position: sticky; top: 100px; z-index: 10;">
-          <div class="detail-price text-dark fw-bold">Rs {{ property.price|floatformat:0 }}</div>
-          <div class="pv-muted mb-3">{{ property.property_type|title }} · {{ property.furnishing }}</div>
-          <div class="d-flex flex-wrap gap-2 mb-4">
-            <span class="chip"><i class="bi bi-calendar2"></i> Built {{ property.year_built|default:"2024" }}</span>
-            <span class="chip"><i class="bi bi-shield-check"></i> {{ property.approval_status|title }}</span>
-          </div>
-          
-          <div class="pv-card p-3 mb-4">
-            <h3 class="h5 fw-bold text-dark mb-3"><i class="bi bi-person-badge"></i> Listing Owner</h3>
-            <div class="d-flex align-items-center gap-3">
-              {% if property.created_by.avatar %}
-                <img class="pv-avatar" src="{{ property.created_by.avatar.url }}" alt="avatar" style="width: 44px; height: 44px; object-fit: cover;">
+      <!-- Right Column (Sidebar widgets) -->
+      <div class="detail-right-col">
+        <aside class="detail-sidebar grid-right-sidebar" style="overflow: visible !important;">
+          <!-- ONE Parent Sidebar Card -->
+          <div class="pv-card sidebar-parent-card p-4 shadow-sm" style="border-radius: 24px; border: 1px solid var(--pv-line); background: #f8fafc; display: flex; flex-direction: column; gap: 24px;">
+            <!-- Price, Actions & Overview Card -->
+            <div class="pv-card p-4 shadow-sm" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white;">
+              <div class="detail-price text-dark fw-bold fs-2 mb-2">
+                {{ property.formatted_price }}
+                {% if property.status == 'sold' %}
+                  <span class="badge bg-danger text-white fs-6 align-middle ms-2"><i class="bi bi-tag-fill"></i> SOLD</span>
+                {% elif property.status == 'closed' %}
+                  <span class="badge bg-secondary text-white fs-6 align-middle ms-2"><i class="bi bi-x-circle-fill"></i> CLOSED</span>
+                {% else %}
+                  <span class="badge bg-success text-white fs-6 align-middle ms-2"><i class="bi bi-check-circle-fill"></i> ACTIVE</span>
+                {% endif %}
+              </div>
+              <div class="pv-muted mb-3">{{ property.property_type|title }} · {{ property.furnishing }}</div>
+              <div class="d-flex flex-wrap gap-2 mb-0">
+                <span class="chip bg-light py-1.5 px-3 rounded-pill text-dark small"><i class="bi bi-calendar2"></i> Built {{ property.year_built|default:"2024" }}</span>
+                <span class="chip bg-light py-1.5 px-3 rounded-pill text-dark small"><i class="bi bi-shield-check"></i> {{ property.approval_status|title }}</span>
+              </div>
+            </div>
+
+            <!-- Inquiry Form Card -->
+            <div class="pv-card grid-sidebar-inquiry p-4 shadow-sm" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white;">
+              <h3 class="h5 fw-bold text-dark mb-3"><i class="bi bi-envelope-open text-primary"></i> Interested in this property?</h3>
+              
+              {% if property.status == 'sold' or property.status == 'closed' %}
+                <div class="alert alert-warning p-3 rounded-3 text-center mb-0" role="alert">
+                  <i class="bi bi-info-circle-fill me-2"></i>
+                  This property is <strong>{{ property.status|upper }}</strong>. Inquiries are no longer accepted.
+                </div>
+              {% elif user.is_authenticated %}
+                <form action="{% url 'inquiries:create' property.slug %}" method="post" class="vstack gap-3 mb-0">{% csrf_token %}
+                  <div>
+                    <label class="small fw-semibold text-secondary mb-1" for="id_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="id_name" value="{{ user.get_full_name|default:user.username }}" placeholder="Enter your name" required>
+                  </div>
+                  <div>
+                    <label class="small fw-semibold text-secondary mb-1" for="id_email">Email</label>
+                    <input type="email" class="form-control" name="email" id="id_email" value="{{ user.email }}" placeholder="Enter your email" required>
+                  </div>
+                  <div>
+                    <label class="small fw-semibold text-secondary mb-1" for="id_phone">Phone</label>
+                    <input type="tel" class="form-control" name="phone" id="id_phone" value="{{ user.phone }}" placeholder="Enter your phone number" required>
+                  </div>
+                  <div>
+                    <label class="small fw-semibold text-secondary mb-1" for="id_message">Message</label>
+                    <textarea class="form-control" name="message" id="id_message" style="height: 90px" placeholder="Enter your message" required>I am interested in this property and would like to schedule a virtual tour or site visit.</textarea>
+                  </div>
+                  <button class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
+                </form>
               {% else %}
-                <div class="pv-avatar" style="width: 44px; height: 44px; font-size: 1.1rem;">{{ property.created_by.username|slice:":2"|upper }}</div>
+                <div class="text-center py-2">
+                  <p class="small pv-muted mb-3">Login to contact the seller directly.</p>
+                  <a class="pv-btn pv-btn-primary w-100 py-2.5" href="{% url 'accounts:login' %}?next={{ request.path }}">Login to inquire</a>
+                </div>
               {% endif %}
-              <div>
-                <strong class="text-dark">{{ property.created_by.get_full_name|default:property.created_by.username }}</strong>
-                <div class="pv-muted small">PropVista Gold Partner</div>
-              </div>
             </div>
-          </div>
-          
-          {% if user.is_authenticated %}
-            <form action="{% url 'inquiries:create' property.slug %}" method="post" class="vstack gap-3 mb-4">{% csrf_token %}
-              <div class="form-floating"><input class="form-control" name="name" id="id_name" value="{{ user.get_full_name|default:user.username }}" placeholder="Name"><label for="id_name">Name</label></div>
-              <div class="form-floating"><input class="form-control" name="email" id="id_email" value="{{ user.email }}" placeholder="Email"><label for="id_email">Email</label></div>
-              <div class="form-floating"><input class="form-control" name="phone" id="id_phone" value="{{ user.phone }}" placeholder="Phone"><label for="id_phone">Phone</label></div>
-              <div class="form-floating"><textarea class="form-control" name="message" id="id_message" style="height: 100px" placeholder="Message">I am interested in this property and would like to schedule a virtual tour or site visit.</textarea><label for="id_message">Message</label></div>
-              <button class="pv-btn pv-btn-primary w-100 py-3"><i class="bi bi-envelope"></i> Send inquiry</button>
-            </form>
-          {% else %}
-            <div class="pv-card p-4 text-center mb-4">
-              <p class="small pv-muted">Interested in this property? Login to contact the seller directly.</p>
-              <a class="pv-btn pv-btn-primary w-100" href="{% url 'accounts:login' %}?next={{ request.path }}">Login to inquire</a>
-            </div>
-          {% endif %}
-          
-          <div class="pv-card p-3">
-            <h3 class="h6 fw-bold mb-3"><i class="bi bi-calculator"></i> Finance Calculator</h3>
-            <div class="vstack gap-2 mb-3">
-              <div>
-                <label class="small fw-semibold pv-muted">Property Price (Rs)</label>
-                <input type="number" id="emi-price" class="form-control form-control-sm" value="{{ property.price|floatformat:0 }}" oninput="calculateEMI()">
-              </div>
-              <div class="row g-2">
-                <div class="col-6">
-                  <label class="small fw-semibold pv-muted">Down Payment %</label>
-                  <input type="number" id="emi-downpayment-pct" class="form-control form-control-sm" value="20" min="0" max="100" oninput="calculateEMI()">
-                </div>
-                <div class="col-6">
-                  <label class="small fw-semibold pv-muted">Interest Rate %</label>
-                  <input type="number" id="emi-interest" class="form-control form-control-sm" value="8.5" step="0.1" min="0" max="100" oninput="calculateEMI()">
+            
+            <!-- Listing Owner Card (Compact avatar + details) -->
+            <div class="pv-card p-4 shadow-sm" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white;">
+              <div class="d-flex align-items-center gap-3">
+                {% if property.created_by.avatar %}
+                  <img class="pv-avatar" src="{{ property.created_by.avatar.url }}" alt="avatar" style="width: 38px; height: 38px; object-fit: cover; border-radius: 50%;">
+                {% else %}
+                  <div class="pv-avatar bg-primary text-white fw-bold d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; font-size: 0.9rem; border-radius: 50%;">{{ property.created_by.username|slice:":2"|upper }}</div>
+                {% endif %}
+                <div>
+                  <strong class="text-dark d-block" style="font-size: 0.9rem; line-height: 1.2;">{{ property.created_by.get_full_name|default:property.created_by.username }}</strong>
+                  <span class="text-muted small d-block" style="font-size: 0.75rem; line-height: 1.1;">{{ property.created_by.get_role_display|default:property.created_by.role|title }}</span>
                 </div>
               </div>
-              <div>
-                <label class="small fw-semibold pv-muted">Loan Tenure (Years)</label>
-                <input type="number" id="emi-tenure" class="form-control form-control-sm" value="20" min="1" max="50" oninput="calculateEMI()">
+            </div>
+
+            <!-- Finance Calculator Card -->
+            <div class="pv-card grid-sidebar-calculator p-4 shadow-sm" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white; min-height: 320px; overflow: visible !important;">
+              <h3 class="h5 fw-bold mb-3 text-dark"><i class="bi bi-calculator text-primary"></i> Finance Calculator</h3>
+              <div class="vstack gap-3 mb-3">
+                <div>
+                  <label class="small fw-semibold text-secondary mb-1">Property Price (Rs)</label>
+                  <input type="number" id="emi-price" class="form-control" value="{{ property.price|floatformat:0 }}" oninput="calculateEMI()">
+                </div>
+                <div class="row g-2">
+                  <div class="col-6">
+                    <label class="small fw-semibold text-secondary mb-1">Down %</label>
+                    <input type="number" id="emi-downpayment-pct" class="form-control" value="20" min="0" max="100" oninput="calculateEMI()">
+                  </div>
+                  <div class="col-6">
+                    <label class="small fw-semibold text-secondary mb-1">Interest %</label>
+                    <input type="number" id="emi-interest" class="form-control" value="8.5" step="0.1" min="0" max="100" oninput="calculateEMI()">
+                  </div>
+                </div>
+                <div>
+                  <label class="small fw-semibold text-secondary mb-1">Tenure (Years)</label>
+                  <input type="number" id="emi-tenure" class="form-control" value="20" min="1" max="50" oninput="calculateEMI()">
+                </div>
               </div>
-            </div>
-            <hr class="my-2" style="border-top: 1px solid var(--pv-line);">
-            <div class="activity py-1.5 d-flex justify-content-between align-items-center">
-              <span class="small pv-muted">Loan Amount</span>
-              <strong id="emi-loan-amount" class="small">Rs 0</strong>
-            </div>
-            <div class="activity py-1.5 d-flex justify-content-between align-items-center">
-              <span class="small pv-muted">Monthly EMI</span>
-              <strong id="emi-monthly-emi" class="text-primary fw-bold">Rs 0</strong>
-            </div>
-            <div class="activity py-1.5 d-flex justify-content-between align-items-center">
-              <span class="small pv-muted">Total Interest</span>
-              <strong id="emi-total-interest" class="small">Rs 0</strong>
-            </div>
-            <div class="activity py-1.5 border-0 pb-0 d-flex justify-content-between align-items-center">
-              <span class="small pv-muted">Total Payment</span>
-              <strong id="emi-total-payment" class="small">Rs 0</strong>
+              <hr class="my-3" style="border-top: 1px solid var(--pv-line);">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-secondary">Loan Amount</span>
+                <strong id="emi-loan-amount" class="text-dark">Rs 0</strong>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-secondary">Monthly EMI</span>
+                <strong id="emi-monthly-emi" class="text-primary fw-bold">Rs 0</strong>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-secondary">Total Interest</span>
+                <strong id="emi-total-interest" class="text-dark">Rs 0</strong>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-0">
+                <span class="small text-secondary">Total Payment</span>
+                <strong id="emi-total-payment" class="text-dark">Rs 0</strong>
+              </div>
             </div>
           </div>
         </aside>

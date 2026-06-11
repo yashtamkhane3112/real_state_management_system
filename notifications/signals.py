@@ -28,6 +28,10 @@ def notify_on_inquiry(sender, instance, created, **kwargs):
             category="inquiry",
             level="info",
         )
+        
+        # Trigger email to seller
+        from propvista.mail import send_inquiry_received_email
+        send_inquiry_received_email(instance)
     if instance.buyer and instance.buyer != owner:
         create_notification(
             user=instance.buyer,
@@ -96,6 +100,10 @@ def notify_on_favorite(sender, instance, created, **kwargs):
             category="favorite",
             level="info",
         )
+        
+        # Trigger email to seller
+        from propvista.mail import send_property_favorited_email
+        send_property_favorited_email(instance)
 
 
 @receiver(post_save, sender="leads.Lead")
@@ -142,6 +150,9 @@ def notify_on_approval(sender, instance, created, **kwargs):
                 category="approval",
                 level="success",
             )
+            # Trigger approval email
+            from propvista.mail import send_property_approved_email
+            send_property_approved_email(instance)
         return
 
     # Not created (modified or approved/rejected)
@@ -160,6 +171,9 @@ def notify_on_approval(sender, instance, created, **kwargs):
             category="approval",
             level="success",
         )
+        # Trigger approval email
+        from propvista.mail import send_property_approved_email
+        send_property_approved_email(instance)
     elif instance.approval_status == "rejected":
         AuditLog.objects.create(
             actor=None,
@@ -175,3 +189,6 @@ def notify_on_approval(sender, instance, created, **kwargs):
             category="approval",
             level="warning",
         )
+        # Trigger rejection email
+        from propvista.mail import send_property_rejected_email
+        send_property_rejected_email(instance)

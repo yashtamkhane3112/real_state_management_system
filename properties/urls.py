@@ -14,5 +14,10 @@ urlpatterns = [
     path("<slug:slug>/delete/", views.property_delete, name="delete"),
     path("<slug:slug>/approve/", views.approve_property, name="approve"),
     path("<slug:slug>/reject/", views.reject_property, name="reject"),
+    path("<slug:slug>/sold/", views.mark_property_sold, name="mark_sold"),
+    path("<slug:slug>/close/", views.mark_property_closed, name="mark_closed"),
+    path("<slug:slug>/reopen/", views.reopen_property, name="reopen"),
+    path("<slug:slug>/activate/", views.activate_property, name="activate"),
+    path("<slug:slug>/submit/", views.submit_for_approval, name="submit"),
 ]
 

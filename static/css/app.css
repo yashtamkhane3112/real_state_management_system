@@ -350,7 +350,7 @@ a { color: inherit; text-decoration: none; }
 /* Dashboards */
 .dashboard-shell {
   display: grid;
-  grid-template-columns: 292px 1fr;
+  grid-template-columns: 250px 1fr;
   min-height: calc(100vh - 92px);
   background: #f8fafc;
 }
@@ -1496,4 +1496,802 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   PropVista Premium UI Polish Layer
+   ========================================================================== */
 
+/* 1. Activity Timeline Redesign */
+.activity {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 1.25rem !important;
+  padding: 1.1rem 1.4rem !important;
+  border: 1px solid var(--pv-line) !important;
+  background: var(--pv-soft) !important;
+  border-radius: 18px !important;
+  margin-bottom: 0.85rem !important;
+  color: var(--pv-ink) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  position: relative !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02) !important;
+}
+.activity:hover {
+  transform: translateY(-2px) !important;
+  background: #ffffff !important;
+  border-color: rgba(37, 99, 235, 0.24) !important;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06) !important;
+}
+.activity::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background-color: var(--pv-accent) !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+.activity span {
+  font-size: 0.75rem !important;
+  color: var(--pv-muted) !important;
+  font-weight: 600 !important;
+  font-family: monospace !important;
+  text-transform: uppercase !important;
+  background: rgba(100, 116, 139, 0.08) !important;
+  padding: 0.28rem 0.65rem !important;
+  border-radius: 999px !important;
+  letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
+  transition: background 0.2s ease, color 0.2s ease !important;
+}
+.activity:hover span {
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--pv-accent) !important;
+}
+
+/* 2. Property Cards Premium Lift & Zooms */
+.property-card-premium {
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease !important;
+}
+.property-card-premium:hover {
+  transform: translateY(-8px) scale(1.008) !important;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12), 0 12px 30px rgba(37, 99, 235, 0.04) !important;
+  border-color: rgba(37, 99, 235, 0.24) !important;
+}
+.property-card-premium .property-media img {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.property-card-premium:hover .property-media img {
+  transform: scale(1.08) !important;
+}
+
+/* 3. Glassmorphism Navbar Layer */
+.pv-navbar {
+  backdrop-filter: blur(20px) !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.pv-nav-inner {
+  border-radius: 28px !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(226, 232, 240, 0.6) !important;
+  padding: 0.5rem 0.65rem 0.5rem 1.1rem !important;
+}
+.pv-icon-action.notify-dot::after {
+  animation: badge-pulse 1.8s infinite ease-in-out !important;
+}
+.pv-icon-action .badge {
+  animation: badge-pulse 1.8s infinite ease-in-out !important;
+}
+@keyframes badge-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { transform: scale(1.18); box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* 4. Dashboard Statistics Counters */
+.kpi-card {
+  padding: 1.6rem 1.85rem !important;
+  border-radius: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.kpi-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
+}
+.kpi-card i {
+  font-size: 1.8rem !important;
+  margin-bottom: 0.9rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 16px !important;
+  background: rgba(37, 99, 235, 0.08) !important;
+  color: var(--pv-accent) !important;
+  transition: transform 0.3s ease !important;
+}
+.kpi-card:hover i {
+  transform: scale(1.1) rotate(5deg) !important;
+  background: var(--pv-accent) !important;
+  color: #fff !important;
+}
+.kpi-card span {
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+}
+.kpi-card strong {
+  font-size: 2.3rem !important;
+  margin-top: 0.6rem !important;
+  font-weight: 800 !important;
+}
+
+/* 5. Recommended Homes card overrides */
+.property-title {
+  font-family: "Playfair Display", Georgia, serif !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+  line-height: 1.35 !important;
+  color: var(--pv-primary) !important;
+}
+.property-badge {
+  border-radius: 999px !important;
+  padding: 0.35rem 0.9rem !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  backdrop-filter: blur(8px) !important;
+  background: rgba(11, 33, 91, 0.8) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(11, 33, 91, 0.16) !important;
+}
+
+/* 6. Dashboard Sidebar Refinements */
+.dashboard-sidebar {
+  border-right: 1px solid var(--pv-line) !important;
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(10px) !important;
+  transition: width 0.3s ease !important;
+}
+.dash-link {
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border-radius: 16px !important;
+  margin: 0.25rem 0 !important;
+  padding: 0.9rem 1.25rem !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.9rem !important;
+  border-left: 3px solid transparent !important;
+}
+.dash-link i {
+  font-size: 1.25rem !important;
+  transition: transform 0.2s ease !important;
+}
+.dash-link:hover {
+  background: rgba(37, 99, 235, 0.04) !important;
+  color: var(--pv-accent) !important;
+}
+.dash-link:hover i {
+  transform: translateX(2px) scale(1.1) !important;
+}
+.dash-link.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(124, 58, 237, 0.08)) !important;
+  color: var(--pv-accent) !important;
+  border-left-color: var(--pv-accent) !important;
+  font-weight: 700 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 7. Skeleton Shimmer Loaders */
+.shimmer-element {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #f1f5f9 !important;
+}
+.shimmer-element::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  transform: translateX(-100%) !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent) !important;
+  animation: shimmer-swipe 1.6s infinite !important;
+}
+@keyframes shimmer-swipe {
+  100% { transform: translateX(100%); }
+}
+.skeleton-widget {
+  height: 140px;
+  border-radius: 24px;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--pv-line);
+}
+.skeleton-notification {
+  height: 75px;
+  border-radius: 18px;
+  margin-bottom: 0.8rem;
+  background: #fff;
+  border: 1px solid var(--pv-line);
+}
+
+/* 8. Mobile Responsiveness */
+@media (max-width: 992px) {
+  .dashboard-shell {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .dashboard-sidebar {
+    width: 100% !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--pv-line) !important;
+    padding: 1.25rem !important;
+    background: #ffffff !important;
+  }
+  .dashboard-main {
+    padding: 1.25rem !important;
+    width: 100% !important;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 1.25rem !important;
+  }
+}
+@media (max-width: 576px) {
+  .kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 9. Accessibility Focus States & Button Hover */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--pv-accent) !important;
+  outline-offset: 2px !important;
+}
+.pv-btn {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.pv-btn:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+}
+.pv-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+/* 10. Image aspect ratio & auto-fit settings */
+img.pv-avatar {
+  display: block !important;
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+.rounded-circle {
+  object-fit: cover !important;
+}
+.property-media img,
+.gallery-main-container img,
+.gallery-tile-container img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.object-fit-cover {
+  object-fit: cover !important;
+}
+
+/* Premium Fullscreen Lightbox / Image Viewer */
+.pv-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pv-lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pv-lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  transition: all 0.25s ease;
+  z-index: 2010;
+}
+.pv-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08) rotate(90deg);
+}
+.pv-lightbox-content {
+  position: relative;
+  max-width: 85%;
+  max-height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pv-lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: scale(0.92);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pv-lightbox.is-open .pv-lightbox-img {
+  transform: scale(1);
+}
+.pv-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: all 0.25s ease;
+  z-index: 2010;
+}
+.pv-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.08);
+}
+.pv-lightbox-prev {
+  left: 32px;
+}
+.pv-lightbox-next {
+  right: 32px;
+}
+.pv-lightbox-counter {
+  position: absolute;
+  bottom: 32px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 20px;
+  border-radius: 24px;
+}
+@media (max-width: 768px) {
+}
+
+/* Premium Fullscreen Lightbox / Image Viewer */
+.pv-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pv-lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.pv-lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.8rem;
+  line-height: 1;
+  transition: all 0.25s ease;
+  z-index: 2010;
+}
+.pv-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.08) rotate(90deg);
+}
+.pv-lightbox-content {
+  position: relative;
+  max-width: 85%;
+  max-height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pv-lightbox-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: scale(0.92);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pv-lightbox.is-open .pv-lightbox-img {
+  transform: scale(1);
+}
+.pv-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: all 0.25s ease;
+  z-index: 2010;
+}
+.pv-lightbox-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.08);
+}
+.pv-lightbox-prev {
+  left: 32px;
+}
+.pv-lightbox-next {
+  right: 32px;
+}
+.pv-lightbox-counter {
+  position: absolute;
+  bottom: 32px;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 20px;
+  border-radius: 24px;
+}
+@media (max-width: 768px) {
+  .pv-lightbox-nav {
+    width: 44px;
+    height: 44px;
+    font-size: 1.5rem;
+  }
+  .pv-lightbox-prev { left: 12px; }
+  .pv-lightbox-next { right: 12px; }
+  .pv-lightbox-close { top: 16px; right: 16px; }
+}
+
+/* Sidebar scrollbar hiding and spacing fixes */
+aside.detail-sidebar::-webkit-scrollbar {
+  display: none;
+}
+aside.detail-sidebar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* ==========================================================================
+   UI ALIGNMENT & RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+
+/* Navbar alignment fixes */
+.pv-navbar .dropdown-toggle::after {
+  display: none !important;
+}
+.pv-nav-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end;
+  gap: .55rem;
+}
+.pv-nav-actions > a, .pv-nav-actions > div {
+  display: flex !important;
+  align-items: center !important;
+}
+.pv-nav-actions .pv-avatar {
+  margin: 0 !important;
+}
+.pv-nav-actions button.pv-icon-action {
+  position: relative !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+.pv-nav-actions button.pv-icon-action .badge {
+  top: -2px !important;
+  right: -2px !important;
+  transform: none !important;
+  font-size: 0.65rem !important;
+  padding: 3px 6px !important;
+}
+
+/* Dashboard Shell & Sidebar Mobile collapsing fix */
+@media (max-width: 992px) {
+  .dashboard-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: auto !important;
+  }
+  .dashboard-sidebar {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--pv-line) !important;
+    padding: 1.25rem !important;
+    background: #ffffff !important;
+  }
+  .dashboard-main {
+    padding: 1.5rem 1rem !important;
+    width: 100% !important;
+  }
+}
+
+/* Equal card heights in grids and Swiper */
+.property-grid > div {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+.property-grid > div > .property-card-premium {
+  flex-grow: 1 !important;
+  height: 100% !important;
+}
+.swiper-slide {
+  height: auto !important;
+}
+.swiper-slide > .property-card-premium {
+  height: 100% !important;
+}
+
+/* Property Detail Gallery Responsive alignment */
+@media (min-width: 768px) {
+  .detail-gallery-premium .row {
+    height: 500px !important;
+  }
+  .detail-gallery-premium .gallery-main-container {
+    height: 100% !important;
+    max-height: none !important;
+  }
+  .detail-gallery-premium .gallery-tile-container {
+    height: calc(50% - 4px) !important;
+    max-height: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .detail-gallery-premium .gallery-main-container {
+    height: 300px !important;
+    min-height: auto !important;
+    max-height: none !important;
+  }
+}
+
+/* Finance Calculator & Sidebar responsive alignment */
+@media (min-width: 1200px) {
+  .detail-sidebar {
+    position: sticky !important;
+    top: 100px !important;
+    z-index: 10 !important;
+    overflow: visible !important;
+    padding-right: 4px !important;
+    padding-bottom: 20px !important;
+  }
+}
+@media (max-width: 1199px) {
+  .detail-sidebar {
+    position: static !important;
+    overflow: visible !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+.detail-sidebar .d-flex.justify-content-between {
+  flex-wrap: wrap !important;
+  gap: 0.5rem;
+}
+@media (max-width: 375px) {
+  .detail-sidebar #emi-downpayment-pct, 
+  .detail-sidebar #emi-interest {
+    font-size: 0.85rem !important;
+  }
+  .detail-sidebar .pv-card {
+    padding: 1rem !important;
+  }
+}
+
+/* Notifications Page Spacing adjustments */
+.dashboard-main {
+  padding-top: 1.5rem !important;
+}
+.dashboard-main h1 {
+  margin-top: 0.5rem !important;
+}
+.dashboard-main .mb-4 {
+  margin-bottom: 1.25rem !important;
+}
+
+/* Reports Layout Overrides */
+.reports-shell-container .kpi-card {
+  padding: 1rem 1.25rem !important;
+  border-radius: 16px !important;
+  min-height: auto !important;
+}
+.reports-shell-container .kpi-card i {
+  position: absolute !important;
+  right: 0.85rem !important;
+  top: 0.85rem !important;
+  width: 38px !important;
+  height: 38px !important;
+  font-size: 1.2rem !important;
+  border-radius: 12px !important;
+  margin-bottom: 0 !important;
+}
+.reports-shell-container .kpi-card span {
+  font-size: 0.75rem !important;
+  display: block !important;
+  padding-right: 28px !important;
+}
+.reports-shell-container .kpi-card strong {
+  font-size: 1.6rem !important;
+  margin-top: 0.3rem !important;
+}
+
+@media (min-width: 1200px) {
+  .reports-chart-left {
+    width: 65% !important;
+    flex: 0 0 65% !important;
+  }
+  .reports-chart-right {
+    width: 35% !important;
+    flex: 0 0 35% !important;
+  }
+}
+
+/* Property Detail CSS Grid Layout & Sticky Sidebar */
+.grid-sidebar-calculator {
+  min-height: 320px !important;
+}
+
+@media (min-width: 1024px) {
+  .detail-grid-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    column-gap: 2rem !important;
+  }
+  .detail-left-col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .detail-right-col {
+    position: relative !important;
+  }
+  .detail-sidebar {
+    width: 100% !important;
+    min-width: 360px !important;
+    max-width: 400px !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .detail-sidebar .pv-card {
+    width: 100% !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .detail-sidebar {
+    position: sticky !important;
+    top: 100px !important;
+    z-index: 10 !important;
+    height: fit-content !important;
+  }
+}
+
+@media (max-width: 1199px) {
+  .detail-sidebar {
+    position: static !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .detail-grid-row {
+    display: block !important;
+  }
+  .detail-left-col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  .detail-right-col {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  .detail-sidebar {
+    position: static !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+  }
+}
+
+/* Responsive Vertical Timeline for viewports < 768px */
+@media (max-width: 767px) {
+  .timeline-steps {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1.5rem !important;
+  }
+  .timeline-line {
+    display: none !important;
+  }
+  .timeline-step {
+    width: 100% !important;
+    text-align: left !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+  .timeline-step > .rounded-circle {
+    margin: 0 !important;
+  }
+}

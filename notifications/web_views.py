@@ -30,6 +30,13 @@ def mark_read(request, pk):
         notif.mark_read()
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
         return JsonResponse({"ok": True, "unread": unread_count_for(request.user)})
+    
+    # Handle optional next URL redirection
+    next_url = request.GET.get("next")
+    if next_url:
+        return redirect(next_url)
+    if notif and notif.link:
+        return redirect(notif.link)
     return redirect("notifications:list")
 
 
