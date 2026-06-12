@@ -139,10 +139,10 @@
       <div class="detail-left-col">
         
         <!-- Gallery Section -->
-        <div class="detail-gallery-premium grid-left-gallery reveal mb-4">
+        <div class="detail-gallery-premium grid-left-gallery reveal" style="margin-bottom: 0;">
           <div class="row g-2">
             <div class="col-12 col-md-8">
-              <div class="gallery-main-container pv-card overflow-hidden h-100" style="border-radius: 24px; min-height: 400px; max-height: 500px; position: relative;">
+              <div class="gallery-main-container pv-card overflow-hidden" style="border-radius: 24px; position: relative;">
                 {% if has_images %}
                   <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
                     <div class="carousel-inner h-100">
@@ -183,25 +183,19 @@
                 {% endif %}
               </div>
             </div>
-            <div class="col-md-4 d-none d-md-block">
-              <div class="row g-2 h-100">
-                {% for image in property.images.all|slice:":2" %}
-                  <div class="col-12">
-                    <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; height: calc(250px - 4px); max-height: 245px; cursor: pointer;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
-                      <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
-                    </div>
+            <div class="col-md-4 d-none d-md-flex flex-column" style="gap: 8px;">
+              {% for image in property.images.all|slice:":2" %}
+                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; cursor: pointer; flex: 1 1 0;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
+                  <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
+                </div>
+              {% empty %}
+                {% if property.cover_image %}
+                  <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center" style="border-radius: 16px; flex: 1 1 0;">
+                    <i class="bi bi-images fs-2 text-muted mb-2"></i>
+                    <span class="text-secondary small">No additional photos</span>
                   </div>
-                {% empty %}
-                  {% if property.cover_image %}
-                    <div class="col-12">
-                      <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center h-100" style="border-radius: 16px;">
-                        <i class="bi bi-images fs-2 text-muted mb-2"></i>
-                        <span class="text-secondary small">No additional photos</span>
-                      </div>
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
+                {% endif %}
+              {% endfor %}
             </div>
           </div>
         </div>

@@ -2100,25 +2100,44 @@ aside.detail-sidebar {
   height: 100% !important;
 }
 
-/* Property Detail Gallery Responsive alignment */
+/* Property Detail Gallery — self-contained, no overflow leakage */
+.detail-gallery-premium {
+  overflow: hidden !important;
+  /* Establish a block formatting context to contain all child elements */
+  display: block;
+}
+
+/* ≥ 768px: main image has explicit height; side tiles fill remaining flex space */
 @media (min-width: 768px) {
   .detail-gallery-premium .row {
-    height: 500px !important;
+    height: auto !important;
   }
   .detail-gallery-premium .gallery-main-container {
-    height: 100% !important;
-    max-height: none !important;
+    height: 500px !important;
+    min-height: auto !important;
+    max-height: 500px !important;
+    overflow: hidden !important;
   }
+  /* Side tiles grow into the flex column — only enforce overflow containment */
   .detail-gallery-premium .gallery-tile-container {
-    height: calc(50% - 4px) !important;
+    min-height: 0 !important;
     max-height: none !important;
+    overflow: hidden !important;
   }
 }
+
+/* < 768px: stacked single column, explicit height on main image only */
 @media (max-width: 767px) {
   .detail-gallery-premium .gallery-main-container {
-    height: 300px !important;
+    height: 280px !important;
     min-height: auto !important;
+    max-height: 280px !important;
+    overflow: hidden !important;
+  }
+  .detail-gallery-premium .gallery-tile-container {
+    height: auto !important;
     max-height: none !important;
+    min-height: auto !important;
   }
 }
 
