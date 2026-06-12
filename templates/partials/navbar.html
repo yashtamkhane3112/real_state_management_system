@@ -41,10 +41,10 @@
         </div>
         {% if user.is_authenticated %}
           <div class="dropdown d-inline-block">
-            <button class="pv-icon-action border-0 bg-transparent dropdown-toggle position-relative {% if unread_notifications %}notify-dot{% endif %}" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
+            <button class="pv-icon-action border-0 bg-transparent position-relative {% if unread_notifications %}notify-dot{% endif %}" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
               <i class="bi bi-bell"></i>
               {% if unread_notifications %}
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem; padding: 0.25em 0.5em; z-index: 10;">
+                <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger pv-nav-badge" style="font-size: 0.65rem; padding: 0.25em 0.45em; z-index: 10; transform: translate(35%, -35%);">
                   {{ unread_notifications }}
                 </span>
               {% endif %}
@@ -86,9 +86,9 @@
               </li>
             </ul>
           </div>
-          <a href="{% url 'accounts:profile' %}" class="text-decoration-none">
+          <a href="{% url 'accounts:profile' %}" class="text-decoration-none" data-no-lightbox>
             {% if user.avatar %}
-              <img class="pv-avatar" src="{{ user.avatar_url }}" alt="avatar" style="object-fit: cover;">
+              <img class="pv-avatar" src="{{ user.avatar_url }}" alt="avatar" data-no-lightbox style="object-fit: cover;">
             {% else %}
               <span class="pv-avatar">{{ user.initials }}</span>
             {% endif %}

@@ -57,7 +57,7 @@
                 <label class="form-label fw-bold">Avatar</label>
                 <div class="d-flex align-items-center gap-3">
                   {% if user.avatar %}
-                    <img id="profileAvatarClickable" src="{{ user.avatar_url }}" alt="avatar" class="rounded-circle border" style="width: 56px; height: 56px; object-fit: cover;">
+                    <img id="profileAvatarClickable" src="{{ user.avatar_url }}" alt="avatar" class="rounded-circle border" data-no-lightbox style="width: 56px; height: 56px; object-fit: cover; cursor: pointer;">
                   {% else %}
                     <div class="pv-avatar" style="width: 56px; height: 56px; font-size: 1.25rem;">{{ user.initials }}</div>
                   {% endif %}

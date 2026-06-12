@@ -2053,12 +2053,15 @@ aside.detail-sidebar {
   justify-content: center !important;
   align-items: center !important;
 }
-.pv-nav-actions button.pv-icon-action .badge {
-  top: -2px !important;
-  right: -2px !important;
-  transform: none !important;
+.pv-nav-actions button.pv-icon-action .badge,
+.pv-nav-actions button.pv-icon-action .pv-nav-badge {
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
   font-size: 0.65rem !important;
   padding: 3px 6px !important;
+  /* Small offset to sit just outside the button edge — stays within the bell button bounds */
+  transform: translate(35%, -35%) !important;
 }
 
 /* Dashboard Shell & Sidebar Mobile collapsing fix */

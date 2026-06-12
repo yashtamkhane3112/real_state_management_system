@@ -841,6 +841,10 @@
       // Avoid clicking lightbox's own image triggering it again
       if (clickedImg.id === "pvLightboxImg") return;
 
+      // Skip any image that is explicitly marked as no-lightbox (e.g. navbar avatar)
+      if (clickedImg.hasAttribute("data-no-lightbox")) return;
+      if (clickedImg.closest("[data-no-lightbox]")) return;
+
       // 1. Is it an avatar image?
       let isAvatar = false;
       for (let sel of avatarSelectors) {
