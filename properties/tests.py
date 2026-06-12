@@ -128,7 +128,7 @@ class CoreFlowTests(TestCase):
                 "city": "Mumbai",
                 "locality": "Bandra",
                 "pincode": "400050",
-                "status": "active",
+                "status": "pending",
                 "parking": 1,
                 "gallery_images": [img1]
             }
@@ -156,7 +156,7 @@ class CoreFlowTests(TestCase):
                 "city": "Mumbai",
                 "locality": "Bandra",
                 "pincode": "400050",
-                "status": "active",
+                "status": "pending",
                 "parking": 1,
                 "gallery_images": [img1, img2, img3]
             }
@@ -186,7 +186,7 @@ class CoreFlowTests(TestCase):
                 "city": "Mumbai",
                 "locality": "Bandra",
                 "pincode": "400050",
-                "status": "active",
+                "status": "pending",
                 "parking": 1,
                 "gallery_images": [img1, img2, img3, img4, img5]
             }

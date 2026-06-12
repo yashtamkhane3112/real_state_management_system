@@ -229,7 +229,7 @@ def run_regression_checks():
         'city': 'Mumbai',
         'locality': 'Marine Drive',
         'pincode': '400020',
-        'status': Property.Status.ACTIVE
+        'status': Property.Status.PENDING
     }
     
     # We will upload a cover image and 4 gallery images (5 images total)
@@ -276,7 +276,7 @@ def run_regression_checks():
             'city': edit_prop.city,
             'locality': edit_prop.locality,
             'pincode': edit_prop.pincode,
-            'status': edit_prop.status
+            'status': Property.Status.PENDING
         }
         edit_resp = client.post(edit_url, edit_data)
         if edit_resp.status_code == 302:

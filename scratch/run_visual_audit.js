@@ -5,7 +5,7 @@ const path = require('path');
 const playwright = require('playwright');
 
 const BASE_URL = 'http://127.0.0.1:8000';
-const OUT_DIR = 'C:/Users/lenovo/.gemini/antigravity-cli/brain/a38b5cc7-f912-441a-8e64-ce0c4cc1dc79/screenshots';
+const OUT_DIR = 'C:/Users/lenovo/.gemini/antigravity-cli/brain/776a0430-b0b3-40b3-8f61-3a8b42863800/screenshots';
 
 // Ensure output directory exists
 if (!fs.existsSync(OUT_DIR)) {

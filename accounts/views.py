@@ -280,7 +280,17 @@ def admin_dashboard(request):
 
 class UserViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.select_related("profile").all()
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated()]
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_authenticated and not self.request.user.is_admin_role:
+            return qs.filter(pk=self.request.user.pk)
+        return qs
 
     def get_serializer_class(self):
         return RegisterSerializer if self.action == "create" else UserSerializer
@@ -293,7 +303,7 @@ def demo_login(request, role):
     if not username:
         raise Http404()
     user = get_object_or_404(User, username=username)
-    login(request, user)
+    login(request, user, backend="django.contrib.auth.backends.ModelBackend")
     return redirect("accounts:dashboard")
 
 

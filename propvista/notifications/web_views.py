@@ -10,7 +10,7 @@ from .services import unread_count_for
 
 @login_required
 def notification_list(request):
-    qs = Notification.objects.filter(user=request.user)
+    qs = Notification.objects.filter(user=request.user).order_by("-created_at")
     unread_count = qs.filter(is_read=False).count()
     notifications = qs[:100]
     return render(

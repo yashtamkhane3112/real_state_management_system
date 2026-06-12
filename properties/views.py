@@ -261,7 +261,7 @@ def sanitize_uploaded_filenames(files_dict, max_length=60):
 def property_create(request):
     if request.FILES:
         sanitize_uploaded_filenames(request.FILES)
-    form = PropertyForm(request.POST or None, request.FILES or None)
+    form = PropertyForm(request.POST or None, request.FILES or None, user=request.user)
     if request.method == "POST" and form.is_valid():
         prop = form.save(commit=False)
         prop.created_by = request.user
@@ -287,7 +287,7 @@ def property_update(request, slug):
         return redirect("properties:detail", slug=prop.slug)
     if request.FILES:
         sanitize_uploaded_filenames(request.FILES)
-    form = PropertyForm(request.POST or None, request.FILES or None, instance=prop)
+    form = PropertyForm(request.POST or None, request.FILES or None, instance=prop, user=request.user)
     if request.method == "POST" and form.is_valid():
         updated = form.save(commit=False)
         if not request.user.is_admin_role:

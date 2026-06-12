@@ -36,7 +36,7 @@ def run_validation_checks():
             'role': User.Role.BUYER
         })
         html = resp.content.decode('utf-8')
-        if "Enter a valid 10-digit phone number." in html:
+        if "Phone number must be exactly 10 digits and start with 6, 7, 8, or 9." in html:
             print(f"  Register with phone '{ph}': REJECTED (PASS)")
         else:
             print(f"  Register with phone '{ph}': ALLOWED (FAIL)")
@@ -114,7 +114,7 @@ def run_validation_checks():
         'pincode': '400050',
     })
     html = resp.content.decode('utf-8')
-    print(f"  Area = 0: {'REJECTED (PASS)' if 'Area must be greater than 0.' in html else 'ALLOWED (FAIL)'}")
+    print(f"  Area = 0: {'REJECTED (PASS)' if 'Area must be at least 100 sqft.' in html else 'ALLOWED (FAIL)'}")
 
     print("\n--- VALIDATION TESTS COMPLETE ---")
 

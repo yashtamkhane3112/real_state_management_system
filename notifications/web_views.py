@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from .models import Notification
@@ -10,7 +11,7 @@ from .services import unread_count_for
 
 @login_required
 def notification_list(request):
-    qs = Notification.objects.filter(user=request.user)
+    qs = Notification.objects.filter(user=request.user).order_by("-created_at")
     unread_count = qs.filter(is_read=False).count()
     notifications = qs[:100]
     return render(
@@ -33,7 +34,7 @@ def mark_read(request, pk):
     
     # Handle optional next URL redirection
     next_url = request.GET.get("next")
-    if next_url:
+    if next_url and url_has_allowed_host_and_scheme(url=next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
         return redirect(next_url)
     if notif and notif.link:
         return redirect(notif.link)
