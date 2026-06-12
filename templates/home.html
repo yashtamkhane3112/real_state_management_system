@@ -2,7 +2,9 @@
 {% block title %}PropVista | Property Management Made Simple{% endblock %}
 {% block content %}
 <section class="pv-hero pm-hero">
-  <canvas id="cityHero" class="pv-hero-canvas" aria-hidden="true"></canvas>
+  <video class="pv-hero-canvas" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover; pointer-events: none; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+    <source src="{% static 'property.mp4' %}" type="video/mp4">
+  </video>
   <div class="container pv-hero-content pm-hero-content">
     <div class="pm-hero-copy">
       <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> Property management command system</span>

@@ -76,7 +76,17 @@ async function runAudit() {
     if (hasHorizontalScroll) {
       const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
       const windowWidth = await page.evaluate(() => window.innerWidth);
-      results.overflows.push(`${pageName} (${vpName}) has horizontal overflow: scrollWidth=${scrollWidth}, innerWidth=${windowWidth}`);
+      const overflowingElements = await page.evaluate(() => {
+        const elems = [];
+        document.querySelectorAll('*').forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (r.right > window.innerWidth) {
+            elems.push(el.tagName + (el.id ? '#' + el.id : '') + (el.className ? '.' + el.className.split(' ').join('.') : '') + ' (width: ' + r.width + ', right: ' + r.right + ')');
+          }
+        });
+        return elems.slice(0, 5);
+      });
+      results.overflows.push(`${pageName} (${vpName}) has horizontal overflow: scrollWidth=${scrollWidth}, innerWidth=${windowWidth}. Overflowing elements: ${overflowingElements.join(', ')}`);
     }
   }
 
