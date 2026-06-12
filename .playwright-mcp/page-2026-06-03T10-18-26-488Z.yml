@@ -1,0 +1,410 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - button "Open navigation" [ref=e11] [cursor=pointer]:
+        - generic [ref=e12]: 
+      - text: 
+  - main [ref=e13]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: 
+        - text: Private market intelligence
+      - heading "Find Your Extraordinary Home" [level=1] [ref=e19]
+      - paragraph [ref=e20]: Discover architecturally distinctive homes, compare premium neighborhoods, and manage every inquiry through a polished AI-assisted real estate workspace.
+      - generic [ref=e21]:
+        - textbox "City, neighborhood, landmark" [ref=e22]
+        - combobox [ref=e23]:
+          - option "Property type" [selected]
+          - option "Apartment"
+          - option "Villa"
+          - option "House"
+          - option "Commercial"
+        - combobox [ref=e24]:
+          - option "Price range" [selected]
+          - option "Under 1 Cr"
+          - option "Under 2.5 Cr"
+          - option "Under 5 Cr"
+        - combobox [ref=e25]:
+          - option "Bedrooms" [selected]
+          - option "2+ BHK"
+          - option "3+ BHK"
+          - option "4+ BHK"
+        - button " Search" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: 
+          - text: Search
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - strong [ref=e30]: "18"
+          - text: Properties listed
+        - generic [ref=e31]:
+          - strong [ref=e32]: "1"
+          - text: Prime cities
+        - generic [ref=e33]:
+          - strong [ref=e34]: "0"
+          - text: Verified agents
+        - generic [ref=e35]:
+          - strong [ref=e36]: "0"
+          - text: Active sellers
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: 
+            - text: Featured collection
+          - heading "Homes curated for serious buyers" [level=2] [ref=e43]
+        - link "Explore all listings " [ref=e44] [cursor=pointer]:
+          - /url: /properties/
+          - text: Explore all listings
+          - generic [ref=e45]: 
+      - generic [ref=e47]:
+        - group "1 / 8" [ref=e48]:
+          - article [ref=e49]:
+            - generic [ref=e50]:
+              - generic [ref=e53]:
+                - generic [ref=e54]: 
+                - text: Featured
+              - link "Login to save" [ref=e55] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e56]: 
+              - link "Quick view " [ref=e57] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-6-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e58]: 
+            - generic [ref=e59]:
+              - generic [ref=e60]: Rs 42400000
+              - heading "Hinjewadi Signature Residence 6" [level=3] [ref=e61]
+              - generic [ref=e62]:
+                - generic [ref=e63]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e64]:
+                - generic [ref=e65]:
+                  - generic [ref=e66]: 
+                  - text: 1 BHK
+                - generic [ref=e67]:
+                  - generic [ref=e68]: 
+                  - text: 2 Bath
+                - generic [ref=e69]:
+                  - generic [ref=e70]: 
+                  - text: 2237 sqft
+        - group "2 / 8" [ref=e71]:
+          - article [ref=e72]:
+            - generic [ref=e73]:
+              - generic [ref=e76]:
+                - generic [ref=e77]: 
+                - text: Featured
+              - link "Login to save" [ref=e78] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e79]: 
+              - link "Quick view " [ref=e80] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-5-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e81]: 
+            - generic [ref=e82]:
+              - generic [ref=e83]: Rs 24200000
+              - heading "Bandra Signature Residence 5" [level=3] [ref=e84]
+              - generic [ref=e85]:
+                - generic [ref=e86]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e87]:
+                - generic [ref=e88]:
+                  - generic [ref=e89]: 
+                  - text: 3 BHK
+                - generic [ref=e90]:
+                  - generic [ref=e91]: 
+                  - text: 1 Bath
+                - generic [ref=e92]:
+                  - generic [ref=e93]: 
+                  - text: 1756 sqft
+        - group "3 / 8" [ref=e94]:
+          - article [ref=e95]:
+            - generic [ref=e96]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: 
+                - text: Featured
+              - link "Login to save" [ref=e101] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e102]: 
+              - link "Quick view " [ref=e103] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-4-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e104]: 
+            - generic [ref=e105]:
+              - generic [ref=e106]: Rs 24200000
+              - heading "Bandra Signature Residence 4" [level=3] [ref=e107]
+              - generic [ref=e108]:
+                - generic [ref=e109]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]: 
+                  - text: 3 BHK
+                - generic [ref=e113]:
+                  - generic [ref=e114]: 
+                  - text: 1 Bath
+                - generic [ref=e115]:
+                  - generic [ref=e116]: 
+                  - text: 3740 sqft
+        - group "4 / 8" [ref=e117]:
+          - article [ref=e118]:
+            - generic [ref=e119]:
+              - generic [ref=e122]:
+                - generic [ref=e123]: 
+                - text: Featured
+              - link "Login to save" [ref=e124] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e125]: 
+              - link "Quick view " [ref=e126] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-1-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e127]: 
+            - generic [ref=e128]:
+              - generic [ref=e129]: Rs 35300000
+              - heading "Hinjewadi Signature Residence 1" [level=3] [ref=e130]
+              - generic [ref=e131]:
+                - generic [ref=e132]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e133]:
+                - generic [ref=e134]:
+                  - generic [ref=e135]: 
+                  - text: 3 BHK
+                - generic [ref=e136]:
+                  - generic [ref=e137]: 
+                  - text: 1 Bath
+                - generic [ref=e138]:
+                  - generic [ref=e139]: 
+                  - text: 3103 sqft
+        - group "5 / 8" [ref=e140]:
+          - article [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e145]:
+                - generic [ref=e146]: 
+                - text: Featured
+              - link "Login to save" [ref=e147] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e148]: 
+              - link "Quick view " [ref=e149] [cursor=pointer]:
+                - /url: /properties/whitefield-signature-residence-6-bengaluru-whitefield/
+                - text: Quick view
+                - generic [ref=e150]: 
+            - generic [ref=e151]:
+              - generic [ref=e152]: Rs 15100000
+              - heading "Whitefield Signature Residence 6" [level=3] [ref=e153]
+              - generic [ref=e154]:
+                - generic [ref=e155]: 
+                - text: Whitefield, Bengaluru
+              - generic [ref=e156]:
+                - generic [ref=e157]:
+                  - generic [ref=e158]: 
+                  - text: 2 BHK
+                - generic [ref=e159]:
+                  - generic [ref=e160]: 
+                  - text: 2 Bath
+                - generic [ref=e161]:
+                  - generic [ref=e162]: 
+                  - text: 1625 sqft
+        - group "6 / 8" [ref=e163]:
+          - article [ref=e164]:
+            - generic [ref=e165]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: 
+                - text: Featured
+              - link "Login to save" [ref=e170] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e171]: 
+              - link "Quick view " [ref=e172] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-4-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e173]: 
+            - generic [ref=e174]:
+              - generic [ref=e175]: Rs 8900000
+              - heading "Hinjewadi Signature Residence 4" [level=3] [ref=e176]
+              - generic [ref=e177]:
+                - generic [ref=e178]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e179]:
+                - generic [ref=e180]:
+                  - generic [ref=e181]: 
+                  - text: 1 BHK
+                - generic [ref=e182]:
+                  - generic [ref=e183]: 
+                  - text: 4 Bath
+                - generic [ref=e184]:
+                  - generic [ref=e185]: 
+                  - text: 3184 sqft
+        - group "7 / 8" [ref=e186]:
+          - article [ref=e187]:
+            - generic [ref=e188]:
+              - generic [ref=e191]:
+                - generic [ref=e192]: 
+                - text: Featured
+              - link "Login to save" [ref=e193] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e194]: 
+              - link "Quick view " [ref=e195] [cursor=pointer]:
+                - /url: /properties/hinjewadi-signature-residence-3-pune-hinjewadi/
+                - text: Quick view
+                - generic [ref=e196]: 
+            - generic [ref=e197]:
+              - generic [ref=e198]: Rs 42500000
+              - heading "Hinjewadi Signature Residence 3" [level=3] [ref=e199]
+              - generic [ref=e200]:
+                - generic [ref=e201]: 
+                - text: Hinjewadi, Pune
+              - generic [ref=e202]:
+                - generic [ref=e203]:
+                  - generic [ref=e204]: 
+                  - text: 5 BHK
+                - generic [ref=e205]:
+                  - generic [ref=e206]: 
+                  - text: 4 Bath
+                - generic [ref=e207]:
+                  - generic [ref=e208]: 
+                  - text: 1049 sqft
+        - group "8 / 8" [ref=e209]:
+          - article [ref=e210]:
+            - generic [ref=e211]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: 
+                - text: Featured
+              - link "Login to save" [ref=e216] [cursor=pointer]:
+                - /url: /accounts/login/
+                - generic [ref=e217]: 
+              - link "Quick view " [ref=e218] [cursor=pointer]:
+                - /url: /properties/bandra-signature-residence-2-mumbai-bandra/
+                - text: Quick view
+                - generic [ref=e219]: 
+            - generic [ref=e220]:
+              - generic [ref=e221]: Rs 41300000
+              - heading "Bandra Signature Residence 2" [level=3] [ref=e222]
+              - generic [ref=e223]:
+                - generic [ref=e224]: 
+                - text: Bandra, Mumbai
+              - generic [ref=e225]:
+                - generic [ref=e226]:
+                  - generic [ref=e227]: 
+                  - text: 5 BHK
+                - generic [ref=e228]:
+                  - generic [ref=e229]: 
+                  - text: 4 Bath
+                - generic [ref=e230]:
+                  - generic [ref=e231]: 
+                  - text: 4090 sqft
+    - generic [ref=e234]:
+      - generic [ref=e236]:
+        - generic [ref=e237]:
+          - generic [ref=e238]: 
+          - text: Market pulse
+        - heading "Platform momentum with executive clarity" [level=2] [ref=e239]
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - generic [ref=e245]: 
+          - text: Trust indicators
+        - generic [ref=e246]:
+          - generic [ref=e248]:
+            - strong [ref=e249]: "0"
+            - text: Verified listings
+          - generic [ref=e251]:
+            - strong [ref=e252]: "0"
+            - text: Hour moderation
+          - generic [ref=e254]:
+            - strong [ref=e255]: "0"
+            - text: Lead response lift
+          - generic [ref=e257]:
+            - strong [ref=e258]: "0"
+            - text: Buyer satisfaction
+    - generic [ref=e260]:
+      - generic [ref=e261]:
+        - generic [ref=e262]:
+          - generic [ref=e263]: 
+          - text: Popular cities
+        - heading "Explore demand by location" [level=2] [ref=e264]
+      - generic [ref=e265]:
+        - link "Mumbai 15 listings " [ref=e267] [cursor=pointer]:
+          - /url: /properties/city/Mumbai/
+          - generic [ref=e268]: Mumbai
+          - generic [ref=e269]: 15 listings
+          - generic [ref=e270]: 
+        - link "Bengaluru 13 listings " [ref=e272] [cursor=pointer]:
+          - /url: /properties/city/Bengaluru/
+          - generic [ref=e273]: Bengaluru
+          - generic [ref=e274]: 13 listings
+          - generic [ref=e275]: 
+        - link "Pune 12 listings " [ref=e277] [cursor=pointer]:
+          - /url: /properties/city/Pune/
+          - generic [ref=e278]: Pune
+          - generic [ref=e279]: 12 listings
+          - generic [ref=e280]: 
+    - generic [ref=e283]:
+      - generic [ref=e285]:
+        - generic [ref=e287]: 
+        - heading "Discover with precision" [level=3] [ref=e288]
+        - paragraph [ref=e289]: Search by location, budget, configuration, amenities, and lifestyle context.
+      - generic [ref=e291]:
+        - generic [ref=e293]: 
+        - heading "Schedule and compare" [level=3] [ref=e294]
+        - paragraph [ref=e295]: Save homes, manage inquiries, compare options, and book visits from one buyer workspace.
+      - generic [ref=e297]:
+        - generic [ref=e299]: 
+        - heading "Use AI intelligence" [level=3] [ref=e300]
+        - paragraph [ref=e301]: Generate summaries, improve listings, and understand lead intent with Gemini-backed tools.
+    - generic [ref=e305]:
+      - generic [ref=e306]:
+        - paragraph [ref=e307]: “PropVista feels like the kind of marketplace serious sellers and agents would trust with premium inventory.”
+        - strong [ref=e308]: Emma Rodriguez
+        - generic [ref=e309]: Homeowner
+      - generic [ref=e310]:
+        - paragraph [ref=e311]: “The dashboards make listing operations, leads, and follow-ups feel clean and executive.”
+        - strong [ref=e312]: David Kim
+        - generic [ref=e313]: Seller
+      - generic [ref=e314]:
+        - paragraph [ref=e315]: “The property presentation and search flow feel far beyond a student project.”
+        - strong [ref=e316]: Olivia Bennett
+        - generic [ref=e317]: Buyer
+    - generic [ref=e320]:
+      - generic [ref=e321]:
+        - generic [ref=e322]: 
+        - text: Seller workspace
+      - heading "Ready to list a signature property?" [level=2] [ref=e323]
+      - paragraph [ref=e324]: Publish premium listings, capture qualified leads, and monitor performance through a polished real estate operating system.
+      - link "Become a seller" [ref=e325] [cursor=pointer]:
+        - /url: /accounts/register/
+  - contentinfo [ref=e326]:
+    - generic [ref=e327]:
+      - generic [ref=e328]:
+        - generic [ref=e329]:
+          - link " PropVista Architected for premium property decisions." [ref=e330] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e332]: 
+            - generic [ref=e333]:
+              - strong [ref=e334]: PropVista
+              - generic [ref=e335]: Architected for premium property decisions.
+          - paragraph [ref=e336]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e337]:
+          - heading "Marketplace" [level=6] [ref=e338]
+          - link "Properties" [ref=e339] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e340] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e341] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e342]:
+          - heading "Dashboards" [level=6] [ref=e343]
+          - link "Buyer" [ref=e344] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e345] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e346] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e347]:
+          - heading "Developer" [level=6] [ref=e348]
+          - link "Swagger API docs" [ref=e349] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e350] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e351]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

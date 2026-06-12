@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load marketplace_extras %}
+{% block title %}EstateSphere - Real Estate Sales and Purchase{% endblock %}
+{% block content %}
+<section class="hero-section py-5 py-lg-6">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="eyebrow"><i class="bi bi-stars"></i> 3D Real Estate UI Mini Project</div>
+        <h1 class="display-heading mt-3">Find, Sell, and Manage Properties Easily.</h1>
+        <p class="lead text-muted mt-3">A simple digital platform for property sales and purchase management with buyer inquiries, seller listings, admin approval, reports, and modern dashboards.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="{% url 'property_list' %}" class="btn btn-dark btn-lg rounded-pill px-4">Browse Properties</a>
+          <a href="{% url 'add_property' %}" class="btn btn-outline-dark btn-lg rounded-pill px-4">List Your Property</a>
+        </div>
+        <div class="glass-card search-lift p-3 p-md-4 mt-5">
+          <form method="get" action="{% url 'property_list' %}" class="row g-3 align-items-end">
+            <div class="col-md-4"><label class="form-label small fw-bold">City</label><input class="form-control rounded-pill" name="city" placeholder="Nashik"></div>
+            <div class="col-md-4"><label class="form-label small fw-bold">Type</label><select class="form-select rounded-pill" name="property_type"><option value="">Any Type</option><option value="FLAT">Flat</option><option value="BUNGALOW">Bungalow</option><option value="PLOT">Plot</option><option value="SHOP">Shop</option><option value="OFFICE">Office</option></select></div>
+            <div class="col-md-4"><button class="btn btn-success rounded-pill w-100" type="submit"><i class="bi bi-search"></i> Search</button></div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual glass-card p-3">
+          <div class="hero-building-card">
+            <span class="status-badge status-available">Available</span>
+            <div class="fake-building"></div>
+            <div class="floating-stat stat-a"><strong>{{ global_available_properties }}</strong><span>Available</span></div>
+            <div class="floating-stat stat-b"><strong>{{ global_sold_properties }}</strong><span>Sold</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="section-title d-flex justify-content-between align-items-end mb-4">
+      <div><span class="eyebrow">Featured</span><h2>Approved Properties</h2></div>
+      <a href="{% url 'property_list' %}" class="btn btn-outline-dark rounded-pill">View All</a>
+    </div>
+    <div class="row g-4">
+      {% for property in featured_properties %}
+        <div class="col-md-6 col-xl-4">{% include 'partials/property_card.html' %}</div>
+      {% empty %}
+        <div class="col-12"><div class="empty-state">No approved properties yet. Login as seller and add sample properties.</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-soft-grid">
+  <div class="container">
+    <div class="section-title text-center mb-5"><span class="eyebrow">Project Flow</span><h2>Simple Sales and Purchase Process</h2></div>
+    <div class="row g-4">
+      <div class="col-md"><div class="flow-step"><span>01</span><h5>Seller Adds Property</h5><p>Seller fills sale property information and submits it.</p></div></div>
+      <div class="col-md"><div class="flow-step"><span>02</span><h5>Admin Approves</h5><p>Super Admin verifies listing details before publishing.</p></div></div>
+      <div class="col-md"><div class="flow-step"><span>03</span><h5>Buyer Searches</h5><p>Buyer searches by city, price, and property type.</p></div></div>
+      <div class="col-md"><div class="flow-step"><span>04</span><h5>Inquiry Sent</h5><p>Buyer sends property inquiry to the seller.</p></div></div>
+      <div class="col-md"><div class="flow-step"><span>05</span><h5>Record Sale</h5><p>Admin saves final sale and purchase transaction.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4"><div class="role-card"><i class="bi bi-search-heart"></i><h4>For Buyers</h4><p>Search properties, view image gallery, save favorites, and send inquiries.</p></div></div>
+      <div class="col-md-4"><div class="role-card"><i class="bi bi-building-add"></i><h4>For Sellers</h4><p>Add sale properties, track approval status, and view buyer inquiries.</p></div></div>
+      <div class="col-md-4"><div class="role-card"><i class="bi bi-shield-check"></i><h4>For Super Admin</h4><p>Approve listings, manage users, create transactions, and export reports.</p></div></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

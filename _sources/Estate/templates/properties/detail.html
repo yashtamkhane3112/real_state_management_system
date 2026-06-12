@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load marketplace_extras %}
+{% block title %}{{ property.title }} - EstateSphere{% endblock %}
+{% block content %}
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-7">
+        <div class="gallery-card glass-card p-3">
+          <div class="main-gallery-image">
+            {% if property.cover_image_url %}<img id="mainGalleryImage" src="{{ property.cover_image_url }}" alt="{{ property.title }}">{% else %}<div class="image-placeholder big"><i class="bi bi-building"></i></div>{% endif %}
+            <span class="status-badge {{ property.status|status_class }}">{{ property.get_status_display }}</span>
+          </div>
+          <div class="thumb-row mt-3">
+            {% if property.cover_image_url %}<button class="thumb active" data-img="{{ property.cover_image_url }}"><img src="{{ property.cover_image_url }}" alt="cover"></button>{% endif %}
+            {% for image in gallery %}<button class="thumb" data-img="{{ image.image_url }}"><img src="{{ image.image_url }}" alt="{{ image.caption }}"></button>{% empty %}<span class="text-muted small">Add gallery image URLs from seller form.</span>{% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="glass-card p-4 p-md-5 sticky-lg-top detail-summary">
+          <span class="eyebrow">{{ property.get_property_type_display }} for Sale</span>
+          <h1 class="fw-bold mt-2">{{ property.title }}</h1>
+          <div class="price-big my-3">{{ property.price|rupee }}</div>
+          <p class="text-muted"><i class="bi bi-geo-alt"></i> {{ property.address }}, {{ property.city }}</p>
+          <div class="spec-grid my-4">
+            <div><strong>{{ property.area_sqft }}</strong><span>sq.ft.</span></div>
+            <div><strong>{{ property.bedrooms }}</strong><span>Bedrooms</span></div>
+            <div><strong>{{ property.bathrooms }}</strong><span>Bathrooms</span></div>
+          </div>
+          <div class="d-flex flex-wrap gap-2">
+            {% if user.is_authenticated and user.profile.role == 'BUYER' and property.status == 'APPROVED' %}
+              <a href="#inquiry" class="btn btn-dark rounded-pill px-4">Send Inquiry</a>
+              <a href="{% url 'toggle_favorite' property.pk %}" class="btn btn-outline-dark rounded-pill px-4">{% if is_favorite %}Saved{% else %}Save{% endif %}</a>
+            {% else %}
+              <a href="{% url 'login' %}" class="btn btn-dark rounded-pill px-4">Login to Inquire</a>
+            {% endif %}
+            <a href="{% url 'property_list' %}" class="btn btn-light rounded-pill px-4">Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-lg-8">
+        <div class="glass-card p-4 p-md-5"><h2>About this property</h2><p class="text-muted mb-0">{{ property.description }}</p></div>
+      </div>
+      <div class="col-lg-4"><div class="glass-card p-4"><h4>Seller Contact</h4><p class="mb-1"><strong>{{ property.seller.get_full_name|default:property.seller.username }}</strong></p><p class="text-muted mb-0">{{ property.seller.email }}</p></div></div>
+    </div>
+
+    <div class="row g-4 mt-2">
+      <div class="col-lg-7">
+        <div class="glass-card map-card p-4">
+          <h2>Google Maps Location View</h2>
+          <p class="text-muted">Location shown for buyer reference.</p>
+          <div class="map-placeholder"><i class="bi bi-geo-alt-fill"></i><strong>{{ property.city }}</strong><span>School · Hospital · Market · Transport</span></div>
+        </div>
+      </div>
+      <div class="col-lg-5" id="inquiry">
+        <div class="glass-card p-4">
+          <h2>Send Inquiry</h2>
+          <p class="text-muted">Seller receives an email notification in development console.</p>
+          <form method="post" action="{% url 'create_inquiry' property.pk %}" class="vstack gap-3">{% csrf_token %}{% for field in inquiry_form %}<div><label class="form-label">{{ field.label }}</label>{{ field }}</div>{% endfor %}<button class="btn btn-success rounded-pill">Send Inquiry</button></form>
+        </div>
+      </div>
+    </div>
+
+    <section class="mt-5">
+      <div class="section-title d-flex justify-content-between align-items-end mb-4"><div><span class="eyebrow">Recommendation</span><h2>Similar Properties</h2><p class="text-muted">Based on city, property type, and similar price range.</p></div></div>
+      <div class="row g-4">{% for property in recommendations %}<div class="col-md-6 col-xl-3">{% include 'partials/property_card.html' %}</div>{% empty %}<div class="col-12"><div class="empty-state">No similar properties found.</div></div>{% endfor %}</div>
+    </section>
+  </div>
+</section>
+{% endblock %}

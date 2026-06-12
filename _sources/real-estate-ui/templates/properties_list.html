@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Browse Properties - Real Estate Marketplace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Filters Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter"></i> Filters
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" id="propertyFilterForm">
+                        <!-- Search -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Search</label>
+                            <input type="text" name="query" class="form-control" placeholder="Location, title..." value="{{ request.GET.query }}">
+                        </div>
+                        
+                        <!-- Property Type -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Property Type</label>
+                            <div>
+                                {% for value, label in form.property_type.field.choices %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="property_type" value="{{ value }}" id="type_{{ value }}" {% if value in request.GET.getlist 'property_type' %}checked{% endif %}>
+                                    <label class="form-check-label" for="type_{{ value }}">
+                                        {{ label }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Price Range</label>
+                            <input type="number" name="min_price" class="form-control mb-2" placeholder="Min Price" value="{{ request.GET.min_price }}">
+                            <input type="number" name="max_price" class="form-control" placeholder="Max Price" value="{{ request.GET.max_price }}">
+                        </div>
+                        
+                        <!-- Bedrooms -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Bedrooms</label>
+                            <input type="number" name="bedrooms" class="form-control" placeholder="Min Bedrooms" value="{{ request.GET.bedrooms }}">
+                        </div>
+                        
+                        <!-- Bathrooms -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Bathrooms</label>
+                            <input type="number" name="bathrooms" class="form-control" placeholder="Min Bathrooms" value="{{ request.GET.bathrooms }}">
+                        </div>
+                        
+                        <!-- City -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">City</label>
+                            <input type="text" name="city" class="form-control" placeholder="City" value="{{ request.GET.city }}">
+                        </div>
+                        
+                        <!-- Search Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Apply Filters
+                            </button>
+                            <a href="{% url 'properties' %}" class="btn btn-outline-secondary">
+                                Reset
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Properties Grid -->
+        <div class="col-lg-9">
+            <!-- Header -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 style="color: var(--primary-color);">
+                        <i class="fas fa-home"></i> Properties
+                    </h2>
+                    <span class="badge bg-secondary">
+                        {{ total_count }} results
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Properties -->
+            {% if properties %}
+            <div class="row g-4">
+                {% for property in properties %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card property-card">
+                        <div style="position: relative; height: 200px; overflow: hidden;">
+                            {% if property.thumbnail %}
+                            <img src="{{ property.thumbnail.url }}" alt="{{ property.title }}" class="property-image w-100">
+                            {% else %}
+                            <div class="property-image bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-image fa-3x text-muted"></i>
+                            </div>
+                            {% endif %}
+                            {% if property.is_featured %}
+                            <span class="property-badge featured">Featured</span>
+                            {% else %}
+                            <span class="property-badge">For Sale</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="property-info">
+                            <div class="property-price">₹{{ property.price|floatformat:0 }}</div>
+                            <h5 class="property-title">{{ property.title }}</h5>
+                            <p class="property-location">
+                                <i class="fas fa-map-marker-alt"></i> {{ property.city }}, {{ property.state }}
+                            </p>
+                            
+                            <div class="property-features">
+                                <div class="property-feature">
+                                    <i class="fas fa-bed"></i>
+                                    <span>{{ property.bedrooms }} Bed</span>
+                                </div>
+                                <div class="property-feature">
+                                    <i class="fas fa-bath"></i>
+                                    <span>{{ property.bathrooms }} Bath</span>
+                                </div>
+                                <div class="property-feature">
+                                    <i class="fas fa-expand"></i>
+                                    <span>{{ property.area }} sqft</span>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <a href="{% url 'property_detail' property.slug %}" class="btn btn-primary">
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No properties found matching your criteria. Try adjusting your filters.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

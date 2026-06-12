@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}{{ prop.title }} - EstateHub{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <!-- Gallery -->
+      <div class="card overflow-hidden mb-4">
+        {% if prop.cover_image %}
+          <img src="{{ prop.cover_image.url }}" class="w-100" style="height:420px; object-fit:cover;" alt="{{ prop.title }}">
+        {% else %}
+          <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200" class="w-100" style="height:420px; object-fit:cover;" alt="property">
+        {% endif %}
+        {% if prop.images.all %}
+        <div class="p-3 d-flex gap-2 overflow-auto">
+          {% for img in prop.images.all %}
+            <img src="{{ img.image.url }}" style="height:80px;width:120px;object-fit:cover;border-radius:8px;" alt="">
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Details -->
+      <div class="card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+          <div>
+            <span class="badge bg-primary mb-2">{{ prop.get_listing_type_display }}</span>
+            <span class="badge bg-secondary mb-2">{{ prop.get_property_type_display }}</span>
+            <h2 class="fw-bold">{{ prop.title }}</h2>
+            <p class="text-muted"><i class="bi bi-geo-alt"></i> {{ prop.address }}, {{ prop.city }} {{ prop.state }}</p>
+          </div>
+          <div class="text-end">
+            <div class="h3 fw-bold" style="color: var(--primary);">${{ prop.price|floatformat:0 }}</div>
+            {% if user.is_authenticated and user.role == 'buyer' %}
+              <form method="post" action="{% url 'properties:toggle_favorite' prop.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-primary btn-sm mt-2">
+                  <i class="bi {% if is_favorited %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+                  {% if is_favorited %}Saved{% else %}Save{% endif %}
+                </button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="row g-3 my-4 text-center">
+          <div class="col-4"><div class="p-3 bg-light rounded-3"><i class="bi bi-door-closed text-primary fs-4"></i><div class="fw-bold">{{ prop.bedrooms }}</div><div class="small text-muted">Bedrooms</div></div></div>
+          <div class="col-4"><div class="p-3 bg-light rounded-3"><i class="bi bi-droplet text-primary fs-4"></i><div class="fw-bold">{{ prop.bathrooms }}</div><div class="small text-muted">Bathrooms</div></div></div>
+          <div class="col-4"><div class="p-3 bg-light rounded-3"><i class="bi bi-rulers text-primary fs-4"></i><div class="fw-bold">{{ prop.area }}</div><div class="small text-muted">Sq Ft</div></div></div>
+        </div>
+
+        <h5 class="fw-bold mt-3">Description</h5>
+        <p class="text-muted">{{ prop.description|linebreaks }}</p>
+
+        {% if prop.amenities_list %}
+        <h5 class="fw-bold mt-4">Amenities</h5>
+        <div class="d-flex flex-wrap gap-2">
+          {% for a in prop.amenities_list %}
+            <span class="badge bg-light text-dark p-2"><i class="bi bi-check-circle-fill text-primary"></i> {{ a }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <div class="card p-4 mb-4">
+        <h6 class="fw-bold">Seller Information</h6>
+        <div class="d-flex align-items-center mt-3">
+          <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:50px;height:50px;font-weight:700;">
+            {{ prop.seller.first_name|first|default:prop.seller.username|first|upper }}
+          </div>
+          <div class="ms-3">
+            <strong>{{ prop.seller.get_full_name|default:prop.seller.username }}</strong>
+            <div class="small text-muted">{{ prop.seller.email }}</div>
+            {% if prop.seller.phone %}<div class="small text-muted">{{ prop.seller.phone }}</div>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-4">
+        <h6 class="fw-bold mb-3">Send Inquiry</h6>
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'properties:inquire' prop.pk %}">
+            {% csrf_token %}
+            <div class="mb-2">{{ inquiry_form.name.label_tag }} {{ inquiry_form.name }}</div>
+            <div class="mb-2">{{ inquiry_form.email.label_tag }} {{ inquiry_form.email }}</div>
+            <div class="mb-2">{{ inquiry_form.phone.label_tag }} {{ inquiry_form.phone }}</div>
+            <div class="mb-3">{{ inquiry_form.message.label_tag }} {{ inquiry_form.message }}</div>
+            <button class="btn btn-primary w-100">Send Inquiry</button>
+          </form>
+        {% else %}
+          <p class="text-muted small">Please <a href="{% url 'accounts:login' %}">log in</a> to send an inquiry.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if similar %}
+  <div class="mt-5">
+    <h3 class="fw-bold mb-4">Similar Properties</h3>
+    <div class="row g-4">
+      {% for s in similar %}
+        {% include 'properties/_card.html' with prop=s %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

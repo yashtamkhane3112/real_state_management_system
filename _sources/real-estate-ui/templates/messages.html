@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Messages - Real Estate Marketplace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card">
+        <div class="card-header">
+            <h2 style="color: var(--primary-color); margin: 0;">
+                <i class="fas fa-envelope"></i> Messages
+            </h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> Message inbox functionality coming soon.
+            </div>
+            {% if received_messages %}
+            <div class="list-group">
+                {% for message in received_messages %}
+                <a href="{% url 'conversation' message.sender.id %}" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <strong>{{ message.sender.get_full_name }}</strong>
+                        <small>{{ message.created_at|date:"M d, Y" }}</small>
+                    </div>
+                    <p class="mb-1">{{ message.subject }}</p>
+                    <small>{{ message.message|truncatewords:10 }}</small>
+                </a>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info">No messages yet</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

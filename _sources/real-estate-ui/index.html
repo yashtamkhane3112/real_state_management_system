@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealEstate Pro - Modern Property Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-building"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Properties</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Dashboards</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="dashboard-buyer.html">Buyer</a></li>
+                            <li><a class="dropdown-item" href="dashboard-seller.html">Seller</a></li>
+                            <li><a class="dropdown-item" href="dashboard-admin.html">Admin</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white text-center py-5" style="background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); min-height: 500px; display: flex; align-items: center;">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Find Your Perfect Home</h1>
+            <p class="lead mb-5">Discover thousands of properties from verified sellers and buyers</p>
+            <a href="properties.html" class="btn btn-light btn-lg px-5 me-3">Browse Properties</a>
+            <a href="register.html" class="btn btn-outline-light btn-lg px-5">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="py-5" style="background-color: #f5f7fa;">
+        <div class="container">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Location" style="border: 1px solid #d0d5dd;">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" style="border: 1px solid #d0d5dd;">
+                        <option>Property Type</option>
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Commercial</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control" placeholder="Max Price" style="border: 1px solid #d0d5dd;">
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100" style="background-color: #0066cc; border: none;">Search</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Featured Properties</h2>
+            <div class="row g-4">
+                <!-- Property Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card property-card shadow-sm h-100" style="border: none; border-radius: 12px; overflow: hidden;">
+                        <div class="property-image-wrapper" style="height: 250px; position: relative; overflow: hidden; background-color: #e8ecf1;">
+                            <img src="https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=500&h=350&fit=crop" alt="Modern Villa" class="w-100 h-100" style="object-fit: cover;">
+                            <span class="badge bg-primary position-absolute top-3 end-3">Featured</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Modern Villa in Downtown</h5>
+                            <p class="text-muted small">123 Maple Street, Downtown</p>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">5 Beds</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">3 Baths</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">2500 sqft</span>
+                            </div>
+                            <h4 class="text-primary mb-3">$850,000</h4>
+                            <a href="property-details.html" class="btn btn-primary w-100" style="background-color: #0066cc; border: none;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card property-card shadow-sm h-100" style="border: none; border-radius: 12px; overflow: hidden;">
+                        <div class="property-image-wrapper" style="height: 250px; position: relative; overflow: hidden; background-color: #e8ecf1;">
+                            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=500&h=350&fit=crop" alt="Luxury Apartment" class="w-100 h-100" style="object-fit: cover;">
+                            <span class="badge bg-success position-absolute top-3 end-3">New</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Luxury Apartment</h5>
+                            <p class="text-muted small">456 Park Avenue, Uptown</p>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">3 Beds</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">2 Baths</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">1800 sqft</span>
+                            </div>
+                            <h4 class="text-primary mb-3">$650,000</h4>
+                            <a href="property-details.html" class="btn btn-primary w-100" style="background-color: #0066cc; border: none;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property Card 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card property-card shadow-sm h-100" style="border: none; border-radius: 12px; overflow: hidden;">
+                        <div class="property-image-wrapper" style="height: 250px; position: relative; overflow: hidden; background-color: #e8ecf1;">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=350&fit=crop" alt="Cozy Cottage" class="w-100 h-100" style="object-fit: cover;">
+                            <span class="badge bg-warning position-absolute top-3 end-3">Hot</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Cozy Family Home</h5>
+                            <p class="text-muted small">789 Oak Lane, Suburbs</p>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">4 Beds</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">2 Baths</span>
+                                <span class="badge" style="background-color: #f0f4f8; color: #0066cc;">2200 sqft</span>
+                            </div>
+                            <h4 class="text-primary mb-3">$520,000</h4>
+                            <a href="property-details.html" class="btn btn-primary w-100" style="background-color: #0066cc; border: none;">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5">
+                <a href="properties.html" class="btn btn-outline-primary btn-lg">View All Properties</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-5" style="background-color: #f5f7fa;">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">Why Choose RealEstate Pro?</h2>
+            <div class="row g-4">
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-search-location" style="font-size: 3rem; color: #0066cc; margin-bottom: 1rem;"></i>
+                    <h5 class="fw-bold">Easy Search</h5>
+                    <p class="text-muted">Find properties with advanced filters and real-time updates</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: #0066cc; margin-bottom: 1rem;"></i>
+                    <h5 class="fw-bold">Verified Listings</h5>
+                    <p class="text-muted">All properties and users are verified for your peace of mind</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-headset" style="font-size: 3rem; color: #0066cc; margin-bottom: 1rem;"></i>
+                    <h5 class="fw-bold">24/7 Support</h5>
+                    <p class="text-muted">Our dedicated team is always here to help you</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

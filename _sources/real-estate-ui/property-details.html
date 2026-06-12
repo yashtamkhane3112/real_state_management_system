@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="properties.html">Browse Properties</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Sign In</a></li>
+                    <li class="nav-item"><a class="nav-link" href="register.html">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container py-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html" style="color: #0066cc;">Home</a></li>
+                <li class="breadcrumb-item"><a href="properties.html" style="color: #0066cc;">Properties</a></li>
+                <li class="breadcrumb-item active">Modern Downtown Villa</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container py-4">
+        <div class="row g-4">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Image Gallery -->
+                <div class="card mb-4" style="border: none; border-radius: 12px; overflow: hidden;">
+                    <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="https://images.unsplash.com/photo-1570129477492-45a003537e1f?w=800&h=500&fit=crop" class="d-block w-100" alt="Property Main Image" style="height: 500px; object-fit: cover;">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=500&fit=crop" class="d-block w-100" alt="Property Image 2" style="height: 500px; object-fit: cover;">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://images.unsplash.com/photo-1512917774080-9b41b3b3ed78?w=800&h=500&fit=crop" class="d-block w-100" alt="Property Image 3" style="height: 500px; object-fit: cover;">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Property Info -->
+                <div class="card mb-4" style="border: none; background-color: #f5f7fa; border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-8">
+                                <h1 class="fw-bold mb-2">Modern Downtown Villa</h1>
+                                <p class="text-muted mb-3"><i class="fas fa-map-marker-alt"></i> 123 Maple Street, Downtown</p>
+                                <h2 class="text-primary fw-bold">$850,000</h2>
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                <button class="btn btn-outline-primary me-2" style="border: 1px solid #0066cc; color: #0066cc;">
+                                    <i class="fas fa-heart"></i> Save
+                                </button>
+                                <button class="btn btn-outline-primary" style="border: 1px solid #0066cc; color: #0066cc;">
+                                    <i class="fas fa-share-alt"></i> Share
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-3 text-center">
+                                <h4 class="text-primary fw-bold">5</h4>
+                                <p class="text-muted small mb-0">Bedrooms</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h4 class="text-primary fw-bold">3</h4>
+                                <p class="text-muted small mb-0">Bathrooms</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h4 class="text-primary fw-bold">2,500</h4>
+                                <p class="text-muted small mb-0">Sq. Feet</p>
+                            </div>
+                            <div class="col-md-3 text-center">
+                                <h4 class="text-primary fw-bold">2024</h4>
+                                <p class="text-muted small mb-0">Year Built</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="card mb-4" style="border: 1px solid #e8ecf1; border-radius: 12px;">
+                    <div class="card-body">
+                        <h4 class="fw-bold mb-3">About this property</h4>
+                        <p class="text-muted">This stunning modern villa offers the perfect blend of luxury and comfort. Located in the heart of downtown, it features contemporary architecture, premium finishes, and state-of-the-art amenities. The spacious layout includes a professional kitchen, elegant dining areas, and comfortable living spaces perfect for family gatherings.</p>
+                        <p class="text-muted">The property includes a beautiful master suite with ensuite bathroom, four additional bedrooms, and two full baths. The exterior features a well-maintained garden, patio area, and two-car garage. All utilities are included in the listing.</p>
+                    </div>
+                </div>
+
+                <!-- Amenities -->
+                <div class="card mb-4" style="border: 1px solid #e8ecf1; border-radius: 12px;">
+                    <div class="card-body">
+                        <h4 class="fw-bold mb-3">Amenities</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Swimming Pool</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Gym & Fitness Center</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Security Gate</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Air Conditioning</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Parking</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Lawn Area</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Modern Kitchen</span>
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-check-circle text-success me-2"></i>
+                                    <span>Heating System</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Map -->
+                <div class="card mb-4" style="border: 1px solid #e8ecf1; border-radius: 12px; overflow: hidden;">
+                    <div class="card-body p-0">
+                        <div style="height: 400px; background: url('https://api.mapbox.com/styles/v1/mapbox/light-v10/static/0,0,10/500x400@2x?access_token=pk.test') center/cover;">
+                            <div style="height: 100%; display: flex; align-items: center; justify-content: center; background-color: #e8ecf1;">
+                                <p class="text-muted"><i class="fas fa-map"></i> Map will be displayed here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Contact Agent -->
+                <div class="card mb-4 shadow-sm" style="border: none; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-4">Contact Agent</h5>
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="rounded-circle me-3" alt="Agent" style="width: 60px; height: 60px; object-fit: cover;">
+                            <div>
+                                <h6 class="fw-bold mb-0">John Smith</h6>
+                                <p class="text-muted small mb-0">Senior Agent</p>
+                            </div>
+                        </div>
+                        
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Your Name" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" placeholder="Your Email" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" class="form-control" placeholder="Your Phone" style="border: 1px solid #d0d5dd;">
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="3" placeholder="Your Message" style="border: 1px solid #d0d5dd;"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="background-color: #0066cc; border: none;">Send Message</button>
+                        </form>
+
+                        <div class="mt-4 pt-4 border-top">
+                            <a href="#" class="btn btn-outline-primary w-100 mb-2" style="border: 1px solid #0066cc; color: #0066cc;">
+                                <i class="fas fa-phone"></i> Call Agent
+                            </a>
+                            <a href="#" class="btn btn-outline-primary w-100" style="border: 1px solid #0066cc; color: #0066cc;">
+                                <i class="fas fa-calendar"></i> Schedule Tour
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Facts -->
+                <div class="card mb-4" style="border: 1px solid #e8ecf1; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3">Quick Facts</h5>
+                        <table class="table table-borderless small">
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">Property Type</td>
+                                    <td class="fw-bold text-end">House</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Status</td>
+                                    <td class="fw-bold text-end">For Sale</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Listed Since</td>
+                                    <td class="fw-bold text-end">Jan 15, 2024</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Price per Sqft</td>
+                                    <td class="fw-bold text-end">$340</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Days on Market</td>
+                                    <td class="fw-bold text-end">45</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Seller Info -->
+                <div class="card" style="border: 1px solid #e8ecf1; border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold mb-3">Seller Information</h5>
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-user-circle" style="font-size: 2rem; color: #0066cc; margin-right: 1rem;"></i>
+                            <div>
+                                <h6 class="fw-bold mb-0">Sarah Johnson</h6>
+                                <p class="text-muted small mb-0">Property Owner</p>
+                            </div>
+                        </div>
+                        <p class="text-muted small">Member since 2020 • Verified Seller • 12 properties listed</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm w-100" style="border: 1px solid #0066cc; color: #0066cc;">View Profile</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

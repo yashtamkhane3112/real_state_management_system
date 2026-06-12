@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block title %}Profile - EstateSphere{% endblock %}
+{% block content %}
+<section class="py-5"><div class="container"><div class="row justify-content-center"><div class="col-lg-8"><div class="glass-card p-4 p-md-5"><span class="eyebrow">Account</span><h1 class="fw-bold">Edit Profile</h1><form method="post" class="row g-3 mt-2">{% csrf_token %}{% for field in form %}<div class="col-md-6"><label class="form-label">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}</div>{% endfor %}<div class="col-12"><button class="btn btn-dark rounded-pill px-4">Save Profile</button></div></form></div></div></div></div></section>
+{% endblock %}

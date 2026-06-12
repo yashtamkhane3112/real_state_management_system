@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}EstateHub - Find Your Dream Property{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'properties:landing' %}">
+      <i class="bi bi-house-heart-fill"></i> EstateHub
+    </a>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="{% url 'properties:landing' %}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'properties:list' %}">Properties</a></li>
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:redirect' %}">Dashboard</a></li>
+          {% if user.role == 'seller' %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'properties:add' %}">+ List Property</a></li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle"></i> {{ user.first_name|default:user.username }}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'dashboard:redirect' %}">Dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+            </ul>
+          </li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+          <li class="nav-item ms-lg-2">
+            <a class="btn btn-primary" href="{% url 'accounts:register' %}">Get Started</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h6><i class="bi bi-house-heart-fill"></i> EstateHub</h6>
+        <p class="small">Your trusted real estate marketplace. Find, list and inquire about properties with ease.</p>
+      </div>
+      <div class="col-md-2">
+        <h6>Explore</h6>
+        <a href="{% url 'properties:list' %}" class="d-block small mb-1">Properties</a>
+        <a href="{% url 'accounts:register' %}" class="d-block small mb-1">Sign Up</a>
+        <a href="{% url 'accounts:login' %}" class="d-block small mb-1">Login</a>
+      </div>
+      <div class="col-md-3">
+        <h6>For Sellers</h6>
+        <a href="{% url 'accounts:register' %}" class="d-block small mb-1">List Property</a>
+        <a href="#" class="d-block small mb-1">Pricing</a>
+        <a href="#" class="d-block small mb-1">Resources</a>
+      </div>
+      <div class="col-md-3">
+        <h6>Contact</h6>
+        <p class="small mb-1"><i class="bi bi-envelope"></i> hello@estatehub.com</p>
+        <p class="small mb-1"><i class="bi bi-telephone"></i> +1 555 0100</p>
+      </div>
+    </div>
+    <hr class="my-4" style="border-color: #1f2937;">
+    <p class="text-center small mb-0">© {% now "Y" %} EstateHub. Built with Django.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

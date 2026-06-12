@@ -1,0 +1,66 @@
+{% load static %}
+
+<footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Company Info -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="text-white">
+                    <i class="fas fa-home text-primary"></i> RealEstate
+                </h5>
+                <p class="text-muted">Your trusted partner in finding the perfect property.</p>
+                <div class="social-links">
+                    <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="text-white fw-bold">Quick Links</h6>
+                <ul class="list-unstyled text-muted">
+                    <li><a href="{% url 'index' %}" class="text-decoration-none text-muted">Home</a></li>
+                    <li><a href="{% url 'properties' %}" class="text-decoration-none text-muted">Properties</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">About Us</a></li>
+                    <li><a href="{% url 'contact' %}" class="text-decoration-none text-muted">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- For Sellers -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="text-white fw-bold">For Sellers</h6>
+                <ul class="list-unstyled text-muted">
+                    <li><a href="{% url 'register' %}" class="text-decoration-none text-muted">List Your Property</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Pricing</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">How It Works</a></li>
+                    <li><a href="#" class="text-decoration-none text-muted">Resources</a></li>
+                </ul>
+            </div>
+            
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h6 class="text-white fw-bold">Contact Us</h6>
+                <p class="text-muted">
+                    <i class="fas fa-map-marker-alt"></i> 123 Real Estate St, City 12345<br>
+                    <i class="fas fa-phone"></i> +1 (555) 123-4567<br>
+                    <i class="fas fa-envelope"></i> info@realestate.com
+                </p>
+            </div>
+        </div>
+        
+        <!-- Bottom Footer -->
+        <hr class="bg-secondary">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="text-muted mb-0">&copy; 2024 RealEstate. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-decoration-none text-muted me-3">Privacy Policy</a>
+                <a href="#" class="text-decoration-none text-muted me-3">Terms of Service</a>
+                <a href="#" class="text-decoration-none text-muted">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>

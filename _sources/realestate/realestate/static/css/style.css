@@ -1,0 +1,215 @@
+/* Real Estate Marketplace - Custom Styles */
+:root {
+  --primary: #2563EB;
+  --primary-dark: #1d4ed8;
+  --indigo: #4f46e5;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --radius: 14px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04), 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 10px rgba(0,0,0,.05), 0 10px 25px rgba(0,0,0,.06);
+  --shadow-lg: 0 20px 45px rgba(37,99,235,.12);
+}
+
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #ffffff;
+  color: var(--gray-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--primary-dark); }
+
+/* ===== Navbar ===== */
+.navbar-custom {
+  background: #fff;
+  border-bottom: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm);
+}
+.navbar-custom .navbar-brand {
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+.navbar-custom .nav-link {
+  color: var(--gray-700);
+  font-weight: 500;
+  margin: 0 .25rem;
+}
+.navbar-custom .nav-link:hover { color: var(--primary); }
+
+/* ===== Buttons ===== */
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  border-radius: 10px;
+  padding: .55rem 1.2rem;
+  font-weight: 600;
+  transition: all .2s;
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(37,99,235,.25);
+}
+.btn-outline-primary {
+  border-radius: 10px;
+  font-weight: 600;
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.btn-outline-primary:hover { background: var(--primary); border-color: var(--primary); }
+
+/* ===== Cards ===== */
+.card {
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  transition: all .25s;
+  overflow: hidden;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+/* ===== Hero ===== */
+.hero {
+  background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+  padding: 80px 0 100px;
+  border-radius: 0 0 30px 30px;
+}
+.hero h1 {
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.15;
+  color: var(--gray-900);
+}
+.hero p.lead { color: var(--gray-500); font-size: 1.1rem; }
+.hero-search {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ===== Property card ===== */
+.property-card .property-img {
+  height: 220px;
+  object-fit: cover;
+  width: 100%;
+  background: var(--gray-100);
+}
+.property-card .price {
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 1.25rem;
+}
+.property-card .meta {
+  color: var(--gray-500);
+  font-size: .9rem;
+}
+.property-card .badge-type {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--primary); color: #fff;
+  padding: 4px 10px; border-radius: 8px;
+  font-size: .75rem; font-weight: 600;
+}
+.fav-btn {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(255,255,255,.95); border: none;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s;
+}
+.fav-btn:hover { transform: scale(1.1); }
+.fav-btn.active { color: #ef4444; }
+
+/* ===== Stat cards ===== */
+.stat-card {
+  background: #fff; border-radius: var(--radius);
+  padding: 24px; border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm);
+}
+.stat-card .stat-number {
+  font-size: 2rem; font-weight: 800; color: var(--primary);
+}
+.stat-card .stat-label { color: var(--gray-500); font-weight: 500; }
+.stat-card .stat-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: #eff6ff; color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; margin-bottom: 12px;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  background: #fff; border-right: 1px solid var(--gray-100);
+  min-height: calc(100vh - 70px);
+  padding: 24px 16px;
+}
+.sidebar .nav-link {
+  color: var(--gray-700); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 4px; font-weight: 500;
+}
+.sidebar .nav-link:hover { background: var(--gray-50); color: var(--primary); }
+.sidebar .nav-link.active { background: #eff6ff; color: var(--primary); }
+
+/* ===== Forms ===== */
+.form-control, .form-select {
+  border-radius: 10px; border: 1px solid var(--gray-200);
+  padding: .6rem .9rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+}
+
+/* ===== Auth card ===== */
+.auth-wrap {
+  min-height: calc(100vh - 70px);
+  background: linear-gradient(135deg, #eff6ff, #eef2ff);
+  display: flex; align-items: center; padding: 40px 0;
+}
+.auth-card {
+  background: #fff; border-radius: 20px;
+  padding: 40px; box-shadow: var(--shadow-lg);
+  max-width: 460px; width: 100%; margin: 0 auto;
+}
+
+/* ===== Status badges ===== */
+.badge-status {
+  padding: 5px 12px; border-radius: 8px; font-weight: 600; font-size: .75rem;
+}
+.badge-status.active { background: #dcfce7; color: #166534; }
+.badge-status.pending { background: #fef3c7; color: #92400e; }
+.badge-status.sold { background: #dbeafe; color: #1e40af; }
+.badge-status.rejected { background: #fee2e2; color: #991b1b; }
+.badge-status.new { background: #e0e7ff; color: #3730a3; }
+.badge-status.replied { background: #dcfce7; color: #166534; }
+.badge-status.closed { background: #f3f4f6; color: #374151; }
+
+/* ===== Misc ===== */
+.section { padding: 70px 0; }
+.section-title { font-weight: 800; margin-bottom: 8px; }
+.section-subtitle { color: var(--gray-500); margin-bottom: 40px; }
+
+footer {
+  background: #0b1220; color: #cbd5e1;
+  padding: 50px 0 24px; margin-top: 60px;
+}
+footer h6 { color: #fff; font-weight: 700; margin-bottom: 16px; }
+footer a { color: #cbd5e1; }
+footer a:hover { color: #fff; }
+
+@media (max-width: 768px) {
+  .hero { padding: 50px 0 70px; }
+  .sidebar { min-height: auto; }
+}

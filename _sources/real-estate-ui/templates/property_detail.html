@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ property.title }} - Real Estate Marketplace{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Property Images -->
+        <div class="col-lg-8">
+            <div class="card mb-4" style="border-radius: 12px; overflow: hidden;">
+                {% if images %}
+                <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for image in images %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ image.image.url }}" class="d-block w-100" style="height: 400px; object-fit: cover;">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% if images.count > 1 %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div style="height: 400px;" class="bg-light d-flex align-items-center justify-content-center">
+                    <i class="fas fa-image fa-5x text-muted"></i>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Property Details -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="mb-0">{{ property.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h4 style="color: var(--primary-color);">
+                                ₹{{ property.price|floatformat:0 }}
+                            </h4>
+                            <p class="text-muted">
+                                <i class="fas fa-map-marker-alt"></i> 
+                                {{ property.address }}, {{ property.city }}, {{ property.state }} - {{ property.pincode }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2 justify-content-end">
+                                <span class="badge bg-primary">{{ property.get_property_type_display }}</span>
+                                <span class="badge bg-success">{{ property.get_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Key Features -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius);">
+                                <i class="fas fa-bed fa-2x" style="color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                                <div class="fw-bold">{{ property.bedrooms }}</div>
+                                <small class="text-muted">Bedrooms</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius);">
+                                <i class="fas fa-bath fa-2x" style="color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                                <div class="fw-bold">{{ property.bathrooms }}</div>
+                                <small class="text-muted">Bathrooms</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius);">
+                                <i class="fas fa-expand fa-2x" style="color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                                <div class="fw-bold">{{ property.area }}</div>
+                                <small class="text-muted">Sq Ft</small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div style="text-align: center; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius);">
+                                <i class="fas fa-eye fa-2x" style="color: var(--primary-color); margin-bottom: 0.5rem;"></i>
+                                <div class="fw-bold">{{ property.views }}</div>
+                                <small class="text-muted">Views</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <h5 style="color: var(--primary-color);">Description</h5>
+                        <p>{{ property.description }}</p>
+                    </div>
+                    
+                    <!-- Amenities -->
+                    <div>
+                        <h5 style="color: var(--primary-color);">Amenities & Features</h5>
+                        <ul class="list-unstyled">
+                            {% if property.parking %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Parking</li>
+                            {% endif %}
+                            {% if property.balcony %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Balcony</li>
+                            {% endif %}
+                            {% if property.garden %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Garden</li>
+                            {% endif %}
+                            {% if property.gym %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Gym</li>
+                            {% endif %}
+                            {% if property.swimming_pool %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> Swimming Pool</li>
+                            {% endif %}
+                            {% if property.security %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> 24/7 Security</li>
+                            {% endif %}
+                            {% if property.amenities %}
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color);"></i> {{ property.amenities }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Contact Owner -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-user"></i> Property Owner
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if property.owner.profile_picture %}
+                    <img src="{{ property.owner.profile_picture.url }}" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+                    {% else %}
+                    <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center" style="width: 100px; height: 100px; background: var(--light-bg); color: var(--primary-color); font-size: 2.5rem;">
+                        {{ property.owner.first_name|first }}
+                    </div>
+                    {% endif %}
+                    
+                    <h6>{{ property.owner.get_full_name }}</h6>
+                    <p class="text-muted small mb-3">Seller since {{ property.owner.created_at|date:"F Y" }}</p>
+                    
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#inquiryModal">
+                            <i class="fas fa-envelope"></i> Send Inquiry
+                        </button>
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'send_message' property.owner.id %}" class="btn btn-outline-primary">
+                            <i class="fas fa-comment"></i> Send Message
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Save Property -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'toggle_favorite' property.slug %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            <i class="fas {% if is_favorite %}fas{% else %}far{% endif %} fa-heart"></i>
+                            {% if is_favorite %}Remove from Favorites{% else %}Add to Favorites{% endif %}
+                        </button>
+                    </form>
+                    {% else %}
+                    <p class="text-muted text-center mb-0">
+                        <a href="{% url 'login' %}">Login</a> to save properties
+                    </p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Share Property -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-share-alt"></i> Share
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-sm btn-outline-primary" title="Share on Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-info" title="Share on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm btn-outline-success" title="Share on WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="mailto:?subject={{ property.title }}&body={{ property.get_absolute_url }}" class="btn btn-sm btn-outline-secondary" title="Share via Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inquiry Modal -->
+{% if user.is_authenticated %}
+<div class="modal fade" id="inquiryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-envelope"></i> Send Inquiry
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="{% url 'submit_inquiry' property.slug %}">
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Subject</label>
+                        <input type="text" name="subject" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea name="message" class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" name="phone" class="form-control" value="{{ user.phone }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Inquiry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%); min-height: 100vh; display: flex; align-items: center; padding: 40px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-lg" style="border: none; border-radius: 12px;">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <h2 class="fw-bold mb-2" style="color: #0066cc;"><i class="fas fa-home"></i> RealEstate Pro</h2>
+                            <p class="text-muted">Create your account</p>
+                        </div>
+
+                        <!-- Role Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">I want to</label>
+                            <div class="d-flex gap-2">
+                                <div class="form-check flex-grow-1">
+                                    <input class="form-check-input" type="radio" name="role" id="buyer" value="buyer" checked>
+                                    <label class="form-check-label" for="buyer">
+                                        <strong>Buy</strong> properties
+                                    </label>
+                                </div>
+                                <div class="form-check flex-grow-1">
+                                    <input class="form-check-input" type="radio" name="role" id="seller" value="seller">
+                                    <label class="form-check-label" for="seller">
+                                        <strong>Sell</strong> properties
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label fw-500">Full Name</label>
+                                <input type="text" class="form-control" placeholder="John Doe" style="border: 1px solid #d0d5dd; padding: 10px 12px;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-500">Email Address</label>
+                                <input type="email" class="form-control" placeholder="you@example.com" style="border: 1px solid #d0d5dd; padding: 10px 12px;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-500">Phone Number</label>
+                                <input type="tel" class="form-control" placeholder="+1 (555) 123-4567" style="border: 1px solid #d0d5dd; padding: 10px 12px;">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-500">Password</label>
+                                <input type="password" class="form-control" placeholder="Create a strong password" style="border: 1px solid #d0d5dd; padding: 10px 12px;">
+                                <small class="text-muted">At least 8 characters</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-500">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm your password" style="border: 1px solid #d0d5dd; padding: 10px 12px;">
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="terms">
+                                <label class="form-check-label" for="terms">
+                                    I agree to the <a href="#" style="color: #0066cc;">Terms of Service</a> and <a href="#" style="color: #0066cc;">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mb-3" style="background-color: #0066cc; border: none;">Create Account</button>
+                        </form>
+
+                        <p class="text-center text-muted small mb-3">Or sign up with</p>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-secondary" style="border: 1px solid #d0d5dd;">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                        </div>
+
+                        <p class="text-center mt-4 small text-muted">
+                            Already have an account? <a href="login.html" class="text-decoration-none fw-bold" style="color: #0066cc;">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="text-center text-white mt-4 small">
+                    <a href="index.html" class="text-white text-decoration-none">← Back to Home</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Manage Users{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <h3 class="fw-bold mb-4">Manage Users</h3>
+  <div class="card p-3"><div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td><strong>{{ u.username }}</strong> {% if u.is_superuser %}<span class="badge bg-warning text-dark">Super</span>{% endif %}</td>
+        <td>{{ u.email }}</td>
+        <td><span class="badge bg-light text-dark">{{ u.get_role_display }}</span></td>
+        <td>{% if u.is_active %}<span class="badge-status active">Active</span>{% else %}<span class="badge-status rejected">Disabled</span>{% endif %}</td>
+        <td class="small">{{ u.date_joined|date:"M d, Y" }}</td>
+        <td>
+          {% if not u.is_superuser %}
+            <a href="{% url 'dashboard:toggle_user' u.pk %}" class="btn btn-sm {% if u.is_active %}btn-outline-danger{% else %}btn-outline-success{% endif %}">
+              {% if u.is_active %}Disable{% else %}Enable{% endif %}
+            </a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table></div></div>
+</div>
+{% endblock %}

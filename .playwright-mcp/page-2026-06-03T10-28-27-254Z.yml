@@ -1,0 +1,265 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e4]:
+      - link "PropVista home" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: 
+        - generic [ref=e8]:
+          - strong [ref=e9]: PropVista
+          - generic [ref=e10]: Luxury property intelligence
+      - text: 
+      - generic [ref=e11]:
+        - link "Home" [ref=e12] [cursor=pointer]:
+          - /url: /
+        - link "Properties" [ref=e13] [cursor=pointer]:
+          - /url: /properties/
+        - link "Dashboard" [ref=e14] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+        - link "AI Studio" [ref=e15] [cursor=pointer]:
+          - /url: /ai/
+      - generic [ref=e16]:
+        - link "Search properties" [ref=e17] [cursor=pointer]:
+          - /url: /properties/
+          - generic [ref=e18]: 
+        - link "Notifications" [ref=e19] [cursor=pointer]:
+          - /url: /accounts/dashboard/
+          - generic [ref=e20]: 
+        - link "SE" [ref=e21] [cursor=pointer]:
+          - /url: /accounts/profile/
+        - button "Logout" [ref=e23] [cursor=pointer]
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - complementary [ref=e26]:
+        - generic [ref=e27]: Seller operating system
+        - link " Dashboard" [ref=e28] [cursor=pointer]:
+          - /url: "#"
+          - generic [ref=e29]: 
+          - text: Dashboard
+        - link " Create listing" [ref=e30] [cursor=pointer]:
+          - /url: /properties/new/
+          - generic [ref=e31]: 
+          - text: Create listing
+        - link " Leads" [ref=e32] [cursor=pointer]:
+          - /url: /leads/
+          - generic [ref=e33]: 
+          - text: Leads
+        - link " Reports" [ref=e34] [cursor=pointer]:
+          - /url: /reports/
+          - generic [ref=e35]: 
+          - text: Reports
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e39]:
+              - generic [ref=e40]: 
+              - text: Seller analytics
+            - heading "Seller dashboard" [level=1] [ref=e41]
+            - paragraph [ref=e42]: Manage listings, inquiries, performance, and lead conversion.
+          - link " Add property" [ref=e43] [cursor=pointer]:
+            - /url: /properties/new/
+            - generic [ref=e44]: 
+            - text: Add property
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]: 
+            - text: Active listings
+            - strong [ref=e48]: "7"
+          - generic [ref=e49]:
+            - generic [ref=e50]: 
+            - text: Pending approvals
+            - strong [ref=e51]: "0"
+          - generic [ref=e52]:
+            - generic [ref=e53]: 
+            - text: Views this week
+            - strong [ref=e54]: "0"
+          - generic [ref=e55]:
+            - generic [ref=e56]: 
+            - text: Inquiries
+            - strong [ref=e57]: "2"
+        - generic [ref=e58]:
+          - heading "Views over 30 days" [level=2] [ref=e61]
+          - heading "Inquiry mix" [level=2] [ref=e65]
+        - generic [ref=e67]:
+          - generic [ref=e69]:
+            - heading "Property status tracking" [level=2] [ref=e70]
+            - link "Bandra Signature Residence 5 Approved" [ref=e71] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-5-mumbai-bandra/
+              - generic [ref=e72]: Bandra Signature Residence 5
+              - strong [ref=e73]: Approved
+            - link "Bandra Signature Residence 4 Approved" [ref=e74] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-4-mumbai-bandra/
+              - generic [ref=e75]: Bandra Signature Residence 4
+              - strong [ref=e76]: Approved
+            - link "Hinjewadi Signature Residence 1 Approved" [ref=e77] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-1-pune-hinjewadi/
+              - generic [ref=e78]: Hinjewadi Signature Residence 1
+              - strong [ref=e79]: Approved
+            - link "Hinjewadi Signature Residence 4 Approved" [ref=e80] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-4-pune-hinjewadi/
+              - generic [ref=e81]: Hinjewadi Signature Residence 4
+              - strong [ref=e82]: Approved
+            - link "Bandra Signature Residence 2 Approved" [ref=e83] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-2-mumbai-bandra/
+              - generic [ref=e84]: Bandra Signature Residence 2
+              - strong [ref=e85]: Approved
+            - link "Whitefield Signature Residence 4 Approved" [ref=e86] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-4-bengaluru-whitefield/
+              - generic [ref=e87]: Whitefield Signature Residence 4
+              - strong [ref=e88]: Approved
+            - link "Whitefield Signature Residence 5 Approved" [ref=e89] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-5-bengaluru-whitefield/
+              - generic [ref=e90]: Whitefield Signature Residence 5
+              - strong [ref=e91]: Approved
+            - link "Whitefield Signature Residence 2 Approved" [ref=e92] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-2-bengaluru-whitefield/
+              - generic [ref=e93]: Whitefield Signature Residence 2
+              - strong [ref=e94]: Approved
+            - link "Bandra Signature Residence 1 Approved" [ref=e95] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-1-mumbai-bandra/
+              - generic [ref=e96]: Bandra Signature Residence 1
+              - strong [ref=e97]: Approved
+            - link "Hinjewadi Signature Residence 17 Approved" [ref=e98] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-17-pune-hinjewadi/
+              - generic [ref=e99]: Hinjewadi Signature Residence 17
+              - strong [ref=e100]: Approved
+            - link "Bandra Signature Residence 13 Approved" [ref=e101] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-13-mumbai-bandra/
+              - generic [ref=e102]: Bandra Signature Residence 13
+              - strong [ref=e103]: Approved
+            - link "Whitefield Signature Residence 11 Approved" [ref=e104] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-11-bengaluru-whitefield/
+              - generic [ref=e105]: Whitefield Signature Residence 11
+              - strong [ref=e106]: Approved
+            - link "Whitefield Signature Residence 8 Approved" [ref=e107] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-8-bengaluru-whitefield/
+              - generic [ref=e108]: Whitefield Signature Residence 8
+              - strong [ref=e109]: Approved
+            - link "Whitefield Signature Residence 20 Pending" [ref=e110] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-20-bengaluru-whitefield/
+              - generic [ref=e111]: Whitefield Signature Residence 20
+              - strong [ref=e112]: Pending
+            - link "Bandra Signature Residence 19 Approved" [ref=e113] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-19-mumbai-bandra/
+              - generic [ref=e114]: Bandra Signature Residence 19
+              - strong [ref=e115]: Approved
+            - link "Whitefield Signature Residence 17 Approved" [ref=e116] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-17-bengaluru-whitefield/
+              - generic [ref=e117]: Whitefield Signature Residence 17
+              - strong [ref=e118]: Approved
+            - link "Hinjewadi Signature Residence 13 Approved" [ref=e119] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-13-pune-hinjewadi/
+              - generic [ref=e120]: Hinjewadi Signature Residence 13
+              - strong [ref=e121]: Approved
+            - link "Hinjewadi Signature Residence 14 Approved" [ref=e122] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-14-pune-hinjewadi/
+              - generic [ref=e123]: Hinjewadi Signature Residence 14
+              - strong [ref=e124]: Approved
+            - link "Bandra Signature Residence 11 Approved" [ref=e125] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-11-mumbai-bandra/
+              - generic [ref=e126]: Bandra Signature Residence 11
+              - strong [ref=e127]: Approved
+            - link "Hinjewadi Signature Residence 20 Pending" [ref=e128] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-20-pune-hinjewadi/
+              - generic [ref=e129]: Hinjewadi Signature Residence 20
+              - strong [ref=e130]: Pending
+            - link "Hinjewadi Signature Residence 19 Approved" [ref=e131] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-19-pune-hinjewadi/
+              - generic [ref=e132]: Hinjewadi Signature Residence 19
+              - strong [ref=e133]: Approved
+            - link "Bandra Signature Residence 17 Approved" [ref=e134] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-17-mumbai-bandra/
+              - generic [ref=e135]: Bandra Signature Residence 17
+              - strong [ref=e136]: Approved
+            - link "Whitefield Signature Residence 16 Approved" [ref=e137] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-16-bengaluru-whitefield/
+              - generic [ref=e138]: Whitefield Signature Residence 16
+              - strong [ref=e139]: Approved
+            - link "Whitefield Signature Residence 13 Approved" [ref=e140] [cursor=pointer]:
+              - /url: /properties/whitefield-signature-residence-13-bengaluru-whitefield/
+              - generic [ref=e141]: Whitefield Signature Residence 13
+              - strong [ref=e142]: Approved
+            - link "Bandra Signature Residence 14 Approved" [ref=e143] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-14-mumbai-bandra/
+              - generic [ref=e144]: Bandra Signature Residence 14
+              - strong [ref=e145]: Approved
+            - link "Hinjewadi Signature Residence 11 Approved" [ref=e146] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-11-pune-hinjewadi/
+              - generic [ref=e147]: Hinjewadi Signature Residence 11
+              - strong [ref=e148]: Approved
+            - link "Hinjewadi Signature Residence 10 Approved" [ref=e149] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-10-pune-hinjewadi/
+              - generic [ref=e150]: Hinjewadi Signature Residence 10
+              - strong [ref=e151]: Approved
+            - link "Bandra Signature Residence 8 Approved" [ref=e152] [cursor=pointer]:
+              - /url: /properties/bandra-signature-residence-8-mumbai-bandra/
+              - generic [ref=e153]: Bandra Signature Residence 8
+              - strong [ref=e154]: Approved
+            - link "Hinjewadi Signature Residence 7 Approved" [ref=e155] [cursor=pointer]:
+              - /url: /properties/hinjewadi-signature-residence-7-pune-hinjewadi/
+              - generic [ref=e156]: Hinjewadi Signature Residence 7
+              - strong [ref=e157]: Approved
+          - generic [ref=e159]:
+            - heading "Lead funnel" [level=2] [ref=e160]
+            - generic [ref=e162]:
+              - strong [ref=e163]: New inquiries
+              - generic [ref=e164]:
+                - text: Demo Buyer
+                - generic [ref=e165]: Hinjewadi Signature Residence 1
+              - generic [ref=e166]:
+                - text: Demo Buyer
+                - generic [ref=e167]: Bandra Signature Residence 4
+              - generic [ref=e168]:
+                - text: Demo Buyer
+                - generic [ref=e169]: Bandra Signature Residence 5
+              - generic [ref=e170]:
+                - text: Demo Buyer
+                - generic [ref=e171]: Bandra Signature Residence 2
+              - generic [ref=e172]:
+                - text: Demo Buyer
+                - generic [ref=e173]: Hinjewadi Signature Residence 4
+              - generic [ref=e174]:
+                - text: Demo Buyer
+                - generic [ref=e175]: Bandra Signature Residence 1
+              - generic [ref=e176]:
+                - text: Demo Buyer
+                - generic [ref=e177]: Whitefield Signature Residence 2
+              - generic [ref=e178]:
+                - text: Demo Buyer
+                - generic [ref=e179]: Whitefield Signature Residence 4
+              - generic [ref=e180]:
+                - text: Demo Buyer
+                - generic [ref=e181]: Whitefield Signature Residence 5
+  - contentinfo [ref=e182]:
+    - generic [ref=e183]:
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - link " PropVista Architected for premium property decisions." [ref=e186] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e188]: 
+            - generic [ref=e189]:
+              - strong [ref=e190]: PropVista
+              - generic [ref=e191]: Architected for premium property decisions.
+          - paragraph [ref=e192]: A polished Django portfolio platform for discovery, listing operations, AI-assisted marketing, analytics, and role-based real estate workflows.
+        - generic [ref=e193]:
+          - heading "Marketplace" [level=6] [ref=e194]
+          - link "Properties" [ref=e195] [cursor=pointer]:
+            - /url: /properties/
+          - link "Reports" [ref=e196] [cursor=pointer]:
+            - /url: /reports/
+          - link "AI Studio" [ref=e197] [cursor=pointer]:
+            - /url: /ai/
+        - generic [ref=e198]:
+          - heading "Dashboards" [level=6] [ref=e199]
+          - link "Buyer" [ref=e200] [cursor=pointer]:
+            - /url: /accounts/dashboard/buyer/
+          - link "Seller" [ref=e201] [cursor=pointer]:
+            - /url: /accounts/dashboard/seller/
+          - link "Agent" [ref=e202] [cursor=pointer]:
+            - /url: /accounts/dashboard/agent/
+        - generic [ref=e203]:
+          - heading "Developer" [level=6] [ref=e204]
+          - link "Swagger API docs" [ref=e205] [cursor=pointer]:
+            - /url: /api/docs/
+          - link "Django admin" [ref=e206] [cursor=pointer]:
+            - /url: /admin/
+      - generic [ref=e207]: © 2026 PropVista. Built as a luxury PropTech portfolio experience.

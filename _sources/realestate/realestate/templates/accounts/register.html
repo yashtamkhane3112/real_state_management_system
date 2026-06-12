@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Register - EstateHub{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <div class="container">
+    <div class="auth-card" style="max-width: 520px;">
+      <div class="text-center mb-4">
+        <h3 class="fw-bold" style="color: var(--primary);"><i class="bi bi-house-heart-fill"></i> EstateHub</h3>
+        <p class="text-muted">Create your free account</p>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Full Name</label>
+          {{ form.first_name }}
+          {{ form.first_name.errors }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Username</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Email</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">I want to</label>
+          <div class="d-flex gap-3">
+            {% for choice in form.role %}
+              <label class="card p-3 flex-fill text-center" style="cursor:pointer;">
+                {{ choice.tag }}
+                <div class="mt-2 fw-semibold">{{ choice.choice_label }}</div>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Password</label>
+          {{ form.password1 }}
+          {{ form.password1.errors }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Confirm Password</label>
+          {{ form.password2 }}
+          {{ form.password2.errors }}
+        </div>
+        <button class="btn btn-primary w-100 mb-3">Create Account</button>
+        <p class="text-center small text-muted mb-0">
+          Already have an account? <a href="{% url 'accounts:login' %}">Sign in</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

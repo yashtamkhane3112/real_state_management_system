@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}{{ mode }} Property{% endblock %}
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+      <div class="card p-4">
+        <h3 class="fw-bold mb-4">{{ mode }} Property</h3>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Title</label>
+              {{ form.title }}
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Description</label>
+              {{ form.description }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Price ($)</label>
+              {{ form.price }}
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-semibold">Listing Type</label>
+              {{ form.listing_type }}
+            </div>
+            <div class="col-md-3">
+              <label class="form-label fw-semibold">Property Type</label>
+              {{ form.property_type }}
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Address</label>
+              {{ form.address }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">City</label>
+              {{ form.city }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">State</label>
+              {{ form.state }}
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Bedrooms</label>
+              {{ form.bedrooms }}
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Bathrooms</label>
+              {{ form.bathrooms }}
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Area (sqft)</label>
+              {{ form.area }}
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Amenities</label>
+              {{ form.amenities }}
+              <small class="text-muted">Comma separated, e.g. Parking, Gym, Pool</small>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Cover Image</label>
+              {{ form.cover_image }}
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Gallery Images</label>
+              <input type="file" name="extra_images" class="form-control" multiple>
+            </div>
+          </div>
+          <div class="mt-4 d-flex gap-2">
+            <button class="btn btn-primary">{{ mode }} Property</button>
+            <a href="{% url 'properties:my_properties' %}" class="btn btn-light">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

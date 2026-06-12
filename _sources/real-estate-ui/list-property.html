@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List a Property - RealEstate Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #f5f7fa;">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #ffffff; border-bottom: 1px solid #e8ecf1;">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="index.html" style="color: #0066cc; font-size: 1.5rem;">
+                <i class="fas fa-home"></i> RealEstate Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="properties.html">Browse Properties</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard-seller.html">Dashboard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm" style="border: none; border-radius: 12px;">
+                    <div class="card-body p-5">
+                        <h2 class="fw-bold mb-2">List Your Property</h2>
+                        <p class="text-muted mb-4">Fill in the details below to get your property listed on RealEstate Pro</p>
+
+                        <form>
+                            <!-- Basic Information -->
+                            <h5 class="fw-bold mt-4 mb-3">Basic Information</h5>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Property Title</label>
+                                    <input type="text" class="form-control" placeholder="e.g., Modern Downtown Villa" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Property Type</label>
+                                    <select class="form-select" style="border: 1px solid #d0d5dd;">
+                                        <option>Select type...</option>
+                                        <option>House</option>
+                                        <option>Apartment</option>
+                                        <option>Commercial</option>
+                                        <option>Land</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">List Type</label>
+                                    <select class="form-select" style="border: 1px solid #d0d5dd;">
+                                        <option>For Sale</option>
+                                        <option>For Rent</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Price</label>
+                                    <input type="number" class="form-control" placeholder="$" style="border: 1px solid #d0d5dd;">
+                                </div>
+                            </div>
+
+                            <!-- Location -->
+                            <h5 class="fw-bold mt-4 mb-3">Location</h5>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Street Address</label>
+                                    <input type="text" class="form-control" placeholder="Street address" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">City</label>
+                                    <input type="text" class="form-control" placeholder="City" style="border: 1px solid #d0d5dd;">
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">State/Province</label>
+                                    <input type="text" class="form-control" placeholder="State" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Zip Code</label>
+                                    <input type="text" class="form-control" placeholder="Zip code" style="border: 1px solid #d0d5dd;">
+                                </div>
+                            </div>
+
+                            <!-- Property Details -->
+                            <h5 class="fw-bold mt-4 mb-3">Property Details</h5>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-3">
+                                    <label class="form-label fw-500">Bedrooms</label>
+                                    <input type="number" class="form-control" placeholder="5" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-500">Bathrooms</label>
+                                    <input type="number" class="form-control" placeholder="3" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-500">Square Feet</label>
+                                    <input type="number" class="form-control" placeholder="2500" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-500">Year Built</label>
+                                    <input type="number" class="form-control" placeholder="2024" style="border: 1px solid #d0d5dd;">
+                                </div>
+                            </div>
+
+                            <!-- Amenities -->
+                            <h5 class="fw-bold mt-4 mb-3">Amenities</h5>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="gym">
+                                        <label class="form-check-label" for="gym">Gym/Fitness Center</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="pool">
+                                        <label class="form-check-label" for="pool">Swimming Pool</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="parking">
+                                        <label class="form-check-label" for="parking">Parking</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="security">
+                                        <label class="form-check-label" for="security">Security Gate</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="kitchen">
+                                        <label class="form-check-label" for="kitchen">Modern Kitchen</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="ac">
+                                        <label class="form-check-label" for="ac">Air Conditioning</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <h5 class="fw-bold mt-4 mb-3">Description</h5>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-500">Property Description</label>
+                                <textarea class="form-control" rows="5" placeholder="Describe your property..." style="border: 1px solid #d0d5dd;"></textarea>
+                                <small class="text-muted">Minimum 50 characters</small>
+                            </div>
+
+                            <!-- Images -->
+                            <h5 class="fw-bold mt-4 mb-3">Property Images</h5>
+
+                            <div class="mb-4">
+                                <div class="border-2 border-dashed p-5 text-center" style="border-color: #d0d5dd; border-radius: 8px;">
+                                    <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #0066cc; margin-bottom: 1rem;"></i>
+                                    <p class="fw-500 mb-1">Drag and drop images here or click to select</p>
+                                    <small class="text-muted">Maximum 10 images. Supported formats: JPG, PNG, GIF</small>
+                                    <input type="file" class="form-control" multiple accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <h5 class="fw-bold mt-4 mb-3">Contact Information</h5>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Full Name</label>
+                                    <input type="text" class="form-control" value="Sarah Johnson" style="border: 1px solid #d0d5dd;">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-500">Phone Number</label>
+                                    <input type="tel" class="form-control" placeholder="(555) 123-4567" style="border: 1px solid #d0d5dd;">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-500">Email Address</label>
+                                <input type="email" class="form-control" value="sarah@example.com" style="border: 1px solid #d0d5dd;">
+                            </div>
+
+                            <!-- Submission -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="agree">
+                                <label class="form-check-label" for="agree">
+                                    I agree to the <a href="#" style="color: #0066cc;">Terms of Service</a> and <a href="#" style="color: #0066cc;">Listing Guidelines</a>
+                                </label>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg" style="background-color: #0066cc; border: none;">List Property</button>
+                                <a href="dashboard-seller.html" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">RealEstate Pro</h6>
+                    <p class="small text-muted">Your trusted platform for buying, selling, and renting properties.</p>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Browse Properties</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-muted text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 class="fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-secondary">
+            <p class="text-center text-muted small mb-0">&copy; 2024 RealEstate Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% load static %}
+<div class="col-md-6 col-lg-4">
+  <div class="card property-card h-100 position-relative">
+    <div class="position-relative">
+      {% if prop.cover_image %}
+        <img src="{{ prop.cover_image.url }}" class="property-img" alt="{{ prop.title }}">
+      {% else %}
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600" class="property-img" alt="property">
+      {% endif %}
+      <span class="badge-type">{{ prop.get_listing_type_display }}</span>
+      {% if user.is_authenticated and user.role == 'buyer' %}
+        <form method="post" action="{% url 'properties:toggle_favorite' prop.pk %}" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="fav-btn {% if prop.id in favorite_ids %}active{% endif %}">
+            <i class="bi {% if prop.id in favorite_ids %}bi-heart-fill{% else %}bi-heart{% endif %}"></i>
+          </button>
+        </form>
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <div class="price">${{ prop.price|floatformat:0 }}</div>
+      <h5 class="fw-bold mt-2 mb-1">{{ prop.title }}</h5>
+      <p class="meta mb-2"><i class="bi bi-geo-alt"></i> {{ prop.city }}, {{ prop.address|truncatechars:30 }}</p>
+      <div class="d-flex justify-content-between text-muted small border-top pt-3">
+        <span><i class="bi bi-door-closed"></i> {{ prop.bedrooms }} Bed</span>
+        <span><i class="bi bi-droplet"></i> {{ prop.bathrooms }} Bath</span>
+        <span><i class="bi bi-rulers"></i> {{ prop.area }} sqft</span>
+      </div>
+      <a href="{% url 'properties:detail' prop.pk %}" class="btn btn-primary w-100 mt-3">View Details</a>
+    </div>
+  </div>
+</div>
