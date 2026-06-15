@@ -19,22 +19,167 @@ html { scroll-behavior: smooth; }
 body {
   min-height: 100vh;
   margin: 0;
-  color: var(--pv-ink);
+  color: #334155; /* Neutral readable color */
   background:
     radial-gradient(circle at 12% 2%, rgba(37, 99, 235, .09), transparent 26rem),
     radial-gradient(circle at 92% 10%, rgba(200, 164, 93, .12), transparent 22rem),
     linear-gradient(180deg, #fff 0%, #f8fafc 45%, #fff 100%);
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", "Manrope", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
   letter-spacing: 0;
 }
 
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 .site-main { overflow-x: clip; }
-.pv-serif, h1, h2.display-heading { font-family: "Playfair Display", Georgia, serif; letter-spacing: -.03em; }
-.pv-muted, .text-secondary { color: var(--pv-muted) !important; }
-.pv-section { padding: 6.5rem 0; }
-.pv-section-sm { padding: 4.5rem 0; }
+
+/* ============================================================
+   Typography Hierarchy & Color Scale
+   ============================================================ */
+
+/* Primary Headings: Brand primary with weight 800 */
+h1, .h1, .display-1, .display-2, .display-3, .display-4, .display-5, .pv-serif {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 60px !important;
+  font-weight: 800 !important;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--pv-primary);
+}
+
+h2, .h2, .display-6 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 42px !important;
+  font-weight: 800 !important;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--pv-primary);
+}
+
+/* Secondary Headings: Softer neutral-800 color with weight 700 */
+h3, .h3 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: #1e293b;
+}
+
+h4, .h4 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: #1e293b;
+}
+
+/* Helper typography scale utilities */
+.body-large, .fs-5 {
+  font-size: 18px !important;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #334155;
+}
+
+p, .body-normal, .fs-6 {
+  font-size: 16px !important;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #334155;
+}
+
+.small, small, .small-text, .fs-7 {
+  font-size: 14px !important;
+  font-weight: 500;
+  line-height: 1.45;
+  color: #475569;
+}
+
+.caption, .caption-text, .pv-muted, .text-secondary {
+  font-size: 13px !important;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--pv-muted) !important;
+}
+
+/* Card, Form and Table consistent overrides */
+.property-title, .pv-card strong, .pm-command-search strong, .pm-panel-head strong {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  color: #1e293b !important;
+}
+
+.property-price {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-weight: 800 !important;
+  font-size: 24px !important;
+  color: var(--pv-accent) !important;
+}
+
+label, .form-label {
+  font-family: "Inter", "Manrope", system-ui, sans-serif;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #334155 !important;
+}
+
+.form-control, .form-select {
+  font-family: "Inter", "Manrope", system-ui, sans-serif;
+  font-size: 15px !important;
+  font-weight: 400 !important;
+  color: #1e293b !important;
+}
+
+.form-control::placeholder {
+  color: #94a3b8 !important;
+  font-size: 14px !important;
+}
+
+table, .table {
+  font-family: "Inter", "Manrope", system-ui, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  font-family: "Manrope", "Inter", system-ui, sans-serif;
+  font-size: 12px !important;
+  font-weight: 800 !important; /* Header emphasis */
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1e293b !important;
+  background-color: #f8fafc !important;
+  padding: 14px 16px !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+tbody td {
+  font-size: 14px !important;
+  color: #334155 !important;
+  padding: 14px 16px !important; /* Row readability and padding */
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: rgba(37, 99, 235, 0.02) !important; /* Hover row readability */
+}
+
+/* Numeric & alignment formatting helpers for reports columns */
+.text-numeric, [data-numeric] {
+  font-variant-numeric: tabular-nums;
+  font-family: "Inter", monospace;
+  font-weight: 600;
+}
+
 .fw-black { font-weight: 900; }
 .pv-eyebrow {
   display: inline-flex;
@@ -127,11 +272,11 @@ a { color: inherit; text-decoration: none; }
   color: #475569;
   padding: .7rem .95rem;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 600; /* Menu readability and font weight consistency */
   font-size: .92rem;
   transition: background .2s ease, color .2s ease;
 }
-.pv-nav-links a:hover { color: var(--pv-primary); background: #eff6ff; }
+.pv-nav-links a.active, .pv-nav-links a:hover { color: var(--pv-primary); background: #eff6ff; font-weight: 700; }
 .pv-nav-actions { display: flex; align-items: center; justify-content: flex-end; gap: .55rem; }
 .pv-icon-action {
   width: 42px; height: 42px; display: grid; place-items: center;
@@ -363,18 +508,21 @@ a { color: inherit; text-decoration: none; }
   height: calc(100vh - 92px);
 }
 .dashboard-main { padding: 2.4rem; min-width: 0; }
-.dash-nav-label { color: var(--pv-muted); font-size: .78rem; text-transform: uppercase; font-weight: 900; letter-spacing: .12em; margin: 1.4rem 0 .7rem; }
+.dash-nav-label { color: var(--pv-muted); font-size: .78rem; text-transform: uppercase; font-weight: 700; letter-spacing: .12em; margin: 1.4rem 0 .7rem; }
 .dash-link {
   display: flex;
   align-items: center;
   gap: .8rem;
   padding: .82rem .9rem;
   border-radius: 16px;
-  color: #334155;
-  font-weight: 800;
+  color: #475569;
+  font-weight: 600; /* Sidebar labels and link readability */
   margin-bottom: .35rem;
+  font-size: .92rem;
+  transition: all 0.2s ease;
 }
-.dash-link.active, .dash-link:hover { background: #eff6ff; color: var(--pv-primary); }
+.dash-link.active { background: rgba(37, 99, 235, 0.08); color: var(--pv-primary); font-weight: 700; border-left: 3px solid var(--pv-accent); border-radius: 0 16px 16px 0; }
+.dash-link:hover { background: #eff6ff; color: var(--pv-primary); }
 .dashboard-hero {
   padding: 2rem;
   background:
@@ -2318,4 +2466,367 @@ aside.detail-sidebar {
   .timeline-step > .rounded-circle {
     margin: 0 !important;
   }
+}
+
+/* ============================================================
+   AI Match & Card Readability Upgrades
+   ============================================================ */
+.ai-reasons-box {
+  background: rgba(248, 250, 252, 0.8) !important;
+  border-left: 4px solid var(--pv-accent) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  font-family: "Inter", system-ui, sans-serif;
+}
+.ai-reasons-box .fw-bold {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+}
+.ai-reasons-box ul li {
+  font-weight: 500;
+  color: #475569 !important;
+}
+.property-badge-container .property-badge.bg-primary {
+  font-family: "Manrope", system-ui, sans-serif;
+  font-weight: 800 !important;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, var(--pv-primary), var(--pv-accent)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================================
+   AI Match Grid & Spacing Upgrades
+   ============================================================ */
+
+/* Wide results 3-column, 2-column, 1-column responsive grid layout */
+.ai-match-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .ai-match-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .ai-match-grid {
+    grid-template-columns: repeat(3, minmax(380px, 1fr));
+    gap: 32px;
+  }
+}
+
+/* Breathing room overrides for property cards inside AI match */
+.ai-match-grid .property-card-premium {
+  margin-bottom: 2rem !important; /* vertical spacing */
+  border-radius: 24px;
+}
+
+.ai-match-grid .property-card-body {
+  padding: 1.75rem !important; /* internal padding */
+}
+
+/* Checklist reason boxes updates */
+.ai-match-grid .ai-reasons-box {
+  margin-top: 1.75rem !important; /* reason section spacing */
+  padding: 1.25rem 1.5rem !important;
+  border-radius: 16px;
+}
+
+.ai-match-grid .ai-reasons-box ul li {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  font-size: 0.88rem !important;
+  line-height: 1.55;
+  margin-bottom: 0.75rem !important;
+}
+
+.ai-match-grid .ai-reasons-box ul li i {
+  font-size: 1.15rem !important;
+  margin-top: 1px;
+}
+
+/* Badge size and alignment upgrades to prevent crowding */
+.property-badge-container {
+  gap: 6px !important;
+}
+
+.property-badge-container .property-badge {
+  font-size: 0.76rem !important;
+  padding: 0.45rem 0.8rem !important;
+  border-radius: 8px !important;
+}
+
+/* ==========================================================================
+   UI REFINEMENT PASS OVERRIDES (NO BACKEND CHANGES)
+   ========================================================================== */
+
+/* 1. TYPOGRAPHY AUDIT & SITE-WIDE RHYTHM */
+h1, .h1, .display-1, .display-2, .display-3, .display-4, .display-5 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(56px, 5.5vw, 64px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.025em !important;
+}
+
+h2, .h2, .display-6 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(40px, 4vw, 48px) !important;
+  line-height: 1.20 !important;
+  letter-spacing: -0.02em !important;
+}
+
+h3, .h3 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(28px, 3vw, 32px) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.015em !important;
+}
+
+body, p, .body-normal, .fs-6 {
+  font-family: "Inter", system-ui, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.body-large, .fs-5, p.pv-hero-copy {
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+}
+
+/* 2. HOMEPAGE HERO VISUAL CENTERING & PREMIUM AESTHETIC */
+.pv-hero, .pm-hero {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 92vh !important;
+  padding: 0 !important; /* Perfect flex centering */
+  position: relative !important;
+}
+
+/* Darker Overlay on Background Video (40-55%) */
+.pv-hero::before, .pm-hero::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(11, 21, 44, 0.48) !important; /* Elegant 48% Navy/Slate Dark Overlay */
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+.pv-hero-canvas {
+  z-index: 0 !important;
+}
+
+.pv-hero-content, .pm-hero-content {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  max-width: 960px !important;
+  margin-inline: auto !important;
+  text-align: center !important;
+  padding-top: 2rem !important; /* Reduced top spacing */
+  padding-bottom: 2rem !important;
+}
+
+/* Heading Gradient: Deep Navy #0b215b -> Accent #5b6cff */
+.pv-hero h1, .pm-hero-copy h1 {
+  font-family: "Manrope", "Inter", system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(56px, 5.5vw, 64px) !important; /* Section 3 H1 sizing */
+  line-height: 1.12 !important;
+  letter-spacing: -0.025em !important;
+  background: linear-gradient(135deg, #0b215b 0%, #5b6cff 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+  filter: drop-shadow(0px 2px 16px rgba(255, 255, 255, 0.95)) !important; /* Pops text on dark overlay */
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.pv-hero-copy {
+  color: rgba(255, 255, 255, 0.92) !important; /* High contrast readable text */
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  margin-bottom: 1rem !important;
+}
+
+.pv-eyebrow {
+  color: #5b6cff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.4rem 0.9rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Glassmorphism Feature Chips with Stronger Contrast */
+.pv-hero-chip {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.6rem 1.25rem !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 50px !important;
+  color: #0b215b !important; /* Deep Navy for strong readability */
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  box-shadow: 0 8px 20px rgba(11, 33, 91, 0.15) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.pv-hero-chip:hover {
+  transform: translateY(-2px) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
+  box-shadow: 0 12px 28px rgba(11, 33, 91, 0.22) !important;
+}
+
+.pv-hero-chip i {
+  font-size: 1.05rem !important;
+  color: #5b6cff !important; /* Accent color for icons */
+}
+
+/* Search Panel Closer to Content */
+.pm-command-search {
+  margin-top: 1rem !important; /* Brought closer */
+  margin-bottom: 1.25rem !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.9) !important;
+  box-shadow: 0 24px 72px rgba(11, 33, 91, 0.2) !important;
+}
+
+/* Popular filter chips styling under search */
+.pm-filter-chips .chip {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.pm-filter-chips .chip:hover {
+  background: rgba(255, 255, 255, 0.28) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  color: #ffffff !important;
+}
+
+/* 3. PROPERTIES PAGE LISTING GRID (3 COLUMNS) & CARDS */
+.property-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important; /* Desktop: 3 cards per row */
+  gap: 2.2rem !important; /* Enhanced spacing rhythm */
+}
+
+@media (max-width: 991.98px) {
+  .property-grid {
+    grid-template-columns: repeat(2, 1fr) !important; /* Tablet: 2 cards per row */
+    gap: 1.8rem !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .property-grid {
+    grid-template-columns: repeat(1, 1fr) !important; /* Mobile: 1 card per row */
+    gap: 1.5rem !important;
+  }
+}
+
+/* Premium Card Refinements (Airbnb Luxe / Sotheby's style) */
+.property-card-premium {
+  background: #ffffff !important;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 8px 30px rgba(11, 33, 91, 0.03) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.property-card-premium:hover {
+  transform: translateY(-6px) !important;
+  border-color: rgba(91, 108, 255, 0.3) !important;
+  box-shadow: 0 20px 48px rgba(11, 33, 91, 0.08) !important;
+}
+
+.property-card-premium .property-media {
+  height: 280px !important; /* Increased image height for premium look */
+  border-radius: 19px 19px 0 0 !important;
+}
+
+@media (max-width: 575.98px) {
+  .property-card-premium .property-media {
+    height: 240px !important;
+  }
+}
+
+.property-card-premium .property-card-body {
+  padding: 1.75rem !important; /* Increased content padding */
+}
+
+.property-card-premium .property-price {
+  font-size: 1.5rem !important;
+  color: #5b6cff !important; /* Accent color for price */
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+}
+
+.property-card-premium .property-title {
+  font-family: "Manrope", "Inter", sans-serif !important;
+  font-size: 1.25rem !important; /* Luxury font sizing */
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  color: #0b215b !important; /* Deep Navy title */
+  margin: 0.6rem 0 !important;
+}
+
+.property-card-premium .property-location {
+  font-size: 0.92rem !important;
+  color: #64748b !important;
+  margin-bottom: 0.8rem !important;
+}
+
+.property-card-premium .property-facts {
+  border-top: 1px solid rgba(148, 163, 184, 0.15) !important;
+  padding-top: 0.85rem !important;
+  margin-top: auto !important;
+}
+
+/* 4. DETAIL PAGE SECTION HEADERS & ICONS POLISH */
+.detail-showcase h2.pv-serif {
+  display: block !important;
+  font-weight: 800 !important;
+}
+
+.detail-showcase h2.pv-serif > i.bi {
+  font-size: 35px !important; /* Reduced by ~30% to 40% (within 32-40px max range) */
+  opacity: 0.9 !important; /* Opacity 0.9 */
+  margin-right: 0.6rem !important;
+  display: inline-block !important;
+  vertical-align: -0.12em !important;
+  line-height: 1 !important;
+}
+
+/* AI Property Insights Icon Badge Reduction */
+#ai-insights-section .d-flex.align-items-center.gap-3.mb-4 .rounded-circle {
+  width: 35px !important; /* Reduced to fit 32-40px max range */
+  height: 35px !important;
+  opacity: 0.9 !important; /* Opacity 0.9 */
+  flex-shrink: 0 !important;
+}
+
+#ai-insights-section .d-flex.align-items-center.gap-3.mb-4 .rounded-circle i {
+  font-size: 1rem !important; /* Scale down the inner icon accordingly */
 }

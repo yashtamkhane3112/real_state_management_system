@@ -13,7 +13,7 @@ def gemini_or_fallback(feature: str, payload: dict) -> str:
         import google.generativeai as genai
 
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         result = model.generate_content(f"You are a real estate marketing assistant. Feature: {feature}. Input: {prompt}")
         return result.text or fallback
     except Exception:

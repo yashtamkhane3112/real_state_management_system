@@ -382,6 +382,21 @@
               {% if property.cover_image %}data-image="{{ property.cover_image.url }}"{% endif %}
             ></div>
           </div>
+
+          <!-- Location CTA -->
+          <div class="pv-card p-4 mt-4 text-center" id="location-cta" style="background: linear-gradient(135deg, rgba(11,33,91,0.04), rgba(37,99,235,0.06)); border: 1px solid rgba(37,99,235,0.15); border-radius: 16px;">
+            <i class="bi bi-geo-alt-fill text-primary fs-3 mb-2 d-block"></i>
+            <h4 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">Interested in this location?</h4>
+            <p class="pv-muted small mb-3">Connect with the seller or schedule a visit to see this property firsthand.</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+              <button type="button" class="pv-btn pv-btn-primary" onclick="scrollToInquiry()" id="btn-schedule-visit">
+                <i class="bi bi-calendar-check"></i> Schedule Visit
+              </button>
+              <button type="button" class="pv-btn pv-btn-ghost" onclick="scrollToInquiry()" id="btn-send-inquiry">
+                <i class="bi bi-envelope"></i> Send Inquiry
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Similar Opportunities Section -->
@@ -420,6 +435,114 @@
           </div>
         </div>
 
+        <!-- AI Property Insights (Phase 7) -->
+        {% if user.is_authenticated %}
+        <div class="pv-card grid-left-ai-insights p-4 p-lg-5 mt-4 reveal" id="ai-insights-section">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; flex-shrink: 0;">
+              <i class="bi bi-stars fs-5"></i>
+            </div>
+            <div>
+              <h2 class="pv-serif h2 mb-0">AI Property Insights</h2>
+              <span class="small pv-muted d-block mt-1">AI-generated insights based on property characteristics, market signals, and available listing data.</span>
+            </div>
+          </div>
+
+          <!-- AI Insights Loading Skeleton (Phase 1) -->
+          <div id="ai-insights-loading" class="py-4">
+            <div class="placeholder-glow">
+              <div class="row g-3 mb-4">
+                <div class="col-sm-6"><div class="placeholder rounded-4 w-100" style="height: 80px; background-color: #e2e8f0;"></div></div>
+                <div class="col-sm-6"><div class="placeholder rounded-4 w-100" style="height: 80px; background-color: #e2e8f0;"></div></div>
+              </div>
+              <div class="placeholder rounded-2 w-75 mb-3" style="height: 24px; background-color: #e2e8f0;"></div>
+              <div class="placeholder rounded-2 w-100 mb-2" style="height: 18px; background-color: #e2e8f0;"></div>
+              <div class="placeholder rounded-2 w-100 mb-2" style="height: 18px; background-color: #e2e8f0;"></div>
+              <div class="placeholder rounded-2 w-50 mb-4" style="height: 18px; background-color: #e2e8f0;"></div>
+              <div class="row g-4 mb-4">
+                <div class="col-md-6"><div class="placeholder rounded-4 w-100" style="height: 120px; background-color: #e2e8f0;"></div></div>
+                <div class="col-md-6"><div class="placeholder rounded-4 w-100" style="height: 120px; background-color: #e2e8f0;"></div></div>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <span class="pv-muted small"><i class="bi bi-stars animate-pulse"></i> Computing property intelligence assessment…</span>
+            </div>
+          </div>
+
+          <div id="ai-insights-content" style="display: none;">
+            <!-- Score & Market Position Badge Header Row -->
+            <div class="row g-3 mb-4">
+              <div class="col-sm-6">
+                <div class="p-3 bg-primary-subtle rounded-4 text-center">
+                  <span class="d-block small text-primary fw-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Investment Score</span>
+                  <div class="d-flex align-items-baseline justify-content-center gap-1">
+                    <span id="ai-score" class="fw-black text-primary display-6">—</span>
+                    <span class="text-secondary small">/10</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="p-3 bg-info-subtle rounded-4 text-center">
+                  <span class="d-block small text-info-emphasis fw-bold text-uppercase mb-1" style="letter-spacing: 0.05em;">Market Position</span>
+                  <div class="d-flex align-items-baseline justify-content-center mt-2">
+                    <span id="ai-market-position" class="badge bg-info text-info-emphasis px-3 py-2 fs-6 rounded-pill">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Strengths Section -->
+            <div class="mb-4">
+              <h4 class="h5 fw-bold text-success border-bottom pb-2 mb-3"><i class="bi bi-check-circle-fill me-2"></i>Key Strengths</h4>
+              <ul id="ai-strengths" class="list-unstyled vstack gap-2 ps-2" style="font-size: 0.9rem;"></ul>
+            </div>
+
+            <!-- Market Outlook & Buyer Suitability Grid -->
+            <div class="row g-4 mb-4">
+              <!-- Market Outlook -->
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 border h-100">
+                  <h4 class="h6 fw-bold text-dark mb-3"><i class="bi bi-graph-up-arrow me-2 text-primary"></i>Market Outlook</h4>
+                  <div class="mb-2">
+                    <span class="d-block small text-muted">Short Term:</span>
+                    <span id="ai-outlook-short" class="fw-semibold text-dark small">—</span>
+                  </div>
+                  <div>
+                    <span class="d-block small text-muted">Long Term:</span>
+                    <span id="ai-outlook-long" class="fw-semibold text-dark small">—</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Buyer Suitability -->
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded-4 border h-100">
+                  <h4 class="h6 fw-bold text-dark mb-3"><i class="bi bi-people-fill me-2 text-primary"></i>Buyer Suitability</h4>
+                  <div class="mb-2">
+                    <span class="d-block small text-success fw-bold mb-1">Best For:</span>
+                    <ul id="ai-suitability-best" class="list-unstyled mb-0 ps-1" style="font-size: 0.85rem;"></ul>
+                  </div>
+                  <div>
+                    <span class="d-block small text-danger fw-bold mb-1">Less Suitable For:</span>
+                    <ul id="ai-suitability-less" class="list-unstyled mb-0 ps-1" style="font-size: 0.85rem;"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Considerations Section -->
+            <div>
+              <h4 class="h5 fw-bold text-warning border-bottom pb-2 mb-3"><i class="bi bi-exclamation-triangle-fill me-2"></i>Considerations</h4>
+              <ul id="ai-considerations" class="list-unstyled vstack gap-2 ps-2" style="font-size: 0.9rem;"></ul>
+            </div>
+            <p id="ai-fallback-note" class="pv-muted small mt-3" style="display: none;"><i class="bi bi-info-circle me-1"></i>Insights are based on available property data.</p>
+          </div>
+          <div id="ai-insights-error" style="display: none;" class="pv-muted text-center py-3 small">
+            <i class="bi bi-exclamation-triangle me-1"></i> Unable to generate insights. Please try again.
+          </div>
+        </div>
+        {% endif %}
+
       </div>
 
       <!-- Right Column (Sidebar widgets) -->
@@ -447,7 +570,7 @@
             </div>
 
             <!-- Inquiry Form Card -->
-            <div class="pv-card grid-sidebar-inquiry p-4 shadow-sm" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white;">
+            <div class="pv-card grid-sidebar-inquiry p-4 shadow-sm" id="inquiry-form-card" style="border-radius: 20px; border: 1px solid var(--pv-line); background: white;">
               <h3 class="h5 fw-bold text-dark mb-3"><i class="bi bi-envelope-open text-primary"></i> Interested in this property?</h3>
               
               {% if property.status == 'sold' or property.status == 'closed' %}
@@ -474,6 +597,12 @@
                     <textarea class="form-control" name="message" id="id_message" style="height: 90px" placeholder="Enter your message" required>I am interested in this property and would like to schedule a virtual tour or site visit.</textarea>
                   </div>
                   <button class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
+                  <!-- Phase 8: AI Inquiry Draft Button -->
+                  {% if user.is_authenticated %}
+                  <button type="button" class="pv-btn pv-btn-ghost w-100" id="ai-draft-btn" onclick="generateDraft()" style="font-size: 0.85rem;">
+                    <i class="bi bi-stars text-primary"></i> Generate Professional Inquiry
+                  </button>
+                  {% endif %}
                 </form>
               {% else %}
                 <div class="text-center py-2">
@@ -613,4 +742,133 @@ function copyFallback() {
     });
 }
 </script>
+<script>
+function scrollToInquiry() {
+  const card = document.getElementById('inquiry-form-card');
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Highlight the card
+  card.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+  card.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.35), 0 14px 40px rgba(37, 99, 235, 0.20)';
+  card.style.borderColor = 'rgba(37, 99, 235, 0.5)';
+  // Focus first input if available
+  setTimeout(() => {
+    const firstInput = card.querySelector('input, textarea');
+    if (firstInput) firstInput.focus();
+    // Remove highlight after 2s
+    setTimeout(() => {
+      card.style.boxShadow = '';
+      card.style.borderColor = '';
+    }, 2000);
+  }, 600);
+}
+</script>
+<script>
+// Phase 7: AI Property Insights
+async function loadInsights() {
+  const btn = document.getElementById('ai-insights-btn');
+  const loading = document.getElementById('ai-insights-loading');
+  const content = document.getElementById('ai-insights-content');
+  const error = document.getElementById('ai-insights-error');
+
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Analysing…'; }
+  loading && (loading.style.display = 'block');
+  content && (content.style.display = 'none');
+  error && (error.style.display = 'none');
+
+  try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const res = await fetch('{% url "properties:ai_insights" property.slug %}', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    });
+    const data = await res.json();
+    
+    // Render score & position
+    const scoreEl = document.getElementById('ai-score');
+    if (scoreEl) scoreEl.textContent = data.score ? data.score : 'N/A';
+    
+    const posEl = document.getElementById('ai-market-position');
+    if (posEl) posEl.textContent = data.market_position ? data.market_position : 'Stable';
+    
+    // Render strengths
+    const strengthsList = document.getElementById('ai-strengths');
+    if (strengthsList && data.strengths) {
+      strengthsList.innerHTML = data.strengths.map(s => `<li class="d-flex gap-2 align-items-start mb-2"><i class="bi bi-check-lg text-success flex-shrink-0 mt-0.5 fs-5"></i><span>${s}</span></li>`).join('');
+    }
+    
+    // Render outlooks
+    const outShortEl = document.getElementById('ai-outlook-short');
+    if (outShortEl) outShortEl.textContent = data.outlook_short ? data.outlook_short : 'Moderate appreciation potential';
+    
+    const outLongEl = document.getElementById('ai-outlook-long');
+    if (outLongEl) outLongEl.textContent = data.outlook_long ? data.outlook_long : 'Strong appreciation potential';
+
+    // Render suitability
+    const suitBestList = document.getElementById('ai-suitability-best');
+    if (suitBestList && data.suitability_best) {
+      suitBestList.innerHTML = data.suitability_best.map(item => `<li class="d-flex gap-1 align-items-center mb-1 text-success"><i class="bi bi-check-lg flex-shrink-0"></i><span>${item}</span></li>`).join('');
+    }
+    
+    const suitLessList = document.getElementById('ai-suitability-less');
+    if (suitLessList && data.suitability_less) {
+      suitLessList.innerHTML = data.suitability_less.map(item => `<li class="d-flex gap-1 align-items-center mb-1 text-danger"><i class="bi bi-x-lg flex-shrink-0"></i><span>${item}</span></li>`).join('');
+    }
+
+    // Render considerations
+    const consList = document.getElementById('ai-considerations');
+    if (consList && data.considerations) {
+      consList.innerHTML = data.considerations.map(c => `<li class="d-flex gap-2 align-items-start mb-2"><i class="bi bi-exclamation-triangle-fill text-warning flex-shrink-0 mt-0.5"></i><span>${c}</span></li>`).join('');
+    }
+    
+    // Show fallback note if applicable
+    const fallbackNote = document.getElementById('ai-fallback-note');
+    if (fallbackNote && data.fallback) fallbackNote.style.display = 'block';
+    loading && (loading.style.display = 'none');
+    content && (content.style.display = 'block');
+  } catch(e) {
+    loading && (loading.style.display = 'none');
+    error && (error.style.display = 'block');
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="bi bi-stars text-primary"></i> Regenerate'; }
+  }
+}
+
+// Phase 8: AI Inquiry Draft
+async function generateDraft() {
+  const btn = document.getElementById('ai-draft-btn');
+  const msgField = document.getElementById('id_message');
+  if (!msgField) return;
+
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Drafting…'; }
+
+  try {
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+    const res = await fetch('{% url "properties:ai_draft_inquiry" property.slug %}', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': csrfToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    });
+    const data = await res.json();
+    if (data.draft) {
+      msgField.value = data.draft;
+      // Brief highlight to show it was updated
+      msgField.style.transition = 'border-color 0.3s ease';
+      msgField.style.borderColor = 'rgba(37,99,235,0.6)';
+      msgField.style.boxShadow = '0 0 0 2px rgba(37,99,235,0.15)';
+      msgField.focus();
+      setTimeout(() => {
+        msgField.style.borderColor = '';
+        msgField.style.boxShadow = '';
+      }, 2000);
+    }
+  } catch(e) {
+    // Silent fail — user still has original message
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="bi bi-stars text-primary"></i> Generate Professional Inquiry'; }
+  }
+}
+</script>
 {% endblock %}
+

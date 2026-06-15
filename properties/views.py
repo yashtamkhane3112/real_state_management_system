@@ -478,3 +478,498 @@ def submit_for_approval(request, slug):
     messages.success(request, f"Property '{prop.title}' has been submitted for approval.")
     return redirect("properties:detail", slug=prop.slug)
 
+
+# ---------------------------------------------------------------------------
+# Phase 6 — AI Property Match
+# ---------------------------------------------------------------------------
+def parse_budget(budget_str):
+    """Parse budget input string (e.g. 2 Cr, 80L) to raw integer value in INR."""
+    if not budget_str:
+        return None
+    cleaned = budget_str.lower().replace(" ", "").replace(",", "").replace("₹", "")
+    if "cr" in cleaned:
+        try:
+            val = float(cleaned.split("cr")[0])
+            return int(val * 10000000)
+        except ValueError:
+            pass
+    if "l" in cleaned:
+        try:
+            val = float(cleaned.split("l")[0])
+            return int(val * 100000)
+        except ValueError:
+            pass
+    if "k" in cleaned:
+        try:
+            val = float(cleaned.split("k")[0])
+            return int(val * 1000)
+        except ValueError:
+            pass
+    try:
+        val = float(cleaned)
+        if val < 50:
+            return int(val * 10000000)
+        elif val < 500:
+            return int(val * 100000)
+        return int(val)
+    except ValueError:
+        return None
+
+
+@login_required
+def ai_property_match(request):
+    """
+    Accept user search criteria and return AI-matched property recommendations.
+    GET  → render search form
+    POST → run AI match and return results
+    """
+    from django.http import JsonResponse
+    from django.template.loader import render_to_string
+    from propvista.ai_features.services import gemini_or_fallback
+    import json
+    import re
+
+    if request.method == "POST":
+        budget = request.POST.get("budget", "")
+        city = request.POST.get("city", "")
+        bedrooms = request.POST.get("bedrooms", "")
+        purpose = request.POST.get("purpose", "").lower()
+
+        # Step 1: Query the database for active/approved properties
+        qs = Property.objects.public().filter(status=Property.Status.ACTIVE)
+        if city:
+            qs = qs.filter(city__iexact=city)
+        if bedrooms:
+            try:
+                qs = qs.filter(bedrooms__gte=int(bedrooms))
+            except ValueError:
+                pass
+
+        # Step 2: Parse budget input and apply hard filtering (exclude items > 1.1x the budget limit)
+        parsed_budget = parse_budget(budget)
+        if parsed_budget:
+            qs = qs.filter(price__lte=parsed_budget * 1.1)
+
+        # Step 3: Check if zero matching listings exist and return early empty state
+        if not qs.exists():
+            html = render_to_string("properties/partials/ai_match_results.html", {
+                "matches": [],
+                "request": request,
+            }, request=request)
+            return JsonResponse({"html": html, "status": "ok"})
+
+        # Step 4: Run pre-score calculations on eligible DB listings
+        candidates = []
+        for p in qs:
+            score = 0
+            
+            # Budget Match (Max 40 points)
+            if not parsed_budget:
+                score += 40
+            elif p.price <= parsed_budget:
+                score += 40
+            else:
+                score += 20 # Priced slightly above budget (between budget and 1.1x budget)
+
+            # Location Match (Max 25 points)
+            if not city:
+                score += 25
+            elif p.city.lower() == city.lower():
+                score += 25
+
+            # Bedroom Match (Max 20 points)
+            if not bedrooms:
+                score += 20
+            elif p.bedrooms >= int(bedrooms):
+                score += 20
+
+            # Purpose Match (Max 15 points)
+            purpose_points = 0
+            if purpose == "family living":
+                if p.bedrooms >= 3:
+                    purpose_points = 15
+                elif p.bedrooms == 2:
+                    purpose_points = 10
+                else:
+                    purpose_points = 5
+            elif purpose == "investment":
+                if p.is_featured:
+                    purpose_points += 7
+                if p.view_count > 10:
+                    purpose_points += 4
+                if p.favorites.exists():
+                    purpose_points += 4
+            elif purpose == "rental income":
+                if p.property_type == "apartment":
+                    purpose_points += 10
+                else:
+                    purpose_points += 5
+                if p.view_count > 5:
+                    purpose_points += 5
+            elif purpose == "commercial use":
+                if p.property_type in ["commercial", "office"]:
+                    purpose_points = 15
+                else:
+                    purpose_points = 5
+            elif purpose == "vacation home":
+                if p.property_type in ["villa", "house"]:
+                    purpose_points += 10
+                if p.is_featured:
+                    purpose_points += 5
+            else:
+                purpose_points = 10 if p.is_featured else 5
+            
+            score += min(purpose_points, 15)
+            candidates.append({"property": p, "score": score})
+
+        # Step 5: Sort candidates by score descending and limit results strictly to TOP 5
+        candidates.sort(key=lambda x: x["score"], reverse=True)
+        top_matches = candidates[:5]
+
+        # Step 6: Format properties to pass context for Gemini to compile match explanations and reasons
+        props_list_for_ai = []
+        for item in top_matches:
+            p = item["property"]
+            props_list_for_ai.append(
+                f"ID {p.id}: {p.title} in {p.city} - Price: {p.formatted_price}, {p.bedrooms} BHK, {p.area_sqft} sqft, Featured: {p.is_featured}"
+            )
+        props_summary = "; ".join(props_list_for_ai)
+
+        prompt = (
+            f"You are a real estate matching assistant.\n"
+            f"We have pre-selected the top matching properties for a user based on their preferences:\n"
+            f"- Budget: {budget}\n"
+            f"- City: {city or 'Any'}\n"
+            f"- Minimum Bedrooms: {bedrooms or 'Any'}\n"
+            f"- Purpose: {purpose}\n\n"
+            f"Here are the chosen properties:\n"
+            f"{props_summary}\n\n"
+            f"For each property ID, generate exactly up to 3 short matching reasons explaining why it's a good fit based on the user's criteria. "
+            f"Examples of reasons: 'Within budget', 'Family-friendly layout', 'Premium investment corridor', 'High buyer interest'. "
+            f"Format your response as a JSON array of objects, with NO surrounding text, markdown formatting (like ```json), or explanation. "
+            f"Example format:\n"
+            f"[\n"
+            f"  {{\"id\": 12, \"reasons\": [\"Within budget\", \"Near IT hubs\"]}},\n"
+            f"  {{\"id\": 8, \"reasons\": [\"Family-friendly layout\", \"Near schools\"]}}\n"
+            f"]"
+        )
+
+        payload = {"prompt": prompt}
+        result = gemini_or_fallback("property_match", payload)
+
+        # Step 7: Parse Gemini reasoning JSON array
+        reasons_map = {}
+        try:
+            cleaned = result.strip()
+            json_match = re.search(r'\[\s*\{.*\}\s*\]', cleaned, re.DOTALL)
+            parsed_reasons = json.loads(json_match.group()) if json_match else json.loads(cleaned)
+            for item in parsed_reasons:
+                if isinstance(item, dict) and "id" in item:
+                    reasons_map[int(item["id"])] = item.get("reasons", [])
+        except Exception:
+            pass
+
+        # Step 8: Build final structured template matches context
+        matches_data = []
+        for item in top_matches:
+            p = item["property"]
+            # Extract reasons from map or fall back to dynamic programmatic checks
+            reasons = reasons_map.get(p.id, [])
+            if not reasons:
+                reasons = []
+                if parsed_budget and p.price <= parsed_budget:
+                    reasons.append("Within budget")
+                if purpose == "family living" and p.bedrooms >= 3:
+                    reasons.append("Family-friendly layout")
+                if p.is_featured:
+                    reasons.append("Premium featured listing")
+                if not reasons:
+                    reasons.append("Strong buyer interest")
+                    reasons.append("Excellent appreciation potential")
+            
+            matches_data.append({
+                "property": p,
+                "score": item["score"],
+                "reasons": reasons[:3]
+            })
+
+        # Step 9: Render matches section using the partial template
+        html = render_to_string("properties/partials/ai_match_results.html", {
+            "matches": matches_data,
+            "request": request,
+        }, request=request)
+
+        return JsonResponse({"html": html, "status": "ok"})
+
+    return render(request, "properties/ai_match.html", {
+        "cities": Property.objects.public().values_list("city", flat=True).distinct()[:20],
+    })
+
+
+# ---------------------------------------------------------------------------
+# Phase 7 — AI Property Insights (AJAX endpoint)
+# ---------------------------------------------------------------------------
+@require_POST
+@login_required
+def ai_property_insights(request, slug):
+    """Return AI investment insights for a specific property with structured details."""
+    from django.http import JsonResponse
+    from propvista.ai_features.services import gemini_or_fallback
+    import json
+    import re
+
+    prop = get_object_or_404(Property, slug=slug)
+    amenities = ", ".join(a.name for a in prop.amenities.all()) or "None listed"
+
+    # Step 1: Programmatic pre-calculation of real Investment Score (out of 10)
+    base_score = 7.0
+    # Location influence
+    city_lower = prop.city.lower()
+    if "mumbai" in city_lower:
+        base_score += 1.2
+    elif "pune" in city_lower:
+        base_score += 0.8
+    elif "nashik" in city_lower:
+        base_score += 0.5
+    else:
+        base_score += 0.3
+
+    # Price competitiveness influence
+    if prop.price < 10000000: # < 1 Cr
+        base_score += 0.6
+    elif prop.price < 25000000: # < 2.5 Cr
+        base_score += 0.4
+    else:
+        base_score += 0.2
+
+    # Area size influence
+    if prop.area_sqft > 2000:
+        base_score += 0.6
+    elif prop.area_sqft > 1200:
+        base_score += 0.4
+    else:
+        base_score += 0.2
+
+    # Popularity & Engagement influence
+    if prop.view_count > 20:
+        base_score += 0.6
+    elif prop.view_count > 5:
+        base_score += 0.3
+    
+    # Featured bonus
+    if prop.is_featured:
+        base_score += 0.5
+
+    calculated_score = min(round(base_score, 1), 9.8)
+
+    # Determine programmatic market position
+    if calculated_score >= 8.5:
+        calculated_position = "Prime"
+    elif calculated_score >= 7.5:
+        calculated_position = "Strong"
+    else:
+        calculated_position = "Stable"
+
+    # Step 2: Construct prompt to query Gemini for structured JSON details
+    payload = {
+        "prompt": (
+            f"Property: {prop.title}.\n"
+            f"Location: {prop.locality}, {prop.city}.\n"
+            f"Type: {prop.property_type}.\n"
+            f"Price: {prop.formatted_price}.\n"
+            f"Area: {prop.area_sqft} sqft.\n"
+            f"Bedrooms: {prop.bedrooms} BHK.\n"
+            f"Bathrooms: {prop.bathrooms}.\n"
+            f"Furnishing: {prop.furnishing}.\n"
+            f"Amenities: {amenities}.\n"
+            f"Featured: {prop.is_featured}.\n"
+            f"Traffic Views: {prop.view_count}.\n\n"
+            f"You are a premium real estate intelligence advisor. Provide property investment insights strictly tailored to this property's actual location and metrics.\n"
+            f"Use the pre-calculated score: {calculated_score} and pre-calculated market position: '{calculated_position}'.\n"
+            f"Output exactly a JSON object, with no markdown code blocks or surrounding chat response text. Example structure:\n"
+            f"{{\n"
+            f"  \"score\": {calculated_score},\n"
+            f"  \"market_position\": \"{calculated_position}\",\n"
+            f"  \"strengths\": [\n"
+            f"    \"Located in {prop.city} growth corridor\",\n"
+            f"    \"Competitive price per sqft for {prop.locality}\",\n"
+            f"    \"Suitable for family occupancy ({prop.bedrooms} BHK layout)\",\n"
+            f"    \"Complete property information available\"\n"
+            f"  ],\n"
+            f"  \"outlook_short\": \"Moderate appreciation potential due to localized demand\",\n"
+            f"  \"outlook_long\": \"Strong appreciation potential over a 5 to 7 year horizon\",\n"
+            f"  \"suitability_best\": [\"Family Living\", \"Long-Term Investment\"],\n"
+            f"  \"suitability_less\": [\"Rental Yield Focus\", \"Commercial Use\"],\n"
+            f"  \"considerations\": [\n"
+            f"    \"Verify current neighborhood infrastructure projects in {prop.locality}\",\n"
+            f"    \"Compare recent sales in the surrounding area of {prop.city}\",\n"
+            f"    \"Review ownership documentation\"\n"
+            f"  ]\n"
+            f"}}"
+        )
+    }
+
+    result = gemini_or_fallback("property_insights", payload)
+
+    # Step 3: Parse Gemini response JSON or fallback gracefully to programmatic analysis
+    data = {}
+    try:
+        cleaned = result.strip()
+        json_match = re.search(r'\{.*\}', cleaned, re.DOTALL)
+        data = json.loads(json_match.group()) if json_match else json.loads(cleaned)
+        # Ensure all required keys exist
+        required_keys = ("score", "market_position", "strengths", "outlook_short", "outlook_long", "suitability_best", "suitability_less", "considerations")
+        if not all(k in data for k in required_keys):
+            raise ValueError("Incomplete keys in response")
+    except Exception:
+        # Step 4: Robust, complete fallback strategy (no generic references, uses actual database attributes)
+        # Suitability determination
+        if prop.property_type in ["commercial", "office"]:
+            suit_best = ["Commercial Operations", "Corporate Lease Portfolio"]
+            suit_less = ["Residential Occupancy", "Vacation Home Living"]
+        else:
+            suit_best = ["Family Living", "Long-Term Investment"]
+            suit_less = ["Rental Yield Focus", "Commercial Use"]
+
+        # Strengths customization
+        strengths = [
+            f"Located in {prop.city} growth corridor",
+            f"Competitive price of {prop.formatted_price}",
+            f"Suitable for family occupancy ({prop.bedrooms} BHK layout)",
+            f"Complete property information available"
+        ]
+        
+        data = {
+            "score": calculated_score,
+            "market_position": calculated_position,
+            "strengths": strengths,
+            "outlook_short": f"Moderate appreciation potential in {prop.city}",
+            "outlook_long": f"Strong appreciation potential over a 5+ year period",
+            "suitability_best": suit_best,
+            "suitability_less": suit_less,
+            "considerations": [
+                f"Verify current neighborhood infrastructure projects in {prop.locality}",
+                f"Compare recent sales in the surrounding area of {prop.city}",
+                f"Review ownership documentation for {prop.title}"
+            ],
+            "fallback": True
+        }
+
+    # Step 5: Dynamic calculation of Property Comparison Metrics based on similar listings
+    target_price_per_sqft = float(prop.price) / prop.area_sqft if prop.area_sqft else 0.0
+    same_city_props = Property.objects.public().filter(city__iexact=prop.city).exclude(id=prop.id)
+    
+    if same_city_props.exists():
+        avg_val = sum(float(p.price) / p.area_sqft for p in same_city_props if p.area_sqft)
+        avg_price_per_sqft = avg_val / same_city_props.count() if same_city_props.count() else target_price_per_sqft
+        if target_price_per_sqft <= avg_price_per_sqft * 0.9:
+            price_comp = 8.8
+        elif target_price_per_sqft <= avg_price_per_sqft * 1.1:
+            price_comp = 8.0
+        else:
+            price_comp = 6.8
+    else:
+        price_comp = 8.2
+
+    # Location quality factor calculation
+    loc_val = 7.5
+    if "mumbai" in city_lower:
+        loc_val += 1.3
+    elif "pune" in city_lower:
+        loc_val += 0.8
+    if any(keyword in prop.locality.lower() for keyword in ["nagar", "road", "worli", "kalyani", "hinjewadi", "sea", "drive"]):
+        loc_val += 0.5
+    loc_quality = min(round(loc_val, 1), 9.6)
+
+    # Investment potential factor calculation
+    invest_val = 7.0 + (1.5 if prop.is_featured else 0.5) + min(1.0, prop.view_count * 0.05)
+    invest_potential = min(round(invest_val, 1), 9.7)
+
+    # Rental demand factor calculation
+    rent_val = 7.2
+    if prop.property_type == 'apartment':
+        rent_val += 1.0
+    if prop.bedrooms == 2:
+        rent_val += 0.6
+    rental_demand = min(round(rent_val, 1), 9.5)
+
+    # Market activity factor calculation
+    act_val = 6.5 + min(3.0, (prop.view_count + prop.favorites.count()) * 0.1)
+    market_activity = min(round(act_val, 1), 9.8)
+
+    # Step 6: Dynamic calculation of Who Should Buy profiles based on listing characteristics
+    best_for = []
+    if prop.bedrooms >= 3:
+        best_for.append("Families")
+    if city_lower in ["pune", "mumbai"] and prop.bedrooms <= 2:
+        best_for.append("IT Professionals")
+    if prop.is_featured or prop.price > 20000000:
+        best_for.append("Long-Term Investors")
+    if prop.price < 15000000:
+        best_for.append("First-Time Buyers")
+    if not best_for:
+        best_for = ["Families", "First-Time Buyers"]
+
+    not_ideal_for = []
+    if prop.property_type not in ["commercial", "office"]:
+        not_ideal_for.append("Commercial Use")
+        not_ideal_for.append("Short-Term Rentals")
+    if prop.price > 25000000:
+        not_ideal_for.append("Ultra-Low Budget Buyers")
+    else:
+        not_ideal_for.append("Speculative Flippers")
+
+    # Merge dynamic metrics into output data object
+    data["comparison"] = {
+        "price_competitiveness": price_comp,
+        "location_quality": loc_quality,
+        "investment_potential": invest_potential,
+        "rental_demand": rental_demand,
+        "market_activity": market_activity
+    }
+    data["who_should_buy"] = {
+        "best_for": best_for,
+        "not_ideal_for": not_ideal_for
+    }
+
+    return JsonResponse(data)
+
+
+# ---------------------------------------------------------------------------
+# Phase 8 — AI Inquiry Drafting (AJAX endpoint)
+# ---------------------------------------------------------------------------
+@require_POST
+@login_required
+def ai_inquiry_draft(request, slug):
+    """Generate a professional inquiry draft for the user to review and send."""
+    from django.http import JsonResponse
+    from propvista.ai_features.services import gemini_or_fallback
+
+    prop = get_object_or_404(Property, slug=slug)
+    user_name = request.user.get_full_name() or request.user.username
+    payload = {
+        "prompt": (
+            f"Write a professional, polite real estate inquiry email body. "
+            f"Property: '{prop.title}' in {prop.locality}, {prop.city}. "
+            f"Buyer name: {user_name}. "
+            f"The message should express interest, request a site visit, "
+            f"and ask for ownership and availability details. "
+            f"Keep it under 100 words. Do not include subject line. "
+            f"End with 'Regards, {user_name}'"
+        )
+    }
+    result = gemini_or_fallback("inquiry_draft", payload)
+
+    # Fallback message
+    if not result or "fallback" in result.lower() or len(result) < 40:
+        result = (
+            f"Hello,\n\n"
+            f"I am interested in the property '{prop.title}' located in "
+            f"{prop.locality}, {prop.city}, and would like to schedule a "
+            f"site visit at your earliest convenience. Kindly share the "
+            f"ownership details, availability, and any documents for review.\n\n"
+            f"Regards,\n{user_name}"
+        )
+
+    return JsonResponse({"draft": result, "status": "ok"})
+

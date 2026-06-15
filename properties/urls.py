@@ -19,5 +19,9 @@ urlpatterns = [
     path("<slug:slug>/reopen/", views.reopen_property, name="reopen"),
     path("<slug:slug>/activate/", views.activate_property, name="activate"),
     path("<slug:slug>/submit/", views.submit_for_approval, name="submit"),
+    # AI Features
+    path("ai/match/", views.ai_property_match, name="ai_match"),
+    path("<slug:slug>/ai/insights/", views.ai_property_insights, name="ai_insights"),
+    path("<slug:slug>/ai/draft-inquiry/", views.ai_inquiry_draft, name="ai_draft_inquiry"),
 ]
 

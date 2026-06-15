@@ -278,6 +278,22 @@ def admin_dashboard(request):
     )
 
 
+@role_required(User.Role.ADMIN)
+def admin_users(request):
+    role_filter = request.GET.get('role', '')
+    qs = User.objects.annotate(
+        property_count=Count('properties', distinct=True),
+        inquiry_count=Count('inquiries', distinct=True),
+    ).order_by('-date_joined')
+    if role_filter in ('buyer', 'seller', 'admin'):
+        qs = qs.filter(role=role_filter)
+    return render(request, 'dashboards/admin_users.html', {
+        'users_list': qs,
+        'role_filter': role_filter,
+        'total_count': qs.count(),
+    })
+
+
 class UserViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     queryset = User.objects.select_related("profile").all()
 

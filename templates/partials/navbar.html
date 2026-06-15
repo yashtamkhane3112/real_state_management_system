@@ -16,6 +16,7 @@
         <a href="{% url 'properties:list' %}">Properties</a>
         {% if user.is_authenticated %}
           <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+          <a href="{% url 'properties:ai_match' %}" style="display:inline-flex;align-items:center;gap:.35rem;"><i class="bi bi-stars text-primary"></i> AI Match</a>
         {% else %}
           <a href="{% url 'accounts:login' %}">Buyer</a>
           <a href="{% url 'accounts:login' %}">Seller</a>

@@ -16,7 +16,7 @@
     <a class="dash-link {% if url_name == 'admin_dashboard' or url_name == 'dashboard' %}active{% endif %}" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
     <a class="dash-link {% if url_name == 'approvals_list' %}active{% endif %}" href="{% url 'properties:approvals_list' %}"><i class="bi bi-shield-check"></i> Approvals</a>
     <a class="dash-link {% if ns == 'reports' %}active{% endif %}" href="{% url 'reports:home' %}"><i class="bi bi-activity"></i> Reports</a>
-    <a class="dash-link" href="/admin/"><i class="bi bi-people"></i> Users</a>
+    <a class="dash-link {% if url_name == 'admin_users' %}active{% endif %}" href="{% url 'accounts:admin_users' %}"><i class="bi bi-people"></i> Users</a>
     <a class="dash-link {% if ns == 'notifications' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell"></i> Notifications</a>
     <a class="dash-link {% if url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person-gear"></i> Profile</a>
 

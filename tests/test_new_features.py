@@ -624,5 +624,180 @@ def test_profile_phone_and_email_validation(client, buyer):
     assert "email" in form_empty.errors
 
 
+def test_ai_property_match_view(client, buyer, approved_property):
+    from django.urls import reverse
+    from properties.models import Property
+    import json
+
+    # 1. Unauthenticated gets redirected
+    url = reverse("properties:ai_match")
+    response = client.get(url)
+    assert response.status_code == 302
+
+    # 2. Authenticated GET renders form
+    client.force_login(buyer)
+    response = client.get(url)
+    assert response.status_code == 200
+    assert b"Find Your Perfect Property" in response.content
+
+    # Create additional properties to verify score ranking differences
+    # approved_property: price is probably 1.5 Cr or 15000000. Let's verify price.
+    p2 = Property.objects.create(
+        title="Premium Villa Pune",
+        slug="premium-villa-pune",
+        description="Luxury villa",
+        price=18000000, # 1.8 Cr
+        property_type="villa",
+        category=approved_property.category,
+        bedrooms=4,
+        bathrooms=4,
+        area_sqft=3200,
+        city="Pune",
+        locality="Kalyani Nagar",
+        status=Property.Status.ACTIVE,
+        approval_status=Property.ApprovalStatus.APPROVED,
+        created_by=buyer,
+        is_featured=True
+    )
+    p3 = Property.objects.create(
+        title="Budget Apartment Pune",
+        slug="budget-apartment-pune",
+        description="Cozy apartment",
+        price=8000000, # 80 Lakhs
+        property_type="apartment",
+        category=approved_property.category,
+        bedrooms=2,
+        bathrooms=2,
+        area_sqft=1100,
+        city="Pune",
+        locality="Hinjewadi",
+        status=Property.Status.ACTIVE,
+        approval_status=Property.ApprovalStatus.APPROVED,
+        created_by=buyer,
+        is_featured=False
+    )
+
+    # 3. Authenticated POST returns matching cards JSON sorted by score
+    post_data = {
+        "budget": "2 Cr",
+        "city": "Pune",
+        "bedrooms": "2",
+        "purpose": "family living"
+    }
+    response = client.post(url, post_data)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+    assert "html" in data
+    # Both Pune properties are returned as they are under 2.2 Cr (1.1x of 2 Cr)
+    assert "Premium Villa Pune" in data["html"]
+    assert "Budget Apartment Pune" in data["html"]
+    
+    # 4. Strict maximum budget filtering test
+    post_data_strict_budget = {
+        "budget": "1 Cr", # 10000000
+        "city": "Pune",
+        "bedrooms": "2",
+        "purpose": "investment"
+    }
+    response = client.post(url, post_data_strict_budget)
+    assert response.status_code == 200
+    data_strict = response.json()
+    # p2 (1.8 Cr) is > 1.1x of 1 Cr budget limit, so it must NOT be recommended!
+    assert "Budget Apartment Pune" in data_strict["html"]
+    assert "Premium Villa Pune" not in data_strict["html"]
+
+    # 5. Empty state when no properties exist/match
+    post_data_no_match = {
+        "budget": "1 Cr",
+        "city": "NonExistentCityX",
+        "bedrooms": "4",
+        "purpose": "investment"
+    }
+    response = client.post(url, post_data_no_match)
+    assert response.status_code == 200
+    data_no_match = response.json()
+    assert "No properties currently satisfy your requirements." in data_no_match["html"]
+    assert "Browse All Properties" in data_no_match["html"]
+
+
+def test_ai_property_insights_view(client, buyer, approved_property):
+    from django.urls import reverse
+    from properties.models import Property
+
+    # 1. Redirect if unauthenticated
+    url = reverse("properties:ai_insights", args=[approved_property.slug])
+    response = client.post(url)
+    assert response.status_code == 302
+
+    client.force_login(buyer)
+
+    # 2. Authenticated POST checks for detailed custom attributes
+    response = client.post(url)
+    assert response.status_code == 200
+    data = response.json()
+    
+    assert "score" in data
+    assert "market_position" in data
+    assert "strengths" in data
+    assert "outlook_short" in data
+    assert "outlook_long" in data
+    assert "suitability_best" in data
+    assert "suitability_less" in data
+    assert "considerations" in data
+
+    # 3. Create properties in different cities to verify score differentials
+    p_mumbai = Property.objects.create(
+        title="Luxury Penthouse Mumbai",
+        slug="luxury-penthouse-mumbai",
+        description="Overlooking sea link",
+        price=45000000, # 4.5 Cr
+        property_type="apartment",
+        category=approved_property.category,
+        bedrooms=3,
+        bathrooms=3,
+        area_sqft=2200,
+        city="Mumbai",
+        locality="Worli",
+        status=Property.Status.ACTIVE,
+        approval_status=Property.ApprovalStatus.APPROVED,
+        created_by=buyer,
+        is_featured=True
+    )
+    p_nashik = Property.objects.create(
+        title="Agro Villa Nashik",
+        slug="agro-villa-nashik",
+        description="Vineyard adjacent",
+        price=9500000, # 95 Lakhs
+        property_type="villa",
+        category=approved_property.category,
+        bedrooms=2,
+        bathrooms=2,
+        area_sqft=1100,
+        city="Nashik",
+        locality="Gangapur Road",
+        status=Property.Status.ACTIVE,
+        approval_status=Property.ApprovalStatus.APPROVED,
+        created_by=buyer,
+        is_featured=False
+    )
+
+    # Fetch insights for Mumbai (Premium location + featured)
+    url_mumbai = reverse("properties:ai_insights", args=[p_mumbai.slug])
+    res_mumbai = client.post(url_mumbai).json()
+    
+    # Fetch insights for Nashik (Affordable price + non-featured)
+    url_nashik = reverse("properties:ai_insights", args=[p_nashik.slug])
+    res_nashik = client.post(url_nashik).json()
+
+    # Scores must reflect the pre-calculated attributes accurately
+    assert res_mumbai["score"] > res_nashik["score"]
+    assert res_mumbai["market_position"] in ["Prime", "Strong"]
+    assert "Mumbai" in res_mumbai["outlook_short"] or "Mumbai" in res_mumbai["strengths"][0]
+    assert "Nashik" in res_nashik["outlook_short"] or "Nashik" in res_nashik["strengths"][0]
+
+
+
+
 
 

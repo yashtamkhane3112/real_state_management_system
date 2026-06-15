@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}AI Property Match | PropVista{% endblock %}
+{% block content %}
+<section class="pv-section-sm">
+  <div class="container" style="max-width: 760px;">
+    <div class="text-center mb-5 reveal">
+      <span class="pv-eyebrow"><i class="bi bi-stars"></i> AI-Powered</span>
+      <h1 class="mt-3 mb-2">Find Your Perfect Property</h1>
+      <p class="pv-muted fs-5">Tell us what you're looking for and our AI will match you with the best available properties.</p>
+    </div>
+
+    <div class="pv-card p-4 p-lg-5 reveal" id="ai-match-form-card">
+      <form id="ai-match-form">
+        {% csrf_token %}
+        <div class="row g-4">
+          <div class="col-md-6">
+            <label class="small fw-semibold text-secondary mb-2">Budget</label>
+            <input type="text" class="form-control" name="budget" id="ai-budget" placeholder="e.g. 2 Cr, 80L" required>
+            <div class="form-text">Enter your maximum budget in Cr or Lakhs</div>
+          </div>
+          <div class="col-md-6">
+            <label class="small fw-semibold text-secondary mb-2">City</label>
+            <select class="form-select" name="city" id="ai-city">
+              <option value="">Any city</option>
+              {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="small fw-semibold text-secondary mb-2">Bedrooms (minimum)</label>
+            <select class="form-select" name="bedrooms" id="ai-bedrooms">
+              <option value="">Any</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="small fw-semibold text-secondary mb-2">Purpose</label>
+            <select class="form-select" name="purpose" id="ai-purpose">
+              <option value="family living">Family Living</option>
+              <option value="investment">Investment</option>
+              <option value="rental income">Rental Income</option>
+              <option value="commercial use">Commercial Use</option>
+              <option value="vacation home">Vacation Home</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="pv-btn pv-btn-primary w-100 py-3" id="ai-match-btn">
+              <i class="bi bi-stars"></i> Find AI Matches
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    </div>
+  </div>
+
+  <!-- Results Section (Wider Results Container max-width: 1600px) -->
+  <div class="container-fluid mt-5 px-3 px-lg-5" style="max-width: 1600px; margin: 0 auto;">
+    <div id="ai-match-results" class="reveal" style="display: none;">
+      <div class="pv-card p-4 p-lg-5">
+        <div class="mb-4 border-bottom pb-3">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <i class="bi bi-stars text-primary fs-4"></i>
+            <h2 class="h3 fw-bold mb-0">AI Recommendations</h2>
+          </div>
+          <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+            <span class="text-secondary small fw-semibold"><i class="bi bi-cpu-fill text-primary"></i> Powered by Gemini AI</span>
+            <p class="pv-muted mb-0 small" style="font-size: 0.9rem; font-style: italic;">Based on your preferences, these properties provide the strongest overall match.</p>
+          </div>
+        </div>
+        <div id="ai-match-output" class="fs-6" style="line-height: 1.8;"></div>
+        <div class="mt-4 pt-3 border-top">
+          <a href="{% url 'properties:list' %}" class="pv-btn pv-btn-ghost me-2">
+            <i class="bi bi-search"></i> Browse All Properties
+          </a>
+          <button type="button" class="pv-btn pv-btn-ghost" onclick="document.getElementById('ai-match-results').style.display='none'; document.getElementById('ai-match-form-card').scrollIntoView({behavior:'smooth'});">
+            <i class="bi bi-arrow-left"></i> New Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State & Narrow Container Elements -->
+  <div class="container" style="max-width: 760px;">
+    <div id="ai-match-loading" class="text-center mt-4" style="display: none;">
+      <div class="pv-card p-5">
+        <div class="spinner-border text-primary mb-3" role="status"></div>
+        <p class="pv-muted mb-0">Our AI is analysing available properties for you…</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+// Handle search form submission using async/await AJAX call
+document.getElementById('ai-match-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('ai-match-btn');
+  const loading = document.getElementById('ai-match-loading');
+  const results = document.getElementById('ai-match-results');
+  const output = document.getElementById('ai-match-output');
+
+  // Trigger UI loading state
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Analysing…';
+  loading.style.display = 'block';
+  results.style.display = 'none';
+
+  const formData = new FormData(this);
+  try {
+    // Post criteria to search matches endpoint
+    const res = await fetch('{% url "properties:ai_match" %}', {
+      method: 'POST',
+      body: formData,
+      headers: { 'X-CSRFToken': formData.get('csrfmiddlewaretoken') }
+    });
+    const data = await res.json();
+    
+    // Inject rendered partial HTML of recommendation cards
+    output.innerHTML = data.html || '<p class="text-center pv-muted">No matches found. Try adjusting your criteria.</p>';
+    loading.style.display = 'none';
+    results.style.display = 'block';
+    
+    // Smooth scroll user viewport to results block
+    results.scrollIntoView({ behavior: 'smooth' });
+  } catch (err) {
+    output.innerHTML = '<p class="text-center text-danger">Unable to fetch recommendations. Please try again.</p>';
+    loading.style.display = 'none';
+    results.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-stars"></i> Find AI Matches';
+  }
+});
+
+// Delegate favorite toggling via AJAX inside the recommendations container
+// This prevents page refreshes and retains AI match search state
+document.getElementById('ai-match-output').addEventListener('click', async function(e) {
+  const saveBtn = e.target.closest('.floating-save');
+  if (saveBtn) {
+    e.preventDefault();
+    const href = saveBtn.getAttribute('href');
+    
+    // Direct unauthenticated users to login, handle registered users asynchronously
+    if (href && !href.includes('login')) {
+      try {
+        saveBtn.classList.toggle('is-active');
+        const icon = saveBtn.querySelector('i');
+        if (icon) {
+          if (icon.classList.contains('bi-heart')) {
+            icon.className = 'bi-heart-fill text-danger';
+          } else {
+            icon.className = 'bi-heart';
+          }
+        }
+        // Asynchronously toggle database wishlist status
+        await fetch(href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      window.location.href = href;
+    }
+  }
+});
+</script>
+{% endblock %}
