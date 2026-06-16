@@ -1718,15 +1718,26 @@ html, body {
 
 /* 3. Glassmorphism Navbar Layer */
 .pv-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1050 !important;
   backdrop-filter: blur(20px) !important;
-  background: rgba(255, 255, 255, 0.72) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  background: rgba(255, 255, 255, 0.4) !important; /* Subtle transparency */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 0.6rem 0 !important;
+  transition: all 0.3s ease !important;
 }
 .pv-nav-inner {
-  border-radius: 28px !important;
-  background: rgba(255, 255, 255, 0.88) !important;
-  border: 1px solid rgba(226, 232, 240, 0.6) !important;
-  padding: 0.5rem 0.65rem 0.5rem 1.1rem !important;
+  background: transparent !important; /* Floating appearance */
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.2rem 1.1rem !important;
+}
+.pv-nav-links a, .pv-nav-actions, .pv-brand, .pv-nav-actions button, .pv-nav-actions form {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
 }
 .pv-icon-action.notify-dot::after {
   animation: badge-pulse 1.8s infinite ease-in-out !important;
@@ -2340,30 +2351,6 @@ aside.detail-sidebar {
 }
 
 /* Reports Layout Overrides */
-.reports-shell-container .kpi-card {
-  padding: 1rem 1.25rem !important;
-  border-radius: 16px !important;
-  min-height: auto !important;
-}
-.reports-shell-container .kpi-card i {
-  position: absolute !important;
-  right: 0.85rem !important;
-  top: 0.85rem !important;
-  width: 38px !important;
-  height: 38px !important;
-  font-size: 1.2rem !important;
-  border-radius: 12px !important;
-  margin-bottom: 0 !important;
-}
-.reports-shell-container .kpi-card span {
-  font-size: 0.75rem !important;
-  display: block !important;
-  padding-right: 28px !important;
-}
-.reports-shell-container .kpi-card strong {
-  font-size: 1.6rem !important;
-  margin-top: 0.3rem !important;
-}
 
 @media (min-width: 1200px) {
   .reports-chart-left {
@@ -2608,7 +2595,7 @@ body, p, .body-normal, .fs-6 {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  min-height: 92vh !important;
+  min-height: calc(100vh - 92px) !important;
   padding: 0 !important; /* Perfect flex centering */
   position: relative !important;
 }
@@ -2631,33 +2618,60 @@ body, p, .body-normal, .fs-6 {
   position: relative !important;
   z-index: 2 !important;
   width: 100% !important;
-  max-width: 960px !important;
+  max-width: 950px !important; /* Section 1: Max stack width 950px */
   margin-inline: auto !important;
   text-align: center !important;
-  padding-top: 2rem !important; /* Reduced top spacing */
-  padding-bottom: 2rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-/* Heading Gradient: Deep Navy #0b215b -> Accent #5b6cff */
+/* 1. HOMEPAGE HERO CENTERED CONTENT STACK */
+.pm-hero-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 1.5rem !important; /* Equal premium luxury SaaS spacing */
+  width: 100% !important;
+  max-width: 950px !important;
+  margin-inline: auto !important;
+}
+
+/* Heading Typography & Color Improvement */
 .pv-hero h1, .pm-hero-copy h1 {
   font-family: "Manrope", "Inter", system-ui, sans-serif !important;
   font-weight: 800 !important;
-  font-size: clamp(56px, 5.5vw, 64px) !important; /* Section 3 H1 sizing */
-  line-height: 1.12 !important;
+  font-size: clamp(2.5rem, 6.2vw, 4.8rem) !important; /* Refined clamp to prevent mobile overflow */
+  line-height: 1.05 !important;
   letter-spacing: -0.025em !important;
-  background: linear-gradient(135deg, #0b215b 0%, #5b6cff 100%) !important;
+  color: #FFFFFF !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  text-shadow: 0 8px 32px rgba(0,0,0,.45) !important;
+  margin: 0 !important; /* Margin managed by stack gap */
+}
+
+.pv-hero-accent {
+  background: linear-gradient(90deg, #8B5CF6, #A855F7) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important;
   color: transparent !important;
-  filter: drop-shadow(0px 2px 16px rgba(255, 255, 255, 0.95)) !important; /* Pops text on dark overlay */
-  margin-top: 0.75rem !important;
-  margin-bottom: 0.75rem !important;
+  display: inline-block !important;
 }
 
 .pv-hero-copy {
   color: rgba(255, 255, 255, 0.92) !important; /* High contrast readable text */
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
-  margin-bottom: 1rem !important;
+  margin: 0 !important; /* Margin managed by stack gap */
+  max-width: 700px !important;
+  font-size: 1.1rem !important;
+  line-height: 1.6 !important;
 }
 
 .pv-eyebrow {
@@ -2668,46 +2682,83 @@ body, p, .body-normal, .fs-6 {
   -webkit-backdrop-filter: blur(8px);
   padding: 0.4rem 0.9rem !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 0 !important; /* Margin managed by stack gap */
 }
 
-/* Glassmorphism Feature Chips with Stronger Contrast */
-.pv-hero-chip {
+/* Glassmorphism Feature Chips with Soft Contrast */
+.pm-feature-chips-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.85rem !important; /* Slightly tighter premium spacing */
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.pm-feature-chips-container .pv-hero-chip {
   display: inline-flex !important;
   align-items: center !important;
-  gap: 0.5rem !important;
-  padding: 0.6rem 1.25rem !important;
-  background: rgba(255, 255, 255, 0.88) !important;
-  border: 1px solid rgba(255, 255, 255, 0.95) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  justify-content: center !important;
+  height: 38px !important; /* Slightly smaller height */
+  padding: 0.5rem 1.25rem !important; /* Slightly smaller padding */
+  box-sizing: border-box !important;
+  background: rgba(255, 255, 255, 0.18) !important; /* Subtle background */
+  border: 1px solid rgba(255, 255, 255, 0.25) !important; /* Softer border */
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-radius: 50px !important;
-  color: #0b215b !important; /* Deep Navy for strong readability */
-  font-weight: 700 !important;
-  font-size: 0.92rem !important;
-  box-shadow: 0 8px 20px rgba(11, 33, 91, 0.15) !important;
+  color: #FFFFFF !important; /* High contrast white text on dark video */
+  font-weight: 600 !important;
+  font-size: 0.88rem !important; /* Slightly smaller font size */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important; /* Soft shadow */
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  margin: 0 !important;
+  opacity: 0.95 !important;
 }
 
-.pv-hero-chip:hover {
-  transform: translateY(-2px) !important;
-  background: rgba(255, 255, 255, 0.98) !important;
-  box-shadow: 0 12px 28px rgba(11, 33, 91, 0.22) !important;
+.pm-feature-chips-container .pv-hero-chip:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+  opacity: 1 !important;
 }
 
-.pv-hero-chip i {
-  font-size: 1.05rem !important;
-  color: #5b6cff !important; /* Accent color for icons */
+.pm-feature-chips-container .pv-hero-chip i {
+  font-size: 0.95rem !important;
+  color: rgba(255, 255, 255, 0.9) !important; /* Subtle white icon */
+  margin-right: 0.4rem !important;
 }
 
-/* Search Panel Closer to Content */
+/* Search Panel Width & Proportions (Section 2) */
 .pm-command-search {
-  margin-top: 1rem !important; /* Brought closer */
-  margin-bottom: 1.25rem !important;
-  background: rgba(255, 255, 255, 0.82) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.9) !important;
-  box-shadow: 0 24px 72px rgba(11, 33, 91, 0.2) !important;
+  margin: 0 !important; /* Margin managed by stack gap */
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.35) !important; /* Semi-transparent white background */
+  backdrop-filter: blur(20px) !important; /* Backdrop filter: blur(20px) */
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important; /* Soft border */
+  box-shadow: 0 32px 80px rgba(11, 33, 91, 0.3) !important; /* Stronger shadow */
+  border-radius: 20px !important;
+}
+
+@media (min-width: 992px) {
+  .pm-command-search {
+    display: grid !important;
+    grid-template-columns: 4.5fr 2.5fr 1.5fr 1.5fr !important; /* Proportions: 45% 25% 15% 15% */
+    max-width: 950px !important; /* Enlarge search panel max-width to 950px */
+    gap: 1.25rem !important;
+    padding: 1.75rem 2.2rem !important; /* Slightly larger padding for breathing room */
+    box-sizing: border-box !important;
+    align-items: flex-end !important;
+  }
+}
+
+.pm-command-search .form-control,
+.pm-command-search .form-select,
+.pm-command-search button {
+  height: 56px !important; /* Slightly larger height */
+  border-radius: 14px !important;
 }
 
 /* Popular filter chips styling under search */
@@ -2804,29 +2855,151 @@ body, p, .body-normal, .fs-6 {
   margin-top: auto !important;
 }
 
-/* 4. DETAIL PAGE SECTION HEADERS & ICONS POLISH */
-.detail-showcase h2.pv-serif {
+/* 4. DETAIL PAGE SECTION HEADERS & ICONS REFINEMENT */
+.detail-section-heading {
+  font-size: 1.75rem !important; /* Reduced heading size */
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  font-family: "Playfair Display", Georgia, serif !important;
   display: block !important;
-  font-weight: 800 !important;
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important; /* Better consistent spacing */
 }
 
-.detail-showcase h2.pv-serif > i.bi {
-  font-size: 35px !important; /* Reduced by ~30% to 40% (within 32-40px max range) */
-  opacity: 0.9 !important; /* Opacity 0.9 */
-  margin-right: 0.6rem !important;
+.detail-section-heading i {
+  font-size: 0.65em !important;
+  vertical-align: middle !important;
+  margin-right: 0.5rem !important;
   display: inline-block !important;
-  vertical-align: -0.12em !important;
-  line-height: 1 !important;
 }
 
 /* AI Property Insights Icon Badge Reduction */
-#ai-insights-section .d-flex.align-items-center.gap-3.mb-4 .rounded-circle {
-  width: 35px !important; /* Reduced to fit 32-40px max range */
-  height: 35px !important;
-  opacity: 0.9 !important; /* Opacity 0.9 */
+#ai-insights-section .rounded-circle {
+  width: 32px !important;
+  height: 32px !important;
+  opacity: 0.9 !important;
   flex-shrink: 0 !important;
 }
 
-#ai-insights-section .d-flex.align-items-center.gap-3.mb-4 .rounded-circle i {
-  font-size: 1rem !important; /* Scale down the inner icon accordingly */
+/* 5. DASHBOARD NOTIFICATIONS PREMIUM REFINEMENTS */
+.inbox-badge {
+  font-size: 0.88rem !important;
+  padding: 0.5rem 1.25rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  border-radius: 50px !important;
+}
+
+@media (min-width: 1200px) {
+  .dashboard-main {
+    max-width: 1200px !important;
+    margin-right: auto !important;
+  }
+}
+
+.notifications-main {
+  padding-top: 1.5rem !important; /* Raises content cards to avoid empty-space/low-start look */
+}
+
+.notifications-main h2 {
+  font-size: 1.75rem !important; /* Reduced heading prominence for better hierarchy */
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.notifications-list {
+  max-width: 900px !important; /* Constrains notifications on wide screens for premium density */
+  width: 100% !important;
+}
+
+/* Category filter chips centering and spacing resets */
+.pm-filter-chips {
+  margin: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.7rem !important;
+  width: 100% !important;
+}
+
+/* Ensure search form buttons scale correctly */
+.pm-command-search button {
+  width: 100% !important;
+}
+
+/* 6. ADMIN DASHBOARD ACTION-BUTTON TOOLBAR */
+.admin-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important; /* Equal spacing */
+}
+.admin-toolbar .pv-btn {
+  height: 44px !important; /* Enforce exact equal height */
+  box-sizing: border-box !important;
+  white-space: nowrap !important;
+}
+
+/* Align KPI card links properly in kpi-grid to enforce equal height */
+.kpi-grid a {
+  display: flex !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+.kpi-grid a > .kpi-card {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 7. ADMIN USERS & DASHBOARD SIDEBAR ALIGNMENT */
+.dashboard-sidebar {
+  padding-top: 1.5rem !important; /* Matches dashboard-main top padding to prevent low starting menu */
+}
+.dashboard-sidebar .dash-nav-label:first-of-type {
+  margin-top: 0 !important; /* Aligns first label with main content */
+}
+
+/* 8. NOTIFICATIONS CONTAINER CENTERING */
+.notifications-container {
+  max-width: 900px !important;
+  width: 100% !important;
+  margin-inline: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.notifications-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* 9. GLOBAL SPACING & ALIGNMENT SYSTEM STANDARDIZATION */
+.dashboard-main {
+  padding: 2rem !important; /* Content padding: 32px */
+}
+.kpi-grid {
+  gap: 1.5rem !important; /* Card gap: 24px */
+}
+.dashboard-main > .row,
+.dashboard-main > .kpi-grid,
+.dashboard-main > div {
+  margin-bottom: 2.25rem !important; /* Section gap: ~36-48px */
+}
+.pv-card {
+  padding: 1.5rem !important; /* Consistent inner card padding */
+  border-radius: 20px !important; /* Consistent card border radius */
+}
+
+/* Eyebrow badge standard styling */
+.pv-eyebrow {
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 50px !important;
 }
