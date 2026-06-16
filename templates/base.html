@@ -17,6 +17,7 @@
   <link href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" rel="stylesheet">
   <link href="{% static 'css/app.css' %}" rel="stylesheet">
+  <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
 </head>
 <body class="{% if user.is_authenticated %}is-authenticated{% endif %}">
   <!-- Phase 8: Loading Overlay -->
@@ -32,7 +33,9 @@
   {% if request.path == '/' %}
   <canvas id="ambientScene" class="ambient-scene" aria-hidden="true"></canvas>
   {% endif %}
-  {% include "partials/navbar.html" %}
+  <div class="pv-navbar-wrapper">
+    {% include "partials/navbar.html" %}
+  </div>
   {% if messages %}
     <div class="toast-stack">
       {% for message in messages %}

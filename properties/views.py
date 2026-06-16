@@ -9,7 +9,7 @@ from accounts.decorators import role_required
 from accounts.models import User
 from analytics.models import PropertyViewEvent
 
-from .forms import PropertyForm, PropertyImageForm
+from .forms import PropertyForm
 from .models import Amenity, Category, Property, PropertyImage
 from .serializers import AmenitySerializer, CategorySerializer, PropertySerializer
 
@@ -836,7 +836,7 @@ def ai_property_insights(request, slug):
             f"Located in {prop.city} growth corridor",
             f"Competitive price of {prop.formatted_price}",
             f"Suitable for family occupancy ({prop.bedrooms} BHK layout)",
-            f"Complete property information available"
+            "Complete property information available"
         ]
         
         data = {
@@ -844,7 +844,7 @@ def ai_property_insights(request, slug):
             "market_position": calculated_position,
             "strengths": strengths,
             "outlook_short": f"Moderate appreciation potential in {prop.city}",
-            "outlook_long": f"Strong appreciation potential over a 5+ year period",
+            "outlook_long": "Strong appreciation potential over a 5+ year period",
             "suitability_best": suit_best,
             "suitability_less": suit_less,
             "considerations": [
@@ -972,4 +972,36 @@ def ai_inquiry_draft(request, slug):
         )
 
     return JsonResponse({"draft": result, "status": "ok"})
+
+
+def market_pulse(request):
+    """Render the luxury market intelligence / market pulse screen."""
+    import json
+    from properties.models import Property
+    from django.db.models import Avg, Count
+    
+    city_stats = Property.objects.public().values("city").annotate(
+        avg_price=Avg("price"),
+        count=Count("id")
+    ).order_by("-count")
+    
+    # Calculate chart lists
+    cities_list = [item["city"] for item in city_stats]
+    prices_list = [float(item["avg_price"] or 0) for item in city_stats]
+    counts_list = [item["count"] for item in city_stats]
+    
+    luxury_avg = Property.objects.public().filter(price__gte=15000000).aggregate(avg=Avg("price"))["avg"] or 0
+    total_listings = Property.objects.public().count()
+    
+    context = {
+        "city_stats": city_stats,
+        "luxury_avg": luxury_avg,
+        "total_listings": total_listings,
+        "cities_json": json.dumps(cities_list),
+        "prices_json": json.dumps(prices_list),
+        "counts_json": json.dumps(counts_list),
+    }
+    return render(request, "properties/market_pulse.html", context)
+
+
 

@@ -1,7 +1,5 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 
-from .views import NotificationViewSet
 from .web_views import mark_all_read, mark_read, notification_list, unread_badge
 
 app_name = "notifications"

@@ -1,3 +1,0 @@
-{% extends "base.html" %}
-{% block content %}<section class="container py-5"><h1>Reports</h1><div class="glass p-4"><canvas class="dashboard-chart" data-labels='[{% for city in city_data %}"{{ city.city }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for city in city_data %}{{ city.total }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div></section>{% endblock %}
-

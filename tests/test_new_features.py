@@ -627,7 +627,6 @@ def test_profile_phone_and_email_validation(client, buyer):
 def test_ai_property_match_view(client, buyer, approved_property):
     from django.urls import reverse
     from properties.models import Property
-    import json
 
     # 1. Unauthenticated gets redirected
     url = reverse("properties:ai_match")
@@ -642,7 +641,7 @@ def test_ai_property_match_view(client, buyer, approved_property):
 
     # Create additional properties to verify score ranking differences
     # approved_property: price is probably 1.5 Cr or 15000000. Let's verify price.
-    p2 = Property.objects.create(
+    Property.objects.create(
         title="Premium Villa Pune",
         slug="premium-villa-pune",
         description="Luxury villa",
@@ -659,7 +658,7 @@ def test_ai_property_match_view(client, buyer, approved_property):
         created_by=buyer,
         is_featured=True
     )
-    p3 = Property.objects.create(
+    Property.objects.create(
         title="Budget Apartment Pune",
         slug="budget-apartment-pune",
         description="Cozy apartment",

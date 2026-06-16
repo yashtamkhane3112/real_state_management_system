@@ -1,0 +1,112 @@
+[
+  {
+    "page": "home",
+    "viewport": "1920x1080",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 9.972200393676758,
+    "screenshots": [
+      "home_1920x1080_top.png",
+      "home_1920x1080_scrolled.png"
+    ]
+  },
+  {
+    "page": "properties",
+    "viewport": "1920x1080",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "properties_1920x1080_top.png",
+      "properties_1920x1080_scrolled.png"
+    ]
+  },
+  {
+    "page": "home",
+    "viewport": "1440x900",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "home_1440x900_top.png",
+      "home_1440x900_scrolled.png"
+    ]
+  },
+  {
+    "page": "properties",
+    "viewport": "1440x900",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "properties_1440x900_top.png",
+      "properties_1440x900_scrolled.png"
+    ]
+  },
+  {
+    "page": "home",
+    "viewport": "1366x768",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "home_1366x768_top.png",
+      "home_1366x768_scrolled.png"
+    ]
+  },
+  {
+    "page": "properties",
+    "viewport": "1366x768",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "properties_1366x768_top.png",
+      "properties_1366x768_scrolled.png"
+    ]
+  },
+  {
+    "page": "home",
+    "viewport": "768x1024",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "home_768x1024_top.png",
+      "home_768x1024_scrolled.png"
+    ]
+  },
+  {
+    "page": "properties",
+    "viewport": "768x1024",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 12,
+    "screenshots": [
+      "properties_768x1024_top.png",
+      "properties_768x1024_scrolled.png"
+    ]
+  },
+  {
+    "page": "home",
+    "viewport": "390x844",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 20,
+    "screenshots": [
+      "home_390x844_top.png",
+      "home_390x844_scrolled.png"
+    ]
+  },
+  {
+    "page": "properties",
+    "viewport": "390x844",
+    "status": "OK",
+    "hasHorizontalOverflow": false,
+    "navbarStickyTop": 20,
+    "screenshots": [
+      "properties_390x844_top.png",
+      "properties_390x844_scrolled.png"
+    ]
+  }
+]

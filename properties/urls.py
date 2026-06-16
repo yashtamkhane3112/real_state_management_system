@@ -9,6 +9,7 @@ urlpatterns = [
     path("new/", views.property_create, name="create"),
     path("approvals/", views.approvals_list, name="approvals_list"),
     path("city/<str:city>/", views.city_page, name="city"),
+    path("market-pulse/", views.market_pulse, name="market_pulse"),
     path("<slug:slug>/", views.property_detail, name="detail"),
     path("<slug:slug>/edit/", views.property_update, name="update"),
     path("<slug:slug>/delete/", views.property_delete, name="delete"),

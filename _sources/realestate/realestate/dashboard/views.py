@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Count, Sum
+from django.db.models import Count
 
 from accounts.decorators import buyer_required, seller_required, admin_required
 from accounts.models import User

@@ -5,14 +5,16 @@
   {% include "partials/sidebar.html" %}
 
   <div class="dashboard-main">
-    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4 reveal">
-      <div>
-        <span class="pv-eyebrow"><i class="bi bi-heart"></i> Saved properties</span>
-        <h1 class="pv-serif display-5 mt-3">My Wishlist</h1>
-        <p class="pv-muted fs-5">Browse, manage, and track your shortlisted properties for quick access.</p>
-      </div>
-      <div>
-        <a class="pv-btn pv-btn-ghost" href="{% url 'properties:list' %}"><i class="bi bi-search"></i> Browse More</a>
+    <div class="pv-page-header reveal">
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3">
+        <div>
+          <span class="pv-eyebrow"><i class="bi bi-heart"></i> Saved properties</span>
+          <h1 class="pv-serif">My Wishlist</h1>
+          <p class="pv-muted">Browse, manage, and track your shortlisted properties for quick access.</p>
+        </div>
+        <div>
+          <a class="pv-btn pv-btn-ghost" href="{% url 'properties:list' %}"><i class="bi bi-search"></i> Browse More</a>
+        </div>
       </div>
     </div>
 

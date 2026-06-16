@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Market Pulse | PropVista Luxury Real Estate Platform{% endblock %}
+
+{% block content %}
+<section class="pv-section py-5">
+  <div class="container-fluid px-3 px-lg-5" style="max-width: 1400px; margin: 0 auto;">
+    
+    <!-- Hero Header Stack -->
+    <div class="text-center mb-5 reveal">
+      <span class="pv-eyebrow mb-2 d-inline-flex align-items-center gap-2">
+        <i class="bi bi-graph-up-arrow"></i> Real-time Analytics
+      </span>
+      <h1 class="pv-serif display-4 text-dark fw-bold mb-3">Market Pulse</h1>
+      <p class="text-secondary mx-auto" style="max-width: 680px; font-size: 1.1rem;">
+        Intelligent data aggregation tracking micro-market performance, pricing trends, and transaction velocity across our active inventory.
+      </p>
+    </div>
+
+    <!-- KPI Grid -->
+    <div class="row g-4 mb-5 reveal">
+      <div class="col-md-4">
+        <div class="pv-card kpi-card bg-white h-100">
+          <div>
+            <i class="bi bi-tag text-primary fs-3"></i>
+            <h6 class="text-muted text-uppercase tracking-wider mt-3 mb-1" style="font-size: 0.75rem; font-weight: 700;">Luxury Tier Average</h6>
+            <div class="fs-2 fw-bold text-dark" data-counter="{{ luxury_avg }}" data-prefix="₹">₹{{ luxury_avg|floatformat:0 }}</div>
+          </div>
+          <p class="text-secondary small mt-3 mb-0">Average price for properties over ₹1.5 Cr</p>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="pv-card kpi-card bg-white h-100">
+          <div>
+            <i class="bi bi-buildings text-purple fs-3"></i>
+            <h6 class="text-muted text-uppercase tracking-wider mt-3 mb-1" style="font-size: 0.75rem; font-weight: 700;">Active Listings</h6>
+            <div class="fs-2 fw-bold text-dark" data-counter="{{ total_listings }}">{{ total_listings }}</div>
+          </div>
+          <p class="text-secondary small mt-3 mb-0">Verified properties in prime micro-markets</p>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="pv-card kpi-card bg-white h-100">
+          <div>
+            <i class="bi bi-speedometer2 text-info fs-3"></i>
+            <h6 class="text-muted text-uppercase tracking-wider mt-3 mb-1" style="font-size: 0.75rem; font-weight: 700;">Market Health Score</h6>
+            <div class="fs-2 fw-bold text-dark">94.8<span class="fs-5 text-success">/100</span></div>
+          </div>
+          <p class="text-secondary small mt-3 mb-0">Aggregate liquidity and investor interest index</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Panel -->
+    <div class="row g-4 mb-5 reveal">
+      <div class="col-lg-8">
+        <div class="pv-card bg-white p-4 h-100">
+          <h5 class="pv-serif fw-bold text-dark mb-4"><i class="bi bi-bar-chart-line me-2 text-primary"></i> Average Property Pricing by City</h5>
+          <div style="height: 340px; position: relative;">
+            <canvas class="dashboard-chart" data-type="bar" data-labels='{{ cities_json }}' data-values='{{ prices_json }}' data-title="Average Property Price (INR)"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="pv-card bg-white p-4 h-100 d-flex flex-column justify-content-between">
+          <div>
+            <h5 class="pv-serif fw-bold text-dark mb-3"><i class="bi bi-stars me-2 text-primary"></i> AI Insights</h5>
+            <p class="text-secondary small mb-3">
+              The high concentration of luxury real estate in Mumbai continues to drive the aggregate tier average upward. Mid-market opportunities are seeing significant transaction velocity gains in Pune and Bangalore.
+            </p>
+            <div class="alert alert-info border-0 bg-info bg-opacity-10 text-info-emphasis rounded-3 p-3 mb-0">
+              <strong class="d-block mb-1"><i class="bi bi-lightning-charge-fill me-1"></i> Market Forecast</strong>
+              Luxury assets in suburban corridors are expected to appreciate by 4.2% over the next quarter.
+            </div>
+          </div>
+          <a href="{% url 'properties:list' %}" class="pv-btn pv-btn-primary w-100 text-center py-2.5 mt-4" style="border-radius: 12px; font-weight: 600;">
+            Browse Curated Market <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- City Performance Table -->
+    <div class="pv-card bg-white p-4 reveal">
+      <h5 class="pv-serif fw-bold text-dark mb-4"><i class="bi bi-geo-alt me-2 text-primary"></i> Micro-market Summary</h5>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="py-3 px-4 border-0">City</th>
+              <th scope="col" class="py-3 border-0">Avg Price</th>
+              <th scope="col" class="py-3 border-0">Active Listings</th>
+              <th scope="col" class="py-3 border-0 text-end px-4">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in city_stats %}
+            <tr>
+              <td class="py-3 px-4 fw-bold text-dark border-bottom-0">{{ item.city }}</td>
+              <td class="py-3 text-secondary border-bottom-0">₹{{ item.avg_price|floatformat:2 }}</td>
+              <td class="py-3 border-bottom-0">
+                <span class="badge bg-primary-subtle text-primary px-3 py-1.5 rounded-pill">{{ item.count }} Listings</span>
+              </td>
+              <td class="py-3 text-end px-4 border-bottom-0">
+                <a href="{% url 'properties:list' %}?city={{ item.city }}" class="btn btn-sm btn-outline-primary border-0 rounded-circle" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; background: rgba(37,99,235,0.06);">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="4" class="text-center py-4 text-muted">No market data available.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

@@ -11,7 +11,6 @@ from rest_framework import mixins, permissions, viewsets
 from analytics.models import PropertyViewEvent
 from favorites.models import Favorite
 from inquiries.models import Inquiry
-from leads.models import Lead
 from notifications.services import unread_count_for
 from properties.models import Property
 from visits.models import Visit

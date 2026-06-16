@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from django.views.decorators.http import require_http_methods
-from .models import Property, PropertyImage, Favorite
-from .forms import PropertyForm, PropertyImageForm, PropertySearchForm
+from .models import Property, Favorite
+from .forms import PropertyForm, PropertySearchForm
 
 
 def property_list(request):

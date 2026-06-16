@@ -3,7 +3,6 @@ Django settings for real_estate project.
 SQLite database with Bootstrap 5 frontend.
 """
 
-import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent

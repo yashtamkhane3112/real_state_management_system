@@ -16,7 +16,7 @@ async function captureResponsive(browser, pathUrl, name, contextOptions = {}) {
     { name: '1440x900', width: 1440, height: 900 },
     { name: '1366x768', width: 1366, height: 768 },
     { name: 'tablet', width: 768, height: 1024 },
-    { name: 'mobile', width: 375, height: 812 }
+    { name: 'mobile', width: 390, height: 844 }
   ];
 
   for (const vp of viewports) {
@@ -46,8 +46,9 @@ async function captureResponsive(browser, pathUrl, name, contextOptions = {}) {
   const browser = await playwright.chromium.launch({ headless: true });
 
   try {
-    // 1. Capture public homepage
+    // 1. Capture public homepage and market pulse
     await captureResponsive(browser, '/', 'home');
+    await captureResponsive(browser, '/properties/market-pulse/', 'market_pulse');
 
     // 2. Authenticate as admin to capture admin dashboard, users list, and reports
     console.log('Logging in as admin...');

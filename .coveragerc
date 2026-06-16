@@ -1,0 +1,19 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */tests*
+    */admin.py
+    */apps.py
+    */serializers.py
+    */management/commands/*
+    propvista/wsgi.py
+    propvista/asgi.py
+    propvista/ai_features/views.py
+    propvista/ai_features/urls.py
+    propvista/ai_features/api_urls.py
+    propvista/ai_features/apps.py
+    manage.py
+
+[report]
+show_missing = True

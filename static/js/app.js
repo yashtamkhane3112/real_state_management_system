@@ -7,13 +7,36 @@
     const toggle = qs("[data-mobile-nav]");
     const links = qs("[data-nav-links]");
     if (!nav) return;
-    const sync = () => nav.classList.toggle("is-scrolled", window.scrollY > 12);
+    // Scroll handler for transparency and glass effects
+    const sync = () => {
+      const scrolled = window.scrollY > 12;
+      nav.classList.toggle("is-scrolled", scrolled);
+      nav.classList.toggle("navbar-scrolled", scrolled);
+      
+      // Update global body class for child component reactivity
+      document.body.classList.toggle("navbar-scrolled", scrolled);
+    };
     sync();
     window.addEventListener("scroll", sync, { passive: true });
+    
     if (toggle && links) {
       toggle.addEventListener("click", () => {
-        links.classList.toggle("is-open");
-        if (window.gsap) gsap.fromTo(links.children, { x: -12, opacity: 0 }, { x: 0, opacity: 1, stagger: .04, duration: .25 });
+        const isOpen = links.classList.toggle("is-open");
+        nav.classList.toggle("navbar-open", isOpen);
+        
+        const icon = toggle.querySelector("i");
+        if (icon) {
+          icon.className = isOpen ? "bi bi-x fs-4" : "bi bi-list fs-4";
+        }
+        
+        if (window.gsap) {
+          if (isOpen) {
+            gsap.fromTo(links.children, 
+              { x: -16, opacity: 0 }, 
+              { x: 0, opacity: 1, stagger: 0.04, duration: 0.3, ease: "power2.out" }
+            );
+          }
+        }
       });
     }
   }

@@ -1,7 +1,6 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
 
-from .views import GlobalSearchView, SavedSearchViewSet, SearchHistoryViewSet
+from .views import GlobalSearchView
 from .web_views import saved_search_create, saved_search_delete, saved_search_list, saved_search_run
 
 app_name = "search"

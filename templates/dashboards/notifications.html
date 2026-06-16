@@ -6,13 +6,12 @@
   <div class="dashboard-main notifications-main">
     <div class="notifications-container">
       <!-- Centered Header Column -->
-      <div class="notifications-header mb-4">
-        <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+      <div class="notifications-header mb-5">
+        <div class="mb-3">
           <span class="pv-eyebrow inbox-badge"><i class="bi bi-bell"></i> Inbox</span>
-          <span class="badge bg-primary-subtle text-primary rounded-pill font-monospace py-1.5 px-2.5" style="font-size: 0.75rem;">{{ unread_count }} New</span>
         </div>
-        <h2 class="pv-serif h2 mb-1">Notifications</h2>
-        <p class="pv-muted mb-3 small">{{ unread_count }} unread of {{ notifications|length }} recent alerts.</p>
+        <h1 class="pv-serif display-5 mb-2" style="font-size: 48px !important;">Notifications</h1>
+        <p class="pv-muted fs-5 mb-4" style="font-size: 18px !important;">{{ unread_count }} unread of {{ notifications|length }} recent alerts.</p>
         {% if notifications %}
         <form method="post" action="{% url 'notifications:mark_all_read' %}" class="m-0 d-inline-block">{% csrf_token %}
           <button class="pv-btn pv-btn-ghost btn-sm py-2 px-4" type="submit"><i class="bi bi-check2-all"></i> Mark all read</button>
@@ -21,10 +20,10 @@
       </div>
       
       <!-- Notification Cards List -->
-      <div class="row g-2 notifications-list">
+      <div class="row g-4 notifications-list">
         {% for n in notifications %}
           <div class="col-12">
-            <div class="pv-card p-3 d-flex align-items-start gap-3 {% if not n.is_read %}border-primary shadow-sm{% endif %} transition-all hover-lift" style="border-radius: 16px; border-left: 4px solid {% if n.category == 'inquiry' %}#2563eb{% elif n.category == 'visit' %}#0dcaf0{% elif n.category == 'favorite' %}#f43f5e{% elif n.category == 'lead' %}#7c3aed{% elif n.category == 'approval' and n.level == 'success' %}#16a34a{% elif n.category == 'approval' %}#eab308{% elif n.category == 'profile' %}#f97316{% else %}#6b7280{% endif %};">
+            <div class="pv-card d-flex align-items-start gap-4 {% if not n.is_read %}border-primary shadow-sm{% endif %} transition-all hover-lift" style="padding: 28px !important; border-radius: 18px !important; border-left: 4px solid {% if n.category == 'inquiry' %}#2563eb{% elif n.category == 'visit' %}#0dcaf0{% elif n.category == 'favorite' %}#f43f5e{% elif n.category == 'lead' %}#7c3aed{% elif n.category == 'approval' and n.level == 'success' %}#16a34a{% elif n.category == 'approval' %}#eab308{% elif n.category == 'profile' %}#f97316{% else %}#6b7280{% endif %};">
               <span class="d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px; border-radius: 12px;
                 {% if n.category == 'inquiry' %}background: rgba(37,99,235,0.1); color: rgb(37,99,235);
                 {% elif n.category == 'visit' %}background: rgba(13,202,240,0.1); color: rgb(13,202,240);

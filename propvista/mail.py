@@ -32,7 +32,7 @@ def send_templated_email(subject, message, recipient_list):
         print(f"\n--- SMTP SEND FAILURE: {e} ---")
         print(f"Attempted email to {recipient_list}: [Subject: {subject}]")
         print(f"Body:\n{message}")
-        print(f"---------------------------------\n")
+        print("---------------------------------\n")
         return False
 
 def send_welcome_email(user):

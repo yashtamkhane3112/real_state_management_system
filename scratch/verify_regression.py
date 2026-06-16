@@ -1,6 +1,5 @@
 import os
 import sys
-import sys
 import django
 from django.test import Client
 from django.urls import reverse
@@ -14,11 +13,10 @@ from django.conf import settings
 if 'testserver' not in settings.ALLOWED_HOSTS:
     settings.ALLOWED_HOSTS.append('testserver')
 
-from accounts.models import User, Profile
-from properties.models import Property, Category, Amenity, PropertyImage
+from accounts.models import User
+from properties.models import Property, Category, PropertyImage
 from inquiries.models import Inquiry
 from favorites.models import Favorite
-from notifications.models import Notification
 
 def run_regression_checks():
     client = Client()
@@ -119,7 +117,7 @@ def run_regression_checks():
         has_share = 'shareProperty()' in html
         has_calculator = 'Finance Calculator' in html
         
-        print(f"Property Detail Page: PASS")
+        print("Property Detail Page: PASS")
         print(f"  - Cover Image: {'PASS' if has_cover else 'FAIL'}")
         print(f"  - Gallery Carousel: {'PASS' if has_gallery else 'FAIL'}")
         print(f"  - Lifecycle Timeline: {'PASS' if has_timeline else 'FAIL'}")
@@ -246,7 +244,7 @@ def run_regression_checks():
         new_prop = Property.objects.filter(title='New Luxury Villa').first()
         if new_prop:
             img_count = PropertyImage.objects.filter(property=new_prop).count() + (1 if new_prop.cover_image else 0)
-            print(f"Seller Create Property: PASS")
+            print("Seller Create Property: PASS")
             print(f"  - Total Uploaded Images: {img_count} (Expected: 5) -> {'PASS' if img_count == 5 else 'FAIL'}")
         else:
             print("Seller Create Property: FAIL (Property not in database)")
@@ -304,7 +302,7 @@ def run_regression_checks():
         html = profile_resp.content.decode('utf-8')
         # Check navbar, sidebar, profile page avatar
         has_navbar_avatar = 'pv-avatar' in html or 'avatar' in html
-        print(f"Seller Profile Page: PASS")
+        print("Seller Profile Page: PASS")
         print(f"  - Avatar in HTML: {'PASS' if has_navbar_avatar else 'FAIL'}")
     else:
         print(f"Seller Profile Page: FAIL (Status {profile_resp.status_code})")

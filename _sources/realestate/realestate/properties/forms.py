@@ -1,5 +1,5 @@
 from django import forms
-from .models import Property, Inquiry, PropertyImage
+from .models import Property, Inquiry
 
 
 class PropertyForm(forms.ModelForm):
