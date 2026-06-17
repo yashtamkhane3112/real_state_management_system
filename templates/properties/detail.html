@@ -143,59 +143,62 @@
           <div class="row g-2">
             <div class="col-12 col-md-8">
               <div class="gallery-main-container pv-card overflow-hidden" style="border-radius: 24px; position: relative;">
-                {% if has_images %}
-                  <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
-                    <div class="carousel-inner h-100">
-                      {% if property.cover_image %}
-                        <div class="carousel-item active h-100">
-                          <img src="{{ property.cover_image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}">
-                          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
-                            <span class="small fw-bold">Cover Photo</span>
-                          </div>
+                <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+                  <div class="carousel-inner h-100">
+                    {% if property.cover_image %}
+                      <div class="carousel-item active h-100">
+                        <img src="{{ property.cover_image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                          <span class="small fw-bold">Cover Photo</span>
                         </div>
-                      {% endif %}
-                      {% for image in property.images.all %}
-                        <div class="carousel-item {% if not property.cover_image and forloop.first %}active{% endif %} h-100">
-                          <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
-                          {% if image.caption %}
-                            <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
-                              <span class="small fw-bold">{{ image.caption }}</span>
-                            </div>
-                          {% endif %}
+                      </div>
+                    {% else %}
+                      <div class="carousel-item active h-100">
+                        <img src="{{ property.display_image_url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
+                        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                          <span class="small fw-bold">Cover Photo</span>
                         </div>
-                      {% endfor %}
-                    </div>
-                    {% if show_gallery_controls %}
-                      <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                      </button>
+                      </div>
                     {% endif %}
+                    {% for image in property.images.all %}
+                      <div class="carousel-item {% if not property.cover_image and forloop.first %}active{% endif %} h-100">
+                        <img src="{{ image.image.url }}" class="d-block w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}" onload="this.classList.add('is-loaded')">
+                        {% if image.caption %}
+                          <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-25 rounded-pill py-1 px-3 mb-3" style="width: fit-content; margin: 0 auto;">
+                            <span class="small fw-bold">{{ image.caption }}</span>
+                          </div>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
                   </div>
-                {% else %}
-                  <div class="fallback-img big w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                    <span class="text-secondary">No images available</span>
-                  </div>
-                {% endif %}
+                  {% if show_gallery_controls %}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
+                      <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  {% endif %}
+                </div>
               </div>
             </div>
             <div class="col-md-4 d-none d-md-flex flex-column" style="gap: 8px;">
-              {% for image in property.images.all|slice:":2" %}
-                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; cursor: pointer; flex: 1 1 0;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
-                  <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}">
-                </div>
-              {% empty %}
-                {% if property.cover_image %}
-                  <div class="gallery-tile-container pv-card overflow-hidden bg-light d-flex flex-column align-items-center justify-content-center" style="border-radius: 16px; flex: 1 1 0;">
-                    <i class="bi bi-images fs-2 text-muted mb-2"></i>
-                    <span class="text-secondary small">No additional photos</span>
+              {% if property.images.exists %}
+                {% for image in property.images.all|slice:":2" %}
+                  <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; cursor: pointer; flex: 1 1 0;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
+                    <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}" onload="this.classList.add('is-loaded')">
                   </div>
-                {% endif %}
-              {% endfor %}
+                {% endfor %}
+              {% else %}
+                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; flex: 1 1 0;">
+                  <img src="{{ property.display_gallery_1 }}" class="w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
+                </div>
+                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; flex: 1 1 0;">
+                  <img src="{{ property.display_gallery_2 }}" class="w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
+                </div>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -407,11 +410,7 @@
               <div class="col-12 col-md-6">
                 <article class="property-card-premium h-100 d-flex flex-column" style="border-radius: 20px; overflow: hidden; border: 1px solid var(--pv-line); background: white; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(15,23,42,0.03);">
                   <div class="property-media" style="height: 180px; position: relative; overflow: hidden;">
-                    {% if prop.cover_image %}
-                      <img src="{{ prop.cover_image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ prop.title }}" style="transition: transform 0.5s ease;">
-                    {% else %}
-                      <div class="fallback-img bg-light w-100 h-100"></div>
-                    {% endif %}
+                    <img src="{{ prop.display_image_url }}" class="w-100 h-100 object-fit-cover" alt="{{ prop.title }}" style="transition: transform 0.5s ease;" loading="lazy" onload="this.classList.add('is-loaded')">
                     <div class="media-gradient" style="position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.6) 100%);"></div>
                     <span class="property-badge" style="position: absolute; top: 12px; left: 12px; background: rgba(15,23,42,0.85); color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem;"><i class="bi bi-patch-check-fill text-primary"></i> Verified</span>
                   </div>
@@ -596,7 +595,7 @@
                     <label class="small fw-semibold text-secondary mb-1" for="id_message">Message</label>
                     <textarea class="form-control" name="message" id="id_message" style="height: 90px" placeholder="Enter your message" required>I am interested in this property and would like to schedule a virtual tour or site visit.</textarea>
                   </div>
-                  <button class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
+                  <button type="submit" class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
                   <!-- Phase 8: AI Inquiry Draft Button -->
                   {% if user.is_authenticated %}
                   <button type="button" class="pv-btn pv-btn-ghost w-100" id="ai-draft-btn" onclick="generateDraft()" style="font-size: 0.85rem;">

@@ -49,7 +49,7 @@ class SavedSearchViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def run(self, request, pk=None):
         saved = self.get_object()
-        results = Property.objects.public().search(saved.query_params)
+        results = Property.objects.public().select_related("category").prefetch_related("amenities").search(saved.query_params)
         page = self.paginate_queryset(results)
         if page is not None:
             return self.get_paginated_response(PropertySerializer(page, many=True, context={"request": request}).data)
@@ -74,7 +74,7 @@ class GlobalSearchView(viewsets.GenericViewSet):
     def list(self, request):
         params = _params_to_dict(request.query_params)
         keyword = (params.get("q") or "").strip()
-        results = Property.objects.public().search(request.query_params)
+        results = Property.objects.public().select_related("category").prefetch_related("amenities").search(request.query_params)
         count = results.count()
         if request.user.is_authenticated or True:
             if not request.session.session_key:

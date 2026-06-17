@@ -217,6 +217,27 @@ class Property(models.Model):
         super().save(*args, **kwargs)
 
     @property
+    def display_image_url(self):
+        if self.cover_image:
+            return self.cover_image.url
+        # Stable pseudo-random assignment based on ID
+        img_idx = (self.id % 8) + 1 if self.id else 1
+        from django.templatetags.static import static
+        return static(f"images/properties/house-0{img_idx}.jpg")
+
+    @property
+    def display_gallery_1(self):
+        img_idx = ((self.id + 1) % 8) + 1 if self.id else 2
+        from django.templatetags.static import static
+        return static(f"images/properties/house-0{img_idx}.jpg")
+
+    @property
+    def display_gallery_2(self):
+        img_idx = ((self.id + 2) % 8) + 1 if self.id else 3
+        from django.templatetags.static import static
+        return static(f"images/properties/house-0{img_idx}.jpg")
+
+    @property
     def formatted_price(self):
         val = float(self.price)
         if val >= 10000000:

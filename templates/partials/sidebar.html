@@ -35,6 +35,8 @@
   {% else %}
     <div class="dash-nav-label">Buyer workspace</div>
     <a class="dash-link {% if url_name == 'buyer_dashboard' or url_name == 'dashboard' %}active{% endif %}" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+    <a class="dash-link {% if ns == 'properties' and url_name == 'list' %}active{% endif %}" href="{% url 'properties:list' %}"><i class="bi bi-houses"></i> Properties</a>
+    <a class="dash-link {% if ns == 'properties' and url_name == 'market_pulse' %}active{% endif %}" href="{% url 'properties:market_pulse' %}"><i class="bi bi-graph-up-arrow"></i> Market Pulse</a>
     <a class="dash-link {% if url_name == 'wishlist' %}active{% endif %}" href="{% url 'favorites:wishlist' %}"><i class="bi bi-heart"></i> Favorites</a>
     <a class="dash-link {% if ns == 'inquiries' %}active{% endif %}" href="{% url 'inquiries:list' %}"><i class="bi bi-chat-right-text"></i> Inquiries</a>
     <a class="dash-link {% if ns == 'notifications' %}active{% endif %}" href="{% url 'notifications:list' %}"><i class="bi bi-bell"></i> Notifications</a>

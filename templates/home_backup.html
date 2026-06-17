@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}PropVista | Property Management Made Simple{% endblock %}
+{% block body_class %}is-home-page{% endblock %}
+{% block content %}
+<section class="pv-hero pm-hero">
+  <video class="pv-hero-canvas" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover; pointer-events: none; border-radius: 5px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
+    <source src="{% static 'property.mp4' %}" type="video/mp4">
+  </video>
+  <div class="container pv-hero-content pm-hero-content">
+    <div class="pm-hero-copy">
+      <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> INTELLIGENT PROPERTY PLATFORM</span>
+      <h1 class="reveal">Real Estate Operations <span class="pv-hero-accent">Unified.</span></h1>
+      <p class="pv-hero-copy reveal">Discover, manage, and close premium property opportunities from one intelligent platform.</p>
+      
+      <!-- Trust Indicators / Feature Chips -->
+      <div class="d-flex flex-wrap justify-content-center gap-3 pm-feature-chips-container reveal">
+        <span class="pv-hero-chip"><i class="bi bi-cpu"></i> AI Recommendations</span>
+        <span class="pv-hero-chip"><i class="bi bi-arrow-repeat"></i> Lifecycle Tracking</span>
+        <span class="pv-hero-chip"><i class="bi bi-graph-up-arrow"></i> Advanced Analytics</span>
+      </div>
+
+      <form class="pm-command-search pv-glass reveal" action="{% url 'properties:list' %}">
+        <div>
+          <label>Location</label>
+          <input name="q" class="form-control" placeholder="City, locality, landmark">
+        </div>
+        <div>
+          <label>Asset type</label>
+          <select name="property_type" class="form-select">
+            <option value="">All properties</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="house">House</option>
+            <option value="commercial">Commercial</option>
+          </select>
+        </div>
+        <div>
+          <label>Budget</label>
+          <select name="max_price" class="form-select">
+            <option value="">Any budget</option>
+            <option value="10000000">Under 1 Cr</option>
+            <option value="25000000">Under 2.5 Cr</option>
+            <option value="50000000">Under 5 Cr</option>
+          </select>
+        </div>
+        <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-search"></i> Open   inventory </button>
+      </form>
+
+      <div class="pm-filter-chips reveal" aria-label="Popular filters">
+        <a class="chip" href="{% url 'properties:list' %}?property_type=apartment"><i class="bi bi-building"></i> Apartment</a>
+        <a class="chip" href="{% url 'properties:list' %}?max_price=10000000"><i class="bi bi-currency-rupee"></i> Under 1 Cr</a>
+        <a class="chip" href="{% url 'properties:list' %}?property_type=villa"><i class="bi bi-house-heart"></i> Villa</a>
+        <a class="chip" href="{% url 'properties:list' %}?sort=popular"><i class="bi bi-stars"></i> Popular</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Operations Overview Section -->
+<section class="pv-section bg-light border-bottom py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-xl-11 col-xxl-10">
+        <div class="pm-command-center-container reveal" aria-label="Platform operations preview">
+          <div class="pm-command-center pv-glass p-4 p-lg-5 rounded-4 shadow-lg w-100" style="border: 1px solid rgba(255, 255, 255, 0.4); max-width: 100% !important;">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-cpu text-primary fs-4"></i>
+                <h3 class="h5 mb-0 fw-bold pv-serif">Operations Overview</h3>
+              </div>
+              <span class="badge bg-success-subtle text-success p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.7rem;">Live System</span>
+            </div>
+
+            <!-- Metric cards grid -->
+            <div class="row g-3 mb-4">
+              <!-- Properties -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-houses text-primary"></i>
+                    <span class="small fw-semibold">Properties</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.properties }}">0</strong>
+                  <span class="small text-success fw-bold"><i class="bi bi-arrow-up-short"></i> Active inventory</span>
+                </div>
+              </div>
+
+              <!-- Inquiry Pipeline -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-people text-info"></i>
+                    <span class="small fw-semibold">Inquiry Pipeline</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
+                  <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
+                </div>
+              </div>
+
+              <!-- Visits -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-calendar2-check text-warning"></i>
+                    <span class="small fw-semibold">Visits</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.visits }}">0</strong>
+                  <span class="small text-warning fw-bold"><i class="bi bi-clock-history"></i> Scheduled</span>
+                </div>
+              </div>
+
+              <!-- Pending Approvals -->
+              <div class="col-sm-6 col-lg-3">
+                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                    <i class="bi bi-shield-exclamation text-danger"></i>
+                    <span class="small fw-semibold">Pending Approvals</span>
+                  </div>
+                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.pending }}">0</strong>
+                  <span class="small text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Requires attention</span>
+                </div>
+              </div>
+
+              <!-- Revenue Pipeline -->
+              <div class="col-12 mt-3">
+                <div class="pv-card p-3 d-flex justify-content-between align-items-center bg-white bg-opacity-75" style="border-radius: 16px;">
+                  <div class="d-flex align-items-center gap-2 text-secondary">
+                    <i class="bi bi-currency-rupee text-success fs-5"></i>
+                    <div>
+                      <span class="small fw-semibold d-block">Revenue Pipeline</span>
+                      <span class="small text-success fw-bold"><i class="bi bi-arrow-up-right"></i> Active pipeline</span>
+                    </div>
+                  </div>
+                  <strong class="fs-4 text-success">{{ metrics.revenue }}</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Activity Timeline & Quick Actions layout -->
+            <div class="row g-4">
+              <!-- Activity Timeline -->
+              <div class="col-md-7">
+                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-clock-history"></i> Recent Activity</h4>
+                <div class="vstack gap-2" style="max-height: 200px; overflow-y: auto; padding-right: 4px;">
+                  {% for activity in recent_activities %}
+                    <div class="d-flex align-items-start gap-2 p-2 rounded bg-white bg-opacity-50 border-bottom border-light">
+                      <i class="bi {{ activity.icon }} fs-6 mt-0.5"></i>
+                      <div class="flex-grow-1">
+                        <span class="small text-dark fw-semibold d-block" style="line-height: 1.25;">{{ activity.text }}</span>
+                        <span class="small text-secondary" style="font-size: 0.7rem;">{{ activity.time|timesince }} ago</span>
+                      </div>
+                    </div>
+                  {% empty %}
+                    <span class="small text-secondary">No activity logged.</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Quick Actions Right Panel -->
+              <div class="col-md-5 border-start-md ps-md-3">
+                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h4>
+                <div class="vstack gap-2">
+                  {% if not user.is_authenticated or user.role != 'buyer' %}
+                    <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:create' %}">
+                      <i class="bi bi-plus-circle text-primary me-2"></i> <span class="small fw-bold text-dark">New Property</span>
+                    </a>
+                  {% endif %}
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:approvals_list' %}">
+                    <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
+                    <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Inquiry Pipeline</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
+                    <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
+                  </a>
+                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'reports:home' %}">
+                    <i class="bi bi-file-earmark-bar-graph text-secondary me-2"></i> <span class="small fw-bold text-dark">Export Report</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pm-ops-band">
+  <div class="container">
+    <div class="pm-ops-grid reveal">
+      <div class="pm-op-card pv-card">
+        <i class="bi bi-house-add"></i>
+        <strong>List</strong>
+        <span>Create, price, enrich, and submit inventory.</span>
+      </div>
+      <div class="pm-op-card pv-card">
+        <i class="bi bi-shield-lock"></i>
+        <strong>Approve</strong>
+        <span>Review compliance and publish verified assets.</span>
+      </div>
+      <div class="pm-op-card pv-card">
+        <i class="bi bi-chat-dots"></i>
+        <strong>Convert</strong>
+        <span>Track inquiries, visits, favorites, and inquiry pipeline.</span>
+      </div>
+      <div class="pm-op-card pv-card">
+        <i class="bi bi-graph-up-arrow"></i>
+        <strong>Report</strong>
+        <span>Measure property views, demand, and performance.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pv-section pm-featured-section">
+  <div class="container">
+    <div class="pm-section-head reveal">
+      <div>
+        <span class="pv-eyebrow"><i class="bi bi-gem"></i> Managed inventory</span>
+        <h2 class="display-heading display-4 mt-3 mb-0">Featured properties inside the operating system</h2>
+      </div>
+      <a class="pv-btn pv-btn-ghost" href="{% url 'properties:list' %}">Explore all listings <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="swiper property-swiper pm-inventory-rail reveal">
+      <div class="swiper-wrapper">
+        {% for property in featured %}
+          <div class="swiper-slide">{% include "partials/property_card.html" %}</div>
+        {% empty %}
+          <div class="pv-card p-4">Run <code>python manage.py seed</code> to create demo listings.</div>
+        {% endfor %}
+      </div>
+      <div class="pm-carousel-controls">
+        <button class="pv-icon-action property-swiper-prev" type="button" aria-label="Previous featured property"><i class="bi bi-arrow-left"></i></button>
+        <button class="pv-icon-action property-swiper-next" type="button" aria-label="Next featured property"><i class="bi bi-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pv-section-sm">
+  <div class="container">
+    <div class="pm-management-grid">
+      <div class="pm-dashboard-preview pv-card reveal">
+        <div class="pm-panel-head mb-4">
+          <div><span>Management analytics</span><strong>Portfolio command view</strong></div>
+          <i class="bi bi-bar-chart-line"></i>
+        </div>
+        <div class="pm-analytics-grid">
+          <div class="pm-analytics-kpis">
+            <div class="stat-mini"><strong data-counter="{{ stats.properties }}">0</strong><span>Active listings</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.leads }}">0</strong><span>Inquiry Pipeline</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.conversion_rate }}" data-suffix="%">0</strong><span>Inquiry Performance</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.visits }}">0</strong><span>Site visits</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.inquiries }}">0</strong><span>Total inquiries</span></div>
+            <div class="stat-mini"><strong data-counter="{{ stats.pending }}">0</strong><span>Pending approvals</span></div>
+          </div>
+          <div class="pm-chart-card"><canvas class="dashboard-chart" data-title="Traffic trend" data-labels='[{% for l in traffic_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in traffic_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
+          <div class="pm-chart-card"><canvas class="dashboard-chart" data-type="doughnut" data-title="Asset distribution" data-labels='[{% for l in asset_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in asset_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
+          <div class="pm-activity-timeline">
+            <div class="pv-eyebrow mb-3 mt-2" style="font-size: 0.65rem;"><i class="bi bi-clock-history"></i> Real-time activity</div>
+            {% for act in recent_activities %}
+              <div class="activity">
+                <div>
+                  <strong>{{ act.text }}</strong>
+                  <div class="pv-muted small"><i class="bi {{ act.icon }}"></i> Event logged</div>
+                </div>
+                <strong>{{ act.time|timesince }} ago</strong>
+              </div>
+            {% empty %}
+              <div class="pv-muted small p-2">No recent activity.</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="pm-workflow-panel reveal">
+        <span class="pv-eyebrow"><i class="bi bi-diagram-3"></i> Role-based workspaces</span>
+        <h2 class="display-heading h1 mt-3">Every stakeholder gets the right control surface</h2>
+        <div class="pm-demo-access">
+          <a class="pm-demo-card buyer" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><span><strong>Try Buyer Workspace</strong><small>Saved homes, visits, inquiries.</small></span><em>Open</em></a>
+          <a class="pm-demo-card seller" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, inquiry pipeline, approvals.</small></span><em>Open</em></a>
+          <a class="pm-demo-card admin" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><span><strong>Try Admin Workspace</strong><small>Audit and platform health.</small></span><em>Open</em></a>
+        </div>
+        <div class="pm-role-list">
+          <a class="pm-role-card pv-card" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><strong>Buyer</strong><span>Wishlist, inquiry, and visit tracking.</span></a>
+          <a class="pm-role-card pv-card" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><strong>Seller</strong><span>Listing operations and inquiry metrics.</span></a>
+          <a class="pm-role-card pv-card" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><strong>Admin</strong><span>Approvals, audit trail, and platform health.</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pv-section pm-city-section">
+  <div class="container">
+    <div class="text-center mb-5 reveal">
+      <span class="pv-eyebrow"><i class="bi bi-geo-alt"></i> City intelligence</span>
+      <h2 class="display-heading display-5 mt-3">Track demand across every market</h2>
+    </div>
+    <div class="pm-city-grid">
+      {% for city in cities %}
+        <a class="pm-city-card pv-card reveal" href="{% url 'properties:city' city.city %}">
+          <span>{{ city.city }}</span>
+          <strong>{{ city.total }}</strong>
+          <small>active listings</small>
+          <i class="bi bi-arrow-up-right"></i>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="pv-section-sm">
+  <div class="container">
+    <div class="pm-final-cta dashboard-hero reveal">
+      <div>
+        <span class="pv-eyebrow bg-white text-primary"><i class="bi bi-building-add"></i> Deploy the workspace</span>
+        <h2 class="display-heading display-5 mt-3">Run your real estate platform like an operations desk</h2>
+        <p class="pv-muted">Publish premium listings, route inquiries, monitor approvals, and keep buyers, sellers, and admins aligned.</p>
+      </div>
+      <div class="pm-cta-actions">
+        <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:register' %}">Create account</a>
+        <a class="pv-btn pv-btn-primary" href="{% url 'properties:list' %}">View properties</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

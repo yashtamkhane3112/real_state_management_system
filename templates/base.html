@@ -19,7 +19,7 @@
   <link href="{% static 'css/app.css' %}" rel="stylesheet">
   <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
 </head>
-<body class="{% if user.is_authenticated %}is-authenticated{% endif %}">
+<body class="{% if user.is_authenticated %}is-authenticated{% endif %} {% block body_class %}{% endblock %}">
   <!-- Phase 8: Loading Overlay -->
   <div id="pv-loader" class="loading-overlay">
     <div class="text-center">

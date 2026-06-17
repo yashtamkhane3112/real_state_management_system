@@ -124,7 +124,7 @@
       ".dash-link",
       ".property-media"
     ].join(",");
-    const cards = qsa(selector).filter((card) => !card.closest(".property-card-premium"));
+    const cards = qsa(selector).filter((card) => !card.closest(".property-card-premium") && !card.matches(".filter-panel") && !card.closest(".filter-panel"));
     const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     cards.forEach((card, index) => {
@@ -900,6 +900,328 @@
     });
   }
 
+  /* ══════════════════════════════════════════════════
+     V2 LANDING PAGE — SCROLL REVEAL + PARALLAX
+     ══════════════════════════════════════════════════ */
+
+  function lpReveal() {
+    const isHomePage = document.body.classList.contains("is-home-page");
+    if (!isHomePage) return;
+    if (qsa(".lp-reveal").length === 0) return;
+
+    // Hero reveals: staggered fade-up on page load
+    setTimeout(() => {
+      qsa(".lp-hero .lp-reveal").forEach(el => el.classList.add("is-visible"));
+    }, 120);
+
+    // Below-fold: use IntersectionObserver to add a gentle slide animation class
+    // Elements are ALWAYS visible (no opacity:0 default) — animation is purely cosmetic
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("lp-entered");
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+
+    qsa(".lp-story__row, .lp-stat-card, .lp-kpi-card, .lp-ai-card, .lp-prop-card, .lp-signal, .lp-cta__content, .lp-section-head").forEach(el => {
+      io.observe(el);
+    });
+
+    // Hero-below-fold .lp-reveal elements
+    qsa(".lp-reveal:not(.lp-hero .lp-reveal)").forEach(el => {
+      io.observe(el);
+    });
+  }
+
+  function lpCounters() {
+    const isHomePage = document.body.classList.contains("is-home-page");
+    if (!isHomePage) return;
+
+    const counterEls = qsa(".lp-stat-card__counter[data-counter]");
+    if (counterEls.length === 0) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = Number(el.dataset.counter) || 0;
+          const suffix = el.dataset.suffix || "";
+          const duration = 1800;
+          const start = performance.now();
+          const tick = (now) => {
+            const elapsed = Math.min(now - start, duration);
+            const progress = elapsed / duration;
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(eased * target).toLocaleString() + suffix;
+            if (elapsed < duration) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+          io.unobserve(el);
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    counterEls.forEach(el => io.observe(el));
+  }
+
+  function lpParallax() {
+    const isHomePage = document.body.classList.contains("is-home-page");
+    if (!isHomePage) return;
+
+    const mediaEls = qsa(".lp-story__media--parallax .lp-story__img");
+    if (!mediaEls.length) return;
+
+    const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) return;
+
+    const onScroll = () => {
+      mediaEls.forEach(img => {
+        const rect = img.closest(".lp-story__media--parallax").getBoundingClientRect();
+        const viewportH = window.innerHeight;
+        if (rect.bottom < 0 || rect.top > viewportH) return;
+        const progress = (viewportH - rect.top) / (viewportH + rect.height);
+        const shift = (progress - 0.5) * 40;
+        img.style.transform = `translateY(${shift.toFixed(2)}px) scale(1.08)`;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  function lpScoreBarAnimate() {
+    const isHomePage = document.body.classList.contains("is-home-page");
+    if (!isHomePage) return;
+
+    const fills = qsa(".lp-score-bar__fill");
+    if (!fills.length) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          // Bars animate via CSS once visible — just ensure the section is revealed
+          entry.target.closest(".lp-ai-card") && entry.target.closest(".lp-ai-card").classList.add("is-visible");
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.4 }
+    );
+    fills.forEach(el => io.observe(el));
+  }
+
+  function initCinematicFilm() {
+    const container = document.getElementById("cinematic-container");
+    const sticky = document.getElementById("cinematic-sticky");
+    const canvas = document.getElementById("cinematic-canvas");
+    if (!container || !canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    const frameCount = 300;
+    const images = [];
+
+    function getFrameUrl(index) {
+      const frameNum = String(index).padStart(3, '0');
+      return `/static/images/film-frames/ezgif-frame-${frameNum}.jpg`;
+    }
+
+    // Preload first frame immediately to draw on canvas
+    const firstImage = new Image();
+    firstImage.src = getFrameUrl(1);
+    images[0] = firstImage;
+    firstImage.onload = () => {
+      drawFrame(0);
+    };
+
+    let targetFrame = 0;
+    let currentFrame = 0;
+    const ease = 0.08; // smooth lerp factor
+
+    // Sequential lazy-loader in background
+    let preloadIndex = 1;
+    function preloadNext() {
+      if (preloadIndex >= frameCount) return;
+      if (images[preloadIndex]) {
+        preloadIndex++;
+        preloadNext();
+        return;
+      }
+      const img = new Image();
+      img.src = getFrameUrl(preloadIndex + 1);
+      img.onload = () => {
+        images[preloadIndex] = img;
+        preloadIndex++;
+        setTimeout(preloadNext, 5); // yield to main thread
+      };
+      img.onerror = () => {
+        preloadIndex++;
+        setTimeout(preloadNext, 5);
+      };
+      images[preloadIndex] = img;
+    }
+
+    setTimeout(preloadNext, 250);
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth * window.devicePixelRatio;
+      canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      drawFrame(Math.round(currentFrame));
+    }
+
+    function drawFrame(index) {
+      let img = images[index];
+      if (!img) {
+        // Priority lazy load for current frame on scroll
+        img = new Image();
+        img.src = getFrameUrl(index + 1);
+        img.onload = () => {
+          images[index] = img;
+          if (Math.round(currentFrame) === index) {
+            renderImage(img);
+          }
+        };
+        images[index] = img;
+      }
+
+      if (!img.complete || img.naturalWidth === 0) {
+        const closest = getClosestLoadedImage(index);
+        if (closest) {
+          renderImage(closest);
+        }
+        return;
+      }
+      renderImage(img);
+    }
+
+    function getClosestLoadedImage(index) {
+      let left = index;
+      let right = index;
+      while (left >= 0 || right < frameCount) {
+        if (left >= 0 && images[left] && images[left].complete && images[left].naturalWidth !== 0) {
+          return images[left];
+        }
+        if (right < frameCount && images[right] && images[right].complete && images[right].naturalWidth !== 0) {
+          return images[right];
+        }
+        left--;
+        right++;
+      }
+      return null;
+    }
+
+    function renderImage(img) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const iw = img.width;
+      const ih = img.height;
+
+      const r = Math.min(cw / iw, ch / ih);
+      let nw = iw * r;
+      let nh = ih * r;
+
+      if (nw < cw) {
+        const scaleVal = cw / iw;
+        nw = iw * scaleVal;
+        nh = ih * scaleVal;
+      }
+      if (nh < ch) {
+        const scaleVal = ch / ih;
+        nw = iw * scaleVal;
+        nh = ih * scaleVal;
+      }
+
+      // Gentle zoom and blur effects
+      const rect = container.getBoundingClientRect();
+      const totalScrollRange = rect.height - window.innerHeight;
+      let progress = -rect.top / totalScrollRange;
+      progress = Math.max(0, Math.min(1, progress));
+
+      const zoom = 1.0 + (progress * 0.05); // 5% gentle zoom
+      nw *= zoom;
+      nh *= zoom;
+
+      const x = (cw - nw) / 2;
+      const y = (ch - nh) / 2;
+
+      let blurVal = 0;
+      if (progress > 0.9) {
+        blurVal = ((progress - 0.9) / 0.1) * 8;
+      }
+
+      ctx.filter = blurVal > 0 ? `blur(${blurVal}px)` : 'none';
+      ctx.drawImage(img, x, y, nw, nh);
+
+      // Vignette overlay
+      const gradient = ctx.createRadialGradient(
+        cw / 2, ch / 2, Math.min(cw, ch) * 0.35,
+        cw / 2, ch / 2, Math.max(cw, ch) * 0.85
+      );
+      gradient.addColorStop(0, "rgba(8, 16, 36, 0)");
+      gradient.addColorStop(1, "rgba(8, 16, 36, 0.45)");
+      ctx.fillStyle = gradient;
+      ctx.filter = 'none'; // reset filter for vignette
+      ctx.fillRect(0, 0, cw, ch);
+    }
+
+    function updateScroll() {
+      const rect = container.getBoundingClientRect();
+      const totalScrollRange = rect.height - window.innerHeight;
+      if (totalScrollRange <= 0) return;
+
+      let progress = -rect.top / totalScrollRange;
+      progress = Math.max(0, Math.min(1, progress));
+
+      targetFrame = progress * (frameCount - 1);
+
+      // Fade out canvas sticky in the last 8% of scroll
+      if (progress > 0.92) {
+        const opacity = 1.0 - ((progress - 0.92) / 0.08);
+        sticky.style.opacity = Math.max(0, opacity);
+      } else {
+        sticky.style.opacity = 1.0;
+      }
+
+      // Hide hint
+      const hint = document.getElementById("cinematic-hint");
+      if (hint) {
+        hint.style.opacity = progress > 0.05 ? "0" : "0.6";
+        hint.style.transform = `translate(-50%, ${progress * -30}px)`;
+      }
+    }
+
+    let lastIndex = -1;
+    function renderLoop() {
+      const diff = targetFrame - currentFrame;
+      if (Math.abs(diff) > 0.01) {
+        currentFrame += diff * ease;
+        const index = Math.round(currentFrame);
+        if (index !== lastIndex) {
+          drawFrame(index);
+          lastIndex = index;
+        }
+      }
+      requestAnimationFrame(renderLoop);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("scroll", updateScroll, { passive: true });
+
+    resizeCanvas();
+    updateScroll();
+    requestAnimationFrame(renderLoop);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     loadingState();
     navbar();
@@ -910,7 +1232,18 @@
     tiltCards();
     phoneValidation();
     initLightbox();
-    if (window.location.pathname === "/") {
+
+    // V2 landing page modules
+    lpReveal();
+    lpCounters();
+    lpParallax();
+    lpScoreBarAnimate();
+
+    // Cinematic scroll film
+    initCinematicFilm();
+
+    // ambientScene / cityHero only when not the new V2 landing
+    if (window.location.pathname === "/" && !document.querySelector(".lp-hero") && !document.querySelector(".lp-cinematic")) {
       ambientScene();
       cityHero();
     }

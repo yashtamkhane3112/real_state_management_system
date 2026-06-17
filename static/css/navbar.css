@@ -10,13 +10,22 @@
    The navbar pill sits inside it and simply fills its width.      */
 .pv-navbar-wrapper {
   position: fixed !important;
-  top: 12px !important;
+  top: 10px !important;
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
   z-index: 9999 !important;
-  padding: 0 24px !important;
+  padding: 0 20px !important;
   pointer-events: auto !important;
+  transition: top 0.3s ease !important;
+}
+
+/* On homepage: navbar is positioned closer to the top of the screen */
+body.is-home-page .pv-navbar-wrapper {
+  top: 16px !important;
+}
+body.is-home-page.navbar-scrolled .pv-navbar-wrapper {
+  top: 8px !important;
 }
 
 /* ── Container: floating premium glass pill ── */
@@ -73,10 +82,10 @@
   grid-template-columns: auto 1fr auto !important;
   align-items: center !important;
   gap: 1.25rem !important;
-  min-height: 64px !important;
-  height: 64px !important;
+  min-height: 58px !important;
+  height: 58px !important;
   /* Balanced horizontal padding */
-  padding: 0 1.5rem !important;
+  padding: 0 1.25rem !important;
   /* Kill any old card paint */
   background: transparent !important;
   border: none !important;
@@ -122,15 +131,20 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 0.35rem !important;
-  transition: color 0.2s ease, background 0.2s ease !important;
+  border: 1px solid transparent !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease !important;
 }
 .pv-nav-links a:hover {
   color: #4f46e5 !important;        /* Indigo on hover */
-  background: rgba(99, 102, 241, 0.08) !important;
+  background-color: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.18) !important;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.08),
+    0 8px 24px rgba(99, 102, 241, 0.06) !important;
 }
 .pv-nav-links a.active {
   color: #4f46e5 !important;
-  background: rgba(99, 102, 241, 0.12) !important;
+  background-color: rgba(99, 102, 241, 0.12) !important;
   font-weight: 700 !important;
 }
 
@@ -302,23 +316,118 @@
   100% { box-shadow: 0 0 0 0   rgba(239, 68, 68, 0.00); }
 }
 
-/* ── Dropdown menus inside navbar ── */
+/* ══════════════════════════════════════════════════════════════
+   PropVista — Unified Navbar Dropdown Design System
+   One shared token set: search + notification dropdowns.
+   Design: light glass · dark text · blue accents · soft shadow
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Shared base: both dropdowns inherit this ── */
 .pv-navbar .dropdown-menu {
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  background: rgba(10, 18, 42, 0.90) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.40) !important;
+  /* Background */
+  background: rgba(255, 255, 255, 0.96) !important;
+  /* Border */
+  border: 1px solid rgba(148, 163, 184, 0.18) !important;
+  /* Shadow */
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.12),
+    0 4px 12px rgba(15, 23, 42, 0.06) !important;
+  /* Radius */
+  border-radius: 18px !important;
+  /* Glass blur */
+  backdrop-filter: blur(28px) !important;
+  -webkit-backdrop-filter: blur(28px) !important;
+  /* Animate in */
+  animation: pv-dropdown-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+  transform-origin: top right !important;
+  overflow: hidden !important;
 }
+
+@keyframes pv-dropdown-in {
+  from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+/* ── Dropdown items (shared) ── */
 .pv-navbar .dropdown-item {
-  color: rgba(255, 255, 255, 0.85) !important;
+  color: #0f172a !important;          /* --pv-ink */
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  border: 1px solid transparent !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, color 0.25s ease !important;
 }
-.pv-navbar .dropdown-item:hover {
-  background: rgba(139, 92, 246, 0.14) !important;
-  color: #fff !important;
+.pv-navbar .dropdown-item:hover,
+.pv-navbar .dropdown-item:focus {
+  background-color: rgba(99, 102, 241, 0.06) !important;
+  color: #4f46e5 !important;
+  border-color: rgba(99, 102, 241, 0.18) !important;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.08),
+    0 8px 24px rgba(99, 102, 241, 0.06) !important;
 }
 .pv-navbar .dropdown-toggle::after { display: none !important; }
+
+/* ── Dropdown divider ── */
+.pv-navbar .dropdown-menu .border-bottom,
+.pv-navbar .dropdown-menu li.border-bottom {
+  border-bottom-color: rgba(148, 163, 184, 0.18) !important;
+}
+.pv-navbar .dropdown-menu .border-top {
+  border-top-color: rgba(148, 163, 184, 0.18) !important;
+}
+
+/* ── Notification dropdown: header row ── */
+.pv-navbar .dropdown-menu .fw-bold {
+  color: #0f172a !important;
+  font-size: 0.875rem !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* ── Notification dropdown: muted accent link (Mark all read / View all) ── */
+.pv-navbar .dropdown-menu a.fw-semibold,
+.pv-navbar .dropdown-menu a.fw-bold {
+  color: #2563eb !important;          /* --pv-accent */
+  font-size: 0.8rem !important;
+}
+.pv-navbar .dropdown-menu a.fw-semibold:hover,
+.pv-navbar .dropdown-menu a.fw-bold:hover {
+  color: #1d4ed8 !important;
+}
+
+/* ── Notification item: icon circle ── */
+.pv-navbar .dropdown-menu .rounded-circle {
+  background: rgba(37, 99, 235, 0.09) !important;
+  color: #2563eb !important;
+}
+
+/* ── Notification item: title text ── */
+.pv-navbar .dropdown-item strong {
+  color: #0f172a !important;   /* ink — maximum contrast */
+  font-weight: 600 !important;
+}
+
+/* ── Notification item: body text (slate-600) ── */
+.pv-navbar .dropdown-item span:not(:last-child) {
+  color: #475569 !important;   /* solid slate — fully readable */
+}
+
+/* ── Notification item: timestamp (slate-400) ── */
+.pv-navbar .dropdown-item span:last-child {
+  color: #94a3b8 !important;   /* muted but visible */
+}
+
+/* ── Search hint text ── */
+.pv-navbar .dropdown-menu .mt-2.small {
+  color: #64748b !important;
+}
+
+/* ── Empty state ── */
+.pv-navbar .dropdown-menu .bi-bell-slash {
+  color: rgba(15, 23, 42, 0.25) !important;
+}
+
+
 
 /* ── Responsive: ≤ 992 px (tablet + mobile) ── */
 @media (max-width: 992px) {
@@ -378,4 +487,79 @@
   .pv-navbar .pv-brand small { display: none !important; }
   /* Shrink icon buttons */
   .pv-navbar .pv-icon-action { width: 34px !important; height: 34px !important; }
+}
+
+/* ══════════════════════════════════════════
+   NAVBAR GLASS EFFECTS FOR HOMEPAGE ONLY
+   ══════════════════════════════════════════ */
+body.is-home-page .pv-navbar {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-brand strong,
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-brand-mark {
+  color: #ffffff !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-brand small {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-nav-links a {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-nav-links a:hover,
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-nav-links a.active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-icon-action {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-nav-profile-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body.is-home-page:not(.navbar-scrolled) .pv-navbar .pv-nav-logout {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar {
+  background: rgba(8, 16, 36, 0.5) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar .pv-brand strong,
+body.is-home-page.navbar-scrolled .pv-navbar .pv-brand-mark {
+  color: #ffffff !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar .pv-brand small {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar .pv-nav-links a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar .pv-nav-links a:hover,
+body.is-home-page.navbar-scrolled .pv-navbar .pv-nav-links a.active {
+  color: #ffffff !important;
+}
+
+body.is-home-page.navbar-scrolled .pv-navbar .pv-icon-action {
+  color: rgba(255, 255, 255, 0.8) !important;
 }

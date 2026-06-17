@@ -5,15 +5,13 @@
   {% include "partials/sidebar.html" %}
   <div class="dashboard-main notifications-main">
     <div class="notifications-container">
-      <!-- Centered Header Column -->
+      <!-- Page-hero style header matching /properties/ -->
       <div class="notifications-header mb-5">
-        <div class="mb-3">
-          <span class="pv-eyebrow inbox-badge"><i class="bi bi-bell"></i> Inbox</span>
-        </div>
-        <h1 class="pv-serif display-5 mb-2" style="font-size: 48px !important;">Notifications</h1>
-        <p class="pv-muted fs-5 mb-4" style="font-size: 18px !important;">{{ unread_count }} unread of {{ notifications|length }} recent alerts.</p>
+        <span class="pv-eyebrow reveal"><i class="bi bi-bell"></i> Inbox</span>
+        <h1 class="pv-serif display-3 workspace-page-title fw-bold mt-3 mb-3 reveal">Notifications</h1>
+        <p class="pv-muted fs-5 workspace-page-subtitle mb-4 reveal">{{ unread_count }} unread of {{ notifications|length }} recent alerts.</p>
         {% if notifications %}
-        <form method="post" action="{% url 'notifications:mark_all_read' %}" class="m-0 d-inline-block">{% csrf_token %}
+        <form method="post" action="{% url 'notifications:mark_all_read' %}" class="m-0 d-inline-block">{%csrf_token%}
           <button class="pv-btn pv-btn-ghost btn-sm py-2 px-4" type="submit"><i class="bi bi-check2-all"></i> Mark all read</button>
         </form>
         {% endif %}

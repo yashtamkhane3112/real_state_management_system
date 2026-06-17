@@ -1,333 +1,416 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}PropVista | Property Management Made Simple{% endblock %}
+{% block title %}PropVista | Luxury Real Estate Intelligence Platform{% endblock %}
+{% block body_class %}is-home-page{% endblock %}
 {% block content %}
-<section class="pv-hero pm-hero">
-  <video class="pv-hero-canvas" autoplay muted loop playsinline preload="auto" aria-hidden="true" style="width: 100%; height: 100%; max-width: 100%; object-fit: cover; pointer-events: none; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);">
-    <source src="{% static 'property.mp4' %}" type="video/mp4">
-  </video>
-  <div class="container pv-hero-content pm-hero-content">
-    <div class="pm-hero-copy">
-      <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> INTELLIGENT PROPERTY PLATFORM</span>
-      <h1 class="reveal">Real Estate Operations <span class="pv-hero-accent">Unified.</span></h1>
-      <p class="pv-hero-copy reveal">Discover, manage, and close premium property opportunities from one intelligent platform.</p>
-      
-      <!-- Trust Indicators / Feature Chips -->
-      <div class="d-flex flex-wrap justify-content-center gap-3 pm-feature-chips-container reveal">
-        <span class="pv-hero-chip"><i class="bi bi-cpu"></i> AI Recommendations</span>
-        <span class="pv-hero-chip"><i class="bi bi-arrow-repeat"></i> Lifecycle Tracking</span>
-        <span class="pv-hero-chip"><i class="bi bi-graph-up-arrow"></i> Advanced Analytics</span>
-      </div>
 
-      <form class="pm-command-search pv-glass reveal" action="{% url 'properties:list' %}">
-        <div>
-          <label>Location</label>
-          <input name="q" class="form-control" placeholder="City, locality, landmark">
-        </div>
-        <div>
-          <label>Asset type</label>
-          <select name="property_type" class="form-select">
-            <option value="">All properties</option>
-            <option value="apartment">Apartment</option>
-            <option value="villa">Villa</option>
-            <option value="house">House</option>
-            <option value="commercial">Commercial</option>
-          </select>
-        </div>
-        <div>
-          <label>Budget</label>
-          <select name="max_price" class="form-select">
-            <option value="">Any budget</option>
-            <option value="10000000">Under 1 Cr</option>
-            <option value="25000000">Under 2.5 Cr</option>
-            <option value="50000000">Under 5 Cr</option>
-          </select>
-        </div>
-        <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-search"></i> Open inventory</button>
-      </form>
-
-      <div class="pm-filter-chips reveal" aria-label="Popular filters">
-        <a class="chip" href="{% url 'properties:list' %}?property_type=apartment"><i class="bi bi-building"></i> Apartment</a>
-        <a class="chip" href="{% url 'properties:list' %}?max_price=10000000"><i class="bi bi-currency-rupee"></i> Under 1 Cr</a>
-        <a class="chip" href="{% url 'properties:list' %}?property_type=villa"><i class="bi bi-house-heart"></i> Villa</a>
-        <a class="chip" href="{% url 'properties:list' %}?sort=popular"><i class="bi bi-stars"></i> Popular</a>
-      </div>
+<!-- ══════════════════════════════════════════
+     SECTION 1 · CINEMATIC SCROLL FILM
+     Fullscreen sticky section controlled by scroll
+     ══════════════════════════════════════════ -->
+<section class="lp-cinematic" id="cinematic-container" aria-label="Cinematic property presentation">
+  <div class="lp-cinematic__sticky" id="cinematic-sticky">
+    <canvas class="lp-cinematic__canvas" id="cinematic-canvas"></canvas>
+    
+    <!-- Subtle luxury scroll indicator -->
+    <div class="lp-cinematic__hint" id="cinematic-hint">
+      <span class="lp-cinematic__hint-text">Scroll to explore the property</span>
+      <div class="lp-cinematic__hint-line"></div>
     </div>
-
   </div>
 </section>
 
 
-<!-- Operations Overview Section -->
-<section class="pv-section bg-light border-bottom py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-xl-11 col-xxl-10">
-        <div class="pm-command-center-container reveal" aria-label="Platform operations preview">
-          <div class="pm-command-center pv-glass p-4 p-lg-5 rounded-4 shadow-lg w-100" style="border: 1px solid rgba(255, 255, 255, 0.4); max-width: 100% !important;">
-            
-            <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-              <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-cpu text-primary fs-4"></i>
-                <h3 class="h5 mb-0 fw-bold pv-serif">Operations Overview</h3>
-              </div>
-              <span class="badge bg-success-subtle text-success p-2 rounded-3 text-uppercase font-monospace" style="font-size: 0.7rem;">Live System</span>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3 · FEATURED PROPERTY EXPERIENCE
+     Premium 3-card property showcase
+     ══════════════════════════════════════════ -->
+<section class="lp-featured" id="featured" aria-label="Featured properties">
+  <div class="lp-container">
+    <div class="lp-section-head">
+      <div class="lp-section-head__text">
+        <span class="lp-eyebrow lp-eyebrow--light"><i class="bi bi-gem"></i> Managed Inventory</span>
+        <h2 class="lp-section-head__title lp-section-head__title--light">Featured Properties</h2>
+        <p class="lp-section-head__sub">Handpicked premium listings from our verified inventory.</p>
+      </div>
+      <a href="{% url 'properties:list' %}" class="lp-btn lp-btn--ghost-light" id="featured-view-all">
+        View all listings <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="lp-featured__grid" id="featured-grid">
+      {% for property in featured|slice:":3" %}
+      <article class="lp-prop-card" id="featured-card-{{ forloop.counter }}">
+        <a href="{% url 'properties:detail' property.slug %}" class="lp-prop-card__link" aria-label="View {{ property.title }}">
+          <div class="lp-prop-card__media">
+            <img src="{{ property.display_image_url }}" alt="{{ property.title }}" class="lp-prop-card__img" loading="lazy" onload="this.classList.add('is-loaded')">
+            <div class="lp-prop-card__overlay"></div>
+            <div class="lp-prop-card__badges">
+              {% if property.status == 'approved' %}
+                <span class="lp-prop-badge lp-prop-badge--verified"><i class="bi bi-shield-check"></i> Verified</span>
+              {% endif %}
+              <span class="lp-prop-badge lp-prop-badge--type">{{ property.get_property_type_display }}</span>
             </div>
-
-            <!-- Metric cards grid -->
-            <div class="row g-3 mb-4">
-              <!-- Properties -->
-              <div class="col-sm-6 col-lg-3">
-                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                    <i class="bi bi-houses text-primary"></i>
-                    <span class="small fw-semibold">Properties</span>
-                  </div>
-                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.properties }}">0</strong>
-                  <span class="small text-success fw-bold"><i class="bi bi-arrow-up-short"></i> Active inventory</span>
-                </div>
-              </div>
-
-              <!-- Inquiry Pipeline -->
-              <div class="col-sm-6 col-lg-3">
-                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                    <i class="bi bi-people text-info"></i>
-                    <span class="small fw-semibold">Inquiry Pipeline</span>
-                  </div>
-                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.leads }}">0</strong>
-                  <span class="small text-info fw-bold"><i class="bi bi-activity"></i> Active funnel</span>
-                </div>
-              </div>
-
-              <!-- Visits -->
-              <div class="col-sm-6 col-lg-3">
-                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                    <i class="bi bi-calendar2-check text-warning"></i>
-                    <span class="small fw-semibold">Visits</span>
-                  </div>
-                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.visits }}">0</strong>
-                  <span class="small text-warning fw-bold"><i class="bi bi-clock-history"></i> Scheduled</span>
-                </div>
-              </div>
-
-              <!-- Pending Approvals -->
-              <div class="col-sm-6 col-lg-3">
-                <div class="pv-card p-3 d-flex flex-column h-100 bg-white bg-opacity-75" style="border-radius: 16px;">
-                  <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
-                    <i class="bi bi-shield-exclamation text-danger"></i>
-                    <span class="small fw-semibold">Pending Approvals</span>
-                  </div>
-                  <strong class="fs-4 text-dark mb-1" data-counter="{{ metrics.pending }}">0</strong>
-                  <span class="small text-danger fw-bold"><i class="bi bi-exclamation-circle"></i> Requires attention</span>
-                </div>
-              </div>
-
-              <!-- Revenue Pipeline -->
-              <div class="col-12 mt-3">
-                <div class="pv-card p-3 d-flex justify-content-between align-items-center bg-white bg-opacity-75" style="border-radius: 16px;">
-                  <div class="d-flex align-items-center gap-2 text-secondary">
-                    <i class="bi bi-currency-rupee text-success fs-5"></i>
-                    <div>
-                      <span class="small fw-semibold d-block">Revenue Pipeline</span>
-                      <span class="small text-success fw-bold"><i class="bi bi-arrow-up-right"></i> Active pipeline</span>
-                    </div>
-                  </div>
-                  <strong class="fs-4 text-success">{{ metrics.revenue }}</strong>
-                </div>
-              </div>
+          </div>
+          <div class="lp-prop-card__body">
+            <div class="lp-prop-card__meta">
+              <span class="lp-prop-card__location"><i class="bi bi-geo-alt"></i> {{ property.city }}{% if property.locality %}, {{ property.locality }}{% endif %}</span>
             </div>
-
-            <!-- Recent Activity Timeline & Quick Actions layout -->
-            <div class="row g-4">
-              <!-- Activity Timeline -->
-              <div class="col-md-7">
-                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-clock-history"></i> Recent Activity</h4>
-                <div class="vstack gap-2" style="max-height: 200px; overflow-y: auto; padding-right: 4px;">
-                  {% for activity in recent_activities %}
-                    <div class="d-flex align-items-start gap-2 p-2 rounded bg-white bg-opacity-50 border-bottom border-light">
-                      <i class="bi {{ activity.icon }} fs-6 mt-0.5"></i>
-                      <div class="flex-grow-1">
-                        <span class="small text-dark fw-semibold d-block" style="line-height: 1.25;">{{ activity.text }}</span>
-                        <span class="small text-secondary" style="font-size: 0.7rem;">{{ activity.time|timesince }} ago</span>
-                      </div>
-                    </div>
-                  {% empty %}
-                    <span class="small text-secondary">No activity logged.</span>
-                  {% endfor %}
-                </div>
-              </div>
-
-              <!-- Quick Actions Right Panel -->
-              <div class="col-md-5 border-start-md ps-md-3">
-                <h4 class="small fw-bold text-secondary text-uppercase tracking-wider mb-3"><i class="bi bi-lightning-charge"></i> Quick Actions</h4>
-                <div class="vstack gap-2">
-                  {% if not user.is_authenticated or user.role != 'buyer' %}
-                    <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:create' %}">
-                      <i class="bi bi-plus-circle text-primary me-2"></i> <span class="small fw-bold text-dark">New Property</span>
-                    </a>
-                  {% endif %}
-                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'properties:approvals_list' %}">
-                    <i class="bi bi-shield-check text-success me-2"></i> <span class="small fw-bold text-dark">Approve Listings</span>
-                  </a>
-                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'leads:list' %}">
-                    <i class="bi bi-people text-info me-2"></i> <span class="small fw-bold text-dark">View Inquiry Pipeline</span>
-                  </a>
-                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="/admin/accounts/user/">
-                    <i class="bi bi-person-gear text-warning me-2"></i> <span class="small fw-bold text-dark">Manage Sellers</span>
-                  </a>
-                  <a class="pv-btn pv-btn-ghost py-1.5 px-3 justify-content-start text-start w-100 bg-white bg-opacity-75" href="{% url 'reports:home' %}">
-                    <i class="bi bi-file-earmark-bar-graph text-secondary me-2"></i> <span class="small fw-bold text-dark">Export Report</span>
-                  </a>
-                </div>
-              </div>
+            <h3 class="lp-prop-card__title">{{ property.title }}</h3>
+            <div class="lp-prop-card__price">₹{{ property.price|floatformat:0 }}</div>
+            <div class="lp-prop-card__highlights">
+              {% if property.bedrooms %}<span><i class="bi bi-door-open"></i> {{ property.bedrooms }} BHK</span>{% endif %}
+              {% if property.area %}<span><i class="bi bi-rulers"></i> {{ property.area }} sq.ft</span>{% endif %}
+              {% if property.bathrooms %}<span><i class="bi bi-droplet"></i> {{ property.bathrooms }} Bath</span>{% endif %}
             </div>
-            
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pm-ops-band">
-  <div class="container">
-    <div class="pm-ops-grid reveal">
-      <div class="pm-op-card pv-card">
-        <i class="bi bi-house-add"></i>
-        <strong>List</strong>
-        <span>Create, price, enrich, and submit inventory.</span>
-      </div>
-      <div class="pm-op-card pv-card">
-        <i class="bi bi-shield-lock"></i>
-        <strong>Approve</strong>
-        <span>Review compliance and publish verified assets.</span>
-      </div>
-      <div class="pm-op-card pv-card">
-        <i class="bi bi-chat-dots"></i>
-        <strong>Convert</strong>
-        <span>Track inquiries, visits, favorites, and inquiry pipeline.</span>
-      </div>
-      <div class="pm-op-card pv-card">
-        <i class="bi bi-graph-up-arrow"></i>
-        <strong>Report</strong>
-        <span>Measure property views, demand, and performance.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pv-section pm-featured-section">
-  <div class="container">
-    <div class="pm-section-head reveal">
-      <div>
-        <span class="pv-eyebrow"><i class="bi bi-gem"></i> Managed inventory</span>
-        <h2 class="display-heading display-4 mt-3 mb-0">Featured properties inside the operating system</h2>
-      </div>
-      <a class="pv-btn pv-btn-ghost" href="{% url 'properties:list' %}">Explore all listings <i class="bi bi-arrow-right"></i></a>
-    </div>
-    <div class="swiper property-swiper pm-inventory-rail reveal">
-      <div class="swiper-wrapper">
-        {% for property in featured %}
-          <div class="swiper-slide">{% include "partials/property_card.html" %}</div>
-        {% empty %}
-          <div class="pv-card p-4">Run <code>python manage.py seed</code> to create demo listings.</div>
-        {% endfor %}
-      </div>
-      <div class="pm-carousel-controls">
-        <button class="pv-icon-action property-swiper-prev" type="button" aria-label="Previous featured property"><i class="bi bi-arrow-left"></i></button>
-        <button class="pv-icon-action property-swiper-next" type="button" aria-label="Next featured property"><i class="bi bi-arrow-right"></i></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pv-section-sm">
-  <div class="container">
-    <div class="pm-management-grid">
-      <div class="pm-dashboard-preview pv-card reveal">
-        <div class="pm-panel-head mb-4">
-          <div><span>Management analytics</span><strong>Portfolio command view</strong></div>
-          <i class="bi bi-bar-chart-line"></i>
-        </div>
-        <div class="pm-analytics-grid">
-          <div class="pm-analytics-kpis">
-            <div class="stat-mini"><strong data-counter="{{ stats.properties }}">0</strong><span>Active listings</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.leads }}">0</strong><span>Inquiry Pipeline</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.conversion_rate }}" data-suffix="%">0</strong><span>Inquiry Performance</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.visits }}">0</strong><span>Site visits</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.inquiries }}">0</strong><span>Total inquiries</span></div>
-            <div class="stat-mini"><strong data-counter="{{ stats.pending }}">0</strong><span>Pending approvals</span></div>
-          </div>
-          <div class="pm-chart-card"><canvas class="dashboard-chart" data-title="Traffic trend" data-labels='[{% for l in traffic_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in traffic_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
-          <div class="pm-chart-card"><canvas class="dashboard-chart" data-type="doughnut" data-title="Asset distribution" data-labels='[{% for l in asset_labels %}"{{ l }}"{% if not forloop.last %},{% endif %}{% endfor %}]' data-values='[{% for v in asset_values %}{{ v }}{% if not forloop.last %},{% endif %}{% endfor %}]'></canvas></div>
-          <div class="pm-activity-timeline">
-            <div class="pv-eyebrow mb-3 mt-2" style="font-size: 0.65rem;"><i class="bi bi-clock-history"></i> Real-time activity</div>
-            {% for act in recent_activities %}
-              <div class="activity">
-                <div>
-                  <strong>{{ act.text }}</strong>
-                  <div class="pv-muted small"><i class="bi {{ act.icon }}"></i> Event logged</div>
-                </div>
-                <strong>{{ act.time|timesince }} ago</strong>
-              </div>
-            {% empty %}
-              <div class="pv-muted small p-2">No recent activity.</div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class="pm-workflow-panel reveal">
-        <span class="pv-eyebrow"><i class="bi bi-diagram-3"></i> Role-based workspaces</span>
-        <h2 class="display-heading h1 mt-3">Every stakeholder gets the right control surface</h2>
-        <div class="pm-demo-access">
-          <a class="pm-demo-card buyer" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><span><strong>Try Buyer Workspace</strong><small>Saved homes, visits, inquiries.</small></span><em>Open</em></a>
-          <a class="pm-demo-card seller" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><span><strong>Try Seller Workspace</strong><small>Listings, inquiry pipeline, approvals.</small></span><em>Open</em></a>
-          <a class="pm-demo-card admin" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><span><strong>Try Admin Workspace</strong><small>Audit and platform health.</small></span><em>Open</em></a>
-        </div>
-        <div class="pm-role-list">
-          <a class="pm-role-card pv-card" href="{% url 'accounts:buyer_dashboard' %}"><i class="bi bi-person-heart"></i><strong>Buyer</strong><span>Wishlist, inquiry, and visit tracking.</span></a>
-          <a class="pm-role-card pv-card" href="{% url 'accounts:seller_dashboard' %}"><i class="bi bi-house-gear"></i><strong>Seller</strong><span>Listing operations and inquiry metrics.</span></a>
-          <a class="pm-role-card pv-card" href="{% url 'accounts:admin_dashboard' %}"><i class="bi bi-shield-check"></i><strong>Admin</strong><span>Approvals, audit trail, and platform health.</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="pv-section pm-city-section">
-  <div class="container">
-    <div class="text-center mb-5 reveal">
-      <span class="pv-eyebrow"><i class="bi bi-geo-alt"></i> City intelligence</span>
-      <h2 class="display-heading display-5 mt-3">Track demand across every market</h2>
-    </div>
-    <div class="pm-city-grid">
-      {% for city in cities %}
-        <a class="pm-city-card pv-card reveal" href="{% url 'properties:city' city.city %}">
-          <span>{{ city.city }}</span>
-          <strong>{{ city.total }}</strong>
-          <small>active listings</small>
-          <i class="bi bi-arrow-up-right"></i>
         </a>
+      </article>
+      {% empty %}
+      <!-- Demo cards when no properties seeded -->
+      <article class="lp-prop-card" id="featured-demo-1">
+        <div class="lp-prop-card__link">
+          <div class="lp-prop-card__media">
+            <img src="{% static 'images/properties/house-02.jpg' %}" alt="Demo property" class="lp-prop-card__img" onload="this.classList.add('is-loaded')">
+            <div class="lp-prop-card__overlay"></div>
+            <div class="lp-prop-card__badges">
+              <span class="lp-prop-badge lp-prop-badge--verified"><i class="bi bi-shield-check"></i> Verified</span>
+              <span class="lp-prop-badge lp-prop-badge--type">Villa</span>
+            </div>
+          </div>
+          <div class="lp-prop-card__body">
+            <div class="lp-prop-card__meta"><span class="lp-prop-card__location"><i class="bi bi-geo-alt"></i> Mumbai, Bandra West</span></div>
+            <h3 class="lp-prop-card__title">Bandra Heights</h3>
+            <div class="lp-prop-card__price">₹4,25,00,000</div>
+            <div class="lp-prop-card__highlights">
+              <span><i class="bi bi-door-open"></i> 4 BHK</span>
+              <span><i class="bi bi-rulers"></i> 3,200 sq.ft</span>
+              <span><i class="bi bi-droplet"></i> 3 Bath</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="lp-prop-card" id="featured-demo-2">
+        <div class="lp-prop-card__link">
+          <div class="lp-prop-card__media">
+            <img src="{% static 'images/properties/house-05.jpg' %}" alt="Demo property" class="lp-prop-card__img" onload="this.classList.add('is-loaded')">
+            <div class="lp-prop-card__overlay"></div>
+            <div class="lp-prop-card__badges">
+              <span class="lp-prop-badge lp-prop-badge--verified"><i class="bi bi-shield-check"></i> Verified</span>
+              <span class="lp-prop-badge lp-prop-badge--type">Apartment</span>
+            </div>
+          </div>
+          <div class="lp-prop-card__body">
+            <div class="lp-prop-card__meta"><span class="lp-prop-card__location"><i class="bi bi-geo-alt"></i> Bangalore, Indiranagar</span></div>
+            <h3 class="lp-prop-card__title">Indiranagar Residences</h3>
+            <div class="lp-prop-card__price">₹2,80,00,000</div>
+            <div class="lp-prop-card__highlights">
+              <span><i class="bi bi-door-open"></i> 3 BHK</span>
+              <span><i class="bi bi-rulers"></i> 1,850 sq.ft</span>
+              <span><i class="bi bi-droplet"></i> 2 Bath</span>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="lp-prop-card" id="featured-demo-3">
+        <div class="lp-prop-card__link">
+          <div class="lp-prop-card__media">
+            <img src="{% static 'images/properties/house-03.jpg' %}" alt="Demo property" class="lp-prop-card__img" onload="this.classList.add('is-loaded')">
+            <div class="lp-prop-card__overlay"></div>
+            <div class="lp-prop-card__badges">
+              <span class="lp-prop-badge lp-prop-badge--verified"><i class="bi bi-shield-check"></i> Verified</span>
+              <span class="lp-prop-badge lp-prop-badge--type">House</span>
+            </div>
+          </div>
+          <div class="lp-prop-card__body">
+            <div class="lp-prop-card__meta"><span class="lp-prop-card__location"><i class="bi bi-geo-alt"></i> Delhi, Vasant Vihar</span></div>
+            <h3 class="lp-prop-card__title">Vasant Vihar Mansion</h3>
+            <div class="lp-prop-card__price">₹6,50,00,000</div>
+            <div class="lp-prop-card__highlights">
+              <span><i class="bi bi-door-open"></i> 5 BHK</span>
+              <span><i class="bi bi-rulers"></i> 4,800 sq.ft</span>
+              <span><i class="bi bi-droplet"></i> 4 Bath</span>
+            </div>
+          </div>
+        </div>
+      </article>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<section class="pv-section-sm">
-  <div class="container">
-    <div class="pm-final-cta dashboard-hero reveal">
-      <div>
-        <span class="pv-eyebrow bg-white text-primary"><i class="bi bi-building-add"></i> Deploy the workspace</span>
-        <h2 class="display-heading display-4 mt-3">Run your real estate platform like an operations desk</h2>
-        <p class="pv-muted">Publish premium listings, route inquiries, monitor approvals, and keep buyers, sellers, and admins aligned.</p>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4 · AI INTELLIGENCE
+     Dashboard-style AI feature showcase
+     ══════════════════════════════════════════ -->
+<section class="lp-ai" id="ai-section" aria-label="AI intelligence features">
+  <div class="lp-container">
+    <div class="lp-section-head lp-section-head--centered">
+      <span class="lp-eyebrow"><i class="bi bi-cpu"></i> AI Engine</span>
+      <h2 class="lp-section-head__title">Intelligence at Every Step</h2>
+      <p class="lp-section-head__sub lp-section-head__sub--wide">Our AI engine transforms raw market data into clear, actionable property intelligence — so every decision you make is backed by data.</p>
+    </div>
+
+    <div class="lp-ai__grid">
+      <!-- AI Insights card -->
+      <div class="lp-ai-card lp-ai-card--large" id="ai-card-insights">
+        <div class="lp-ai-card__icon"><i class="bi bi-lightbulb"></i></div>
+        <h3 class="lp-ai-card__title">AI Property Insights</h3>
+        <p class="lp-ai-card__body">Get instant AI-generated property analysis — price fairness score, locality growth trend, investment potential, and risk flags.</p>
+        <div class="lp-ai-card__demo">
+          <div class="lp-score-bar">
+            <span class="lp-score-bar__label">Price Fairness</span>
+            <div class="lp-score-bar__track"><div class="lp-score-bar__fill" style="--fill:82%"></div></div>
+            <span class="lp-score-bar__val">82</span>
+          </div>
+          <div class="lp-score-bar">
+            <span class="lp-score-bar__label">Growth Potential</span>
+            <div class="lp-score-bar__track"><div class="lp-score-bar__fill lp-score-bar__fill--emerald" style="--fill:74%"></div></div>
+            <span class="lp-score-bar__val">74</span>
+          </div>
+          <div class="lp-score-bar">
+            <span class="lp-score-bar__label">Investment Score</span>
+            <div class="lp-score-bar__track"><div class="lp-score-bar__fill lp-score-bar__fill--gold" style="--fill:91%"></div></div>
+            <span class="lp-score-bar__val">91</span>
+          </div>
+        </div>
       </div>
-      <div class="pm-cta-actions">
-        <a class="pv-btn pv-btn-ghost" href="{% url 'accounts:register' %}">Create account</a>
-        <a class="pv-btn pv-btn-primary" href="{% url 'properties:list' %}">View properties</a>
+
+      <!-- AI Match card -->
+      <div class="lp-ai-card" id="ai-card-match">
+        <div class="lp-ai-card__icon lp-ai-card__icon--violet"><i class="bi bi-stars"></i></div>
+        <h3 class="lp-ai-card__title">AI Match</h3>
+        <p class="lp-ai-card__body">Properties scored and ranked based on your buyer persona, search history, and stated preferences.</p>
+        <div class="lp-ai-match-pills">
+          <span class="lp-ai-match-pill lp-ai-match-pill--strong">98% match</span>
+          <span class="lp-ai-match-pill">Villa · 4 BHK</span>
+          <span class="lp-ai-match-pill">Mumbai</span>
+        </div>
+      </div>
+
+      <!-- Buyer Persona card -->
+      <div class="lp-ai-card" id="ai-card-persona">
+        <div class="lp-ai-card__icon lp-ai-card__icon--emerald"><i class="bi bi-person-badge"></i></div>
+        <h3 class="lp-ai-card__title">Buyer Persona</h3>
+        <p class="lp-ai-card__body">Your browsing and inquiry patterns build a real-time buyer persona that sharpens every recommendation.</p>
+        <div class="lp-persona-tags">
+          <span class="lp-tag">Premium Buyer</span>
+          <span class="lp-tag">Urban Prefer.</span>
+          <span class="lp-tag">3–4 BHK</span>
+          <span class="lp-tag">High Intent</span>
+        </div>
+      </div>
+
+      <!-- Comparison card -->
+      <div class="lp-ai-card" id="ai-card-compare">
+        <div class="lp-ai-card__icon lp-ai-card__icon--gold"><i class="bi bi-columns-gap"></i></div>
+        <h3 class="lp-ai-card__title">Property Comparison</h3>
+        <p class="lp-ai-card__body">Compare up to 4 properties side-by-side across price, area, location score, amenities, and AI rating.</p>
+        <a href="{% url 'properties:list' %}" class="lp-ai-card__link" id="ai-compare-link">Start comparing <i class="bi bi-arrow-right"></i></a>
       </div>
     </div>
   </div>
 </section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION 5 · MARKET PULSE
+     Bloomberg-style market analytics showcase
+     ══════════════════════════════════════════ -->
+<section class="lp-market" id="market-section" aria-label="Market pulse data">
+  <div class="lp-container">
+    <div class="lp-section-head">
+      <div class="lp-section-head__text">
+        <span class="lp-eyebrow lp-eyebrow--light"><i class="bi bi-activity"></i> Market Pulse</span>
+        <h2 class="lp-section-head__title lp-section-head__title--light">Live Market Intelligence</h2>
+        <p class="lp-section-head__sub lp-section-head__sub--light">Real-time data across pricing, demand, and market velocity.</p>
+      </div>
+      <a href="{% url 'properties:market_pulse' %}" class="lp-btn lp-btn--ghost-light" id="market-pulse-cta">
+        Full dashboard <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="lp-market__kpi-row">
+      <div class="lp-kpi-card" id="kpi-avg-price">
+        <div class="lp-kpi-card__top">
+          <span class="lp-kpi-card__label">Avg. Price / Sq.ft</span>
+          <span class="lp-kpi-card__trend lp-kpi-card__trend--up"><i class="bi bi-arrow-up-right"></i> +4.2%</span>
+        </div>
+        <div class="lp-kpi-card__value">₹8,240</div>
+        <div class="lp-kpi-card__sub">Mumbai Metro · 30-day avg</div>
+      </div>
+      <div class="lp-kpi-card" id="kpi-demand">
+        <div class="lp-kpi-card__top">
+          <span class="lp-kpi-card__label">Demand Index</span>
+          <span class="lp-kpi-card__trend lp-kpi-card__trend--up"><i class="bi bi-arrow-up-right"></i> +11.8%</span>
+        </div>
+        <div class="lp-kpi-card__value">87.4</div>
+        <div class="lp-kpi-card__sub">Bangalore · High demand</div>
+      </div>
+      <div class="lp-kpi-card" id="kpi-inventory">
+        <div class="lp-kpi-card__top">
+          <span class="lp-kpi-card__label">Active Inventory</span>
+          <span class="lp-kpi-card__trend lp-kpi-card__trend--down"><i class="bi bi-arrow-down-right"></i> -3.1%</span>
+        </div>
+        <div class="lp-kpi-card__value" data-counter="{{ metrics.properties }}" data-suffix="">{{ metrics.properties|default:"0" }}</div>
+        <div class="lp-kpi-card__sub">Verified listings today</div>
+      </div>
+      <div class="lp-kpi-card" id="kpi-velocity">
+        <div class="lp-kpi-card__top">
+          <span class="lp-kpi-card__label">Market Velocity</span>
+          <span class="lp-kpi-card__trend lp-kpi-card__trend--up"><i class="bi bi-arrow-up-right"></i> +6.5%</span>
+        </div>
+        <div class="lp-kpi-card__value">Fast</div>
+        <div class="lp-kpi-card__sub">Days on market: 18</div>
+      </div>
+    </div>
+
+    <div class="lp-market__signal-row">
+      <div class="lp-market__img-block">
+        <img src="{% static 'images/properties/house-06.jpg' %}" alt="Market analytics view" class="lp-market__img" loading="lazy" onload="this.classList.add('is-loaded')">
+        <div class="lp-market__img-badge">
+          <i class="bi bi-broadcast-pin"></i>
+          <span>Live signals</span>
+        </div>
+      </div>
+      <div class="lp-market__signals">
+        <h3 class="lp-market__signals-title">Demand Signals</h3>
+        <div class="lp-signal-list">
+          <div class="lp-signal">
+            <div class="lp-signal__dot lp-signal__dot--green"></div>
+            <div class="lp-signal__text">
+              <strong>Bangalore Indiranagar</strong>
+              <span>Demand up 23% · Supply tight</span>
+            </div>
+            <span class="lp-signal__tag lp-signal__tag--buy">Buy Signal</span>
+          </div>
+          <div class="lp-signal">
+            <div class="lp-signal__dot lp-signal__dot--amber"></div>
+            <div class="lp-signal__text">
+              <strong>Mumbai Andheri East</strong>
+              <span>Pricing stabilising · Watch zone</span>
+            </div>
+            <span class="lp-signal__tag lp-signal__tag--hold">Hold</span>
+          </div>
+          <div class="lp-signal">
+            <div class="lp-signal__dot lp-signal__dot--green"></div>
+            <div class="lp-signal__text">
+              <strong>Pune Hinjewadi</strong>
+              <span>IT corridor expansion · High growth</span>
+            </div>
+            <span class="lp-signal__tag lp-signal__tag--buy">Buy Signal</span>
+          </div>
+          <div class="lp-signal">
+            <div class="lp-signal__dot lp-signal__dot--blue"></div>
+            <div class="lp-signal__text">
+              <strong>Delhi Dwarka Expressway</strong>
+              <span>Infrastructure uplift · Emerging</span>
+            </div>
+            <span class="lp-signal__tag lp-signal__tag--watch">Emerging</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION 6 · TRUST / PLATFORM STATS
+     Animated counters with premium layout
+     ══════════════════════════════════════════ -->
+<section class="lp-stats" id="stats-section" aria-label="Platform statistics">
+  <div class="lp-container">
+    <div class="lp-section-head lp-section-head--centered">
+      <span class="lp-eyebrow"><i class="bi bi-bar-chart-line"></i> Platform Scale</span>
+      <h2 class="lp-section-head__title">Trusted by Serious Buyers,<br>Sellers & Administrators</h2>
+    </div>
+
+    <div class="lp-stats__grid">
+      <div class="lp-stat-card" id="stat-properties">
+        <div class="lp-stat-card__icon"><i class="bi bi-houses"></i></div>
+        <div class="lp-stat-card__num">
+          <span class="lp-stat-card__counter" data-counter="{{ stats.properties|default:'1200' }}" data-suffix="+">0</span>
+        </div>
+        <div class="lp-stat-card__label">Properties Listed</div>
+        <div class="lp-stat-card__sub">Verified premium inventory</div>
+      </div>
+      <div class="lp-stat-card" id="stat-buyers">
+        <div class="lp-stat-card__icon lp-stat-card__icon--violet"><i class="bi bi-people"></i></div>
+        <div class="lp-stat-card__num">
+          <span class="lp-stat-card__counter" data-counter="{{ stats.leads|default:'850' }}" data-suffix="+">0</span>
+        </div>
+        <div class="lp-stat-card__label">Active Buyers</div>
+        <div class="lp-stat-card__sub">Verified buyer pipeline</div>
+      </div>
+      <div class="lp-stat-card" id="stat-insights">
+        <div class="lp-stat-card__icon lp-stat-card__icon--emerald"><i class="bi bi-cpu"></i></div>
+        <div class="lp-stat-card__num">
+          <span class="lp-stat-card__counter" data-counter="5000" data-suffix="+">0</span>
+        </div>
+        <div class="lp-stat-card__label">Market Insights Generated</div>
+        <div class="lp-stat-card__sub">AI-powered analysis</div>
+      </div>
+      <div class="lp-stat-card" id="stat-cities">
+        <div class="lp-stat-card__icon lp-stat-card__icon--gold"><i class="bi bi-geo-alt"></i></div>
+        <div class="lp-stat-card__num">
+          <span class="lp-stat-card__counter" data-counter="{{ cities|length|default:'24' }}" data-suffix="">0</span>
+        </div>
+        <div class="lp-stat-card__label">Cities Covered</div>
+        <div class="lp-stat-card__sub">Across India's top markets</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SECTION 7 · FINAL CTA
+     Premium closing call-to-action
+     ══════════════════════════════════════════ -->
+<section class="lp-cta" id="final-cta" aria-label="Final call to action">
+  <div class="lp-cta__bg-img" aria-hidden="true">
+    <img src="{% static 'images/properties/house-08.jpg' %}" alt="" loading="lazy" onload="this.classList.add('is-loaded')">
+    <div class="lp-cta__bg-overlay"></div>
+  </div>
+  <div class="lp-container">
+    <div class="lp-cta__content">
+      <span class="lp-eyebrow lp-eyebrow--light lp-eyebrow--glass"><i class="bi bi-building-add"></i> Deploy the Platform</span>
+      <h2 class="lp-cta__headline">
+        Run Real Estate Like An<br>
+        <span class="lp-cta__accent">Operations Desk</span>
+      </h2>
+      <p class="lp-cta__body">
+        Publish premium listings, route inquiries, monitor approvals, and keep buyers, sellers, and administrators aligned.
+      </p>
+      <div class="lp-cta__btns">
+        <a href="{% url 'accounts:register' %}" class="lp-btn lp-btn--primary lp-btn--lg" id="final-cta-register">
+          <i class="bi bi-person-plus"></i> Create Account
+        </a>
+        <a href="{% url 'properties:list' %}" class="lp-btn lp-btn--ghost-light lp-btn--lg" id="final-cta-properties">
+          <i class="bi bi-grid-3x3-gap"></i> View Properties
+        </a>
+      </div>
+
+      <!-- Role access cards -->
+      <div class="lp-cta__roles">
+        <a href="{% url 'accounts:buyer_dashboard' %}" class="lp-role-pill" id="cta-role-buyer">
+          <i class="bi bi-person-heart"></i>
+          <span><strong>Buyer</strong><small>Wishlist, visits, inquiries</small></span>
+        </a>
+        <a href="{% url 'accounts:seller_dashboard' %}" class="lp-role-pill" id="cta-role-seller">
+          <i class="bi bi-house-gear"></i>
+          <span><strong>Seller</strong><small>Listings, pipeline</small></span>
+        </a>
+        <a href="{% url 'accounts:admin_dashboard' %}" class="lp-role-pill" id="cta-role-admin">
+          <i class="bi bi-shield-check"></i>
+          <span><strong>Admin</strong><small>Approvals, audit</small></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

@@ -11,6 +11,7 @@
       <p class="pv-muted mb-0">Get notified the moment matching inventory is published.</p>
     </div>
     <form method="post" action="{% url 'search:saved_create' %}" class="d-flex gap-2">
+      {% csrf_token %}
       <input class="form-control" name="name" placeholder="Search name" required>
       <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-plus-lg"></i> Save current filters</button>
     </form>
