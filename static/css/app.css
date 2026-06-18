@@ -187,6 +187,7 @@ tbody tr:hover {
 
 .fw-black { font-weight: 900; }
 .pv-eyebrow {
+  
   display: inline-flex;
   align-items: center;
   gap: .5rem;
@@ -3187,6 +3188,7 @@ body.is-home-page {
 body.is-home-page .pv-hero,
 body.is-home-page .pm-hero {
   min-height: 100vh !important;
+  padding-top: 100px !important; /* Elegant shift downward by exactly 50px under vertical flex centering */
 }
 
 /* ── Property Marketplace Layout & Card Upgrades ── */
@@ -3296,8 +3298,8 @@ body.is-home-page .pm-hero {
 
 
 /* +------------------------------------------------------------------+
-   �  PROPVISTA V2 LANDING PAGE � LUXURY REAL ESTATE INTELLIGENCE    �
-   �  Complete design system for the redesigned homepage.            �
+   �  PROPVISTA V2 LANDING PAGE � LUXURY REAL ESTATE INTELLIGENCE    �
+   �  Complete design system for the redesigned homepage.            �
    +------------------------------------------------------------------+ */
 
 /* --- V2 Design Tokens --- */
@@ -3365,7 +3367,7 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-reveal--delay-4 { transition-delay: 0.32s; }
 .lp-reveal--delay-5 { transition-delay: 0.44s; }
 
-/* -- SECTION 1 � CINEMATIC HERO -- */
+/* -- SECTION 1 � CINEMATIC HERO -- */
 .lp-hero { position: relative; width: 100%; height: 100vh; min-height: 640px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .lp-hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
 .lp-hero__overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,16,36,0.30) 0%, rgba(8,16,36,0.42) 50%, rgba(8,16,36,0.68) 100%); z-index: 1; }
@@ -3396,7 +3398,7 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-scroll-dot::before { content: ""; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 4px; height: 8px; border-radius: 2px; background: rgba(255,255,255,0.75); animation: lp-scroll-bounce 1.8s ease-in-out infinite; }
 @keyframes lp-scroll-bounce { 0%,100%{transform:translateX(-50%) translateY(0);opacity:1} 60%{transform:translateX(-50%) translateY(10px);opacity:0.4} }
 
-/* -- SECTION 2 � SCROLL STORYTELLING -- */
+/* -- SECTION 2 � SCROLL STORYTELLING -- */
 .lp-story { padding: var(--lp-section-pad) 0; background: #ffffff; }
 .lp-story__container { max-width: 1320px; margin-inline: auto; padding-inline: clamp(1.25rem,4vw,4rem); display: flex; flex-direction: column; gap: 7rem; }
 .lp-story__row { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
@@ -3416,8 +3418,22 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-story__link { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; font-size: 0.9rem; color: #2563eb; text-decoration: none; margin-top: 0.5rem; transition: gap 0.2s ease; }
 .lp-story__link:hover { gap: 0.65rem; color: #0b215b; }
 
-/* -- SECTION 3 � FEATURED PROPERTY -- */
-.lp-featured { padding: var(--lp-section-pad) 0; background: linear-gradient(175deg, #0b215b 0%, #0d1b3e 100%); }
+/* -- SECTION 3  FEATURED PROPERTY -- */
+.lp-featured {
+  padding: 8.5rem 0;
+  background: linear-gradient(179deg, #f1f3f6 0%, #4743ce 100%);
+}
+.lp-btn--ghost-dark {
+  background: rgba(11, 33, 91, 0.05) !important;
+  border: 1px solid rgba(11, 33, 91, 0.16) !important;
+  color: #0b215b !important;
+}
+.lp-btn--ghost-dark:hover {
+  background: rgba(11, 33, 91, 0.09) !important;
+  border-color: rgba(11, 33, 91, 0.28) !important;
+  transform: translateY(-2px) !important;
+  color: #0b215b !important;
+}
 .lp-featured__grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.75rem; }
 .lp-prop-card { border-radius: 20px; overflow: hidden; background: #ffffff; box-shadow: 0 20px 60px rgba(11,33,91,0.18); transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease; }
 .lp-prop-card:hover { transform: translateY(-8px); box-shadow: 0 36px 80px rgba(11,33,91,0.30); }
@@ -3437,7 +3453,7 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-prop-card__highlights { display: flex; flex-wrap: wrap; gap: 0.65rem; }
 .lp-prop-card__highlights span { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.78rem !important; font-weight: 500; color: #475569 !important; background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.25rem 0.65rem; border-radius: 8px; }
 
-/* -- SECTION 4 � AI INTELLIGENCE -- */
+/* -- SECTION 4 � AI INTELLIGENCE -- */
 .lp-ai { padding: var(--lp-section-pad) 0; background: #f8fafc; }
 .lp-ai__grid { display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: auto auto; gap: 1.5rem; }
 .lp-ai-card { background: #ffffff; border-radius: var(--lp-radius); padding: 2rem 2.25rem; border: 1px solid #e2e8f0; box-shadow: 0 8px 32px rgba(11,33,91,0.07); transition: transform 0.35s ease, box-shadow 0.35s ease; display: flex; flex-direction: column; gap: 0.75rem; }
@@ -3465,8 +3481,8 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-persona-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; }
 .lp-tag { padding: 0.28rem 0.75rem; border-radius: 8px; font-size: 0.75rem; font-weight: 600; background: rgba(124,58,237,0.08); color: #7c3aed; border: 1px solid rgba(124,58,237,0.18); }
 
-/* -- SECTION 5 � MARKET PULSE -- */
-.lp-market { padding: var(--lp-section-pad) 0; background: linear-gradient(160deg,#0b1c44 0%,#0a1628 100%); position: relative; overflow: hidden; }
+/* -- SECTION 5 � MARKET PULSE -- */
+.lp-market { padding: var(--lp-section-pad) 0; background:  linear-gradient(126deg, #92acd2 0%, #1f1bac 100%);   position: relative; overflow: hidden; }
 .lp-market::before { content:""; position:absolute; top:-20%; right:-10%; width:600px; height:600px; border-radius:50%; background:radial-gradient(circle,rgba(37,99,235,0.12) 0%,transparent 70%); pointer-events:none; }
 .lp-market__kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.25rem; margin-bottom: 3rem; }
 .lp-kpi-card { background: rgba(255,255,255,0.07); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 1.5rem 1.6rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -3500,7 +3516,7 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-signal__tag--hold { background: rgba(251,191,36,0.15); color: #fbbf24; }
 .lp-signal__tag--watch { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
-/* -- SECTION 6 � TRUST / STATS -- */
+/* -- SECTION 6 � TRUST / STATS -- */
 .lp-stats { padding: var(--lp-section-pad) 0; background: #ffffff; }
 .lp-stats__grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; }
 .lp-stat-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--lp-radius); padding: 2rem 1.75rem; display: flex; flex-direction: column; gap: 0.6rem; transition: transform 0.35s ease, box-shadow 0.35s ease; }
@@ -3513,23 +3529,100 @@ body.is-home-page { padding-top: 0 !important; }
 .lp-stat-card__label { font-size: 1rem !important; font-weight: 700 !important; color: #0f172a !important; margin: 0 !important; }
 .lp-stat-card__sub { font-size: 0.82rem !important; color: #64748b !important; margin: 0 !important; }
 
-/* -- SECTION 7 � FINAL CTA -- */
-.lp-cta { position: relative; padding: var(--lp-section-pad) 0; overflow: hidden; }
-.lp-cta__bg-img { position: absolute; inset: 0; z-index: 0; }
-.lp-cta__bg-img img { width: 100%; height: 100%; object-fit: cover; }
-.lp-cta__bg-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(8,16,36,0.84) 0%, rgba(11,33,91,0.76) 100%); }
-.lp-cta__content { position: relative; z-index: 1; max-width: 760px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.4rem; padding-inline: 1.5rem; }
-.lp-cta__headline { font-family: "Manrope","Inter",system-ui,sans-serif !important; font-weight: 800 !important; font-size: clamp(2rem,4.5vw,3.2rem) !important; line-height: 1.1 !important; letter-spacing: -0.03em !important; color: #ffffff !important; margin: 0 !important; }
-.lp-cta__accent { background: linear-gradient(120deg,#e8c580,#c8a45d); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lp-cta__body { font-size: 1.05rem !important; color: rgba(255,255,255,0.78) !important; max-width: 560px !important; line-height: 1.65 !important; margin: 0 !important; }
-.lp-cta__btns { display: flex; flex-wrap: wrap; gap: 0.85rem; justify-content: center; }
-.lp-cta__roles { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 0.5rem; }
-.lp-role-pill { display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.25rem; border-radius: 14px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); text-decoration: none; color: #ffffff; font-size: 0.88rem; transition: all 0.25s ease; }
-.lp-role-pill:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); transform: translateY(-2px); color: #ffffff; }
-.lp-role-pill i { font-size: 1.15rem; }
-.lp-role-pill span { display: flex; flex-direction: column; gap: 0.05rem; text-align: left; }
-.lp-role-pill strong { font-weight: 700; font-size: 0.88rem !important; }
-.lp-role-pill small { font-size: 0.72rem !important; color: rgba(255,255,255,0.60); }
+/* -- SECTION 7 • FINAL CTA -- */
+.lp-cta {
+  position: relative;
+  padding: 8.5rem 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lp-cta__bg-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.lp-cta__bg-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.lp-cta:hover .lp-cta__bg-img img {
+  transform: scale(1.05) !important;
+}
+.lp-cta__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.35) 0%, rgba(15, 23, 42, 0.45) 100%);
+  z-index: 1;
+}
+.lp-cta__content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 4.5rem 3.5rem;
+  background: rgba(15, 23, 42, 0.38); /* Premium slate/indigo glass backplate */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  box-shadow: 0 30px 70px rgba(8, 16, 36, 0.35);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.lp-cta__content:hover {
+  border-color: rgba(99, 102, 241, 0.25); /* Subtle indigo highlight on focus/hover */
+  box-shadow: 0 35px 80px rgba(8, 16, 36, 0.45);
+}
+.lp-cta__headline {
+  font-family: "Manrope","Inter",system-ui,sans-serif !important;
+  font-weight: 800 !important;
+  font-size: clamp(2rem, 4.5vw, 3.2rem) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.03em !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+}
+.lp-cta__accent {
+  background: linear-gradient(120deg, #e8c580, #c8a45d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lp-cta__body {
+  font-size: 1.08rem !important;
+  color: rgba(255, 255, 255, 0.88) !important; /* Enhanced readability contrast */
+  max-width: 580px !important;
+  line-height: 1.65 !important;
+  margin: 0 !important;
+}
+.lp-cta__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.95rem;
+  justify-content: center;
+}
+
+/* Responsiveness for glass plate */
+@media (max-width: 768px) {
+  .lp-cta {
+    padding: 6rem 0;
+  }
+  .lp-cta__content {
+    padding: 3.5rem 2rem;
+    margin-inline: 1.5rem;
+    gap: 1.4rem;
+  }
+}
+/* Role access cards styles removed */
 
 /* -- HOMEPAGE NAVBAR: Transparent at top ? Glass on scroll -- */
 body.is-home-page:not(.navbar-scrolled) .pv-navbar { background: transparent !important; border-color: rgba(255,255,255,0.18) !important; box-shadow: none !important; }
@@ -3571,10 +3664,8 @@ body.is-home-page.navbar-scrolled .pv-navbar { background: rgba(255,255,255,0.88
 @media (max-width: 480px) {
   .lp-hero__ctas,.lp-cta__btns { flex-direction: column; width: 100%; }
   .lp-btn,.lp-btn--lg { width: 100%; justify-content: center; }
-  .lp-stats__grid,.lp-market__kpi-row,.lp-ai__grid,.lp-cta__roles { grid-template-columns: 1fr; }
+  .lp-stats__grid,.lp-market__kpi-row,.lp-ai__grid { grid-template-columns: 1fr; }
   .lp-story__container { gap: 3.5rem; }
-  .lp-cta__roles { flex-direction: column; }
-  .lp-role-pill { width: 100%; }
 }
 
 /* --- CSS-class based pre-reveal state (JS adds lp-will-reveal, removes when visible) --- */
@@ -3602,7 +3693,7 @@ body.is-home-page.navbar-scrolled .pv-navbar { background: rgba(255,255,255,0.88
 }
 
 /* --- lp-entered: cosmetic scroll slide animation (sections visible by default) --- */
-/* No opacity:0 � elements are always shown. This is a pure enhancement animation. */
+/* No opacity:0 � elements are always shown. This is a pure enhancement animation. */
 @keyframes lp-slide-in {
   from { transform: translateY(18px); opacity: 0.7; }
   to   { transform: translateY(0);    opacity: 1;   }
@@ -3614,10 +3705,78 @@ body.is-home-page.navbar-scrolled .pv-navbar { background: rgba(255,255,255,0.88
 /* ══════════════════════════════════════════
    SECTION 1 · CINEMATIC SCROLL FILM
    ══════════════════════════════════════════ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes lp-hint-scroll {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ══════════════════════════════════════════
+   ASPECT RATIOS & TRANSITIONS FOR PROPERTIES
+   ══════════════════════════════════════════ */
+/* Property Marketplace Cards: 16:10 */
+.property-card-premium .property-media {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 10 !important;
+  overflow: hidden !important;
+}
+
+/* Homepage Featured Cards: 16:9 */
+.lp-prop-card__media {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+}
+
+/* Hero & Carousel Cover Mode */
+.gallery-main-container img,
+.detail-gallery-main img,
+.gallery-tile-container img,
+.carousel-item img,
+.lp-cta__bg-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Soft image loading transitions */
+.lp-prop-card__img,
+.property-media img,
+.gallery-tile-container img,
+.carousel-item img {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out !important;
+}
+
+.lp-prop-card__img.is-loaded,
+.property-media img.is-loaded,
+.gallery-tile-container img.is-loaded,
+.carousel-item img.is-loaded {
+  opacity: 1 !important;
+}
+
+/* ══════════════════════════════════════════
+   SECTION 1 · CINEMATIC SCROLL FILM
+   ══════════════════════════════════════════ */
 .lp-cinematic {
   position: relative;
   width: 100%;
-  height: 700vh; /* scroll range of 700vh */
+  height: 600vh; /* scroll range of 600vh */
   background: #081024;
   overflow: visible;
 }
@@ -3635,7 +3794,8 @@ body.is-home-page.navbar-scrolled .pv-navbar { background: rgba(255,255,255,0.88
   transition: opacity 0.3s ease;
 }
 
-.lp-cinematic__canvas {
+.lp-cinematic__canvas,
+.lp-cinematic__video {
   display: block;
   width: 100%;
   height: 100%;
@@ -3691,48 +3851,110 @@ body.is-home-page.navbar-scrolled .pv-navbar { background: rgba(255,255,255,0.88
   100% { transform: translateY(100%); }
 }
 
-/* ══════════════════════════════════════════
-   ASPECT RATIOS & TRANSITIONS FOR PROPERTIES
-   ══════════════════════════════════════════ */
-/* Property Marketplace Cards: 16:10 */
-.property-card-premium .property-media {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 16 / 10 !important;
-  overflow: hidden !important;
+/* ================================================================
+   PropVista V8 Cinematic Image Story Experience
+   ================================================================ */
+.lp-story-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
 }
 
-/* Homepage Featured Cards: 16:9 */
-.lp-prop-card__media {
-  width: 100% !important;
-  height: auto !important;
-  aspect-ratio: 16 / 9 !important;
-  overflow: hidden !important;
-}
-
-/* Hero & Carousel Cover Mode */
-.gallery-main-container img,
-.detail-gallery-main img,
-.gallery-tile-container img,
-.carousel-item img,
-.lp-cta__bg-img img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-}
-
-/* Soft image loading transitions */
-.lp-prop-card__img,
-.property-media img,
-.gallery-tile-container img,
-.carousel-item img {
+.lp-story-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   opacity: 0;
-  transition: opacity 0.4s ease-in-out !important;
+  transform: scale(1.00);
+  transform-origin: center;
+  will-change: opacity, transform;
+  transition: opacity 0.4s ease-out;
 }
 
-.lp-prop-card__img.is-loaded,
-.property-media img.is-loaded,
-.gallery-tile-container img.is-loaded,
-.carousel-item img.is-loaded {
-  opacity: 1 !important;
+.lp-story-img.active {
+  opacity: 1;
+}
+
+.lp-cinematic__vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.15), rgba(15, 23, 42, 0.30));
+  z-index: 2;
+}
+
+/* ================================================================
+   PropVista /properties/ Page Visual Scale Override (8% Reduction)
+   ================================================================ */
+body.is-properties-page .workspace-page-title {
+  font-size: 2.07rem !important; /* reduced by 8% from 2.25rem */
+}
+body.is-properties-page .workspace-page-subtitle {
+  font-size: 0.94rem !important; /* reduced from 1.025rem */
+}
+body.is-properties-page .filter-panel {
+  padding: 1.2rem !important; /* compact layout */
+}
+body.is-properties-page .filter-panel .form-control,
+body.is-properties-page .filter-panel .form-select {
+  min-height: 40px !important; /* reduced by ~16% for professional fit */
+  font-size: 0.88rem !important;
+  padding: 0.375rem 0.75rem !important;
+}
+body.is-properties-page .filter-panel .vstack {
+  gap: 0.75rem !important;
+}
+body.is-properties-page .filter-panel h2 {
+  font-size: 1.1rem !important;
+}
+body.is-properties-page .property-card-premium .property-card-body {
+  padding: 1.45rem !important; /* reduced from 1.75rem */
+}
+body.is-properties-page .property-card-premium .property-media {
+  height: 258px !important; /* reduced from 280px by 8% */
+}
+body.is-properties-page .property-card-premium .property-title {
+  font-size: 1.15rem !important; /* reduced from 1.25rem by 8% */
+}
+body.is-properties-page .property-card-premium .property-price {
+  font-size: 1.38rem !important; /* reduced from 1.5rem by 8% */
+}
+body.is-properties-page .property-card-premium .property-location {
+  font-size: 0.85rem !important;
+}
+body.is-properties-page .property-card-premium .property-facts {
+  padding-top: 0.75rem !important;
+  font-size: 0.8rem !important;
+}
+body.is-properties-page .pv-btn {
+  min-height: 40px !important; /* reduced from 44px */
+  padding: 0.65rem 1rem !important;
+  font-size: 0.88rem !important;
+}
+body.is-properties-page [data-save-search-form] {
+  padding: 0.3rem 0.5rem !important;
+}
+body.is-properties-page [data-save-search-form] input {
+  font-size: 0.75rem !important;
+}
+body.is-properties-page [data-save-search-form] button {
+  min-height: 28px !important;
+  font-size: 0.75rem !important;
+  padding: 0.25rem 0.75rem !important;
+}
+body.is-properties-page .listing-tools h2 {
+  font-size: 1.15rem !important; /* reduced inventory header */
+}
+body.is-properties-page .listing-tools .pv-muted.small {
+  font-size: 0.78rem !important;
 }

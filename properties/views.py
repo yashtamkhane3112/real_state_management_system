@@ -211,7 +211,7 @@ def property_detail(request, slug):
             user=request.user if request.user.is_authenticated else None,
             source=request.headers.get("referer", "")[:80] or "direct",
         )
-    similar = Property.objects.public().filter(city=prop.city, status=Property.Status.ACTIVE).exclude(pk=prop.pk)[:4]
+    similar = Property.objects.public().select_related("category", "created_by").filter(city=prop.city, status=Property.Status.ACTIVE).exclude(pk=prop.pk)[:4]
     
     gallery_count = prop.images.count()
     has_images = bool(prop.cover_image) or gallery_count > 0

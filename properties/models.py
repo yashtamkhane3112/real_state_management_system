@@ -89,6 +89,27 @@ class Amenity(models.Model):
         return self.name
 
 
+def get_property_display_image(property_obj):
+    if property_obj.cover_image:
+        try:
+            if property_obj.cover_image.storage.exists(property_obj.cover_image.name):
+                # Detect and skip tiny transparent dummy placeholders (e.g. cover.gif, placeholder.png)
+                file_size = property_obj.cover_image.storage.size(property_obj.cover_image.name)
+                is_dummy = "cover.gif" in property_obj.cover_image.name.lower() or "placeholder" in property_obj.cover_image.name.lower()
+                if file_size > 1000 and not is_dummy:
+                    return property_obj.cover_image.url
+        except Exception:
+            pass
+    
+    # Stable pseudo-random fallback assignment from downloaded videoplayback (1) frames
+    if property_obj.id:
+        img_idx = (property_obj.id % 20) + 1
+    else:
+        img_idx = 1
+    from django.templatetags.static import static
+    return static(f"images/properties/fallbacks/{img_idx:04d}.jpg")
+
+
 class Property(models.Model):
     class PropertyType(models.TextChoices):
         APARTMENT = "apartment", "Apartment"
@@ -218,12 +239,7 @@ class Property(models.Model):
 
     @property
     def display_image_url(self):
-        if self.cover_image:
-            return self.cover_image.url
-        # Stable pseudo-random assignment based on ID
-        img_idx = (self.id % 8) + 1 if self.id else 1
-        from django.templatetags.static import static
-        return static(f"images/properties/house-0{img_idx}.jpg")
+        return get_property_display_image(self)
 
     @property
     def display_gallery_1(self):

@@ -5,11 +5,11 @@ from properties.models import Property
 from analytics.models import PropertyViewEvent, AuditLog
 from inquiries.models import Inquiry
 from visits.models import Visit
-from accounts.decorators import role_required
+from accounts.decorators import role_required, dashboard_role_required
 from accounts.models import User
 
 
-@role_required(User.Role.SELLER, User.Role.ADMIN)
+@dashboard_role_required(User.Role.SELLER, User.Role.ADMIN)
 def reports_home(request):
     city_data = Property.objects.values("city").annotate(total=Count("id")).order_by("-total")
     total_views = PropertyViewEvent.objects.count()

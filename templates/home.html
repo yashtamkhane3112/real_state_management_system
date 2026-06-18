@@ -8,9 +8,81 @@
      SECTION 1 · CINEMATIC SCROLL FILM
      Fullscreen sticky section controlled by scroll
      ══════════════════════════════════════════ -->
-<section class="lp-cinematic" id="cinematic-container" aria-label="Cinematic property presentation">
+{% if LANDING_MEDIA_MODE == "VIDEO_HERO" %}
+<section class="pv-hero pm-hero">
+  <video class="pv-hero-canvas" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+    <source src="{% static 'media/landing/video-hero/videoplayback.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="container pv-hero-content pm-hero-content">
+    <div class="pm-hero-copy">
+      <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> INTELLIGENT PROPERTY PLATFORM</span>
+      <h1 class="reveal">Real Estate Operations <span class="pv-hero-accent">Unified.</span></h1>
+      <p class="pv-hero-copy reveal">Discover, manage, and close premium property opportunities from one intelligent platform.</p>
+      
+      <!-- Trust Indicators / Feature Chips -->
+      <div class="d-flex flex-wrap justify-content-center gap-3 pm-feature-chips-container reveal">
+        <span class="pv-hero-chip"><i class="bi bi-cpu"></i> AI Recommendations</span>
+        <span class="pv-hero-chip"><i class="bi bi-arrow-repeat"></i> Lifecycle Tracking</span>
+        <span class="pv-hero-chip"><i class="bi bi-graph-up-arrow"></i> Advanced Analytics</span>
+      </div>
+
+      <form class="pm-command-search pv-glass reveal" action="{% url 'properties:list' %}">
+        <div>
+          <label>Location</label>
+          <input name="q" class="form-control" placeholder="City, locality, landmark">
+        </div>
+        <div>
+          <label>Asset type</label>
+          <select name="property_type" class="form-select">
+            <option value="">All properties</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="house">House</option>
+            <option value="commercial">Commercial</option>
+          </select>
+        </div>
+        <div>
+          <label>Budget</label>
+          <select name="max_price" class="form-select">
+            <option value="">Any budget</option>
+            <option value="10000000">Under 1 Cr</option>
+            <option value="25000000">Under 2.5 Cr</option>
+            <option value="50000000">Under 5 Cr</option>
+          </select>
+        </div>
+        <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-search"></i> Open inventory</button>
+      </form>
+
+      <div class="pm-filter-chips reveal" aria-label="Popular filters">
+        <a class="chip" href="{% url 'properties:list' %}?property_type=apartment"><i class="bi bi-building"></i> Apartment</a>
+        <a class="chip" href="{% url 'properties:list' %}?max_price=10000000"><i class="bi bi-currency-rupee"></i> Under 1 Cr</a>
+        <a class="chip" href="{% url 'properties:list' %}?property_type=villa"><i class="bi bi-house-heart"></i> Villa</a>
+        <a class="chip" href="{% url 'properties:list' %}?sort=popular"><i class="bi bi-stars"></i> Popular</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% elif LANDING_MEDIA_MODE == "IMAGE_STORY" %}
+<section class="lp-cinematic" id="cinematic-container" aria-label="Cinematic property presentation" style="height: 600vh;">
   <div class="lp-cinematic__sticky" id="cinematic-sticky">
-    <canvas class="lp-cinematic__canvas" id="cinematic-canvas"></canvas>
+    <!-- Cinematic Image Story Stack -->
+    <div class="lp-story-wrapper">
+      <img class="lp-story-img active" src="{% static 'media/landing/image-story/story_01.jpg' %}" alt="Story Frame 1" fetchpriority="high">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_02.jpg' %}" alt="Story Frame 2">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_03.jpg' %}" alt="Story Frame 3">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_04.jpg' %}" alt="Story Frame 4">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_05.jpg' %}" alt="Story Frame 5">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_06.jpg' %}" alt="Story Frame 6">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_07.jpg' %}" alt="Story Frame 7">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_08.jpg' %}" alt="Story Frame 8">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_09.jpg' %}" alt="Story Frame 9">
+      <img class="lp-story-img" src="{% static 'media/landing/image-story/story_10.jpg' %}" alt="Story Frame 10">
+    </div>
+    
+    <!-- Luxury vignette overlay -->
+    <div class="lp-cinematic__vignette"></div>
     
     <!-- Subtle luxury scroll indicator -->
     <div class="lp-cinematic__hint" id="cinematic-hint">
@@ -19,6 +91,11 @@
     </div>
   </div>
 </section>
+{% endif %}
+
+<!-- Config data attribute for JS -->
+<div id="landing-mode-config" data-mode="{{ LANDING_MEDIA_MODE }}" style="display: none;"></div>
+
 
 
 
@@ -30,11 +107,12 @@
   <div class="lp-container">
     <div class="lp-section-head">
       <div class="lp-section-head__text">
-        <span class="lp-eyebrow lp-eyebrow--light"><i class="bi bi-gem"></i> Managed Inventory</span>
-        <h2 class="lp-section-head__title lp-section-head__title--light">Featured Properties</h2>
+        <span class="lp-eyebrow lp-eyebrow--gold"><i class="bi bi-gem"></i> Managed Inventory</span>
+        <h2 class="lp-section-head__title">Featured Properties</h2>
         <p class="lp-section-head__sub">Handpicked premium listings from our verified inventory.</p>
       </div>
-      <a href="{% url 'properties:list' %}" class="lp-btn lp-btn--ghost-light" id="featured-view-all">
+      <a href="{% url 'properties:list' %}" class="lp-btn lp-btn--ghost-dark" id="featured-view-all">
+
         View all listings <i class="bi bi-arrow-right"></i>
       </a>
     </div>
@@ -203,13 +281,7 @@
         </div>
       </div>
 
-      <!-- Comparison card -->
-      <div class="lp-ai-card" id="ai-card-compare">
-        <div class="lp-ai-card__icon lp-ai-card__icon--gold"><i class="bi bi-columns-gap"></i></div>
-        <h3 class="lp-ai-card__title">Property Comparison</h3>
-        <p class="lp-ai-card__body">Compare up to 4 properties side-by-side across price, area, location score, amenities, and AI rating.</p>
-        <a href="{% url 'properties:list' %}" class="lp-ai-card__link" id="ai-compare-link">Start comparing <i class="bi bi-arrow-right"></i></a>
-      </div>
+
     </div>
   </div>
 </section>
@@ -372,9 +444,10 @@
      ══════════════════════════════════════════ -->
 <section class="lp-cta" id="final-cta" aria-label="Final call to action">
   <div class="lp-cta__bg-img" aria-hidden="true">
-    <img src="{% static 'images/properties/house-08.jpg' %}" alt="" loading="lazy" onload="this.classList.add('is-loaded')">
+    <img src="{% static 'images/properties/cta-bg.jpg' %}" alt="" loading="lazy" onload="this.classList.add('is-loaded')">
     <div class="lp-cta__bg-overlay"></div>
   </div>
+
   <div class="lp-container">
     <div class="lp-cta__content">
       <span class="lp-eyebrow lp-eyebrow--light lp-eyebrow--glass"><i class="bi bi-building-add"></i> Deploy the Platform</span>
@@ -394,21 +467,7 @@
         </a>
       </div>
 
-      <!-- Role access cards -->
-      <div class="lp-cta__roles">
-        <a href="{% url 'accounts:buyer_dashboard' %}" class="lp-role-pill" id="cta-role-buyer">
-          <i class="bi bi-person-heart"></i>
-          <span><strong>Buyer</strong><small>Wishlist, visits, inquiries</small></span>
-        </a>
-        <a href="{% url 'accounts:seller_dashboard' %}" class="lp-role-pill" id="cta-role-seller">
-          <i class="bi bi-house-gear"></i>
-          <span><strong>Seller</strong><small>Listings, pipeline</small></span>
-        </a>
-        <a href="{% url 'accounts:admin_dashboard' %}" class="lp-role-pill" id="cta-role-admin">
-          <i class="bi bi-shield-check"></i>
-          <span><strong>Admin</strong><small>Approvals, audit</small></span>
-        </a>
-      </div>
+
     </div>
   </div>
 </section>

@@ -19,5 +19,7 @@ def site_settings(request):
         "unread_notifications": unread,
         "saved_property_ids": saved_ids,
         "latest_notifications": latest,
+        "LANDING_MEDIA_MODE": settings.LANDING_MEDIA_MODE,
     }
+
 

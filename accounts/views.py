@@ -20,7 +20,7 @@ from django.contrib.auth import update_session_auth_hash
 from .forms import ProfileForm, RegisterForm, UserForm
 from .models import Profile, User
 from .serializers import RegisterSerializer, UserSerializer
-from accounts.decorators import role_required
+from accounts.decorators import role_required, dashboard_role_required
 
 
 def register(request):
@@ -140,7 +140,7 @@ def profile(request):
     )
 
 
-@role_required(User.Role.BUYER, User.Role.ADMIN)
+@dashboard_role_required(User.Role.BUYER, User.Role.ADMIN)
 def buyer_dashboard(request):
     favorites = Favorite.objects.select_related("property").filter(user=request.user)
     inquiries = Inquiry.objects.select_related("property").filter(buyer=request.user)
@@ -170,7 +170,7 @@ def buyer_dashboard(request):
     )
 
 
-@role_required(User.Role.SELLER, User.Role.ADMIN)
+@dashboard_role_required(User.Role.SELLER, User.Role.ADMIN)
 def seller_dashboard(request):
     listings = Property.objects.filter(created_by=request.user)
     inquiries = Inquiry.objects.select_related("property", "buyer").filter(property__created_by=request.user)
@@ -242,7 +242,7 @@ def seller_dashboard(request):
 
 
 
-@role_required(User.Role.ADMIN)
+@dashboard_role_required(User.Role.ADMIN)
 def admin_dashboard(request):
     from analytics.models import AuditLog
     from django.utils import timezone
@@ -277,7 +277,7 @@ def admin_dashboard(request):
     )
 
 
-@role_required(User.Role.ADMIN)
+@dashboard_role_required(User.Role.ADMIN)
 def admin_users(request):
     role_filter = request.GET.get('role', '')
     qs = User.objects.annotate(

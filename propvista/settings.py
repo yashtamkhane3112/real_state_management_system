@@ -163,3 +163,7 @@ EMAIL_HOST = env("EMAIL_HOST", default="smtp.gmail.com")
 EMAIL_PORT = env.int("EMAIL_PORT", default=587)
 EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
 DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="PropVista <noreply@propvista.com>")
+
+# Landing page media configuration mode
+LANDING_MEDIA_MODE = env("LANDING_MEDIA_MODE", default="VIDEO_HERO")
+
