@@ -19,3 +19,10 @@ node_modules/
 
 scratch/
 landing_backups/static/videoplayback.mp4
+scratch/
+landing_backups/
+*.qabackup
+*.v7backup
+*.v8backup
+*.v11backup
+*.v12backup
