@@ -9,3 +9,13 @@ artifacts/
 *.log
 node_modules/
 .DS_Store
+*.zip
+*.v7backup
+*.v8backup
+*.v11backup
+*.v12backup
+*.qabackup
+*.videoreplacementbackup
+
+scratch/
+landing_backups/static/videoplayback.mp4

@@ -493,11 +493,22 @@ def test_access_control_route_restrictions(client, buyer, seller):
     response = client.get(reverse("reports:home"))
     assert response.status_code == 403
     response = client.get(reverse("accounts:admin_dashboard"))
-    assert response.status_code == 403
+    assert response.status_code == 302
+    assert response.url == reverse("accounts:buyer_dashboard")
+    
+    response = client.get(reverse("accounts:seller_dashboard"))
+    assert response.status_code == 302
+    assert response.url == reverse("accounts:buyer_dashboard")
 
     client.force_login(seller)
     response = client.get(reverse("accounts:admin_dashboard"))
-    assert response.status_code == 403
+    assert response.status_code == 302
+    assert response.url == reverse("accounts:seller_dashboard")
+    
+    response = client.get(reverse("accounts:buyer_dashboard"))
+    assert response.status_code == 302
+    assert response.url == reverse("accounts:seller_dashboard")
+
 
 
 @pytest.mark.django_db
