@@ -807,6 +807,33 @@ def test_ai_property_insights_view(client, buyer, approved_property):
     assert "Nashik" in res_nashik["outlook_short"] or "Nashik" in res_nashik["strengths"][0]
 
 
+@pytest.mark.django_db
+def test_inquiry_owner_and_admin_restrictions(client, buyer, seller, approved_property):
+    from django.contrib import messages
+    
+    # Test owner restriction: seller is the owner of approved_property
+    client.force_login(seller)
+    url = reverse("inquiries:create", args=[approved_property.slug])
+    response = client.post(
+        url,
+        {"name": "Seller", "email": "seller@example.com", "phone": "8888888888", "message": "Can I buy my own house?"},
+    )
+    assert response.status_code == 302
+    msgs = list(messages.get_messages(response.wsgi_request))
+    assert any("You cannot inquire on your own listing." in msg.message for msg in msgs)
+
+    # Test admin restriction
+    admin_user = User.objects.create_superuser(username="admin_user", email="admin@example.com", password="password")
+    client.force_login(admin_user)
+    response = client.post(
+        url,
+        {"name": "Admin", "email": "admin@example.com", "phone": "7777777777", "message": "Admin inquiry"},
+    )
+    assert response.status_code == 302
+    msgs = list(messages.get_messages(response.wsgi_request))
+    assert any("Administrators cannot submit property inquiries." in msg.message for msg in msgs)
+
+
 
 
 

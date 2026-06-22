@@ -18,6 +18,16 @@ def create_inquiry(request, slug):
         messages.error(request, "Inquiries are not allowed on sold or closed properties.")
         return redirect("properties:detail", slug=slug)
         
+    # Restrict owners from inquiring on their own listings
+    if prop.created_by == request.user:
+        messages.error(request, "You cannot inquire on your own listing.")
+        return redirect("properties:detail", slug=slug)
+        
+    # Restrict admins from inquiring
+    if request.user.is_admin_role:
+        messages.error(request, "Administrators cannot submit property inquiries.")
+        return redirect("properties:detail", slug=slug)
+        
     if request.method != "POST":
         return redirect("properties:detail", slug=slug)
     form = InquiryForm(request.POST)

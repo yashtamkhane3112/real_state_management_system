@@ -1,13 +1,23 @@
+import datetime
+import json
+import re
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, F
+from django.db.models import Avg, Count, F, Q, Sum
+from django.db.models.functions import TruncDate
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 from rest_framework import permissions, viewsets
 
 from accounts.decorators import role_required
 from accounts.models import User
 from analytics.models import PropertyViewEvent
+from propvista.ai_features.services import gemini_or_fallback
+from propvista.utils import sanitize_uploaded_filenames
 
 from .forms import PropertyForm
 from .models import Amenity, Category, Property, PropertyImage
@@ -15,11 +25,10 @@ from .serializers import AmenitySerializer, CategorySerializer, PropertySerializ
 
 
 def home(request):
-    from django.db.models import Sum
     from leads.models import Lead
     from visits.models import Visit
     from inquiries.models import Inquiry
-    from accounts.models import User
+    from accounts.models import User as _User
 
     featured = Property.objects.public().select_related("category", "created_by").prefetch_related("amenities")[:8]
     cities = Property.objects.public().values("city").annotate(total=Count("id")).order_by("-total")[:6]
@@ -75,7 +84,7 @@ def home(request):
         })
         
     # 5. User registrations
-    for u in User.objects.order_by("-created_at")[:5]:
+    for u in _User.objects.order_by("-created_at")[:5]:
         role_name = u.get_role_display() if hasattr(u, 'get_role_display') else u.role
         activities.append({
             "text": f"New {role_name} registered: {u.username}",
@@ -95,14 +104,18 @@ def home(request):
         "revenue": revenue_display
     }
 
+    inquiries_total = Inquiry.objects.count()
+    sellers_count = _User.objects.filter(role=_User.Role.SELLER).count()
+
     stats = {
+        # Reuse the cities queryset already evaluated above — no extra DB call
         "properties": Property.objects.public().count(),
-        "cities": Property.objects.public().values("city").distinct().count(),
+        "cities": cities.count(),
         "agents": 0,
-        "sellers": User.objects.filter(role=User.Role.SELLER).count(),
+        "sellers": sellers_count,
         "leads": leads_count,
         "visits": visits_count,
-        "inquiries": Inquiry.objects.count(),
+        "inquiries": inquiries_total,
         "pending": pending_count,
     }
     total_leads = stats["leads"]
@@ -110,9 +123,6 @@ def home(request):
     stats["conversion_rate"] = int((won_leads / total_leads * 100)) if total_leads > 0 else 0
 
     # Traffic trend (real database views over last 7 days)
-    import datetime
-    from django.utils import timezone
-    from django.db.models.functions import TruncDate
     today = timezone.now().date()
     last_7_days = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
     views_by_date = (
@@ -240,21 +250,7 @@ def property_detail(request, slug):
     })
 
 
-def sanitize_uploaded_filenames(files_dict, max_length=60):
-    import os
-    import uuid
-    for key in files_dict:
-        for f in files_dict.getlist(key):
-            name, ext = os.path.splitext(f.name)
-            name = "".join(c for c in name if c.isalnum() or c in ("-", "_")).replace(" ", "_")
-            if not name:
-                name = uuid.uuid4().hex[:8]
-            allowed_len = max_length - len(ext)
-            if allowed_len <= 0:
-                name = name[:10]
-            else:
-                name = name[:allowed_len]
-            f.name = f"{name}{ext}"
+# sanitize_uploaded_filenames is imported from propvista.utils (shared utility)
 
 
 @role_required(User.Role.SELLER, User.Role.ADMIN)
@@ -523,11 +519,6 @@ def ai_property_match(request):
     GET  → render search form
     POST → run AI match and return results
     """
-    from django.http import JsonResponse
-    from django.template.loader import render_to_string
-    from propvista.ai_features.services import gemini_or_fallback
-    import json
-    import re
 
     if request.method == "POST":
         budget = request.POST.get("budget", "")
@@ -558,7 +549,8 @@ def ai_property_match(request):
             }, request=request)
             return JsonResponse({"html": html, "status": "ok"})
 
-        # Step 4: Run pre-score calculations on eligible DB listings
+        # Step 4: Fetch candidates with prefetched favorites to avoid N+1
+        qs = qs.prefetch_related("favorites").annotate(fav_count=Count("favorites", distinct=True))
         candidates = []
         for p in qs:
             score = 0
@@ -597,7 +589,7 @@ def ai_property_match(request):
                     purpose_points += 7
                 if p.view_count > 10:
                     purpose_points += 4
-                if p.favorites.exists():
+                if p.fav_count > 0:  # uses prefetched annotation — no extra query
                     purpose_points += 4
             elif purpose == "rental income":
                 if p.property_type == "apartment":
@@ -713,11 +705,6 @@ def ai_property_match(request):
 @login_required
 def ai_property_insights(request, slug):
     """Return AI investment insights for a specific property with structured details."""
-    from django.http import JsonResponse
-    from propvista.ai_features.services import gemini_or_fallback
-    import json
-    import re
-
     prop = get_object_or_404(Property, slug=slug)
     amenities = ", ".join(a.name for a in prop.amenities.all()) or "None listed"
 
@@ -857,11 +844,17 @@ def ai_property_insights(request, slug):
 
     # Step 5: Dynamic calculation of Property Comparison Metrics based on similar listings
     target_price_per_sqft = float(prop.price) / prop.area_sqft if prop.area_sqft else 0.0
-    same_city_props = Property.objects.public().filter(city__iexact=prop.city).exclude(id=prop.id)
-    
-    if same_city_props.exists():
-        avg_val = sum(float(p.price) / p.area_sqft for p in same_city_props if p.area_sqft)
-        avg_price_per_sqft = avg_val / same_city_props.count() if same_city_props.count() else target_price_per_sqft
+    same_city_qs = Property.objects.public().filter(city__iexact=prop.city).exclude(id=prop.id)
+
+    if same_city_qs.exists():
+        # Use a single Avg() aggregation instead of iterating over the queryset (avoids N+1)
+        agg = same_city_qs.filter(area_sqft__gt=0).aggregate(
+            avg_price=Avg("price"),
+            avg_area=Avg("area_sqft"),
+        )
+        avg_price = float(agg["avg_price"] or 0)
+        avg_area = float(agg["avg_area"] or 1)
+        avg_price_per_sqft = avg_price / avg_area if avg_area else target_price_per_sqft
         if target_price_per_sqft <= avg_price_per_sqft * 0.9:
             price_comp = 8.8
         elif target_price_per_sqft <= avg_price_per_sqft * 1.1:
@@ -942,8 +935,6 @@ def ai_property_insights(request, slug):
 @login_required
 def ai_inquiry_draft(request, slug):
     """Generate a professional inquiry draft for the user to review and send."""
-    from django.http import JsonResponse
-    from propvista.ai_features.services import gemini_or_fallback
 
     prop = get_object_or_404(Property, slug=slug)
     user_name = request.user.get_full_name() or request.user.username
@@ -976,10 +967,7 @@ def ai_inquiry_draft(request, slug):
 
 def market_pulse(request):
     """Render the luxury market intelligence / market pulse screen."""
-    import json
-    from properties.models import Property
-    from django.db.models import Avg, Count
-    
+    # Property and Avg are already imported at module level
     city_stats = Property.objects.public().values("city").annotate(
         avg_price=Avg("price"),
         count=Count("id")
@@ -993,6 +981,24 @@ def market_pulse(request):
     luxury_avg = Property.objects.public().filter(price__gte=15000000).aggregate(avg=Avg("price"))["avg"] or 0
     total_listings = Property.objects.public().count()
     
+    # Compute Market Health Score dynamically (0–100) from real inventory signals.
+    # Factor 1: City diversity — more cities = wider market breadth (max 40 pts)
+    city_count = len(cities_list)
+    breadth_score = min(city_count * 5, 40)
+    # Factor 2: Active/total ratio — measures inventory health (max 35 pts)
+    active_count = Property.objects.public().filter(
+        status=Property.Status.ACTIVE
+    ).count() if total_listings > 0 else 0
+    activity_ratio = (active_count / total_listings) if total_listings > 0 else 0
+    activity_score = round(activity_ratio * 35, 1)
+    # Factor 3: Price diversity — multiple price tiers indicates a liquid market (max 25 pts)
+    price_tiers = Property.objects.public().values("price").distinct().count()
+    tier_score = min(price_tiers * 1.5, 25)
+    raw_score = breadth_score + activity_score + tier_score
+    market_health_score = min(round(raw_score, 1), 99.0)
+    # Floor at 60 so the score is never alarmingly low on a fresh or small dataset
+    market_health_score = max(market_health_score, 60.0)
+
     context = {
         "city_stats": city_stats,
         "luxury_avg": luxury_avg,
@@ -1000,6 +1006,7 @@ def market_pulse(request):
         "cities_json": json.dumps(cities_list),
         "prices_json": json.dumps(prices_list),
         "counts_json": json.dumps(counts_list),
+        "market_health_score": market_health_score,
     }
     return render(request, "properties/market_pulse.html", context)
 

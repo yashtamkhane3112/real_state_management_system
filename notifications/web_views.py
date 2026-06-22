@@ -10,9 +10,12 @@ from .services import unread_count_for
 
 @login_required
 def notification_list(request):
-    qs = Notification.objects.filter(user=request.user).order_by("-created_at")
-    unread_count = qs.filter(is_read=False).count()
-    notifications = qs[:100]
+    # Fetch once, derive unread count in Python — avoids a second DB query
+    notifications = list(
+        Notification.objects.filter(user=request.user)
+        .order_by("-created_at")[:100]
+    )
+    unread_count = sum(1 for n in notifications if not n.is_read)
     return render(
         request,
         "dashboards/notifications.html",

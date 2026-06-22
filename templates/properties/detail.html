@@ -141,7 +141,7 @@
         <!-- Gallery Section -->
         <div class="detail-gallery-premium grid-left-gallery reveal" style="margin-bottom: 0;">
           <div class="row g-2">
-            <div class="col-12 col-md-8">
+            <div class="col-12 {% if property.images.exists %}col-md-8{% endif %}">
               <div class="gallery-main-container pv-card overflow-hidden" style="border-radius: 24px; position: relative;">
                 <div id="propertyGalleryCarousel" class="carousel slide h-100" data-bs-ride="carousel">
                   <div class="carousel-inner h-100">
@@ -172,34 +172,29 @@
                     {% endfor %}
                   </div>
                   {% if show_gallery_controls %}
-                    <button class="carousel-control-prev" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next">
-                      <span class="carousel-control-next-icon p-3 bg-dark bg-opacity-25 rounded-circle" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
+                    <!-- Premium Glass Control Bar -->
+                    <div class="gallery-glass-control-bar">
+                      <button class="gallery-control-btn prev-btn" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="prev" aria-label="Previous photo" id="gallery-prev-btn">
+                        <i class="bi bi-arrow-left"></i> <span>Previous Photo</span>
+                      </button>
+                      <span class="gallery-photo-counter" id="gallery-counter" aria-live="polite">Photo 1 of 1</span>
+                      <button class="gallery-control-btn next-btn" type="button" data-bs-target="#propertyGalleryCarousel" data-bs-slide="next" aria-label="Next photo" id="gallery-next-btn">
+                        <span>Next Photo</span> <i class="bi bi-arrow-right"></i>
+                      </button>
+                    </div>
                   {% endif %}
                 </div>
               </div>
             </div>
+            {% if property.images.exists %}
             <div class="col-md-4 d-none d-md-flex flex-column" style="gap: 8px;">
-              {% if property.images.exists %}
-                {% for image in property.images.all|slice:":2" %}
-                  <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; cursor: pointer; flex: 1 1 0;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
-                    <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}" onload="this.classList.add('is-loaded')">
-                  </div>
-                {% endfor %}
-              {% else %}
-                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; flex: 1 1 0;">
-                  <img src="{{ property.display_gallery_1 }}" class="w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
+              {% for image in property.images.all|slice:":2" %}
+                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; cursor: pointer; flex: 1 1 0;" onclick="bootstrap.Carousel.getOrCreateInstance(document.getElementById('propertyGalleryCarousel')).to({% if property.cover_image %}{{ forloop.counter }}{% else %}{{ forloop.counter0 }}{% endif %})">
+                  <img src="{{ image.image.url }}" class="w-100 h-100 object-fit-cover" alt="{{ image.caption|default:property.title }}" onload="this.classList.add('is-loaded')">
                 </div>
-                <div class="gallery-tile-container pv-card overflow-hidden" style="border-radius: 16px; flex: 1 1 0;">
-                  <img src="{{ property.display_gallery_2 }}" class="w-100 h-100 object-fit-cover" alt="{{ property.title }}" onload="this.classList.add('is-loaded')">
-                </div>
-              {% endif %}
+              {% endfor %}
             </div>
+            {% endif %}
           </div>
         </div>
 
@@ -389,13 +384,10 @@
           <!-- Location CTA -->
           <div class="pv-card p-4 mt-4 text-center" id="location-cta" style="background: linear-gradient(135deg, rgba(11,33,91,0.04), rgba(37,99,235,0.06)); border: 1px solid rgba(37,99,235,0.15); border-radius: 16px;">
             <i class="bi bi-geo-alt-fill text-primary fs-3 mb-2 d-block"></i>
-            <h4 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">Interested in this location?</h4>
-            <p class="pv-muted small mb-3">Connect with the seller or schedule a visit to see this property firsthand.</p>
+            <h4 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">Interested in this property?</h4>
+            <p class="pv-muted small mb-3">Connect with the seller to ask questions, request more details, or arrange a property visit.</p>
             <div class="d-flex flex-wrap gap-2 justify-content-center">
-              <button type="button" class="pv-btn pv-btn-primary" onclick="scrollToInquiry()" id="btn-schedule-visit">
-                <i class="bi bi-calendar-check"></i> Schedule Visit
-              </button>
-              <button type="button" class="pv-btn pv-btn-ghost" onclick="scrollToInquiry()" id="btn-send-inquiry">
+              <button type="button" class="pv-btn pv-btn-primary" onclick="scrollToInquiry()" id="btn-send-inquiry">
                 <i class="bi bi-envelope"></i> Send Inquiry
               </button>
             </div>
@@ -578,31 +570,43 @@
                   This property is <strong>{{ property.status|upper }}</strong>. Inquiries are no longer accepted.
                 </div>
               {% elif user.is_authenticated %}
-                <form action="{% url 'inquiries:create' property.slug %}" method="post" class="vstack gap-3 mb-0">{% csrf_token %}
-                  <div>
-                    <label class="small fw-semibold text-secondary mb-1" for="id_name">Name</label>
-                    <input type="text" class="form-control" name="name" id="id_name" value="{{ user.get_full_name|default:user.username }}" placeholder="Enter your name" required>
+                {% if user == property.created_by %}
+                  <div class="alert alert-info p-3 rounded-3 text-center mb-0" role="alert" style="border: 1px solid rgba(37,99,235,0.15); background-color: rgba(37,99,235,0.05); color: #0b215b;">
+                    <i class="bi bi-info-circle-fill me-2" style="color: #0b215b;"></i>
+                    You are the <strong>Owner</strong> of this listing.
                   </div>
-                  <div>
-                    <label class="small fw-semibold text-secondary mb-1" for="id_email">Email</label>
-                    <input type="email" class="form-control" name="email" id="id_email" value="{{ user.email }}" placeholder="Enter your email" required>
+                {% elif user.is_admin_role %}
+                  <div class="alert alert-warning p-3 rounded-3 text-center mb-0" role="alert" style="border: 1px solid rgba(220,53,69,0.15); background-color: rgba(220,53,69,0.05); color: #dc3545;">
+                    <i class="bi bi-shield-fill-exclamation me-2" style="color: #dc3545;"></i>
+                    Administrators cannot submit inquiries.
                   </div>
-                  <div>
-                    <label class="small fw-semibold text-secondary mb-1" for="id_phone">Phone</label>
-                    <input type="tel" class="form-control" name="phone" id="id_phone" value="{{ user.phone }}" placeholder="Enter your phone number" required>
-                  </div>
-                  <div>
-                    <label class="small fw-semibold text-secondary mb-1" for="id_message">Message</label>
-                    <textarea class="form-control" name="message" id="id_message" style="height: 90px" placeholder="Enter your message" required>I am interested in this property and would like to schedule a virtual tour or site visit.</textarea>
-                  </div>
-                  <button type="submit" class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
-                  <!-- Phase 8: AI Inquiry Draft Button -->
-                  {% if user.is_authenticated %}
-                  <button type="button" class="pv-btn pv-btn-ghost w-100" id="ai-draft-btn" onclick="generateDraft()" style="font-size: 0.85rem;">
-                    <i class="bi bi-stars text-primary"></i> Generate Professional Inquiry
-                  </button>
-                  {% endif %}
-                </form>
+                {% else %}
+                  <form action="{% url 'inquiries:create' property.slug %}" method="post" class="vstack gap-3 mb-0">{% csrf_token %}
+                    <div>
+                      <label class="small fw-semibold text-secondary mb-1" for="id_name">Name</label>
+                      <input type="text" class="form-control" name="name" id="id_name" value="{{ user.get_full_name|default:user.username }}" placeholder="Enter your name" required>
+                    </div>
+                    <div>
+                      <label class="small fw-semibold text-secondary mb-1" for="id_email">Email</label>
+                      <input type="email" class="form-control" name="email" id="id_email" value="{{ user.email }}" placeholder="Enter your email" required>
+                    </div>
+                    <div>
+                      <label class="small fw-semibold text-secondary mb-1" for="id_phone">Phone</label>
+                      <input type="tel" class="form-control" name="phone" id="id_phone" value="{{ user.phone }}" placeholder="Enter your phone number" required>
+                    </div>
+                    <div>
+                      <label class="small fw-semibold text-secondary mb-1" for="id_message">Message</label>
+                      <textarea class="form-control" name="message" id="id_message" style="height: 90px" placeholder="Enter your message" required>I am interested in this property and would like to schedule a virtual tour or site visit.</textarea>
+                    </div>
+                    <button type="submit" class="pv-btn pv-btn-primary w-100 py-2.5"><i class="bi bi-envelope"></i> Send inquiry</button>
+                    <!-- Phase 8: AI Inquiry Draft Button -->
+                    {% if user.is_authenticated %}
+                    <button type="button" class="pv-btn pv-btn-ghost w-100" id="ai-draft-btn" onclick="generateDraft()" style="font-size: 0.85rem;">
+                      <i class="bi bi-stars text-primary"></i> Generate Professional Inquiry
+                    </button>
+                    {% endif %}
+                  </form>
+                {% endif %}
               {% else %}
                 <div class="text-center py-2">
                   <p class="small pv-muted mb-3">Login to contact the seller directly.</p>
@@ -682,7 +686,40 @@ window.addEventListener("load", () => {
   {% if user.is_authenticated %}
   loadInsights();
   {% endif %}
+  // Phase 3: Initialize gallery counter
+  initGalleryCounter();
+
+  // Force is-loaded class on cached gallery images immediately
+  document.querySelectorAll('.detail-gallery-premium img').forEach(img => {
+    if (img.complete) {
+      img.classList.add('is-loaded');
+    } else {
+      img.addEventListener('load', () => img.classList.add('is-loaded'));
+    }
+  });
 });
+
+// Phase 3: Gallery counter - updates "Photo X of Y" on slide change
+function initGalleryCounter() {
+  const carousel = document.getElementById('propertyGalleryCarousel');
+  const counter = document.getElementById('gallery-counter');
+  if (!carousel || !counter) return;
+  const items = carousel.querySelectorAll('.carousel-item');
+  const total = items.length;
+  if (total <= 1) {
+    // Hide nav bar if only 1 photo
+    const navBar = carousel.querySelector('.gallery-glass-control-bar');
+    if (navBar) navBar.style.display = 'none';
+    return;
+  }
+  function updateCounter() {
+    const active = carousel.querySelector('.carousel-item.active');
+    const idx = Array.from(items).indexOf(active) + 1;
+    counter.textContent = 'Photo ' + idx + ' of ' + total;
+  }
+  updateCounter();
+  carousel.addEventListener('slid.bs.carousel', updateCounter);
+}
 
 function calculateEMI() {
   const price = parseFloat(document.getElementById('emi-price').value) || 0;
@@ -748,7 +785,8 @@ function copyFallback() {
 function scrollToInquiry() {
   const card = document.getElementById('inquiry-form-card');
   if (!card) return;
-  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Use 'start' so the form heading is visible at top of viewport (better on mobile)
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   // Highlight the card
   card.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
   card.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.35), 0 14px 40px rgba(37, 99, 235, 0.20)';

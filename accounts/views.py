@@ -1,11 +1,15 @@
+import datetime
+
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Count, Sum
+from django.db.models import Count, Q, Sum
+from django.db.models.functions import TruncMonth
 from django.shortcuts import get_object_or_404, redirect, render
 from django.conf import settings
 from django.http import Http404
+from django.utils import timezone
 from rest_framework import mixins, permissions, viewsets
 
 from analytics.models import PropertyViewEvent
@@ -13,10 +17,10 @@ from favorites.models import Favorite
 from inquiries.models import Inquiry
 from notifications.services import unread_count_for
 from properties.models import Property
+from propvista.utils import sanitize_uploaded_filenames
 from visits.models import Visit
 
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
 from .forms import ProfileForm, RegisterForm, UserForm
 from .models import Profile, User
 from .serializers import RegisterSerializer, UserSerializer
@@ -57,21 +61,7 @@ def dashboard(request):
     return redirect("accounts:buyer_dashboard")
 
 
-def sanitize_uploaded_filenames(files_dict, max_length=60):
-    import os
-    import uuid
-    for key in files_dict:
-        for f in files_dict.getlist(key):
-            name, ext = os.path.splitext(f.name)
-            name = "".join(c for c in name if c.isalnum() or c in ("-", "_")).replace(" ", "_")
-            if not name:
-                name = uuid.uuid4().hex[:8]
-            allowed_len = max_length - len(ext)
-            if allowed_len <= 0:
-                name = name[:10]
-            else:
-                name = name[:allowed_len]
-            f.name = f"{name}{ext}"
+# sanitize_uploaded_filenames is imported from propvista.utils (shared utility)
 
 
 @login_required
@@ -153,9 +143,13 @@ def buyer_dashboard(request):
         else Property.objects.public()[:6]
     )
     unread = unread_count_for(request.user)
-    from django.utils import timezone
     hour = timezone.localtime().hour
     greeting = "morning" if hour < 12 else ("afternoon" if hour < 17 else "evening")
+    # Pre-compute counts to avoid 4 separate .count() DB queries at template render time
+    favorites_count = favorites.count()
+    inquiries_count = inquiries.count()
+    visits_count = visits.count()
+    recommendations_count = recommendations.count()
     return render(
         request,
         "dashboards/buyer.html",
@@ -166,6 +160,10 @@ def buyer_dashboard(request):
             "recommendations": recommendations,
             "unread_notifications": unread,
             "greeting": greeting,
+            "favorites_count": favorites_count,
+            "inquiries_count": inquiries_count,
+            "visits_count": visits_count,
+            "recommendations_count": recommendations_count,
         },
     )
 
@@ -192,11 +190,9 @@ def seller_dashboard(request):
         property__created_by=request.user
     ).order_by("-created_at")[:10]
 
-    from django.utils import timezone
     from django.db.models.functions import TruncDate
-    from datetime import timedelta
     today = timezone.now().date()
-    last7 = [today - timedelta(days=i) for i in range(6, -1, -1)]
+    last7 = [today - datetime.timedelta(days=i) for i in range(6, -1, -1)]
     view_qs = (
         PropertyViewEvent.objects
         .filter(property__created_by=request.user, created_at__date__gte=last7[0])
@@ -207,6 +203,26 @@ def seller_dashboard(request):
     chart_labels = [d.strftime("%d %b").lstrip("0") for d in last7]
     chart_values = [views_by_day.get(d, 0) for d in last7]
     recent_favorites = Favorite.objects.filter(property__created_by=request.user).select_related("property", "user").order_by("-created_at")[:5]
+
+    # --- Performance fix: replace 13 individual .filter().count() calls with 3 aggregate queries ---
+    listing_agg = listings.aggregate(
+        cnt_total=Count("id"),
+        cnt_active=Count("id", filter=Q(status=Property.Status.ACTIVE)),
+        cnt_pending=Count("id", filter=Q(status=Property.Status.PENDING)),
+        cnt_sold=Count("id", filter=Q(status=Property.Status.SOLD)),
+        cnt_closed=Count("id", filter=Q(status=Property.Status.CLOSED)),
+        cnt_approved=Count("id", filter=Q(status=Property.Status.APPROVED)),
+        cnt_rejected=Count("id", filter=Q(approval_status=Property.ApprovalStatus.REJECTED)),
+    )
+    inq_agg = inquiries.aggregate(
+        cnt_total=Count("id"),
+        cnt_new=Count("id", filter=Q(status="new")),
+        cnt_contacted=Count("id", filter=Q(status="contacted")),
+        cnt_qualified=Count("id", filter=Q(status="qualified")),
+        cnt_closed=Count("id", filter=Q(status="closed")),
+    )
+    total_views = PropertyViewEvent.objects.filter(property__created_by=request.user).count()
+
     return render(
         request,
         "dashboards/seller.html",
@@ -219,23 +235,23 @@ def seller_dashboard(request):
             "chart_values": chart_values,
             "recent_favorites": recent_favorites,
             "stats": {
-                "active": listings.filter(status=Property.Status.ACTIVE).count(),
-                "pending": listings.filter(status=Property.Status.PENDING).count(),
-                "sold": listings.filter(status=Property.Status.SOLD).count(),
-                "closed": listings.filter(status=Property.Status.CLOSED).count(),
-                "views": PropertyViewEvent.objects.filter(property__created_by=request.user).count(),
-                "inquiries": inquiries.count(),
-                "inq_new": inquiries.filter(status="new").count(),
-                "inq_contacted": inquiries.filter(status="contacted").count(),
-                "inq_qualified": inquiries.filter(status="qualified").count(),
-                "inq_closed": inquiries.filter(status="closed").count(),
-                "prop_total": listings.count(),
-                "prop_active": listings.filter(status=Property.Status.ACTIVE).count(),
-                "prop_pending": listings.filter(status=Property.Status.PENDING).count(),
-                "prop_sold": listings.filter(status=Property.Status.SOLD).count(),
-                "prop_closed": listings.filter(status=Property.Status.CLOSED).count(),
-                "prop_approved": listings.filter(status=Property.Status.APPROVED).count(),
-                "prop_rejected": listings.filter(approval_status=Property.ApprovalStatus.REJECTED).count(),
+                "active": listing_agg["cnt_active"],
+                "pending": listing_agg["cnt_pending"],
+                "sold": listing_agg["cnt_sold"],
+                "closed": listing_agg["cnt_closed"],
+                "views": total_views,
+                "inquiries": inq_agg["cnt_total"],
+                "inq_new": inq_agg["cnt_new"],
+                "inq_contacted": inq_agg["cnt_contacted"],
+                "inq_qualified": inq_agg["cnt_qualified"],
+                "inq_closed": inq_agg["cnt_closed"],
+                "prop_total": listing_agg["cnt_total"],
+                "prop_active": listing_agg["cnt_active"],
+                "prop_pending": listing_agg["cnt_pending"],
+                "prop_sold": listing_agg["cnt_sold"],
+                "prop_closed": listing_agg["cnt_closed"],
+                "prop_approved": listing_agg["cnt_approved"],
+                "prop_rejected": listing_agg["cnt_rejected"],
             },
         },
     )
@@ -245,11 +261,8 @@ def seller_dashboard(request):
 @dashboard_role_required(User.Role.ADMIN)
 def admin_dashboard(request):
     from analytics.models import AuditLog
-    from django.utils import timezone
-    from django.db.models.functions import TruncMonth
-    from datetime import timedelta
     # Real monthly user registration for last 6 months
-    six_months_ago = timezone.now() - timedelta(days=180)
+    six_months_ago = timezone.now() - datetime.timedelta(days=180)
     monthly_users = (
         User.objects.filter(date_joined__gte=six_months_ago)
         .annotate(month=TruncMonth("date_joined"))

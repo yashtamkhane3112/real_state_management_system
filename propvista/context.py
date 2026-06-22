@@ -12,7 +12,7 @@ def site_settings(request):
 
         unread = unread_count_for(user)
         saved_ids = list(user.favorites.values_list("property_id", flat=True))
-        latest = Notification.objects.filter(user=user).order_by("-created_at")[:5]
+        latest = Notification.objects.filter(user=user).select_related("user").order_by("-created_at")[:5]
     return {
         "GOOGLE_MAPS_API_KEY": settings.GOOGLE_MAPS_API_KEY,
         "GEMINI_API_KEY": bool(settings.GEMINI_API_KEY),

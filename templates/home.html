@@ -91,6 +91,62 @@
     </div>
   </div>
 </section>
+{% elif LANDING_MEDIA_MODE == "VIDEO_SCRUB" %}
+{# VIDEO_SCRUB mode: scrub frames must be placed in static/media/landing/video-scrub/
+   Until frames are populated, we fall back to VIDEO_HERO to prevent a blank hero section. #}
+<section class="pv-hero pm-hero">
+  <video class="pv-hero-canvas" autoplay muted loop playsinline preload="metadata" aria-hidden="true" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+    <source src="{% static 'media/landing/video-hero/videoplayback.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="container pv-hero-content pm-hero-content">
+    <div class="pm-hero-copy">
+      <span class="pv-eyebrow reveal"><i class="bi bi-buildings"></i> INTELLIGENT PROPERTY PLATFORM</span>
+      <h1 class="reveal">Real Estate Operations <span class="pv-hero-accent">Unified.</span></h1>
+      <p class="pv-hero-copy reveal">Discover, manage, and close premium property opportunities from one intelligent platform.</p>
+
+      <div class="d-flex flex-wrap justify-content-center gap-3 pm-feature-chips-container reveal">
+        <span class="pv-hero-chip"><i class="bi bi-cpu"></i> AI Recommendations</span>
+        <span class="pv-hero-chip"><i class="bi bi-arrow-repeat"></i> Lifecycle Tracking</span>
+        <span class="pv-hero-chip"><i class="bi bi-graph-up-arrow"></i> Advanced Analytics</span>
+      </div>
+
+      <form class="pm-command-search pv-glass reveal" action="{% url 'properties:list' %}">
+        <div>
+          <label>Location</label>
+          <input name="q" class="form-control" placeholder="City, locality, landmark">
+        </div>
+        <div>
+          <label>Asset type</label>
+          <select name="property_type" class="form-select">
+            <option value="">All properties</option>
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="house">House</option>
+            <option value="commercial">Commercial</option>
+          </select>
+        </div>
+        <div>
+          <label>Budget</label>
+          <select name="max_price" class="form-select">
+            <option value="">Any budget</option>
+            <option value="10000000">Under 1 Cr</option>
+            <option value="25000000">Under 2.5 Cr</option>
+            <option value="50000000">Under 5 Cr</option>
+          </select>
+        </div>
+        <button class="pv-btn pv-btn-primary" type="submit"><i class="bi bi-search"></i> Open inventory</button>
+      </form>
+
+      <div class="pm-filter-chips reveal" aria-label="Popular filters">
+        <a class="chip" href="{% url 'properties:list' %}?property_type=apartment"><i class="bi bi-building"></i> Apartment</a>
+        <a class="chip" href="{% url 'properties:list' %}?max_price=10000000"><i class="bi bi-currency-rupee"></i> Under 1 Cr</a>
+        <a class="chip" href="{% url 'properties:list' %}?property_type=villa"><i class="bi bi-house-heart"></i> Villa</a>
+        <a class="chip" href="{% url 'properties:list' %}?sort=popular"><i class="bi bi-stars"></i> Popular</a>
+      </div>
+    </div>
+  </div>
+</section>
 {% endif %}
 
 <!-- Config data attribute for JS -->
@@ -139,7 +195,7 @@
             <div class="lp-prop-card__price">₹{{ property.price|floatformat:0 }}</div>
             <div class="lp-prop-card__highlights">
               {% if property.bedrooms %}<span><i class="bi bi-door-open"></i> {{ property.bedrooms }} BHK</span>{% endif %}
-              {% if property.area %}<span><i class="bi bi-rulers"></i> {{ property.area }} sq.ft</span>{% endif %}
+              {% if property.area_sqft %}<span><i class="bi bi-rulers"></i> {{ property.area_sqft }} sq.ft</span>{% endif %}
               {% if property.bathrooms %}<span><i class="bi bi-droplet"></i> {{ property.bathrooms }} Bath</span>{% endif %}
             </div>
           </div>

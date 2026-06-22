@@ -9,7 +9,14 @@ artifacts/
 *.log
 node_modules/
 .DS_Store
+
+# Backup archives (kept in repo but excluded from tracking)
 *.zip
+PropVista_FULL_BACKUP_BEFORE_V9.zip
+FULL_PROJECT_AUDIT_BACKUP.zip
+Estate.zip
+
+# Versioned file backups
 *.v7backup
 *.v8backup
 *.v11backup
@@ -17,12 +24,20 @@ node_modules/
 *.qabackup
 *.videoreplacementbackup
 
+# Scratch and generated test artifacts
 scratch/
 landing_backups/static/videoplayback.mp4
-scratch/
 landing_backups/
-*.qabackup
-*.v7backup
-*.v8backup
-*.v11backup
-*.v12backup
+reports/.pytest_cache/
+reports/node_modules/
+
+# Screenshot outputs
+screenshots/*.png
+screenshots/*.jpg
+final-*.png
+final-*.jpg
+
+# Coverage
+.coverage
+.coveragerc
+ 

@@ -7,14 +7,14 @@
     <div class="dashboard-hero reveal mb-4">
       <span class="pv-eyebrow bg-white text-primary"><i class="bi bi-house-check"></i> Buyer workspace</span>
       <h1 class="pv-serif display-5 mt-3">Good {{ greeting }}, {{ user.first_name|default:user.username }}</h1>
-      <p class="pv-muted fs-5 mb-4">You have {{ inquiries.count }} active {{ inquiries.count|pluralize:"inquiry,inquiries" }} and {{ favorites.count }} saved {{ favorites.count|pluralize:"property,properties" }}.</p>
+      <p class="pv-muted fs-5 mb-4">You have {{ inquiries_count }} active {{ inquiries_count|pluralize:"inquiry,inquiries" }} and {{ favorites_count }} saved {{ favorites_count|pluralize:"property,properties" }}.</p>
       <a class="pv-btn pv-btn-ghost" href="{% url 'properties:list' %}"><i class="bi bi-search"></i> Search properties</a>
     </div>
     <div class="kpi-grid mb-4">
-      <div class="kpi-card pv-card reveal"><i class="bi bi-bookmark"></i><span>Saved properties</span><strong data-counter="{{ favorites.count }}">0</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-chat-left-text"></i><span>Active inquiries</span><strong data-counter="{{ inquiries.count }}">0</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-calendar2-check"></i><span>Scheduled visits</span><strong data-counter="{{ visits.count }}">0</strong></div>
-      <div class="kpi-card pv-card reveal"><i class="bi bi-hand-thumbs-up"></i><span>Curated Matches</span><strong data-counter="{{ recommendations.count }}">0</strong></div>
+      <div class="kpi-card pv-card reveal"><i class="bi bi-bookmark"></i><span>Saved properties</span><strong data-counter="{{ favorites_count }}">0</strong></div>
+      <div class="kpi-card pv-card reveal"><i class="bi bi-chat-left-text"></i><span>Active inquiries</span><strong data-counter="{{ inquiries_count }}">0</strong></div>
+      <div class="kpi-card pv-card reveal"><i class="bi bi-calendar2-check"></i><span>Scheduled visits</span><strong data-counter="{{ visits_count }}">0</strong></div>
+      <div class="kpi-card pv-card reveal"><i class="bi bi-hand-thumbs-up"></i><span>Curated Matches</span><strong data-counter="{{ recommendations_count }}">0</strong></div>
     </div>
     <div class="row g-4">
       <div class="col-xl-8">
